@@ -310,7 +310,7 @@ class OpenInterface {
 	/// \note Available in modes: Safe or Full.
 	ReturnCode
 	leds (
-		const bitmask::LEDs led_mask_,
+		const bitmask::display::LEDs led_mask_,
 		const uint8_t color_,
 		const uint8_t intensity_
 	);
@@ -323,7 +323,7 @@ class OpenInterface {
 	ReturnCode
 	schedulingLEDs (
 		const bitmask::Days day_mask_,
-		const bitmask::SchedulingLEDs led_mask_
+		const bitmask::display::SchedulingLEDs led_mask_
 	);
 	
 	/// \brief Controls the 7 segment displays.
@@ -334,7 +334,7 @@ class OpenInterface {
 	/// \note Available in modes: Safe or Full.
 	ReturnCode
 	digitLEDsRaw (
-		const bitmask::DigitN raw_leds_[4]
+		const bitmask::display::DigitN raw_leds_[4]
 	);
 	
 	/// \brief Controls the 7 segment displays using ASCII character codes.
@@ -452,15 +452,15 @@ class OpenInterface {
 		void
 	);
 	
-  private:
+  protected:
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
     OIMode _mode;
 };
 
-extern OpenInterface OI;
-
 } // namespace series500
 } // namespace roomba
+
+extern roomba::series500::OpenInterface OI;
 
 #endif
 
