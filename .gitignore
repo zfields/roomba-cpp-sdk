@@ -1,1 +1,3 @@
-gtest_OI
+gtest/gtest_OI
+documentation/debug.txt
+documentation/doxygen_log.txt
