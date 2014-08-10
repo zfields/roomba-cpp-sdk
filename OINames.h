@@ -7,8 +7,8 @@
 
 namespace roomba {
 namespace series500 {
-// Baud (OpCode 129)
-enum BaudRate : uint8_t {
+/// \brief Baud (OpCode 129)
+enum BaudCode : uint8_t {
 	BAUD_300 = 0,
 	BAUD_600,
 	BAUD_1200,
@@ -23,7 +23,7 @@ enum BaudRate : uint8_t {
 	BAUD_115200,
 };
 
-// Song (OpCode 140)
+/// \brief Song (OpCode 140)
 enum Note : uint8_t {
 	G1 = 31,
 	G1_SHARP,
@@ -104,7 +104,7 @@ enum Note : uint8_t {
 	B7,
 };
 
-// Set Day/Time (OpCode 168)
+/// \brief Set Day/Time (OpCode 168)
 enum Day : uint8_t {
 	SUNDAY = 0,
 	MONDAY,
@@ -115,7 +115,7 @@ enum Day : uint8_t {
 	SATURDAY,
 };
 
-// Charging State (Packet 21)
+/// \brief Charging State (PacketId 21)
 enum ChargingState : uint8_t {
 	NOT_CHARGING = 0,
 	RECONDITIONING_CHARGING,
@@ -125,7 +125,7 @@ enum ChargingState : uint8_t {
 	CHARGING_FAULT,
 };
 
-// OI Mode (Packet 35)
+/// \brief OI Mode (PacketId 35)
 enum OIMode : uint8_t {
 	OFF = 0,
 	PASSIVE,
@@ -133,9 +133,9 @@ enum OIMode : uint8_t {
 	FULL,
 };
 
-namespace bitmasks {
-// Scheduling LEDs (OpCode 162) and Schedule (OpCode 167)
-enum WeekDay : uint8_t {
+namespace bitmask {
+/// \brief Scheduling LEDs (OpCode 162) and Schedule (OpCode 167)
+enum Days : uint8_t {
 	SUNDAY = 0x01,
 	MONDAY = 0x02,
 	TUESDAY = 0x04,
@@ -145,8 +145,8 @@ enum WeekDay : uint8_t {
 	SATURDAY = 0x40,
 };
 
-// Buttons (OpCode 165 / Packet 18)
-enum Button : uint8_t {
+/// \brief Buttons (OpCode 165 / PacketId 18)
+enum Buttons : uint8_t {
 	CLEAN = 0x01,
 	SPOT = 0x02,
 	DOCK = 0x04,
@@ -157,16 +157,16 @@ enum Button : uint8_t {
 	CLOCK = 0x80,
 };
 
-// Motor Overcurrents (Packet 14)
-enum Motor : uint8_t {
+/// \brief Motor Overcurrents (PacketId 14)
+enum Motors : uint8_t {
 	SIDE_BRUSH = 0x01,
 	MAIN_BRUSH = 0x04,
 	RIGHT_WHEEL = 0x08,
 	LEFT_WHEEL = 0x10,
 };
 
-// Motors (OpCode 138)
-enum MotorState : uint8_t {
+/// \brief Motor States (OpCode 138)
+enum MotorStates : uint8_t {
 	SIDE_BRUSH_ENGAGED = 0x01,
 	VACUUM_ENGAGED = 0x02,
 	MAIN_BRUSH_ENGAGED = 0x04,
@@ -175,15 +175,15 @@ enum MotorState : uint8_t {
 };
 
 namespace display {
-// LEDs (OpCode 139)
-enum LED : uint8_t {
+/// \brief LEDs (OpCode 139)
+enum LEDs : uint8_t {
 	DEBRIS = 0x01,
 	SPOT = 0x02,
 	DOCK = 0x04,
 	CHECK_ROBOT = 0x08,
 };
 
-// Scheduling LEDs (OpCode 162)
+/// \brief Scheduling LEDs (OpCode 162)
 enum SchedulingLEDs : uint8_t {
 	COLON = 0x01,
 	PM = 0x02,
@@ -192,14 +192,12 @@ enum SchedulingLEDs : uint8_t {
 	SCHEDULE = 0x10,
 };
 
-// Digit LEDs Raw (OpCode 163)
-//
-//  FAAAB
-//  F   B
-//   GGG
-//  E   C
-//  EDDDC
-//
+/// \brief Digit LEDs Raw (OpCode 163)
+/// \note FAAAB
+/// \note F   B
+/// \note  GGG
+/// \note E   C
+/// \note EDDDC
 enum DigitN : uint8_t {
 	A = 0x01,
 	B = 0x02,
@@ -211,7 +209,7 @@ enum DigitN : uint8_t {
 };
 } // namespace display
 
-// Bumps and Wheel Drops (Packet 7)
+/// \brief Bumps and Wheel Drops (PacketId 7)
 enum BumpsAndWheelDrops : uint8_t {
 	BUMP_RIGHT = 0x01,
 	BUMP_LEFT = 0x02,
@@ -219,14 +217,14 @@ enum BumpsAndWheelDrops : uint8_t {
 	WHEEL_DROP_LEFT = 0x08,
 };
 
-// Charging Sources Available (Packet 34)
-enum ChargerAvailable : uint8_t {
+/// \brief Charging Sources Available (PacketId 34)
+enum ChargersAvailable : uint8_t {
 	INTERNAL_CHARGER = 0x01,
 	HOME_BASE = 0x02,
 };
 
-// Light Bumper (Packet 45)
-enum LightBumper : uint8_t {
+/// \brief Light Bumper (PacketId 45)
+enum LightBumpers : uint8_t {
 	LEFT = 0x01,
 	FRONT_LEFT = 0x02,
 	CENTER_LEFT = 0x04,
@@ -236,7 +234,8 @@ enum LightBumper : uint8_t {
 };
 } // namespace bitmask
 
-namespace commands {
+namespace command {
+/// \brief Operation codes for the Roomba Open Interface (OI) Specification
 enum OpCode : uint8_t {
 	START = 128,
 	PASSIVE = 128,
@@ -268,10 +267,18 @@ enum OpCode : uint8_t {
 	SCHEDULE = 167,
 	SET_DAY_TIME = 168,
 };
-} // namespace commands
+} // namespace command
 
-namespace sensors {
-enum Packet : uint8_t {
+namespace sensor {
+/// \brief Roomba Open Interface Sensor Packet Identification numbers
+enum PacketId : uint8_t {
+	PACKETS_7_THRU_26 = 0,
+	PACKETS_7_THRU_16 = 1,
+	PACKETS_17_THRU_20 = 2,
+	PACKETS_21_THRU_26 = 3,
+	PACKETS_27_THRU_34 = 4,
+	PACKETS_35_THRU_42 = 5,
+	PACKETS_7_THRU_42 = 6,
 	BUMPS_AND_WHEEL_DROPS = 7,
 	WALL = 8,
 	CLIFF_LEFT = 9,
@@ -321,8 +328,12 @@ enum Packet : uint8_t {
 	MAIN_BRUSH_MOTOR_CURRENT = 56,
 	SIDE_BRUSH_MOTOR_CURRENT = 57,
 	STASIS = 58,
+	PACKETS_7_THRU_58 = 100,
+	PACKETS_43_THRU_58 = 101,
+	PACKETS_46_THRU_51 = 106,
+	PACKETS_54_THRU_58 = 107,
 };
-} // namespace sensors
+} // namespace sensor
 } // namespace series500
 } // namespace roomba
 
