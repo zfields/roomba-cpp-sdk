@@ -46,7 +46,6 @@ CXXFLAGS += -g \
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
 UNDER_TEST = OI
-TEST_SUITE = gtest_$(UNDER_TEST)
 
 # All Google Test headers. Usually you shouldn't change this
 # definition.
