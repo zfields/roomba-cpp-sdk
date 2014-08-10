@@ -26,9 +26,10 @@ class OpenInterface {
   public:
 	/// \brief Return codes
 	enum ReturnCode : int8_t {
-		ADDITIONAL_PARAMETERS_REQUIRED = -2,
-		INVALID_MODE_FOR_REQUESTED_OPERATION = -1,
-		OK = 0,
+		ADDITIONAL_PARAMETERS_REQUIRED = -3,
+		INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
+		INVALID_NON_OI_BAUD_RATE = -1,
+		SUCCESS = 0,
 		UNUSED_PARAMETERS = 1,
 	};
 	
@@ -52,14 +53,23 @@ class OpenInterface {
 		const std::vector<uint8_t> & data_
 	);
 	
-	/// \brief Establishes a channel of communication with the hardware.
+	/// \brief Establishes a serial channel with the hardware.
 	/// \details This method must be called before any other methods of
-	/// this class. It also establishes a channel of communication between
-	/// the Open Interface class and the underlying hardware.
-	/// \param [in] fnSerialWrite
+	/// this class. It establishes a serial channel between the Open
+	/// Interface class and the underlying hardware. The default baud
+	/// for communicating with the Roomba outside the Open Interface
+	/// is BAUD_115200, if the external microcontroller is unable to
+	/// communicate at that speed, an alternative baud, BAUD_19200,
+	/// is available. To enable the slower baud on the Roomba you must
+	/// power-on the Roomba by holding down the clean/power button,
+	/// or the Roomba can be signaled on the baud rate change line.
+	/// \param [in] fnSerialWrite A function that writes to the
+	/// serial bus at either BAUD_115200 or BAUD_19200
 	/// \param [in] [baud_code] Optional parameter to describe baud rate,
-	/// if no value is supplied BAUD_115200 is defaulted.
-	void
+	/// if no value is supplied BAUD_115200 is assumed.
+	/// \warning If the Roomba is not in sync with the fnSerialWrite
+	/// provided, this class will be unable to communicate with the Roomba.
+	ReturnCode
 	begin (
 		const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_,
 		const BaudCode baud_code_ = BAUD_115200
@@ -72,7 +82,7 @@ class OpenInterface {
 	void
 	end (
 		void
-	);
+	) const;
 	
 	/// \brief Starts the OI.
 	/// \details You must always send the Start command before sending any
@@ -95,14 +105,14 @@ class OpenInterface {
 	ReturnCode
 	baud (
 		const BaudCode baud_code_
-	);
+	) const;
 	
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
 	ReturnCode
 	control (
 		void
-	);
+	) const;
 	
 	/// \brief Puts the OI into Safe mode.
 	/// \details This command puts the OI into Safe mode, enabling user
@@ -115,7 +125,7 @@ class OpenInterface {
 	ReturnCode
 	safe (
 		void
-	);
+	) const;
 	
 	/// \brief Puts the OI into Full mode.
 	/// \details This command gives you complete control over Roomba by
@@ -126,7 +136,7 @@ class OpenInterface {
 	ReturnCode
 	full (
 		void
-	);
+	) const;
 	
 	/// \brief Starts the default cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
@@ -134,7 +144,7 @@ class OpenInterface {
 	ReturnCode
 	clean (
 		void
-	);
+	) const;
 	
 	/// \brief Starts the Max cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
@@ -142,7 +152,7 @@ class OpenInterface {
 	ReturnCode
 	max (
 		void
-	);
+	) const;
 	
 	/// \brief Starts the Spot cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
@@ -150,7 +160,7 @@ class OpenInterface {
 	ReturnCode
 	spot (
 		void
-	);
+	) const;
 	
 	/// \brief Sends Roomba to the dock.
 	/// \note Available in modes: Passive, Safe, or Full.
@@ -158,7 +168,7 @@ class OpenInterface {
 	ReturnCode
 	seekDock (
 		void
-	);
+	) const;
 	
 	/// \brief Sends Roomba a new schedule.
 	/// \details This command sends Roomba a new schedule. To disable
@@ -173,7 +183,7 @@ class OpenInterface {
 	schedule (
 		const bitmask::Days day_mask_,
 		const std::vector<std::pair<uint8_t, uint8_t> > & time_
-	);
+	) const;
 	
 	/// \brief Sets Roomba’s clock.
 	/// \param [in] day
@@ -187,7 +197,7 @@ class OpenInterface {
 		const Day day_,
 		const uint8_t hour_,
 		const uint8_t minute_
-	);
+	) const;
 	
 	/// \brief Powers down Roomba.
 	/// \details This command powers down Roomba. The OI can be in Passive,
@@ -197,7 +207,7 @@ class OpenInterface {
 	ReturnCode
 	power (
 		void
-	);
+	) const;
 	
 	/// \brief Controls Roomba’s drive wheels.
 	/// \details This command controls Roomba’s drive wheels.
@@ -225,7 +235,7 @@ class OpenInterface {
 	drive (
 		const int16_t velocity_,
 		const int16_t radius_
-	);
+	) const;
 	
 	/// \brief Controls the forward and backward motion of Roomba’s drive
 	/// wheels independently.
@@ -242,7 +252,7 @@ class OpenInterface {
 	driveDirect (
 		const int16_t right_wheel_velocity_,
 		const int16_t left_wheel_velocity_
-	);
+	) const;
 	
 	/// \brief Controls the raw forward and backward motion of Roomba’s drive
 	/// wheels independently.
@@ -256,7 +266,7 @@ class OpenInterface {
 	drivePWM (
 		const int16_t right_wheel_pwm_,
 		const int16_t left_wheel_pwm_
-	);
+	) const;
 	
 	/// \brief Controls the forward and backward motion of Roomba’s main brush,
 	/// side brush, and vacuum independently.
@@ -270,7 +280,7 @@ class OpenInterface {
 	ReturnCode
 	motors (
 		const bitmask::MotorStates motor_state_mask_
-	);
+	) const;
 	
 	/// \brief Controls the speed of Roomba’s main brush, side brush, and
 	/// vacuum independently.
@@ -293,7 +303,7 @@ class OpenInterface {
 		const int8_t main_brush_,
 		const int8_t side_brush_,
 		const int8_t vacuum_
-	);
+	) const;
 	
 	/// \brief Controls the LEDs
 	/// \details This command controls the LEDs common to all models of
@@ -313,7 +323,7 @@ class OpenInterface {
 		const bitmask::display::LEDs led_mask_,
 		const uint8_t color_,
 		const uint8_t intensity_
-	);
+	) const;
 	
 	/// \brief Controls the state of the scheduling LEDs present on the Roomba 560 and 570.
 	/// \param [in] day_mask
@@ -324,7 +334,7 @@ class OpenInterface {
 	schedulingLEDs (
 		const bitmask::Days day_mask_,
 		const bitmask::display::SchedulingLEDs led_mask_
-	);
+	) const;
 	
 	/// \brief Controls the 7 segment displays.
 	/// \details This command controls the four 7 segment displays on
@@ -335,7 +345,7 @@ class OpenInterface {
 	ReturnCode
 	digitLEDsRaw (
 		const bitmask::display::DigitN raw_leds_[4]
-	);
+	) const;
 	
 	/// \brief Controls the 7 segment displays using ASCII character codes.
 	/// \details This command controls the four 7 segment displays on
@@ -349,7 +359,7 @@ class OpenInterface {
 	ReturnCode
 	digitLEDsASCII (
 		const char ascii_leds_[4]
-	);
+	) const;
 	
 	/// \brief Push Roomba’s buttons.
 	/// \details This command lets you push Roomba’s buttons. The buttons
@@ -359,7 +369,7 @@ class OpenInterface {
 	ReturnCode
 	buttons (
 		const bitmask::Buttons button_mask_
-	);
+	) const;
 	
 	/// \brief Specify songs to be played at a later time.
 	/// \details This command lets you specify up to four
@@ -382,7 +392,7 @@ class OpenInterface {
 	song (
 		const uint8_t song_number_,
 		const std::vector<std::pair<Note, uint8_t> > & notes_
-	);
+	) const;
 	
 	/// \brief Select a song to play.
 	/// \details This command lets you select a song to
@@ -397,7 +407,7 @@ class OpenInterface {
 	ReturnCode
 	play (
 		const uint8_t song_number_
-	);
+	) const;
 	
 	/// \brief Request sensor data.
 	/// \details This command requests the OI to send a
@@ -414,7 +424,7 @@ class OpenInterface {
 	ReturnCode
 	sensors (
 		const sensor::PacketId packet_id_
-	);
+	) const;
 	
 	/// \brief Request list of sensor packets
 	/// \details This command lets you ask for a list of
@@ -426,7 +436,7 @@ class OpenInterface {
 	ReturnCode
 	queryList (
 		const std::vector<sensor::PacketId> & packet_ids_
-	);
+	) const;
 	
 	/// \brief Start a data stream based on a query list.
 	/// \details This command starts a stream of data packets.
@@ -441,7 +451,7 @@ class OpenInterface {
 	ReturnCode
 	stream (
 		const std::vector<sensor::PacketId> & packet_ids_
-	);
+	) const;
 	
 	/// \brief Stop and restart the stream.
 	/// \details This command lets you stop and restart the
@@ -450,11 +460,12 @@ class OpenInterface {
 	ReturnCode
 	pauseResumeStream (
 		void
-	);
+	) const;
 	
   protected:
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
-    OIMode _mode;
+	BaudCode _baud_code;
+	OIMode _mode;
 };
 
 } // namespace series500
