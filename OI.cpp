@@ -47,6 +47,19 @@ OpenInterface::baud (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::safe (
+	void
+) {
+	const uint8_t serial_data[1] = { command::SAFE };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	_mode = SAFE;
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

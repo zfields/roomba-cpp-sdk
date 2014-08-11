@@ -89,6 +89,8 @@ class OpenInterface {
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Passive. Roomba beeps once to acknowledge
 	/// it is starting from “off” mode.
+	/// \retval SUCCESS
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	start (
 		void
@@ -101,6 +103,9 @@ class OpenInterface {
 	/// \param [in] baud_code
 	/// \note The default baud rate at power up is 115200 bps.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	baud (
 		const BaudCode baud_code_
@@ -121,10 +126,13 @@ class OpenInterface {
 	/// automatically to Passive mode.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Safe.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	safe (
 		void
-	) const;
+	);
 	
 	/// \brief Puts the OI into Full mode.
 	/// \details This command gives you complete control over Roomba by
