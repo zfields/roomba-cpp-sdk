@@ -60,6 +60,13 @@ OpenInterface::safe (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::control (
+	void
+) {
+	return safe();
+}
+
 } // namespace series500
 } // namespace roomba
 

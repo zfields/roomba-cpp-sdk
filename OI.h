@@ -116,7 +116,7 @@ class OpenInterface {
 	ReturnCode
 	control (
 		void
-	) const;
+	);
 	
 	/// \brief Puts the OI into Safe mode.
 	/// \details This command puts the OI into Safe mode, enabling user
