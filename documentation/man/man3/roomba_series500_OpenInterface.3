@@ -1,0 +1,754 @@
+.TH "roomba::series500::OpenInterface" 3 "Mon Aug 11 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+roomba::series500::OpenInterface \- 
+.PP
+The Roomba Open Interface (OI) class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OI\&.h>\fP
+.PP
+Inherited by \fBOpenInterface_TC\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBReturnCode\fP : int8_t { \fBSERIAL_TRANSFER_FAILURE\fP = -11, \fBADDITIONAL_PARAMETERS_REQUIRED\fP = -3, \fBINVALID_MODE_FOR_REQUESTED_OPERATION\fP = -2, \fBOI_NOT_STARTED\fP = -1, \fBSUCCESS\fP = 0, \fBUNUSED_PARAMETERS\fP = 1 }"
+.br
+.RI "\fIReturn codes\&. \fP"
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBoperator()\fP (const command::OpCode opcode_, const std::vector< uint8_t > &data_)"
+.br
+.RI "\fIDirect access to the Open Interface\&. \fP"
+.ti -1c
+.RI "void \fBconnectToSerialBus\fP (const std::function< size_t(const uint8_t *, size_t)> fnSerialWrite_)"
+.br
+.RI "\fIEstablishes a serial channel with the hardware\&. \fP"
+.ti -1c
+.RI "void \fBend\fP (void) const "
+.br
+.RI "\fIReleases control of the Roomba\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBstart\fP (void)"
+.br
+.RI "\fIStarts the OI\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBbaud\fP (const BaudCode baud_code_) const "
+.br
+.RI "\fISets the baud rate in bits per second (bps)\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBcontrol\fP (void)"
+.br
+.RI "\fIThe effect and usage of the Control command are identical to the Safe command\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBsafe\fP (void)"
+.br
+.RI "\fIPuts the OI into Safe mode\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBfull\fP (void)"
+.br
+.RI "\fIPuts the OI into Full mode\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBclean\fP (void) const "
+.br
+.RI "\fIStarts the default cleaning mode\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBmax\fP (void) const "
+.br
+.RI "\fIStarts the Max cleaning mode\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBspot\fP (void) const "
+.br
+.RI "\fIStarts the Spot cleaning mode\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBseekDock\fP (void) const "
+.br
+.RI "\fISends Roomba to the dock\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBschedule\fP (const bitmask::Days day_mask_, const std::vector< std::pair< uint8_t, uint8_t > > &time_) const "
+.br
+.RI "\fISends Roomba a new schedule\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBsetDayTime\fP (const Day day_, const uint8_t hour_, const uint8_t minute_) const "
+.br
+.RI "\fISets Roomba’s clock\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBpower\fP (void) const "
+.br
+.RI "\fIPowers down Roomba\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBdrive\fP (const int16_t velocity_, const int16_t radius_) const "
+.br
+.RI "\fIControls Roomba’s drive wheels\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBdriveDirect\fP (const int16_t right_wheel_velocity_, const int16_t left_wheel_velocity_) const "
+.br
+.RI "\fIControls the forward and backward motion of Roomba’s drive wheels independently\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBdrivePWM\fP (const int16_t right_wheel_pwm_, const int16_t left_wheel_pwm_) const "
+.br
+.RI "\fIControls the raw forward and backward motion of Roomba’s drive wheels independently\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBmotors\fP (const bitmask::MotorStates motor_state_mask_) const "
+.br
+.RI "\fIControls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBpwmMotors\fP (const int8_t main_brush_, const int8_t side_brush_, const int8_t vacuum_) const "
+.br
+.RI "\fIControls the speed of Roomba’s main brush, side brush, and vacuum independently\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBleds\fP (const bitmask::display::LEDs led_mask_, const uint8_t color_, const uint8_t intensity_) const "
+.br
+.RI "\fIControls the LEDs\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBschedulingLEDs\fP (const bitmask::Days day_mask_, const bitmask::display::SchedulingLEDs led_mask_) const "
+.br
+.RI "\fIControls the state of the scheduling LEDs present on the Roomba 560 and 570\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBdigitLEDsRaw\fP (const bitmask::display::DigitN raw_leds_[4]) const "
+.br
+.RI "\fIControls the 7 segment displays\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBdigitLEDsASCII\fP (const char ascii_leds_[4]) const "
+.br
+.RI "\fIControls the 7 segment displays using ASCII character codes\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBbuttons\fP (const bitmask::Buttons button_mask_) const "
+.br
+.RI "\fIPush Roomba’s buttons\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBsong\fP (const uint8_t song_number_, const std::vector< std::pair< Note, uint8_t > > &notes_) const "
+.br
+.RI "\fISpecify songs to be played at a later time\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBplay\fP (const uint8_t song_number_) const "
+.br
+.RI "\fISelect a song to play\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBsensors\fP (const sensor::PacketId packet_id_) const "
+.br
+.RI "\fIRequest sensor data\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBqueryList\fP (const std::vector< sensor::PacketId > &packet_ids_) const "
+.br
+.RI "\fIRequest list of sensor packets\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBstream\fP (const std::vector< sensor::PacketId > &packet_ids_) const "
+.br
+.RI "\fIStart a data stream based on a query list\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBpauseResumeStream\fP (void) const "
+.br
+.RI "\fIStop and restart the stream\&. \fP"
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::function< size_t(const 
+.br
+uint8_t *, size_t)> \fB_fnSerialWrite\fP"
+.br
+.ti -1c
+.RI "OIMode \fB_mode\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The Roomba Open Interface (OI) class\&. 
+
+The Roomba Open Interface (OI) is a software interface for controlling and manipulating Roomba’s behavior\&. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a PC or microcontroller that is connected to the Mini-DIN connector\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::baud (const BaudCodebaud_code_) const"
+
+.PP
+Sets the baud rate in bits per second (bps)\&. This command sets the baud rate in bits per second (bps) at which OI commands and data are sent according to the baud code sent in the data byte\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbaud_code\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+The default baud rate at power up is 115200 bps\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::buttons (const bitmask::Buttonsbutton_mask_) const"
+
+.PP
+Push Roomba’s buttons\&. This command lets you push Roomba’s buttons\&. The buttons will automatically release after 1/6th of a second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbutton_mask\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::clean (void) const"
+
+.PP
+Starts the default cleaning mode\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+
+.SS "void roomba::series500::OpenInterface::connectToSerialBus (const std::function< size_t(const uint8_t *, size_t)>fnSerialWrite_)"
+
+.PP
+Establishes a serial channel with the hardware\&. This method must be called before any other methods of this class\&. It establishes a serial channel between the Open Interface class and the underlying hardware\&. The default baud for communicating with the Roomba outside the Open Interface is 115200, if the external microcontroller is unable to communicate at that speed, an alternative baud, 19200, is available\&. To enable the slower baud on the Roomba you must power-on the Roomba by holding down the clean/power button, or the Roomba can be signaled on the baud rate change line\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfnSerialWrite\fP A function that writes to the serial bus at either 115200 or 19200 baud\&. 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+If the baud rate of fnSerialWrite is not synchronized to the baud rate of the Roomba, then this class will be unable to communicate with the Roomba's Open Interface\&. 
+.RE
+.PP
+
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::control (void)"
+
+.PP
+The effect and usage of the Control command are identical to the Safe command\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::safe\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::digitLEDsASCII (const charascii_leds_[4]) const"
+
+.PP
+Controls the 7 segment displays using ASCII character codes\&. This command controls the four 7 segment displays on the Roomba 560 and 570 using ASCII character codes\&. Because a 7 segment display is not sufficient to display alphabetic characters properly, all characters are an approximation 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIascii_leds\fP An ASCII char array (valid values range from (32-126)\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+Not all ASCII codes are implemented\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::digitLEDsRaw (const bitmask::display::DigitNraw_leds_[4]) const"
+
+.PP
+Controls the 7 segment displays\&. This command controls the four 7 segment displays on the Roomba 560 and 570\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIraw_leds\fP An array representing the four 7 segment display values\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+All use red LEDs 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::drive (const int16_tvelocity_, const int16_tradius_) const"
+
+.PP
+Controls Roomba’s drive wheels\&. This command controls Roomba’s drive wheels\&. A Drive command with a positive velocity and a positive radius makes Roomba drive forward while turning toward the left\&. A negative radius makes Roomba turn toward the right\&. Special cases for the radius make Roomba turn in place or drive straight, as specified below\&. A negative velocity makes Roomba drive backward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvelocity\fP (-500 – 500) The average velocity of the drive wheels in millimeters per second (mm/s)\&. 
+.br
+\fIradius\fP (-2000 – 2000) The radius in millimeters at which Roomba will turn\&. The radius is measured from the center of the turning circle to the center of Roomba\&. 
+.RE
+.PP
+\fBSpecial cases\fP
+.RS 4
+
+.RE
+.PP
+\fB\fP
+.RS 4
+Straight = 32768 (0x8000) or 32767 (0x7FFF) 
+.RE
+.PP
+\fB\fP
+.RS 4
+Turn in place clockwise = -1 
+.RE
+.PP
+\fB\fP
+.RS 4
+Turn in place counter-clockwise = 1 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+Internal and environmental restrictions may prevent Roomba from accurately carrying out some drive commands\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::driveDirect (const int16_tright_wheel_velocity_, const int16_tleft_wheel_velocity_) const"
+
+.PP
+Controls the forward and backward motion of Roomba’s drive wheels independently\&. This command lets you control the forward and backward motion of Roomba’s drive wheels independently\&. A positive velocity makes that wheel drive forward, while a negative velocity makes it drive backward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIright_wheel_velocity\fP (-500 – 500) The velocity of the right wheel in millimeters per second (mm/s)\&. 
+.br
+\fIleft_wheel_velocity\fP (-500 – 500) The velocity of the left wheel in millimeters per second (mm/s)\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::drivePWM (const int16_tright_wheel_pwm_, const int16_tleft_wheel_pwm_) const"
+
+.PP
+Controls the raw forward and backward motion of Roomba’s drive wheels independently\&. This command lets you control the raw forward and backward motion of Roomba’s drive wheels independently\&. A positive PWM makes that wheel drive forward, while a negative PWM makes it drive backward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIright_wheel_pwm\fP (-255 – 255) The PWM of the right wheel\&. 
+.br
+\fIleft_wheel_pwm\fP (-255 – 255) The PWM of the left wheel\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "void roomba::series500::OpenInterface::end (void) const"
+
+.PP
+Releases control of the Roomba\&. This method with set the OI Mode to passive and return the Roomba to its docking station\&. It will also reinitialize the class member variables to restore it to a clean state\&. 
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::full (void)"
+
+.PP
+Puts the OI into Full mode\&. This command gives you complete control over Roomba by putting the OI into Full mode, and turning off the cliff, wheel-drop and internal charger safety features\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::leds (const bitmask::display::LEDsled_mask_, const uint8_tcolor_, const uint8_tintensity_) const"
+
+.PP
+Controls the LEDs\&. This command controls the LEDs common to all models of Roomba 500\&. Clean/Power uses a bicolor (red/green) LED\&. The intensity and color of this LED can be controlled with 8-bit resolution\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIled_mask\fP 
+.br
+\fIcolor\fP 0 = green, 255 = red\&. Intermediate values are intermediate colors (orange, yellow, etc)\&. 
+.br
+\fIintensity\fP 0 = off, 255 = full intensity\&. Intermediate values are intermediate intensities\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Home and Spot use green LEDs: 0 = off, 1 = on\&. 
+.PP
+Check Robot uses an orange LED\&. 
+.PP
+Debris uses a blue LED\&. 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::max (void) const"
+
+.PP
+Starts the Max cleaning mode\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::motors (const bitmask::MotorStatesmotor_state_mask_) const"
+
+.PP
+Controls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. This command lets you control the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. Motor velocity cannot be controlled with this command, all motors will run at maximum speed when enabled\&. The main brush and side brush can be run in either direction\&. The vacuum only runs forward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImotor_state_mask\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "void roomba::series500::OpenInterface::operator() (const command::OpCodeopcode_, const std::vector< uint8_t > &data_)"
+
+.PP
+Direct access to the Open Interface\&. Direct access sends bytes directly to the Open Interface\&. Direct access is potentially dangerous, because the parameters are not checked and the device can be left in a 'waiting' state\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIopcode\fP 
+.br
+\fI[data]\fP An optional list of parameters for the OpCode specified\&. 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+Use of direct access will invalidate the current state of the object, and will incur the overhead associated with polling the state of the device to restore the current state\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::pauseResumeStream (void) const"
+
+.PP
+Stop and restart the stream\&. This command lets you stop and restart the steam without clearing the list of requested packets\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::play (const uint8_tsong_number_) const"
+
+.PP
+Select a song to play\&. This command lets you select a song to play from the songs added to Roomba using the Song command\&. You must add one or more songs to Roomba using the Song command in order for the Play command to work\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsong_number\fP (0-4) The number of the song Roomba is to play\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::song\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::power (void) const"
+
+.PP
+Powers down Roomba\&. This command powers down Roomba\&. The OI can be in Passive, Safe, or Full mode to accept this command\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::pwmMotors (const int8_tmain_brush_, const int8_tside_brush_, const int8_tvacuum_) const"
+
+.PP
+Controls the speed of Roomba’s main brush, side brush, and vacuum independently\&. This command lets you control the speed of Roomba’s main brush, side brush, and vacuum independently\&. With each parameter, you specify the duty cycle for the low side driver (max 127)\&. Positive speeds turn the motor in its default (cleaning) direction\&. For example, if you want to control a motor with 25% of battery voltage, choose a duty cycle of 127 * 25% ~ 32\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImain_brush\fP (-127 – 127) 
+.br
+\fIside_brush\fP (-127 – 127) 
+.br
+\fIvacuum\fP (0 – 127) 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+The vacuum only runs forward\&. 
+.PP
+The main brush and side brush can be run in either direction\&. 
+.PP
+Default direction for the side brush is counter-clockwise\&. 
+.PP
+Default direction for the main brush/flapper is inward\&. 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::queryList (const std::vector< sensor::PacketId > &packet_ids_) const"
+
+.PP
+Request list of sensor packets\&. This command lets you ask for a list of sensor packets\&. The result is returned once, as in the Sensors command\&. The robot returns the packets in the order you specify\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpacket_ids\fP A vector of packet ids 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::safe (void)"
+
+.PP
+Puts the OI into Safe mode\&. This command puts the OI into Safe mode, enabling user control of Roomba\&. It turns off all LEDs\&. The OI can be in Passive, Safe, or Full mode to accept this command\&. 
+.PP
+\fBNote:\fP
+.RS 4
+If a safety condition occurs (see above) Roomba reverts automatically to Passive mode\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Safe\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::schedule (const bitmask::Daysday_mask_, const std::vector< std::pair< uint8_t, uint8_t > > &time_) const"
+
+.PP
+Sends Roomba a new schedule\&. This command sends Roomba a new schedule\&. To disable scheduled cleaning, send all 0s\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIday_mask\fP A bitmask representing the days of the week 
+.br
+\fItime\fP A vector of std::pairs composed of Hour (0-23) and Minute (0-59) following { Sun time, Mon time, \&.\&.\&., Sat time } 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+If Roomba’s schedule or clock button is pressed, this command will be ignored\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::schedulingLEDs (const bitmask::Daysday_mask_, const bitmask::display::SchedulingLEDsled_mask_) const"
+
+.PP
+Controls the state of the scheduling LEDs present on the Roomba 560 and 570\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIday_mask\fP 
+.br
+\fIled_mask\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+All use red LEDs 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::seekDock (void) const"
+
+.PP
+Sends Roomba to the dock\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::sensors (const sensor::PacketIdpacket_id_) const"
+
+.PP
+Request sensor data\&. This command requests the OI to send a packet of sensor data bytes\&. There are 58 different sensor data packets\&. Each provides a value of a specific sensor or group of sensors\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpacket_id\fP Identifies which of the 58 sensor data packets should be sent back by the OI\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+A value of 100 indicates a packet with all of the sensor data\&. Values of 0 through 6 and 101 through 107 indicate specific subgroups of the sensor data\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::setDayTime (const Dayday_, const uint8_thour_, const uint8_tminute_) const"
+
+.PP
+Sets Roomba’s clock\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIday\fP 
+.br
+\fIhour\fP Hour (0-23) 
+.br
+\fIminute\fP Minute (0-59) 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+If Roomba’s schedule or clock button is pressed, this command will be ignored\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::song (const uint8_tsong_number_, const std::vector< std::pair< Note, uint8_t > > &notes_) const"
+
+.PP
+Specify songs to be played at a later time\&. This command lets you specify up to four songs to the OI that you can play at a later time\&. Each song is associated with a song number\&. The Play command uses the song number to identify your song selection\&. Each song can contain up to sixteen notes\&. Each note is associated with a note number that uses MIDI note definitions and a duration that is specified in increments of 1/64th of a second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsong_number\fP (0-4) The song number associated with the specific song\&. 
+.br
+\fIsong\fP A vector of std::pairs composed of Note and duration\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+If you send a second Song command, using the same song number, the old song is overwritten\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::play\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::spot (void) const"
+
+.PP
+Starts the Spot cleaning mode\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::start (void)"
+
+.PP
+Starts the OI\&. You must always send the Start command before sending any other commands to the OI\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. Roomba beeps once to acknowledge it is starting from “off” mode\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "\fBReturnCode\fP roomba::series500::OpenInterface::stream (const std::vector< sensor::PacketId > &packet_ids_) const"
+
+.PP
+Start a data stream based on a query list\&. This command starts a stream of data packets\&. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fP note This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-time characteristics) with software running on a desktop computer\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for iRobot Roomba 500 Series SDK from the source code\&.
