@@ -177,6 +177,36 @@ TEST_F(FailedSerialTransaction, safe$WHENReturnsSerialTransferFailureErrorTHENMo
 	ASSERT_EQ(roomba::series500::PASSIVE, OI_tc._mode);
 }
 
+TEST_F(fnSerialWriteIsAvailable, full$WHENCalledTHEN132IsWrittenToTheSerialBus) {
+	OI_tc.start();
+	OI_tc.full();
+	ASSERT_EQ(roomba::series500::command::FULL, static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailable, full$WHENCalledTHENModeIsSetToFull) {
+	OI_tc.start();
+	OI_tc.full();
+	ASSERT_EQ(roomba::series500::FULL, OI_tc._mode);
+}
+
+TEST_F(fnSerialWriteIsAvailable, full$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.full());
+}
+
+TEST_F(FailedSerialTransaction, full$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.full());
+}
+
+TEST_F(fnSerialWriteIsAvailable, full$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.full());
+	ASSERT_EQ(roomba::series500::OFF, OI_tc._mode);
+}
+
+TEST_F(FailedSerialTransaction, full$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.full());
+	ASSERT_EQ(roomba::series500::PASSIVE, OI_tc._mode);
+}
+
 } // namespace
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */

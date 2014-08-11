@@ -113,6 +113,7 @@ class OpenInterface {
 	
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
+	/// \see OpenInterface::safe
 	ReturnCode
 	control (
 		void
@@ -140,10 +141,13 @@ class OpenInterface {
 	/// wheel-drop and internal charger safety features.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	full (
 		void
-	) const;
+	);
 	
 	/// \brief Starts the default cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
