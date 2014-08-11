@@ -12,7 +12,6 @@
 class OpenInterface_TC : public roomba::series500::OpenInterface {
   public:
 	using roomba::series500::OpenInterface::_fnSerialWrite;
-	using roomba::series500::OpenInterface::_baud_code;
 	using roomba::series500::OpenInterface::_mode;
 };
 
@@ -34,20 +33,36 @@ class DefaultInitialization : public ::testing::Test {
 	OpenInterface_TC OI_tc;
 };
 
+class FailedSerialTransaction : public ::testing::Test {
+  protected:
+	FailedSerialTransaction (
+		void
+	) {
+		OI_tc._mode = roomba::series500::PASSIVE;
+		OI_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
+	}
+	
+	//virtual ~Initialization() {}
+	//virtual void SetUp() {}
+	//virtual void TearDown() {}
+	
+	OpenInterface_TC OI_tc;
+};
+
 class fnSerialWriteIsAvailable : public ::testing::Test {
   protected:
 	fnSerialWriteIsAvailable (
 		void
 	)
 	{
-		OI_tc.begin(
+		OI_tc.connectToSerialBus(
 			[this] (
 				const uint8_t * byte_array_,
 				size_t length_
 			) {
-				strncpy(serial_bus, reinterpret_cast<const char *>(byte_array_), 64);
-				serial_bus[63] = '\0';
-				return strlen(serial_bus);
+				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
+				memcpy(serial_bus, byte_array_, length_);
+				return strnlen(serial_bus, 64);
 			}
 		);
 	}
@@ -68,57 +83,59 @@ test's full name consists of its containing test case and its individual
 name. Tests from different test cases can have the same individual name.
 */
 
-TEST_F(DefaultInitialization, WHENInitializedTHENCallingFnSerialWriteWillNotThrowError) {
+TEST_F(DefaultInitialization, constructor$WHENInitializedTHENCallingFnSerialWriteWillNotThrowError) {
 	OI_tc._fnSerialWrite(NULL, 0);
 }
 
-TEST_F(DefaultInitialization, WHENInitializedTHENBaudCodeWillBeSetToBAUD_115200) {
-	ASSERT_EQ(roomba::series500::BAUD_115200, OI_tc._baud_code);
-}
-
-TEST_F(DefaultInitialization, WHENInitializedTHENModeWillBeSetToOFF) {
+TEST_F(DefaultInitialization, constructor$WHENInitializedTHENModeWillBeSetToOFF) {
 	ASSERT_EQ(roomba::series500::OFF, OI_tc._mode);
 }
 
-TEST_F(DefaultInitialization, WHENBeginIsCalledTHENFnSerialWriteIsStored) {
+TEST_F(DefaultInitialization, connectToSerialBus$WHENCalledTHENFnSerialWriteIsStored) {
 	ASSERT_EQ(0, OI_tc._fnSerialWrite(NULL, 0));
-	OI_tc.begin([](const uint8_t *, size_t){ return 69; }, roomba::series500::BAUD_19200);
+	OI_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; });
 	ASSERT_EQ(69, OI_tc._fnSerialWrite(NULL, 0));
 }
 
-TEST_F(DefaultInitialization, WHENErrorIsReturnedTHENFnSerialWriteIsNotStored) {
-	ASSERT_NE(roomba::series500::OpenInterface::SUCCESS, OI_tc.begin([](const uint8_t *, size_t){ return 69; }, roomba::series500::BAUD_300));
-	ASSERT_EQ(0, OI_tc._fnSerialWrite(NULL, 0));
-}
-
-TEST_F(DefaultInitialization, WHENBeginIsCalledWithOneParameterTHENBaudCodeIsSetToBAUD_115200) {
-	OI_tc._baud_code = roomba::series500::BAUD_19200;
-	OI_tc.begin([](const uint8_t *, size_t){ return 69; });
-	ASSERT_EQ(roomba::series500::BAUD_115200, OI_tc._baud_code);
-}
-
-TEST_F(DefaultInitialization, WHENBeginIsCalledWithBothParametersTHENBaudCodeIsSet) {
-	OI_tc.begin([](const uint8_t *, size_t){ return 69; }, roomba::series500::BAUD_19200);
-	ASSERT_EQ(roomba::series500::BAUD_19200, OI_tc._baud_code);
-}
-
-TEST_F(DefaultInitialization, WHENBeginIsCalledWithBadBaudTHENBaudIsNotStored) {
-	OI_tc.begin([](const uint8_t *, size_t){ return 69; }, roomba::series500::BAUD_300);
-	ASSERT_NE(roomba::series500::BAUD_300, OI_tc._baud_code);
-}
-
-TEST_F(DefaultInitialization, WHENBeginIsCalledWithBadBaudTHENErrorIsReturned) {
-	ASSERT_EQ(roomba::series500::OpenInterface::INVALID_NON_OI_BAUD_RATE, OI_tc.begin([](const uint8_t *, size_t){ return 69; }, roomba::series500::BAUD_300));
-}
-
-TEST_F(fnSerialWriteIsAvailable, WHENStartIsCalledTHEN128IsWrittenToTheSerialBus) {
+TEST_F(fnSerialWriteIsAvailable, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
 	OI_tc.start();
-	ASSERT_EQ(128, static_cast<uint8_t>(*serial_bus));
+	ASSERT_EQ(roomba::series500::command::START, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, WHENStartIsCalledTHENModeIsSetToPassive) {
+TEST_F(fnSerialWriteIsAvailable, start$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.start();
 	ASSERT_EQ(roomba::series500::PASSIVE, OI_tc._mode);
+}
+
+TEST_F(FailedSerialTransaction, start$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.start());
+}
+
+TEST_F(fnSerialWriteIsAvailable, baud$WHENCalledTHEN129AndParametersAreWrittenToTheSerialBus) {
+	OI_tc.start();
+	OI_tc.baud(roomba::series500::BAUD_57600);
+	ASSERT_EQ(roomba::series500::command::BAUD, static_cast<uint8_t>(serial_bus[0]));
+	ASSERT_EQ(roomba::series500::BAUD_57600, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(fnSerialWriteIsAvailable, baud$WHENCalledTHENBlockFor100ms) {
+	std::chrono::steady_clock::time_point begin, end;
+	
+	OI_tc.start();
+	begin = std::chrono::steady_clock::now();
+	OI_tc.baud(roomba::series500::BAUD_57600);
+	end = std::chrono::steady_clock::now();
+	
+	ASSERT_LE(100, (std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)).count());
+}
+
+TEST_F(fnSerialWriteIsAvailable, baud$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.baud(roomba::series500::BAUD_57600));
+}
+
+TEST_F(FailedSerialTransaction, baud$WHENfnSerialWriteFailsTHENReturnsError) {
+	OI_tc.start();
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.baud(roomba::series500::BAUD_57600));
 }
 
 } // namespace

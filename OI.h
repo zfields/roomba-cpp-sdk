@@ -26,9 +26,10 @@ class OpenInterface {
   public:
 	/// \brief Return codes
 	enum ReturnCode : int8_t {
+		SERIAL_TRANSFER_FAILURE = -11,
 		ADDITIONAL_PARAMETERS_REQUIRED = -3,
 		INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
-		INVALID_NON_OI_BAUD_RATE = -1,
+		OI_NOT_STARTED = -1,
 		SUCCESS = 0,
 		UNUSED_PARAMETERS = 1,
 	};
@@ -58,21 +59,19 @@ class OpenInterface {
 	/// this class. It establishes a serial channel between the Open
 	/// Interface class and the underlying hardware. The default baud
 	/// for communicating with the Roomba outside the Open Interface
-	/// is BAUD_115200, if the external microcontroller is unable to
-	/// communicate at that speed, an alternative baud, BAUD_19200,
+	/// is 115200, if the external microcontroller is unable to
+	/// communicate at that speed, an alternative baud, 19200,
 	/// is available. To enable the slower baud on the Roomba you must
 	/// power-on the Roomba by holding down the clean/power button,
 	/// or the Roomba can be signaled on the baud rate change line.
 	/// \param [in] fnSerialWrite A function that writes to the
-	/// serial bus at either BAUD_115200 or BAUD_19200
-	/// \param [in] [baud_code] Optional parameter to describe baud rate,
-	/// if no value is supplied BAUD_115200 is assumed.
-	/// \warning If the Roomba is not in sync with the fnSerialWrite
-	/// provided, this class will be unable to communicate with the Roomba.
-	ReturnCode
-	begin (
-		const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_,
-		const BaudCode baud_code_ = BAUD_115200
+	/// serial bus at either 115200 or 19200 baud.
+	/// \warning If the baud rate of fnSerialWrite is not synchronized
+	/// to the baud rate of the Roomba, then this class will be unable
+	/// to communicate with the Roomba's Open Interface.
+	void
+	connectToSerialBus (
+		const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_
 	);
 	
 	/// \brief Releases control of the Roomba.
@@ -464,7 +463,6 @@ class OpenInterface {
 	
   protected:
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
-	BaudCode _baud_code;
 	OIMode _mode;
 };
 

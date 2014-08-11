@@ -2,6 +2,9 @@
 
 #include "OI.h"
 
+#include <chrono>
+#include <thread>
+
 namespace roomba {
 namespace series500 {
 
@@ -9,32 +12,38 @@ OpenInterface::OpenInterface (
 	void
 ) :
 	_fnSerialWrite([](const uint8_t *, size_t){ return 0; }),
-	_baud_code(BAUD_115200),
 	_mode(OFF)
 {}
 
-OpenInterface::ReturnCode
-OpenInterface::begin (
-	const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_,
-	const BaudCode baud_code_
+void
+OpenInterface::connectToSerialBus (
+	const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_
 ) {
-	if ( baud_code_ != BAUD_19200 && baud_code_ != BAUD_115200 ) { return INVALID_NON_OI_BAUD_RATE; }
-	
 	_fnSerialWrite = fnSerialWrite_;
-	_baud_code = baud_code_;
-	
-	return SUCCESS;
 }
 
 OpenInterface::ReturnCode
 OpenInterface::start (
 	void
 ) {
-	const uint8_t opcode(128);
+	const uint8_t serial_data[1] = { command::START };
 	
-	_fnSerialWrite(&opcode, 1);
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
 	_mode = PASSIVE;
 	
+	return SUCCESS;
+}
+
+OpenInterface::ReturnCode
+OpenInterface::baud (
+	const BaudCode baud_code_
+) const {
+	const uint8_t serial_data[2] = { command::BAUD, baud_code_ };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	return SUCCESS;
 }
 
