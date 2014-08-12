@@ -155,7 +155,7 @@ class OpenInterface {
 	ReturnCode
 	clean (
 		void
-	) const;
+	);
 	
 	/// \brief Starts the Max cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
