@@ -179,7 +179,7 @@ class OpenInterface {
 	ReturnCode
 	seekDock (
 		void
-	) const;
+	);
 	
 	/// \brief Sends Roomba a new schedule.
 	/// \details This command sends Roomba a new schedule. To disable

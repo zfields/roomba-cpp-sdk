@@ -303,6 +303,38 @@ TEST_F(FailedSerialTransaction, max$WHENReturnsSerialTransferFailureErrorTHENMod
 	ASSERT_EQ(roomba::series500::FULL, OI_tc._mode);
 }
 
+TEST_F(fnSerialWriteIsAvailable, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
+	OI_tc.start();
+	OI_tc.seekDock();
+	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailable, seekDock$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
+}
+
+TEST_F(fnSerialWriteIsAvailable, seekDock$WHENCalledTHENModeIsSetToPassive) {
+	OI_tc.start();
+	OI_tc._mode = roomba::series500::FULL;
+	OI_tc.seekDock();
+	ASSERT_EQ(roomba::series500::PASSIVE, OI_tc._mode);
+}
+
+TEST_F(FailedSerialTransaction, seekDock$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
+}
+
+TEST_F(fnSerialWriteIsAvailable, seekDock$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
+	ASSERT_EQ(roomba::series500::OFF, OI_tc._mode);
+}
+
+TEST_F(FailedSerialTransaction, seekDock$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
+	OI_tc._mode = roomba::series500::FULL;
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
+	ASSERT_EQ(roomba::series500::FULL, OI_tc._mode);
+}
+
 } // namespace
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
