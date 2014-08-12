@@ -93,6 +93,19 @@ OpenInterface::clean (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::max (
+	void
+) {
+	const uint8_t serial_data[1] = { command::MAX };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	_mode = PASSIVE;
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

@@ -163,7 +163,7 @@ class OpenInterface {
 	ReturnCode
 	max (
 		void
-	) const;
+	);
 	
 	/// \brief Starts the Spot cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
