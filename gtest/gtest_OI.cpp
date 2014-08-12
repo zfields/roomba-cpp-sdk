@@ -207,6 +207,38 @@ TEST_F(FailedSerialTransaction, full$WHENReturnsSerialTransferFailureErrorTHENMo
 	ASSERT_EQ(roomba::series500::PASSIVE, OI_tc._mode);
 }
 
+TEST_F(fnSerialWriteIsAvailable, spot$WHENCalledTHEN134IsWrittenToTheSerialBus) {
+	OI_tc.start();
+	OI_tc.spot();
+	ASSERT_EQ(134, static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailable, spot$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.spot());
+}
+
+TEST_F(fnSerialWriteIsAvailable, spot$WHENCalledTHENModeIsSetToPassive) {
+	OI_tc.start();
+	OI_tc._mode = roomba::series500::FULL;
+	OI_tc.spot();
+	ASSERT_EQ(roomba::series500::PASSIVE, OI_tc._mode);
+}
+
+TEST_F(FailedSerialTransaction, spot$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.spot());
+}
+
+TEST_F(fnSerialWriteIsAvailable, spot$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+	ASSERT_EQ(roomba::series500::OpenInterface::OI_NOT_STARTED, OI_tc.spot());
+	ASSERT_EQ(roomba::series500::OFF, OI_tc._mode);
+}
+
+TEST_F(FailedSerialTransaction, spot$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
+	OI_tc._mode = roomba::series500::FULL;
+	ASSERT_EQ(roomba::series500::OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.spot());
+	ASSERT_EQ(roomba::series500::FULL, OI_tc._mode);
+}
+
 TEST_F(fnSerialWriteIsAvailable, clean$WHENCalledTHEN135IsWrittenToTheSerialBus) {
 	OI_tc.start();
 	OI_tc.clean();

@@ -171,7 +171,7 @@ class OpenInterface {
 	ReturnCode
 	spot (
 		void
-	) const;
+	);
 	
 	/// \brief Sends Roomba to the dock.
 	/// \note Available in modes: Passive, Safe, or Full.
