@@ -111,16 +111,16 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 $(UNDER_TEST).o : $(CODE_DIR)/$(UNDER_TEST).cpp \
                   $(CODE_DIR)/$(UNDER_TEST).h
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) \
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(CODE_DIR)/$(UNDER_TEST).cpp
 
 $(TEST_SUITE).o : $(TEST_DIR)/$(TEST_SUITE).cpp \
                   $(CODE_DIR)/$(UNDER_TEST).h \
                   $(UNDER_TEST).o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) \
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(TEST_DIR)/$(TEST_SUITE).cpp
 
 $(TEST_SUITE) : $(TEST_SUITE).o \
                 $(UNDER_TEST).o \
                 gmock_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) -lpthread $^ -o $@

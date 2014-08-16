@@ -34,6 +34,16 @@ class OpenInterface {
 		UNUSED_PARAMETERS = 1,
 	};
 	
+	/// \brief Time representation for the scheduling methods
+	/// \details This struct represents time in military time
+	/// with the two fields hour and minute. The values in the
+	/// structure are initialized to zero upon instantiation.
+	typedef struct clock_time_t {
+		clock_time_t (void) : hour(0), minute(0) {}
+		uint8_t hour; ///< hour (0-23)
+		uint8_t minute; ///< minute (0-59)
+	} clock_time_t;
+	
 	OpenInterface (
 		void
 	);
@@ -152,6 +162,9 @@ class OpenInterface {
 	/// \brief Starts the default cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Passive.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	clean (
 		void
@@ -160,6 +173,9 @@ class OpenInterface {
 	/// \brief Starts the Max cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Passive.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	max (
 		void
@@ -168,6 +184,9 @@ class OpenInterface {
 	/// \brief Starts the Spot cleaning mode.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Passive.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	spot (
 		void
@@ -176,6 +195,9 @@ class OpenInterface {
 	/// \brief Sends Roomba to the dock.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Passive.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	seekDock (
 		void
@@ -185,29 +207,34 @@ class OpenInterface {
 	/// \details This command sends Roomba a new schedule. To disable
 	/// scheduled cleaning, send all 0s.
 	/// \param [in] day_mask A bitmask representing the days of the week
-	/// \param [in] time A vector of std::pairs composed of Hour (0-23)
-	/// and Minute (0-59) following { Sun time, Mon time, ..., Sat time }
+	/// \param [in] clock_times_ A sparse array of clock_time_t variables
+	/// following { Sun time, Mon time, ..., Sat time }.
+	/// \note The day_mask variable will determine which days the array
+	/// elements will be applied to, disabled days will be zero filled.
+	/// \note If a clock_time_t variable contains any values out of range,
+	/// then the corresponding day will be ignored.
 	/// \note If Roomba’s schedule or clock button is pressed, this
 	/// command will be ignored.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	schedule (
 		const bitmask::Days day_mask_,
-		const std::vector<std::pair<uint8_t, uint8_t> > & time_
+		const clock_time_t * const clock_times_
 	) const;
 	
 	/// \brief Sets Roomba’s clock.
 	/// \param [in] day
-	/// \param [in] hour Hour (0-23)
-	/// \param [in] minute Minute (0-59)
+	/// \param [in] clock time (hour [0-23] and minute [0-59])
 	/// \note If Roomba’s schedule or clock button is pressed,
 	/// this command will be ignored.
 	/// \note Available in modes: Passive, Safe, or Full.
 	ReturnCode
 	setDayTime (
 		const Day day_,
-		const uint8_t hour_,
-		const uint8_t minute_
+		const clock_time_t clock_time_
 	) const;
 	
 	/// \brief Powers down Roomba.

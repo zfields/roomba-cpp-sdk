@@ -136,6 +136,7 @@ enum OIMode : uint8_t {
 namespace bitmask {
 /// \brief Scheduling LEDs (OpCode 162) and Schedule (OpCode 167)
 enum Days : uint8_t {
+	DISABLE = 0x00,
 	SUNDAY = 0x01,
 	MONDAY = 0x02,
 	TUESDAY = 0x04,
