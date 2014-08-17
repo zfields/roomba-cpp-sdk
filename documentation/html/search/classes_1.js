@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['explicitpidcontroller_5ftc',['ExplicitPIDController_TC',['../class_explicit_p_i_d_controller___t_c.html',1,'']]]
+  ['openinterface',['OpenInterface',['../classroomba_1_1series500_1_1_open_interface.html',1,'roomba::series500']]],
+  ['openinterface_5ftc',['OpenInterface_TC',['../class_open_interface___t_c.html',1,'']]]
 ];

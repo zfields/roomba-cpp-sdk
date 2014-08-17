@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['pauseresumestream',['pauseResumeStream',['../classroomba_1_1series500_1_1_open_interface.html#a610783954ac02c9a6ee349e864143554',1,'roomba::series500::OpenInterface']]],
-  ['play',['play',['../classroomba_1_1series500_1_1_open_interface.html#a89c1c582ee1254d283fdb3ebbeb6ba67',1,'roomba::series500::OpenInterface']]],
-  ['power',['power',['../classroomba_1_1series500_1_1_open_interface.html#a9375536f3a72f40b98d20ba7d0631abd',1,'roomba::series500::OpenInterface']]],
-  ['pwmmotors',['pwmMotors',['../classroomba_1_1series500_1_1_open_interface.html#ad5bfebf55b685a6c793bb948618bd265',1,'roomba::series500::OpenInterface']]]
+  ['openinterface',['OpenInterface',['../classroomba_1_1series500_1_1_open_interface.html',1,'roomba::series500']]],
+  ['openinterface_5ftc',['OpenInterface_TC',['../class_open_interface___t_c.html',1,'']]],
+  ['operator_28_29',['operator()',['../classroomba_1_1series500_1_1_open_interface.html#a3da6204e57a44fbd562fe5711126b069',1,'roomba::series500::OpenInterface']]]
 ];

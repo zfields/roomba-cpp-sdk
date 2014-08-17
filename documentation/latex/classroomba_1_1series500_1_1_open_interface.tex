@@ -16,20 +16,27 @@ Inheritance diagram for roomba\+:\+:series500\+:\+:Open\+Interface\+:\begin{figu
 \includegraphics[height=2.000000cm]{classroomba_1_1series500_1_1_open_interface}
 \end{center}
 \end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{clock\+\_\+time\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Time representation for the scheduling methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{enum \hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \+: int8\+\_\+t \{ \\*
-{\bfseries S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} = -\/11, 
-{\bfseries A\+D\+D\+I\+T\+I\+O\+N\+A\+L\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R\+S\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D} = -\/3, 
+{\bfseries S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} = -\/100, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} = -\/10, 
 {\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} = -\/2, 
 {\bfseries O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} = -\/1, 
 \\*
-{\bfseries S\+U\+C\+C\+E\+S\+S} = 0, 
-{\bfseries U\+N\+U\+S\+E\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R\+S} = 1
+{\bfseries S\+U\+C\+C\+E\+S\+S} = 0
  \}}\label{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}
 
-\begin{DoxyCompactList}\small\item\em Return codes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Return codes. \end{DoxyCompactList}\item 
+typedef struct \\*
+\hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{roomba\+::series500\+::\+Open\+Interface\+::clock\+\_\+time\+\_\+t} \hyperlink{classroomba_1_1series500_1_1_open_interface_a28e1b87b0cce69349c416a7fcda3d624}{clock\+\_\+time\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Time representation for the scheduling methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -49,19 +56,19 @@ void \hyperlink{classroomba_1_1series500_1_1_open_interface_a8a4ce79aebcc3a1c79e
 \begin{DoxyCompactList}\small\item\em Puts the O\+I into Safe mode. \end{DoxyCompactList}\item 
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_acddf44604466bed9ffd120dcf22e59e7}{full} (void)
 \begin{DoxyCompactList}\small\item\em Puts the O\+I into Full mode. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a93c85b7a1c79080621f3c7600b8327cf}{clean} (void) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_ab194541a8bf4475315f2385e5b04a697}{clean} (void)
 \begin{DoxyCompactList}\small\item\em Starts the default cleaning mode. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_acb792ed462b98515435d85e357c181c1}{max} (void) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a82020e146db624bbeeb47e613544876f}{max} (void)
 \begin{DoxyCompactList}\small\item\em Starts the Max cleaning mode. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_ae7a3a134cad3a3c4aea3fdfd196fcffe}{spot} (void) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a7126b2aa105dea4b043c7acb4650f7c0}{spot} (void)
 \begin{DoxyCompactList}\small\item\em Starts the Spot cleaning mode. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a97893091968135d5d7b0612262bf2e2e}{seek\+Dock} (void) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a45c9d9d77731030da42f9e3a337c45ed}{seek\+Dock} (void)
 \begin{DoxyCompactList}\small\item\em Sends Roomba to the dock. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_afb7b2601f2fd66707b17980250e860bb}{schedule} (const bitmask\+::\+Days day\+\_\+mask\+\_\+, const std\+::vector$<$ std\+::pair$<$ uint8\+\_\+t, uint8\+\_\+t $>$ $>$ \&time\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a9dcca64026dc1a9a563e90f0cfe97396}{schedule} (const bitmask\+::\+Days day\+\_\+mask\+\_\+, const \hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{clock\+\_\+time\+\_\+t} $\ast$const clock\+\_\+times\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Sends Roomba a new schedule. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_af491059d12fdb23af819fb8f473bb715}{set\+Day\+Time} (const Day day\+\_\+, const uint8\+\_\+t hour\+\_\+, const uint8\+\_\+t minute\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a68e09461fd2d7e3fbe20b1e70ea2a3a9}{set\+Day\+Time} (const Day day\+\_\+, const \hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{clock\+\_\+time\+\_\+t} clock\+\_\+time\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Sets Roomba’s clock. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a9375536f3a72f40b98d20ba7d0631abd}{power} (void) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_ae1abe0755730f35dd98d626c48d3f355}{power} (void)
 \begin{DoxyCompactList}\small\item\em Powers down Roomba. \end{DoxyCompactList}\item 
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a0b02a89315ed3e6daa6b36b5f1327fc7}{drive} (const int16\+\_\+t velocity\+\_\+, const int16\+\_\+t radius\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Controls Roomba’s drive wheels. \end{DoxyCompactList}\item 
@@ -111,6 +118,16 @@ uint8\+\_\+t $\ast$, size\+\_\+t)$>$ {\bfseries \+\_\+fn\+Serial\+Write}}\label{
 The Roomba Open Interface (O\+I) class. 
 
 The Roomba Open Interface (O\+I) is a software interface for controlling and manipulating Roomba’s behavior. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a P\+C or microcontroller that is connected to the Mini-\/\+D\+I\+N connector. 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a28e1b87b0cce69349c416a7fcda3d624}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!clock\+\_\+time\+\_\+t@{clock\+\_\+time\+\_\+t}}
+\index{clock\+\_\+time\+\_\+t@{clock\+\_\+time\+\_\+t}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
+\subsubsection[{clock\+\_\+time\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf roomba\+::series500\+::\+Open\+Interface\+::clock\+\_\+time\+\_\+t}  {\bf roomba\+::series500\+::\+Open\+Interface\+::clock\+\_\+time\+\_\+t}}}\label{classroomba_1_1series500_1_1_open_interface_a28e1b87b0cce69349c416a7fcda3d624}
+
+
+Time representation for the scheduling methods. 
+
+This struct represents time in military time with the two fields hour and minute. The values in the structure are initialized to zero upon instantiation. 
 
 \subsection{Member Function Documentation}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a87e093214d5f7542062ac180d109f4fa}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!baud@{baud}}
@@ -162,13 +179,13 @@ This command lets you push Roomba’s buttons. The buttons will automatically re
 \begin{DoxyNote}{Note}
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a93c85b7a1c79080621f3c7600b8327cf}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!clean@{clean}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_ab194541a8bf4475315f2385e5b04a697}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!clean@{clean}}
 \index{clean@{clean}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{clean}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::clean (
+\subsubsection[{clean}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::clean (
 \begin{DoxyParamCaption}
 \item[{void}]{}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a93c85b7a1c79080621f3c7600b8327cf}
+)}}\label{classroomba_1_1series500_1_1_open_interface_ab194541a8bf4475315f2385e5b04a697}
 
 
 Starts the default cleaning mode. 
@@ -178,6 +195,15 @@ Available in modes\+: Passive, Safe, or Full.
 
 Changes mode to\+: Passive. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a8ae1fddf62ac384a3956ee44fa4b51ee}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!connect\+To\+Serial\+Bus@{connect\+To\+Serial\+Bus}}
 \index{connect\+To\+Serial\+Bus@{connect\+To\+Serial\+Bus}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{connect\+To\+Serial\+Bus}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::\+Open\+Interface\+::connect\+To\+Serial\+Bus (
@@ -402,13 +428,13 @@ Debris uses a blue L\+E\+D.
 
 Available in modes\+: Safe or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_acb792ed462b98515435d85e357c181c1}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!max@{max}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a82020e146db624bbeeb47e613544876f}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!max@{max}}
 \index{max@{max}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::max (
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::max (
 \begin{DoxyParamCaption}
 \item[{void}]{}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_acb792ed462b98515435d85e357c181c1}
+)}}\label{classroomba_1_1series500_1_1_open_interface_a82020e146db624bbeeb47e613544876f}
 
 
 Starts the Max cleaning mode. 
@@ -418,6 +444,15 @@ Available in modes\+: Passive, Safe, or Full.
 
 Changes mode to\+: Passive. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a350b0236512caa59c8b887ad58e0ad95}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!motors@{motors}}
 \index{motors@{motors}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{motors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::motors (
@@ -495,13 +530,13 @@ Available in modes\+: Safe or Full
 \begin{DoxySeeAlso}{See also}
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a316b270bdf96b6b89c9ecc8a4f7a39bd}{Open\+Interface\+::song} 
 \end{DoxySeeAlso}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a9375536f3a72f40b98d20ba7d0631abd}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!power@{power}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_ae1abe0755730f35dd98d626c48d3f355}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!power@{power}}
 \index{power@{power}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{power}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::power (
+\subsubsection[{power}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::power (
 \begin{DoxyParamCaption}
 \item[{void}]{}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a9375536f3a72f40b98d20ba7d0631abd}
+)}}\label{classroomba_1_1series500_1_1_open_interface_ae1abe0755730f35dd98d626c48d3f355}
 
 
 Powers down Roomba. 
@@ -590,14 +625,14 @@ Changes mode to\+: Safe.
 {\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
 \hline
 \end{DoxyRetVals}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_afb7b2601f2fd66707b17980250e860bb}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!schedule@{schedule}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a9dcca64026dc1a9a563e90f0cfe97396}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!schedule@{schedule}}
 \index{schedule@{schedule}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::schedule (
+\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::schedule (
 \begin{DoxyParamCaption}
 \item[{const bitmask\+::\+Days}]{day\+\_\+mask\+\_\+, }
-\item[{const std\+::vector$<$ std\+::pair$<$ uint8\+\_\+t, uint8\+\_\+t $>$ $>$ \&}]{time\+\_\+}
+\item[{const {\bf clock\+\_\+time\+\_\+t} $\ast$const}]{clock\+\_\+times\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_afb7b2601f2fd66707b17980250e860bb}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a9dcca64026dc1a9a563e90f0cfe97396}
 
 
 Sends Roomba a new schedule. 
@@ -606,14 +641,27 @@ This command sends Roomba a new schedule. To disable scheduled cleaning, send al
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em day\+\_\+mask} & A bitmask representing the days of the week \\
 \hline
-\mbox{\tt in}  & {\em time} & A vector of std\+::pairs composed of Hour (0-\/23) and Minute (0-\/59) following \{ Sun time, Mon time, ..., Sat time \} \\
+\mbox{\tt in}  & {\em clock\+\_\+times\+\_\+} & A sparse array of \hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{clock\+\_\+time\+\_\+t} variables following \{ Sun time, Mon time, ..., Sat time \}. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
+The day\+\_\+mask variable will determine which days the array elements will be applied to, disabled days will be zero filled. 
+
+If a \hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{clock\+\_\+time\+\_\+t} variable contains any values out of range, then the corresponding day will be ignored. 
+
 If Roomba’s schedule or clock button is pressed, this command will be ignored. 
 
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a9d7f8c1cca2d76a71fae39d7b29ebe94}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!scheduling\+L\+E\+Ds@{scheduling\+L\+E\+Ds}}
 \index{scheduling\+L\+E\+Ds@{scheduling\+L\+E\+Ds}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{scheduling\+L\+E\+Ds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::scheduling\+L\+E\+Ds (
@@ -638,13 +686,13 @@ All use red L\+E\+Ds
 
 Available in modes\+: Safe or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a97893091968135d5d7b0612262bf2e2e}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!seek\+Dock@{seek\+Dock}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a45c9d9d77731030da42f9e3a337c45ed}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!seek\+Dock@{seek\+Dock}}
 \index{seek\+Dock@{seek\+Dock}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{seek\+Dock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::seek\+Dock (
+\subsubsection[{seek\+Dock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::seek\+Dock (
 \begin{DoxyParamCaption}
 \item[{void}]{}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a97893091968135d5d7b0612262bf2e2e}
+)}}\label{classroomba_1_1series500_1_1_open_interface_a45c9d9d77731030da42f9e3a337c45ed}
 
 
 Sends Roomba to the dock. 
@@ -654,6 +702,15 @@ Available in modes\+: Passive, Safe, or Full.
 
 Changes mode to\+: Passive. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_af7b042d7919548d8feae666f097e3392}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!sensors@{sensors}}
 \index{sensors@{sensors}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{sensors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::sensors (
@@ -675,15 +732,14 @@ A value of 100 indicates a packet with all of the sensor data. Values of 0 throu
 
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_af491059d12fdb23af819fb8f473bb715}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!set\+Day\+Time@{set\+Day\+Time}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a68e09461fd2d7e3fbe20b1e70ea2a3a9}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!set\+Day\+Time@{set\+Day\+Time}}
 \index{set\+Day\+Time@{set\+Day\+Time}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{set\+Day\+Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::set\+Day\+Time (
+\subsubsection[{set\+Day\+Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::set\+Day\+Time (
 \begin{DoxyParamCaption}
 \item[{const Day}]{day\+\_\+, }
-\item[{const uint8\+\_\+t}]{hour\+\_\+, }
-\item[{const uint8\+\_\+t}]{minute\+\_\+}
+\item[{const {\bf clock\+\_\+time\+\_\+t}}]{clock\+\_\+time\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_af491059d12fdb23af819fb8f473bb715}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a68e09461fd2d7e3fbe20b1e70ea2a3a9}
 
 
 Sets Roomba’s clock. 
@@ -692,9 +748,7 @@ Sets Roomba’s clock.
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em day} & \\
 \hline
-\mbox{\tt in}  & {\em hour} & Hour (0-\/23) \\
-\hline
-\mbox{\tt in}  & {\em minute} & Minute (0-\/59) \\
+\mbox{\tt in}  & {\em clock} & time (hour \mbox{[}0-\/23\mbox{]} and minute \mbox{[}0-\/59\mbox{]}) \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
@@ -702,6 +756,17 @@ If Roomba’s schedule or clock button is pressed, this command will be ignored.
 
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a316b270bdf96b6b89c9ecc8a4f7a39bd}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!song@{song}}
 \index{song@{song}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{song}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::song (
@@ -729,13 +794,13 @@ Available in modes\+: Passive, Safe, or Full.
 \begin{DoxySeeAlso}{See also}
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a89c1c582ee1254d283fdb3ebbeb6ba67}{Open\+Interface\+::play} 
 \end{DoxySeeAlso}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_ae7a3a134cad3a3c4aea3fdfd196fcffe}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!spot@{spot}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a7126b2aa105dea4b043c7acb4650f7c0}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!spot@{spot}}
 \index{spot@{spot}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{spot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::spot (
+\subsubsection[{spot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::spot (
 \begin{DoxyParamCaption}
 \item[{void}]{}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_ae7a3a134cad3a3c4aea3fdfd196fcffe}
+)}}\label{classroomba_1_1series500_1_1_open_interface_a7126b2aa105dea4b043c7acb4650f7c0}
 
 
 Starts the Spot cleaning mode. 
@@ -745,6 +810,15 @@ Available in modes\+: Passive, Safe, or Full.
 
 Changes mode to\+: Passive. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a5a0876c4910ead045cde79d49a99137a}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!start@{start}}
 \index{start@{start}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::start (

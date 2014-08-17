@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,6 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
@@ -112,20 +113,29 @@ Inheritance diagram for roomba::series500::OpenInterface:</div>
 </map>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">clock_time_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time representation for the scheduling methods.  <a href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a43fc2ae1216e57cfb46901331b9ab4c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43fc2ae1216e57cfb46901331b9ab4c7"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> : int8_t { <br />
-&#160;&#160;<b>SERIAL_TRANSFER_FAILURE</b> = -11, 
-<b>ADDITIONAL_PARAMETERS_REQUIRED</b> = -3, 
+&#160;&#160;<b>SERIAL_TRANSFER_FAILURE</b> = -100, 
+<b>INVALID_PARAMETER</b> = -10, 
 <b>INVALID_MODE_FOR_REQUESTED_OPERATION</b> = -2, 
 <b>OI_NOT_STARTED</b> = -1, 
 <br />
-&#160;&#160;<b>SUCCESS</b> = 0, 
-<b>UNUSED_PARAMETERS</b> = 1
+&#160;&#160;<b>SUCCESS</b> = 0
 <br />
  }</td></tr>
 <tr class="memdesc:a43fc2ae1216e57cfb46901331b9ab4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return codes. <br /></td></tr>
 <tr class="separator:a43fc2ae1216e57cfb46901331b9ab4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e1b87b0cce69349c416a7fcda3d624"><td class="memItemLeft" align="right" valign="top">typedef struct <br class="typebreak" />
+<a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">roomba::series500::OpenInterface::clock_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a28e1b87b0cce69349c416a7fcda3d624">clock_time_t</a></td></tr>
+<tr class="memdesc:a28e1b87b0cce69349c416a7fcda3d624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time representation for the scheduling methods.  <a href="#a28e1b87b0cce69349c416a7fcda3d624">More...</a><br /></td></tr>
+<tr class="separator:a28e1b87b0cce69349c416a7fcda3d624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -153,27 +163,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acddf44604466bed9ffd120dcf22e59e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#acddf44604466bed9ffd120dcf22e59e7">full</a> (void)</td></tr>
 <tr class="memdesc:acddf44604466bed9ffd120dcf22e59e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puts the OI into Full mode.  <a href="#acddf44604466bed9ffd120dcf22e59e7">More...</a><br /></td></tr>
 <tr class="separator:acddf44604466bed9ffd120dcf22e59e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93c85b7a1c79080621f3c7600b8327cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a93c85b7a1c79080621f3c7600b8327cf">clean</a> (void) const </td></tr>
-<tr class="memdesc:a93c85b7a1c79080621f3c7600b8327cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the default cleaning mode.  <a href="#a93c85b7a1c79080621f3c7600b8327cf">More...</a><br /></td></tr>
-<tr class="separator:a93c85b7a1c79080621f3c7600b8327cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb792ed462b98515435d85e357c181c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#acb792ed462b98515435d85e357c181c1">max</a> (void) const </td></tr>
-<tr class="memdesc:acb792ed462b98515435d85e357c181c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the Max cleaning mode.  <a href="#acb792ed462b98515435d85e357c181c1">More...</a><br /></td></tr>
-<tr class="separator:acb792ed462b98515435d85e357c181c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7a3a134cad3a3c4aea3fdfd196fcffe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#ae7a3a134cad3a3c4aea3fdfd196fcffe">spot</a> (void) const </td></tr>
-<tr class="memdesc:ae7a3a134cad3a3c4aea3fdfd196fcffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the Spot cleaning mode.  <a href="#ae7a3a134cad3a3c4aea3fdfd196fcffe">More...</a><br /></td></tr>
-<tr class="separator:ae7a3a134cad3a3c4aea3fdfd196fcffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97893091968135d5d7b0612262bf2e2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a97893091968135d5d7b0612262bf2e2e">seekDock</a> (void) const </td></tr>
-<tr class="memdesc:a97893091968135d5d7b0612262bf2e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends Roomba to the dock.  <a href="#a97893091968135d5d7b0612262bf2e2e">More...</a><br /></td></tr>
-<tr class="separator:a97893091968135d5d7b0612262bf2e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb7b2601f2fd66707b17980250e860bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#afb7b2601f2fd66707b17980250e860bb">schedule</a> (const bitmask::Days day_mask_, const std::vector&lt; std::pair&lt; uint8_t, uint8_t &gt; &gt; &amp;time_) const </td></tr>
-<tr class="memdesc:afb7b2601f2fd66707b17980250e860bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends Roomba a new schedule.  <a href="#afb7b2601f2fd66707b17980250e860bb">More...</a><br /></td></tr>
-<tr class="separator:afb7b2601f2fd66707b17980250e860bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af491059d12fdb23af819fb8f473bb715"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#af491059d12fdb23af819fb8f473bb715">setDayTime</a> (const Day day_, const uint8_t hour_, const uint8_t minute_) const </td></tr>
-<tr class="memdesc:af491059d12fdb23af819fb8f473bb715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets Roomba’s clock.  <a href="#af491059d12fdb23af819fb8f473bb715">More...</a><br /></td></tr>
-<tr class="separator:af491059d12fdb23af819fb8f473bb715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9375536f3a72f40b98d20ba7d0631abd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a9375536f3a72f40b98d20ba7d0631abd">power</a> (void) const </td></tr>
-<tr class="memdesc:a9375536f3a72f40b98d20ba7d0631abd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Powers down Roomba.  <a href="#a9375536f3a72f40b98d20ba7d0631abd">More...</a><br /></td></tr>
-<tr class="separator:a9375536f3a72f40b98d20ba7d0631abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab194541a8bf4475315f2385e5b04a697"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#ab194541a8bf4475315f2385e5b04a697">clean</a> (void)</td></tr>
+<tr class="memdesc:ab194541a8bf4475315f2385e5b04a697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the default cleaning mode.  <a href="#ab194541a8bf4475315f2385e5b04a697">More...</a><br /></td></tr>
+<tr class="separator:ab194541a8bf4475315f2385e5b04a697"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82020e146db624bbeeb47e613544876f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a82020e146db624bbeeb47e613544876f">max</a> (void)</td></tr>
+<tr class="memdesc:a82020e146db624bbeeb47e613544876f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the Max cleaning mode.  <a href="#a82020e146db624bbeeb47e613544876f">More...</a><br /></td></tr>
+<tr class="separator:a82020e146db624bbeeb47e613544876f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7126b2aa105dea4b043c7acb4650f7c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a7126b2aa105dea4b043c7acb4650f7c0">spot</a> (void)</td></tr>
+<tr class="memdesc:a7126b2aa105dea4b043c7acb4650f7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the Spot cleaning mode.  <a href="#a7126b2aa105dea4b043c7acb4650f7c0">More...</a><br /></td></tr>
+<tr class="separator:a7126b2aa105dea4b043c7acb4650f7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45c9d9d77731030da42f9e3a337c45ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a45c9d9d77731030da42f9e3a337c45ed">seekDock</a> (void)</td></tr>
+<tr class="memdesc:a45c9d9d77731030da42f9e3a337c45ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends Roomba to the dock.  <a href="#a45c9d9d77731030da42f9e3a337c45ed">More...</a><br /></td></tr>
+<tr class="separator:a45c9d9d77731030da42f9e3a337c45ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dcca64026dc1a9a563e90f0cfe97396"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a9dcca64026dc1a9a563e90f0cfe97396">schedule</a> (const bitmask::Days day_mask_, const <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">clock_time_t</a> *const clock_times_) const </td></tr>
+<tr class="memdesc:a9dcca64026dc1a9a563e90f0cfe97396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends Roomba a new schedule.  <a href="#a9dcca64026dc1a9a563e90f0cfe97396">More...</a><br /></td></tr>
+<tr class="separator:a9dcca64026dc1a9a563e90f0cfe97396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68e09461fd2d7e3fbe20b1e70ea2a3a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a68e09461fd2d7e3fbe20b1e70ea2a3a9">setDayTime</a> (const Day day_, const <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">clock_time_t</a> clock_time_) const </td></tr>
+<tr class="memdesc:a68e09461fd2d7e3fbe20b1e70ea2a3a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets Roomba’s clock.  <a href="#a68e09461fd2d7e3fbe20b1e70ea2a3a9">More...</a><br /></td></tr>
+<tr class="separator:a68e09461fd2d7e3fbe20b1e70ea2a3a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1abe0755730f35dd98d626c48d3f355"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#ae1abe0755730f35dd98d626c48d3f355">power</a> (void)</td></tr>
+<tr class="memdesc:ae1abe0755730f35dd98d626c48d3f355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Powers down Roomba.  <a href="#ae1abe0755730f35dd98d626c48d3f355">More...</a><br /></td></tr>
+<tr class="separator:ae1abe0755730f35dd98d626c48d3f355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b02a89315ed3e6daa6b36b5f1327fc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a0b02a89315ed3e6daa6b36b5f1327fc7">drive</a> (const int16_t velocity_, const int16_t radius_) const </td></tr>
 <tr class="memdesc:a0b02a89315ed3e6daa6b36b5f1327fc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls Roomba’s drive wheels.  <a href="#a0b02a89315ed3e6daa6b36b5f1327fc7">More...</a><br /></td></tr>
 <tr class="separator:a0b02a89315ed3e6daa6b36b5f1327fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -236,7 +246,23 @@ OIMode&#160;</td><td class="memItemRight" valign="bottom"><b>_mode</b></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Roomba Open Interface (OI) class. </p>
 <p>The Roomba Open Interface (OI) is a software interface for controlling and manipulating Roomba’s behavior. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a PC or microcontroller that is connected to the Mini-DIN connector. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a28e1b87b0cce69349c416a7fcda3d624"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">roomba::series500::OpenInterface::clock_time_t</a>  <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">roomba::series500::OpenInterface::clock_time_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Time representation for the scheduling methods. </p>
+<p>This struct represents time in military time with the two fields hour and minute. The values in the structure are initialized to zero upon instantiation. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a87e093214d5f7542062ac180d109f4fa"></a>
 <div class="memitem">
 <div class="memproto">
@@ -297,16 +323,16 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a93c85b7a1c79080621f3c7600b8327cf"></a>
+<a class="anchor" id="ab194541a8bf4475315f2385e5b04a697"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::clean </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::clean </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -315,6 +341,14 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd>
 <dd>
 Changes mode to: Passive. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -625,16 +659,16 @@ Available in modes: Safe or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="acb792ed462b98515435d85e357c181c1"></a>
+<a class="anchor" id="a82020e146db624bbeeb47e613544876f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::max </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::max </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -643,6 +677,14 @@ Available in modes: Safe or Full. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd>
 <dd>
 Changes mode to: Passive. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -752,16 +794,16 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a9375536f3a72f40b98d20ba7d0631abd"></a>
+<a class="anchor" id="ae1abe0755730f35dd98d626c48d3f355"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::power </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::power </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -880,12 +922,12 @@ Changes mode to: Safe. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="afb7b2601f2fd66707b17980250e860bb"></a>
+<a class="anchor" id="a9dcca64026dc1a9a563e90f0cfe97396"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::schedule </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::schedule </td>
           <td>(</td>
           <td class="paramtype">const bitmask::Days&#160;</td>
           <td class="paramname"><em>day_mask_</em>, </td>
@@ -893,8 +935,8 @@ Changes mode to: Safe. </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::pair&lt; uint8_t, uint8_t &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>time_</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">clock_time_t</a> *const&#160;</td>
+          <td class="paramname"><em>clock_times_</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -908,13 +950,25 @@ Changes mode to: Safe. </dd></dl>
 <p>This command sends Roomba a new schedule. To disable scheduled cleaning, send all 0s. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">day_mask</td><td>A bitmask representing the days of the week </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">time</td><td>A vector of std::pairs composed of Hour (0-23) and Minute (0-59) following { Sun time, Mon time, ..., Sat time } </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">clock_times_</td><td>A sparse array of <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html" title="Time representation for the scheduling methods. ">clock_time_t</a> variables following { Sun time, Mon time, ..., Sat time }. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>If Roomba’s schedule or clock button is pressed, this command will be ignored. </dd>
+<dl class="section note"><dt>Note</dt><dd>The day_mask variable will determine which days the array elements will be applied to, disabled days will be zero filled. </dd>
+<dd>
+If a <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html" title="Time representation for the scheduling methods. ">clock_time_t</a> variable contains any values out of range, then the corresponding day will be ignored. </dd>
+<dd>
+If Roomba’s schedule or clock button is pressed, this command will be ignored. </dd>
 <dd>
 Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -956,16 +1010,16 @@ Available in modes: Safe or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a97893091968135d5d7b0612262bf2e2e"></a>
+<a class="anchor" id="a45c9d9d77731030da42f9e3a337c45ed"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::seekDock </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::seekDock </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -974,6 +1028,14 @@ Available in modes: Safe or Full. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd>
 <dd>
 Changes mode to: Passive. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1004,12 +1066,12 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af491059d12fdb23af819fb8f473bb715"></a>
+<a class="anchor" id="a68e09461fd2d7e3fbe20b1e70ea2a3a9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::setDayTime </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::setDayTime </td>
           <td>(</td>
           <td class="paramtype">const Day&#160;</td>
           <td class="paramname"><em>day_</em>, </td>
@@ -1017,14 +1079,8 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const uint8_t&#160;</td>
-          <td class="paramname"><em>hour_</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t&#160;</td>
-          <td class="paramname"><em>minute_</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">clock_time_t</a>&#160;</td>
+          <td class="paramname"><em>clock_time_</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1038,14 +1094,22 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">day</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">hour</td><td>Hour (0-23) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">minute</td><td>Minute (0-59) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">clock</td><td>time (hour [0-23] and minute [0-59]) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>If Roomba’s schedule or clock button is pressed, this command will be ignored. </dd>
 <dd>
 Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1088,16 +1152,16 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae7a3a134cad3a3c4aea3fdfd196fcffe"></a>
+<a class="anchor" id="a7126b2aa105dea4b043c7acb4650f7c0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::spot </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::spot </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1106,6 +1170,14 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd>
 <dd>
 Changes mode to: Passive. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1169,7 +1241,7 @@ Changes mode to: Passive. Roomba beeps once to acknowledge it is starting from �
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 11 2014 01:01:55 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Aug 16 2014 19:20:28 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

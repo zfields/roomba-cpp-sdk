@@ -1,4 +1,4 @@
-.TH "roomba::series500::OpenInterface" 3 "Mon Aug 11 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::OpenInterface" 3 "Sat Aug 16 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,13 +13,27 @@ The Roomba Open Interface (OI) class\&.
 \fC#include <OI\&.h>\fP
 .PP
 Inherited by \fBOpenInterface_TC\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBclock_time_t\fP"
+.br
+.RI "\fITime representation for the scheduling methods\&. \fP"
+.in -1c
 .SS "Public Types"
 
 .in +1c
 .ti -1c
-.RI "enum \fBReturnCode\fP : int8_t { \fBSERIAL_TRANSFER_FAILURE\fP = -11, \fBADDITIONAL_PARAMETERS_REQUIRED\fP = -3, \fBINVALID_MODE_FOR_REQUESTED_OPERATION\fP = -2, \fBOI_NOT_STARTED\fP = -1, \fBSUCCESS\fP = 0, \fBUNUSED_PARAMETERS\fP = 1 }"
+.RI "enum \fBReturnCode\fP : int8_t { \fBSERIAL_TRANSFER_FAILURE\fP = -100, \fBINVALID_PARAMETER\fP = -10, \fBINVALID_MODE_FOR_REQUESTED_OPERATION\fP = -2, \fBOI_NOT_STARTED\fP = -1, \fBSUCCESS\fP = 0 }"
 .br
 .RI "\fIReturn codes\&. \fP"
+.ti -1c
+.RI "typedef struct 
+.br
+\fBroomba::series500::OpenInterface::clock_time_t\fP \fBclock_time_t\fP"
+.br
+.RI "\fITime representation for the scheduling methods\&. \fP"
 .in -1c
 .SS "Public Member Functions"
 
@@ -57,31 +71,31 @@ Inherited by \fBOpenInterface_TC\fP\&.
 .br
 .RI "\fIPuts the OI into Full mode\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBclean\fP (void) const "
+.RI "\fBReturnCode\fP \fBclean\fP (void)"
 .br
 .RI "\fIStarts the default cleaning mode\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBmax\fP (void) const "
+.RI "\fBReturnCode\fP \fBmax\fP (void)"
 .br
 .RI "\fIStarts the Max cleaning mode\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBspot\fP (void) const "
+.RI "\fBReturnCode\fP \fBspot\fP (void)"
 .br
 .RI "\fIStarts the Spot cleaning mode\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBseekDock\fP (void) const "
+.RI "\fBReturnCode\fP \fBseekDock\fP (void)"
 .br
 .RI "\fISends Roomba to the dock\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBschedule\fP (const bitmask::Days day_mask_, const std::vector< std::pair< uint8_t, uint8_t > > &time_) const "
+.RI "\fBReturnCode\fP \fBschedule\fP (const bitmask::Days day_mask_, const \fBclock_time_t\fP *const clock_times_) const "
 .br
 .RI "\fISends Roomba a new schedule\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBsetDayTime\fP (const Day day_, const uint8_t hour_, const uint8_t minute_) const "
+.RI "\fBReturnCode\fP \fBsetDayTime\fP (const Day day_, const \fBclock_time_t\fP clock_time_) const "
 .br
 .RI "\fISets Roomba’s clock\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBpower\fP (void) const "
+.RI "\fBReturnCode\fP \fBpower\fP (void)"
 .br
 .RI "\fIPowers down Roomba\&. \fP"
 .ti -1c
@@ -166,6 +180,12 @@ uint8_t *, size_t)> \fB_fnSerialWrite\fP"
 The Roomba Open Interface (OI) class\&. 
 
 The Roomba Open Interface (OI) is a software interface for controlling and manipulating Roomba’s behavior\&. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a PC or microcontroller that is connected to the Mini-DIN connector\&. 
+.SH "Member Typedef Documentation"
+.PP 
+.SS "typedef struct \fBroomba::series500::OpenInterface::clock_time_t\fP  \fBroomba::series500::OpenInterface::clock_time_t\fP"
+
+.PP
+Time representation for the scheduling methods\&. This struct represents time in military time with the two fields hour and minute\&. The values in the structure are initialized to zero upon instantiation\&. 
 .SH "Member Function Documentation"
 .PP 
 .SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::baud (const BaudCodebaud_code_) const"
@@ -211,7 +231,7 @@ Available in modes: Passive, Safe, or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::clean (void) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::clean (void)"
 
 .PP
 Starts the default cleaning mode\&. 
@@ -221,6 +241,15 @@ Starts the default cleaning mode\&.
 Available in modes: Passive, Safe, or Full\&. 
 .PP
 Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -421,7 +450,7 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::max (void) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::max (void)"
 
 .PP
 Starts the Max cleaning mode\&. 
@@ -431,6 +460,15 @@ Starts the Max cleaning mode\&.
 Available in modes: Passive, Safe, or Full\&. 
 .PP
 Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -500,7 +538,7 @@ Available in modes: Safe or Full
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::power (void) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::power (void)"
 
 .PP
 Powers down Roomba\&. This command powers down Roomba\&. The OI can be in Passive, Safe, or Full mode to accept this command\&. 
@@ -581,7 +619,7 @@ Changes mode to: Safe\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::schedule (const bitmask::Daysday_mask_, const std::vector< std::pair< uint8_t, uint8_t > > &time_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::schedule (const bitmask::Daysday_mask_, const \fBclock_time_t\fP *constclock_times_) const"
 
 .PP
 Sends Roomba a new schedule\&. This command sends Roomba a new schedule\&. To disable scheduled cleaning, send all 0s\&. 
@@ -590,14 +628,27 @@ Sends Roomba a new schedule\&. This command sends Roomba a new schedule\&. To di
 .RS 4
 \fIday_mask\fP A bitmask representing the days of the week 
 .br
-\fItime\fP A vector of std::pairs composed of Hour (0-23) and Minute (0-59) following { Sun time, Mon time, \&.\&.\&., Sat time } 
+\fIclock_times_\fP A sparse array of \fBclock_time_t\fP variables following { Sun time, Mon time, \&.\&.\&., Sat time }\&. 
 .RE
 .PP
 \fBNote:\fP
 .RS 4
+The day_mask variable will determine which days the array elements will be applied to, disabled days will be zero filled\&. 
+.PP
+If a \fBclock_time_t\fP variable contains any values out of range, then the corresponding day will be ignored\&. 
+.PP
 If Roomba’s schedule or clock button is pressed, this command will be ignored\&. 
 .PP
 Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -621,7 +672,7 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::seekDock (void) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::seekDock (void)"
 
 .PP
 Sends Roomba to the dock\&. 
@@ -631,6 +682,15 @@ Sends Roomba to the dock\&.
 Available in modes: Passive, Safe, or Full\&. 
 .PP
 Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -652,7 +712,7 @@ Available in modes: Passive, Safe, or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::setDayTime (const Dayday_, const uint8_thour_, const uint8_tminute_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::setDayTime (const Dayday_, const \fBclock_time_t\fPclock_time_) const"
 
 .PP
 Sets Roomba’s clock\&. 
@@ -661,9 +721,7 @@ Sets Roomba’s clock\&.
 .RS 4
 \fIday\fP 
 .br
-\fIhour\fP Hour (0-23) 
-.br
-\fIminute\fP Minute (0-59) 
+\fIclock\fP time (hour [0-23] and minute [0-59]) 
 .RE
 .PP
 \fBNote:\fP
@@ -671,6 +729,17 @@ Sets Roomba’s clock\&.
 If Roomba’s schedule or clock button is pressed, this command will be ignored\&. 
 .PP
 Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -699,7 +768,7 @@ Available in modes: Passive, Safe, or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::spot (void) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::spot (void)"
 
 .PP
 Starts the Spot cleaning mode\&. 
@@ -709,6 +778,15 @@ Starts the Spot cleaning mode\&.
 Available in modes: Passive, Safe, or Full\&. 
 .PP
 Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
