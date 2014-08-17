@@ -248,7 +248,7 @@ class OpenInterface {
 	ReturnCode
 	power (
 		void
-	) const;
+	);
 	
 	/// \brief Controls Roomba’s drive wheels.
 	/// \details This command controls Roomba’s drive wheels.
