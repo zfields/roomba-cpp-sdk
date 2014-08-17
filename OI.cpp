@@ -153,6 +153,23 @@ OpenInterface::schedule (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::setDayTime (
+	const Day day_,
+	const clock_time_t clock_time_
+) const {
+	uint8_t serial_data[4] = { command::SET_DAY_TIME };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( clock_time_.hour < 0 || clock_time_.hour > 23 || clock_time_.minute < 0 || clock_time_.minute > 59 ) { return INVALID_PARAMETER; }
+	
+	serial_data[1] = day_;
+	*reinterpret_cast<uint16_t *>(&serial_data[2]) = (*reinterpret_cast<const uint16_t *>(&clock_time_));
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

@@ -85,7 +85,7 @@ class fnSerialWriteIsAvailable : public ::testing::Test {
 		
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
-		serial_bus = new char[64];
+		serial_bus = new char[64]();
 	}
 	virtual void TearDown() {
 		delete[](serial_bus);
@@ -115,7 +115,7 @@ class fnSerialWriteIsAvailableOIAlreadyStarted : public ::testing::Test {
 		
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
-		serial_bus = new char[64];
+		serial_bus = new char[64]();
 	}
 	virtual void TearDown() {
 		delete[](serial_bus);
@@ -583,6 +583,63 @@ TEST_F(FailedSerialTransactionOIAlreadyStarted, schedule$WHENfnSerialWriteFailsT
 	clk_time[1].hour = 10;
 	
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.schedule(days, clk_time));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENCalledTHEN168AndParametersAreWrittenToTheSerialBus) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(11,23);
+	
+	OI_tc.setDayTime(day, clk_time);
+	
+	ASSERT_EQ(168, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(2, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(23, static_cast<uint8_t>(serial_bus[3]));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENCalledWithDisableInBitMaskTHEN167AndAllZerosAreWrittenToTheSerialBus) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(11,23);
+
+	OI_tc.setDayTime(day, clk_time);
+	
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENCalledWithInvalidTimeParameterTHENReturnsError) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(31,18);
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(day, clk_time));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENInvalidParameterTHENNoDataIsWrittenToSerialBus) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(31,18);
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(day, clk_time));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailable, setDayTime$WHENOIModeIsOffTHENReturnsError) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(11,23);
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.setDayTime(day, clk_time));
+}
+
+TEST_F(fnSerialWriteIsAvailable, setDayTime$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(11,23);
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.setDayTime(day, clk_time));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(FailedSerialTransactionOIAlreadyStarted, setDayTime$WHENfnSerialWriteFailsTHENReturnsError) {
+	Day day = TUESDAY;
+	OpenInterface::clock_time_t clk_time(11,23);
+	
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.setDayTime(day, clk_time));
 }
 
 } // namespace

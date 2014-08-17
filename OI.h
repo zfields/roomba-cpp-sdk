@@ -26,12 +26,11 @@ class OpenInterface {
   public:
 	/// \brief Return codes
 	enum ReturnCode : int8_t {
-		SERIAL_TRANSFER_FAILURE = -11,
-		ADDITIONAL_PARAMETERS_REQUIRED = -3,
+		SERIAL_TRANSFER_FAILURE = -100,
+		INVALID_PARAMETER = -10,
 		INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
 		OI_NOT_STARTED = -1,
 		SUCCESS = 0,
-		UNUSED_PARAMETERS = 1,
 	};
 	
 	/// \brief Time representation for the scheduling methods
@@ -39,7 +38,7 @@ class OpenInterface {
 	/// with the two fields hour and minute. The values in the
 	/// structure are initialized to zero upon instantiation.
 	typedef struct clock_time_t {
-		clock_time_t (void) : hour(0), minute(0) {}
+		clock_time_t (uint8_t hour_ = 0, uint8_t minute_ = 0) : hour(hour_), minute(minute_) {}
 		uint8_t hour; ///< hour (0-23)
 		uint8_t minute; ///< minute (0-59)
 	} clock_time_t;
@@ -231,6 +230,10 @@ class OpenInterface {
 	/// \note If Roomba’s schedule or clock button is pressed,
 	/// this command will be ignored.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	setDayTime (
 		const Day day_,
