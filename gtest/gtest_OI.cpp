@@ -401,6 +401,73 @@ TEST_F(fnSerialWriteIsAvailable, max$WHENOIModeIsOffTHENNoDataIsWrittenToSerialB
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENCalledTHEN137AndParametersAreWrittenToTheSerialBus) {
+	OI_tc._mode = FULL;
+	OI_tc.drive(-487, 1998);
+	
+	ASSERT_EQ(137, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(-487, *reinterpret_cast<int16_t *>(&serial_bus[1]));
+	EXPECT_EQ(1998, *reinterpret_cast<int16_t *>(&serial_bus[3]));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENVelocityIsGreaterThan500THENParameterIsInvalid) {
+	OI_tc._mode = FULL;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(501, 1998));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENVelocityIsLessThanNegative500THENParameterIsInvalid) {
+	OI_tc._mode = FULL;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(-501, 1998));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsGreaterThan2000THENParameterIsInvalid) {
+	OI_tc._mode = FULL;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, 2001));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsLessThanNegative2000THENParameterIsInvalid) {
+	OI_tc._mode = FULL;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, -2001));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
+	OI_tc._mode = FULL;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(501, 1998));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailable, drive$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drive(-487, 1998));
+}
+
+TEST_F(FailedSerialTransactionOIAlreadyStarted, drive$WHENfnSerialWriteFailsTHENReturnsError) {
+	OI_tc._mode = FULL;
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.drive(-487, 1998));
+}
+
+TEST_F(fnSerialWriteIsAvailable, drive$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drive(-487, 1998));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENOIModeIsPassiveTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsEqualToSpecialValue32767THENParameterIsAllowed) {
+	OI_tc._mode = FULL;
+	OI_tc.drive(-487, 32767);
+	
+	ASSERT_EQ(137, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(-487, *reinterpret_cast<int16_t *>(&serial_bus[1]));
+	EXPECT_EQ(32767, *reinterpret_cast<int16_t *>(&serial_bus[3]));
+}
+
 TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	OI_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));
@@ -645,7 +712,7 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENMinuteIsLessThan
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(22,-1)));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENInvalidParameterTHENNoDataIsWrittenToSerialBus) {
+TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(31,18)));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }

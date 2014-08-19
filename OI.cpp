@@ -183,6 +183,24 @@ OpenInterface::power (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::drive (
+	const int16_t velocity_,
+	const int16_t radius_
+) const {
+	uint8_t serial_data[5] = { command::DRIVE };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( velocity_ < -500 || velocity_ > 500 || radius_ != 32767 && (radius_ < -2000 || radius_ > 2000) ) { return INVALID_PARAMETER; }
+	
+	*reinterpret_cast<int16_t *>(&serial_data[1]) = velocity_;
+	*reinterpret_cast<int16_t *>(&serial_data[3]) = radius_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

@@ -245,6 +245,9 @@ class OpenInterface {
 	/// Safe, or Full mode to accept this command.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \note Changes mode to: Passive.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	power (
 		void
@@ -272,6 +275,11 @@ class OpenInterface {
 	/// \note Available in modes: Safe or Full.
 	/// \warning Internal and environmental restrictions may prevent Roomba
 	/// from accurately carrying out some drive commands.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	drive (
 		const int16_t velocity_,
