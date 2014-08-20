@@ -191,10 +191,12 @@ OpenInterface::drive (
 	uint8_t serial_data[5] = { command::DRIVE };
 	if ( OFF == _mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
-	if ( velocity_ < -500 || velocity_ > 500 || radius_ != 32767 && (radius_ < -2000 || radius_ > 2000) ) { return INVALID_PARAMETER; }
+	if ( velocity_ < -500 || velocity_ > 500 || (radius_ != 32767 && (radius_ < -2000 || radius_ > 2000)) ) { return INVALID_PARAMETER; }
 	
-	*reinterpret_cast<int16_t *>(&serial_data[1]) = velocity_;
-	*reinterpret_cast<int16_t *>(&serial_data[3]) = radius_;
+	serial_data[1] = reinterpret_cast<const uint8_t *>(&velocity_)[1];
+	serial_data[2] = reinterpret_cast<const uint8_t *>(&velocity_)[0];
+	serial_data[3] = reinterpret_cast<const uint8_t *>(&radius_)[1];
+	serial_data[4] = reinterpret_cast<const uint8_t *>(&radius_)[0];
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
 	

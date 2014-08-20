@@ -406,8 +406,10 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENCalledTHEN137AndParam
 	OI_tc.drive(-487, 1998);
 	
 	ASSERT_EQ(137, static_cast<uint8_t>(serial_bus[0]));
-	EXPECT_EQ(-487, *reinterpret_cast<int16_t *>(&serial_bus[1]));
-	EXPECT_EQ(1998, *reinterpret_cast<int16_t *>(&serial_bus[3]));
+	EXPECT_EQ(254, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(25, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(7, static_cast<uint8_t>(serial_bus[3]));
+	EXPECT_EQ(206, static_cast<uint8_t>(serial_bus[4]));
 }
 
 TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENVelocityIsGreaterThan500THENParameterIsInvalid) {
@@ -464,8 +466,10 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsEqualToSpecia
 	OI_tc.drive(-487, 32767);
 	
 	ASSERT_EQ(137, static_cast<uint8_t>(serial_bus[0]));
-	EXPECT_EQ(-487, *reinterpret_cast<int16_t *>(&serial_bus[1]));
-	EXPECT_EQ(32767, *reinterpret_cast<int16_t *>(&serial_bus[3]));
+	EXPECT_EQ(254, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(25, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(127, static_cast<uint8_t>(serial_bus[3]));
+	EXPECT_EQ(255, static_cast<uint8_t>(serial_bus[4]));
 }
 
 TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
