@@ -292,15 +292,20 @@ class OpenInterface {
 	/// motion of Roomba’s drive wheels independently. A positive velocity
 	/// makes that wheel drive forward, while a negative velocity makes it
 	/// drive backward.
-	/// \param [in] right_wheel_velocity (-500 – 500) The velocity of the
-	/// right wheel in millimeters per second (mm/s).
 	/// \param [in] left_wheel_velocity (-500 – 500) The velocity of the
 	/// left wheel in millimeters per second (mm/s).
+	/// \param [in] right_wheel_velocity (-500 – 500) The velocity of the
+	/// right wheel in millimeters per second (mm/s).
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	driveDirect (
-		const int16_t right_wheel_velocity_,
-		const int16_t left_wheel_velocity_
+		const int16_t left_wheel_velocity_,
+		const int16_t right_wheel_velocity_
 	) const;
 	
 	/// \brief Controls the raw forward and backward motion of Roomba’s drive
