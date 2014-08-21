@@ -22,9 +22,9 @@ namespace {
   /******************/
  /* MOCK SCENARIOS */
 /******************/
-class DefaultInitialization : public ::testing::Test {
+class ObjectInitialization : public ::testing::Test {
   protected:
-	DefaultInitialization (
+	ObjectInitialization (
 		void
 	) {}
 	
@@ -35,9 +35,9 @@ class DefaultInitialization : public ::testing::Test {
 	OpenInterface_TC OI_tc;
 };
 
-class FailedSerialTransaction : public ::testing::Test {
+class SerialTransactionFailureOIModeOFF : public ::testing::Test {
   protected:
-	FailedSerialTransaction (
+	SerialTransactionFailureOIModeOFF (
 		void
 	) {
 		OI_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
@@ -50,9 +50,9 @@ class FailedSerialTransaction : public ::testing::Test {
 	OpenInterface_TC OI_tc;
 };
 
-class FailedSerialTransactionOIAlreadyStarted : public ::testing::Test {
+class SerialTransactionFailureOIModePASSIVE : public ::testing::Test {
   protected:
-	FailedSerialTransactionOIAlreadyStarted (
+	SerialTransactionFailureOIModePASSIVE (
 		void
 	) {
 		OI_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
@@ -66,9 +66,25 @@ class FailedSerialTransactionOIAlreadyStarted : public ::testing::Test {
 	OpenInterface_TC OI_tc;
 };
 
-class fnSerialWriteIsAvailable : public ::testing::Test {
+class SerialTransactionFailureOIModeFULL : public ::testing::Test {
   protected:
-	fnSerialWriteIsAvailable (
+	SerialTransactionFailureOIModeFULL (
+		void
+	) {
+		OI_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
+		OI_tc._mode = FULL;
+	}
+	
+	//virtual ~Initialization() {}
+	//virtual void SetUp() {}
+	//virtual void TearDown() {}
+	
+	OpenInterface_TC OI_tc;
+};
+
+class AllSystemsGoOIModeOFF : public ::testing::Test {
+  protected:
+	AllSystemsGoOIModeOFF (
 		void
 	) {
 		OI_tc.connectToSerialBus(
@@ -82,7 +98,7 @@ class fnSerialWriteIsAvailable : public ::testing::Test {
 			}
 		);
 	}
-		
+	
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		serial_bus = new char[64]();
@@ -95,9 +111,9 @@ class fnSerialWriteIsAvailable : public ::testing::Test {
 	OpenInterface_TC OI_tc;
 };
 
-class fnSerialWriteIsAvailableOIAlreadyStarted : public ::testing::Test {
+class AllSystemsGoOIModePASSIVE : public ::testing::Test {
   protected:
-	fnSerialWriteIsAvailableOIAlreadyStarted (
+	AllSystemsGoOIModePASSIVE (
 		void
 	) {
 		OI_tc.connectToSerialBus(
@@ -112,7 +128,37 @@ class fnSerialWriteIsAvailableOIAlreadyStarted : public ::testing::Test {
 		);
 		OI_tc._mode = PASSIVE;
 	}
-		
+	
+	//virtual ~Initialization() {}
+	virtual void SetUp() {
+		serial_bus = new char[64]();
+	}
+	virtual void TearDown() {
+		delete[](serial_bus);
+	}
+	
+	char *serial_bus;
+	OpenInterface_TC OI_tc;
+};
+
+class AllSystemsGoOIModeFULL : public ::testing::Test {
+  protected:
+	AllSystemsGoOIModeFULL (
+		void
+	) {
+		OI_tc.connectToSerialBus(
+			[this] (
+				const uint8_t * byte_array_,
+				size_t length_
+			) {
+				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
+				memcpy(serial_bus, byte_array_, length_);
+				return strnlen(serial_bus, 64);
+			}
+		);
+		OI_tc._mode = FULL;
+	}
+	
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		serial_bus = new char[64]();
@@ -133,46 +179,46 @@ test's full name consists of its containing test case and its individual
 name. Tests from different test cases can have the same individual name.
 */
 
-TEST_F(DefaultInitialization, constructor$WHENInitializedTHENCallingFnSerialWriteWillNotThrowError) {
+TEST_F(ObjectInitialization, constructor$WHENInitializedTHENCallingFnSerialWriteWillNotThrowError) {
 	OI_tc._fnSerialWrite(NULL, 0);
 }
 
-TEST_F(DefaultInitialization, constructor$WHENInitializedTHENModeWillBeSetToOFF) {
+TEST_F(ObjectInitialization, constructor$WHENInitializedTHENModeWillBeSetToOFF) {
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(DefaultInitialization, connectToSerialBus$WHENCalledTHENFnSerialWriteIsStored) {
+TEST_F(ObjectInitialization, connectToSerialBus$WHENCalledTHENFnSerialWriteIsStored) {
 	ASSERT_EQ(0, OI_tc._fnSerialWrite(NULL, 0));
 	OI_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; });
 	ASSERT_EQ(69, OI_tc._fnSerialWrite(NULL, 0));
 }
 
-TEST_F(fnSerialWriteIsAvailable, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
 	OI_tc.start();
 	ASSERT_EQ(128, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, start$WHENCalledTHENModeIsSetToPassive) {
+TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.start();
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransaction, start$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModeOFF, start$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.start());
 }
 
-TEST_F(FailedSerialTransaction, start$WHENReturnsErrorTHENModeIsUnchanged) {
+TEST_F(SerialTransactionFailureOIModeOFF, start$WHENReturnsErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.start());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, baud$WHENCalledTHEN129AndParametersAreWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHEN129AndParametersAreWrittenToTheSerialBus) {
 	OI_tc.baud(BAUD_57600);
 	ASSERT_EQ(129, static_cast<uint8_t>(serial_bus[0]));
 	ASSERT_EQ(BAUD_57600, static_cast<uint8_t>(serial_bus[1]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, baud$WHENCalledTHENBlockFor100ms) {
+TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHENBlockFor100ms) {
 	std::chrono::steady_clock::time_point begin, end;
 	
 	begin = std::chrono::steady_clock::now();
@@ -182,227 +228,218 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, baud$WHENCalledTHENBlockFor100m
 	ASSERT_LE(100, (std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)).count());
 }
 
-TEST_F(fnSerialWriteIsAvailable, baud$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, baud$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, baud$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.baud(BAUD_57600));
 }
 
-TEST_F(fnSerialWriteIsAvailable, baud$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, safe$WHENCalledTHEN131IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, safe$WHENCalledTHEN131IsWrittenToTheSerialBus) {
 	OI_tc.safe();
 	ASSERT_EQ(131, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, safe$WHENCalledTHENModeIsSetToSafe) {
+TEST_F(AllSystemsGoOIModePASSIVE, safe$WHENCalledTHENModeIsSetToSafe) {
 	OI_tc.safe();
 	ASSERT_EQ(SAFE, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, safe$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, safe$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.safe());
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, safe$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, safe$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.safe());
 }
 
-TEST_F(fnSerialWriteIsAvailable, safe$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, safe$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.safe());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, safe$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, safe$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.safe());
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, safe$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, safe$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.safe());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, full$WHENCalledTHEN132IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, full$WHENCalledTHEN132IsWrittenToTheSerialBus) {
 	OI_tc.full();
 	ASSERT_EQ(132, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, full$WHENCalledTHENModeIsSetToFull) {
+TEST_F(AllSystemsGoOIModePASSIVE, full$WHENCalledTHENModeIsSetToFull) {
 	OI_tc.full();
 	ASSERT_EQ(FULL, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, full$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, full$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.full());
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, full$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, full$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.full());
 }
 
-TEST_F(fnSerialWriteIsAvailable, full$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, full$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.full());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, full$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, full$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.full());
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, full$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, full$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.full());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, power$WHENCalledTHEN133IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, power$WHENCalledTHEN133IsWrittenToTheSerialBus) {
 	OI_tc.power();
 	ASSERT_EQ(133, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, power$WHENCalledTHENModeIsSetToPassive) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, power$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.power();
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, power$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, power$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.power());
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, power$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, power$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.power());
 }
 
-TEST_F(fnSerialWriteIsAvailable, power$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, power$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.power());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, power$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	OI_tc._mode = FULL;
+TEST_F(SerialTransactionFailureOIModeFULL, power$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.power());
 	ASSERT_EQ(FULL, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, power$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, power$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.power());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, spot$WHENCalledTHEN134IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, spot$WHENCalledTHEN134IsWrittenToTheSerialBus) {
 	OI_tc.spot();
 	ASSERT_EQ(134, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, spot$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, spot$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.spot());
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, spot$WHENCalledTHENModeIsSetToPassive) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, spot$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.spot();
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, spot$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, spot$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.spot());
 }
 
-TEST_F(fnSerialWriteIsAvailable, spot$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, spot$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.spot());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, spot$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	OI_tc._mode = FULL;
+TEST_F(SerialTransactionFailureOIModeFULL, spot$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.spot());
 	ASSERT_EQ(FULL, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, spot$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, spot$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.spot());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, clean$WHENCalledTHEN135IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, clean$WHENCalledTHEN135IsWrittenToTheSerialBus) {
 	OI_tc.clean();
 	ASSERT_EQ(135, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, clean$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, clean$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.clean());
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, clean$WHENCalledTHENModeIsSetToPassive) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, clean$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.clean();
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, clean$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, clean$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.clean());
 }
 
-TEST_F(fnSerialWriteIsAvailable, clean$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, clean$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.clean());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, clean$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	OI_tc._mode = FULL;
+TEST_F(SerialTransactionFailureOIModeFULL, clean$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.clean());
 	ASSERT_EQ(FULL, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, clean$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, clean$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.clean());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, max$WHENCalledTHEN136IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, max$WHENCalledTHEN136IsWrittenToTheSerialBus) {
 	OI_tc.max();
 	ASSERT_EQ(136, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, max$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, max$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.max());
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, max$WHENCalledTHENModeIsSetToPassive) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, max$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.max();
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, max$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, max$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.max());
 }
 
-TEST_F(fnSerialWriteIsAvailable, max$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, max$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.max());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, max$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	OI_tc._mode = FULL;
+TEST_F(SerialTransactionFailureOIModeFULL, max$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.max());
 	ASSERT_EQ(FULL, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, max$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, max$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.max());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENCalledTHEN137AndParametersAreWrittenToTheSerialBus) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENCalledTHEN137AndParametersAreWrittenToTheSerialBus) {
 	OI_tc.drive(-487, 1998);
 	
 	ASSERT_EQ(137, static_cast<uint8_t>(serial_bus[0]));
@@ -412,57 +449,50 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENCalledTHEN137AndParam
 	EXPECT_EQ(206, static_cast<uint8_t>(serial_bus[4]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENVelocityIsGreaterThan500THENParameterIsInvalid) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENVelocityIsGreaterThan500THENParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(501, 1998));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENVelocityIsLessThanNegative500THENParameterIsInvalid) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENVelocityIsLessThanNegative500THENParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(-501, 1998));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsGreaterThan2000THENParameterIsInvalid) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsGreaterThan2000THENParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, 2001));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsLessThanNegative2000THENParameterIsInvalid) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsLessThanNegative2000THENParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, -2001));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(501, 1998));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, drive$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, drive$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drive(-487, 1998));
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, drive$WHENfnSerialWriteFailsTHENReturnsError) {
-	OI_tc._mode = FULL;
+TEST_F(SerialTransactionFailureOIModeFULL, drive$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.drive(-487, 1998));
 }
 
-TEST_F(fnSerialWriteIsAvailable, drive$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, drive$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drive(-487, 1998));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENOIModeIsPassiveTHENReturnsError) {
+TEST_F(AllSystemsGoOIModePASSIVE, drive$WHENOIModeIsPassiveTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, drive$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsEqualToSpecialValue32767THENParameterIsAllowed) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsEqualToSpecialValue32767THENParameterIsAllowed) {
 	OI_tc.drive(-487, 32767);
 	
 	ASSERT_EQ(137, static_cast<uint8_t>(serial_bus[0]));
@@ -472,42 +502,40 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, drive$WHENRadiusIsEqualToSpecia
 	EXPECT_EQ(255, static_cast<uint8_t>(serial_bus[4]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	OI_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, seekDock$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, seekDock$WHENCalledTHENModeIsSetToPassive) {
-	OI_tc._mode = FULL;
+TEST_F(AllSystemsGoOIModeFULL, seekDock$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.seekDock();
 	ASSERT_EQ(PASSIVE, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, seekDock$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, seekDock$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
 }
 
-TEST_F(fnSerialWriteIsAvailable, seekDock$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
+TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
 	ASSERT_EQ(OFF, OI_tc._mode);
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, seekDock$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	OI_tc._mode = FULL;
+TEST_F(SerialTransactionFailureOIModeFULL, seekDock$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
 	ASSERT_EQ(FULL, OI_tc._mode);
 }
 
-TEST_F(fnSerialWriteIsAvailable, seekDock$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledTHEN167AndParametersAreWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledTHEN167AndParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::SUNDAY | bitmask::MONDAY | bitmask::TUESDAY | bitmask::WEDNESDAY | bitmask::THURSDAY | bitmask::FRIDAY | bitmask::SATURDAY);
 	OpenInterface::clock_time_t clk_time[7];
 	clk_time[0].hour = 15;
@@ -545,7 +573,7 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledTHEN167AndPa
 	EXPECT_EQ(55, static_cast<uint8_t>(serial_bus[15]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithDisableInBitMaskTHEN167AndAllZerosAreWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithDisableInBitMaskTHEN167AndAllZerosAreWrittenToTheSerialBus) {
 	OpenInterface::clock_time_t clk_time[7];
 	clk_time[0].hour = 15;
 	clk_time[0].minute = 35;
@@ -582,7 +610,7 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithDisableI
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[15]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithSparseCParametersTHENFullZeroFilledSerialParametersAreWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithSparseCParametersTHENFullZeroFilledSerialParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
 	OpenInterface::clock_time_t clk_time[2];
 	clk_time[0].hour = 15;
@@ -609,7 +637,7 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithSparseCP
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[15]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithNULLArrayTHEN167AndAllZerosAreWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithNULLArrayTHEN167AndAllZerosAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
 	
 	OI_tc.schedule(days, NULL);
@@ -632,7 +660,7 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithNULLArra
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[15]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithInvalidTimeParametersTHENCorrespondingDayIsIgnored) {
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithInvalidTimeParametersTHENCorrespondingDayIsIgnored) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
 	OpenInterface::clock_time_t clk_time[2];
 	clk_time[0].hour = 15;
@@ -660,7 +688,7 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, schedule$WHENCalledWithInvalidT
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[15]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, schedule$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, schedule$WHENOIModeIsOffTHENReturnsError) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
 	OpenInterface::clock_time_t clk_time[2];
 	clk_time[0].hour = 15;
@@ -670,7 +698,7 @@ TEST_F(fnSerialWriteIsAvailable, schedule$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedule(days, clk_time));
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, schedule$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, schedule$WHENfnSerialWriteFailsTHENReturnsError) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
 	OpenInterface::clock_time_t clk_time[2];
 	clk_time[0].hour = 15;
@@ -680,7 +708,7 @@ TEST_F(FailedSerialTransactionOIAlreadyStarted, schedule$WHENfnSerialWriteFailsT
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.schedule(days, clk_time));
 }
 
-TEST_F(fnSerialWriteIsAvailable, schedule$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, schedule$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
 	OpenInterface::clock_time_t clk_time[2];
 	clk_time[0].hour = 15;
@@ -691,7 +719,7 @@ TEST_F(fnSerialWriteIsAvailable, schedule$WHENOIModeIsOffTHENNoDataIsWrittenToSe
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENCalledTHEN168AndParametersAreWrittenToTheSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENCalledTHEN168AndParametersAreWrittenToTheSerialBus) {
 	OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23));
 	
 	ASSERT_EQ(168, static_cast<uint8_t>(serial_bus[0]));
@@ -700,36 +728,36 @@ TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENCalledTHEN168And
 	EXPECT_EQ(23, static_cast<uint8_t>(serial_bus[3]));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENHourIsGreaterThan23THENTimeParameterIsInvalid) {
+TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENHourIsGreaterThan23THENTimeParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(24,18)));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENHourIsLessThanZeroTHENTimeParameterIsInvalid) {
+TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENHourIsLessThanZeroTHENTimeParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(-1,18)));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENMinuteIsGreaterThan60THENTimeParameterIsInvalid) {
+TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENMinuteIsGreaterThan60THENTimeParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(22,60)));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENMinuteIsLessThanZeroTHENTimeParameterIsInvalid) {
+TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENMinuteIsLessThanZeroTHENTimeParameterIsInvalid) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(22,-1)));
 }
 
-TEST_F(fnSerialWriteIsAvailableOIAlreadyStarted, setDayTime$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(31,18)));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
-TEST_F(fnSerialWriteIsAvailable, setDayTime$WHENOIModeIsOffTHENReturnsError) {
+TEST_F(AllSystemsGoOIModeOFF, setDayTime$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23)));
 }
 
-TEST_F(FailedSerialTransactionOIAlreadyStarted, setDayTime$WHENfnSerialWriteFailsTHENReturnsError) {
+TEST_F(SerialTransactionFailureOIModePASSIVE, setDayTime$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23)));
 }
 
-TEST_F(fnSerialWriteIsAvailable, setDayTime$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+TEST_F(AllSystemsGoOIModeOFF, setDayTime$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23)));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
