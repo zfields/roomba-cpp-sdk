@@ -313,13 +313,18 @@ class OpenInterface {
 	/// \details This command lets you control the raw forward and backward
 	/// motion of Roomba’s drive wheels independently. A positive PWM makes
 	/// that wheel drive forward, while a negative PWM makes it drive backward.
-	/// \param [in] right_wheel_pwm (-255 – 255) The PWM of the right wheel.
 	/// \param [in] left_wheel_pwm (-255 – 255) The PWM of the left wheel.
+	/// \param [in] right_wheel_pwm (-255 – 255) The PWM of the right wheel.
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	drivePWM (
-		const int16_t right_wheel_pwm_,
-		const int16_t left_wheel_pwm_
+		const int16_t left_wheel_pwm_,
+		const int16_t right_wheel_pwm_
 	) const;
 	
 	/// \brief Controls the forward and backward motion of Roomba’s main brush,

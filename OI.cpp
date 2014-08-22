@@ -223,6 +223,26 @@ OpenInterface::driveDirect (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::drivePWM (
+	const int16_t left_wheel_pwm_,
+	const int16_t right_wheel_pwm_
+) const {
+	uint8_t serial_data[5] = { command::DRIVE_PWM };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( left_wheel_pwm_ < -255 || left_wheel_pwm_ > 255 || right_wheel_pwm_ < -255 || right_wheel_pwm_ > 255 ) { return INVALID_PARAMETER; }
+	
+	serial_data[1] = reinterpret_cast<const uint8_t *>(&right_wheel_pwm_)[1];
+	serial_data[2] = reinterpret_cast<const uint8_t *>(&right_wheel_pwm_)[0];
+	serial_data[3] = reinterpret_cast<const uint8_t *>(&left_wheel_pwm_)[1];
+	serial_data[4] = reinterpret_cast<const uint8_t *>(&left_wheel_pwm_)[0];
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

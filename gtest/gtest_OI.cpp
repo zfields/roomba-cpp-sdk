@@ -558,7 +558,7 @@ TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENRightWheelVelocityIsGreaterThan50
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENRightWheelVelocityIsLessThanNegative500THENParameterIsInvalid) {
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(500, -501));
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(-500, -501));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
@@ -585,6 +585,59 @@ TEST_F(AllSystemsGoOIModePASSIVE, driveDirect$WHENOIModeIsPassiveTHENReturnsErro
 
 TEST_F(AllSystemsGoOIModePASSIVE, driveDirect$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.driveDirect(-150, 150));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENCalledTHEN146AndParametersAreWrittenToTheSerialBus) {
+	OI_tc.drivePWM(-32, 32);
+	
+	ASSERT_EQ(146, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(32, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(255, static_cast<uint8_t>(serial_bus[3]));
+	EXPECT_EQ(224, static_cast<uint8_t>(serial_bus[4]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENLeftWheelVelocityIsGreaterThan255THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(256, 255));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENLeftWheelVelocityIsLessThanNegative255THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(-256, -255));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENRightWheelVelocityIsGreaterThan255THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(255, 256));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENRightWheelVelocityIsLessThanNegative255THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(-255, -256));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(501, 500));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, drivePWM$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drivePWM(-32, 32));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, drivePWM$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.drivePWM(-32, 32));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, drivePWM$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drivePWM(-32, 32));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
