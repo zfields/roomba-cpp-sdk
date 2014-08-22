@@ -502,6 +502,41 @@ TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsEqualToSpecialValue32767THENPar
 	EXPECT_EQ(255, static_cast<uint8_t>(serial_bus[4]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, motors$WHENCalledTHEN138AndParametersAreWrittenToTheSerialBus) {
+	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
+	OI_tc.motors(motor_states);
+	
+	ASSERT_EQ(138, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, motors$WHENOIModeIsOffTHENReturnsError) {
+	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.motors(motor_states));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, motors$WHENfnSerialWriteFailsTHENReturnsError) {
+	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.motors(motor_states));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, motors$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.motors(motor_states));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, motors$WHENOIModeIsPassiveTHENReturnsError) {
+	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.motors(motor_states));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, motors$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.motors(motor_states));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	OI_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));

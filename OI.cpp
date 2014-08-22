@@ -243,6 +243,21 @@ OpenInterface::drivePWM (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::motors (
+	const bitmask::MotorStates motor_state_mask_
+) const {
+	uint8_t serial_data[2] = { command::MOTORS };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	
+	serial_data[1] = motor_state_mask_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

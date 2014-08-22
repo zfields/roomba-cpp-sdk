@@ -336,6 +336,10 @@ class OpenInterface {
 	/// either direction. The vacuum only runs forward.
 	/// \param [in] motor_state_mask 
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	motors (
 		const bitmask::MotorStates motor_state_mask_
