@@ -70,11 +70,11 @@ void \hyperlink{classroomba_1_1series500_1_1_open_interface_a8a4ce79aebcc3a1c79e
 \begin{DoxyCompactList}\small\item\em Sets Roomba’s clock. \end{DoxyCompactList}\item 
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_ae1abe0755730f35dd98d626c48d3f355}{power} (void)
 \begin{DoxyCompactList}\small\item\em Powers down Roomba. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a0b02a89315ed3e6daa6b36b5f1327fc7}{drive} (const int16\+\_\+t velocity\+\_\+, const int16\+\_\+t radius\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a54ef1ecc95d5df7aaa6646f0c1ce1bde}{drive} (const int16\+\_\+t velocity\+\_\+, const int16\+\_\+t radius\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Controls Roomba’s drive wheels. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a3148367bdbf04abcb590c48adc03d2a1}{drive\+Direct} (const int16\+\_\+t right\+\_\+wheel\+\_\+velocity\+\_\+, const int16\+\_\+t left\+\_\+wheel\+\_\+velocity\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_aa528b5978d391829da67cc582beac9b9}{drive\+Direct} (const int16\+\_\+t left\+\_\+wheel\+\_\+velocity\+\_\+, const int16\+\_\+t right\+\_\+wheel\+\_\+velocity\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Controls the forward and backward motion of Roomba’s drive wheels independently. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_aec2dbec11bbd03d2b07403692d43a658}{drive\+P\+W\+M} (const int16\+\_\+t right\+\_\+wheel\+\_\+pwm\+\_\+, const int16\+\_\+t left\+\_\+wheel\+\_\+pwm\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a57c4e739264089ea5982a2f17727d108}{drive\+P\+W\+M} (const int16\+\_\+t left\+\_\+wheel\+\_\+pwm\+\_\+, const int16\+\_\+t right\+\_\+wheel\+\_\+pwm\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Controls the raw forward and backward motion of Roomba’s drive wheels independently. \end{DoxyCompactList}\item 
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a350b0236512caa59c8b887ad58e0ad95}{motors} (const bitmask\+::\+Motor\+States motor\+\_\+state\+\_\+mask\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Controls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently. \end{DoxyCompactList}\item 
@@ -280,14 +280,14 @@ All use red L\+E\+Ds
 
 Available in modes\+: Safe or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a0b02a89315ed3e6daa6b36b5f1327fc7}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!drive@{drive}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a54ef1ecc95d5df7aaa6646f0c1ce1bde}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!drive@{drive}}
 \index{drive@{drive}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{drive}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::drive (
+\subsubsection[{drive}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::drive (
 \begin{DoxyParamCaption}
 \item[{const int16\+\_\+t}]{velocity\+\_\+, }
 \item[{const int16\+\_\+t}]{radius\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a0b02a89315ed3e6daa6b36b5f1327fc7}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a54ef1ecc95d5df7aaa6646f0c1ce1bde}
 
 
 Controls Roomba’s drive wheels. 
@@ -317,50 +317,89 @@ Available in modes\+: Safe or Full.
 \begin{DoxyWarning}{Warning}
 Internal and environmental restrictions may prevent Roomba from accurately carrying out some drive commands. 
 \end{DoxyWarning}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a3148367bdbf04abcb590c48adc03d2a1}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!drive\+Direct@{drive\+Direct}}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_aa528b5978d391829da67cc582beac9b9}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!drive\+Direct@{drive\+Direct}}
 \index{drive\+Direct@{drive\+Direct}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{drive\+Direct}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::drive\+Direct (
+\subsubsection[{drive\+Direct}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::drive\+Direct (
 \begin{DoxyParamCaption}
-\item[{const int16\+\_\+t}]{right\+\_\+wheel\+\_\+velocity\+\_\+, }
-\item[{const int16\+\_\+t}]{left\+\_\+wheel\+\_\+velocity\+\_\+}
+\item[{const int16\+\_\+t}]{left\+\_\+wheel\+\_\+velocity\+\_\+, }
+\item[{const int16\+\_\+t}]{right\+\_\+wheel\+\_\+velocity\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a3148367bdbf04abcb590c48adc03d2a1}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_aa528b5978d391829da67cc582beac9b9}
 
 
 Controls the forward and backward motion of Roomba’s drive wheels independently. 
 
 This command lets you control the forward and backward motion of Roomba’s drive wheels independently. A positive velocity makes that wheel drive forward, while a negative velocity makes it drive backward. 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em right\+\_\+wheel\+\_\+velocity} & (-\/500 – 500) The velocity of the right wheel in millimeters per second (mm/s). \\
-\hline
 \mbox{\tt in}  & {\em left\+\_\+wheel\+\_\+velocity} & (-\/500 – 500) The velocity of the left wheel in millimeters per second (mm/s). \\
+\hline
+\mbox{\tt in}  & {\em right\+\_\+wheel\+\_\+velocity} & (-\/500 – 500) The velocity of the right wheel in millimeters per second (mm/s). \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
 Available in modes\+: Safe or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_aec2dbec11bbd03d2b07403692d43a658}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!drive\+P\+W\+M@{drive\+P\+W\+M}}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a57c4e739264089ea5982a2f17727d108}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!drive\+P\+W\+M@{drive\+P\+W\+M}}
 \index{drive\+P\+W\+M@{drive\+P\+W\+M}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{drive\+P\+W\+M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::drive\+P\+W\+M (
+\subsubsection[{drive\+P\+W\+M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::drive\+P\+W\+M (
 \begin{DoxyParamCaption}
-\item[{const int16\+\_\+t}]{right\+\_\+wheel\+\_\+pwm\+\_\+, }
-\item[{const int16\+\_\+t}]{left\+\_\+wheel\+\_\+pwm\+\_\+}
+\item[{const int16\+\_\+t}]{left\+\_\+wheel\+\_\+pwm\+\_\+, }
+\item[{const int16\+\_\+t}]{right\+\_\+wheel\+\_\+pwm\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_aec2dbec11bbd03d2b07403692d43a658}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a57c4e739264089ea5982a2f17727d108}
 
 
 Controls the raw forward and backward motion of Roomba’s drive wheels independently. 
 
 This command lets you control the raw forward and backward motion of Roomba’s drive wheels independently. A positive P\+W\+M makes that wheel drive forward, while a negative P\+W\+M makes it drive backward. 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em right\+\_\+wheel\+\_\+pwm} & (-\/255 – 255) The P\+W\+M of the right wheel. \\
-\hline
 \mbox{\tt in}  & {\em left\+\_\+wheel\+\_\+pwm} & (-\/255 – 255) The P\+W\+M of the left wheel. \\
+\hline
+\mbox{\tt in}  & {\em right\+\_\+wheel\+\_\+pwm} & (-\/255 – 255) The P\+W\+M of the right wheel. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
 Available in modes\+: Safe or Full. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a8a4ce79aebcc3a1c79ea66eb33dc0ec8}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!end@{end}}
 \index{end@{end}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::\+Open\+Interface\+::end (
@@ -546,6 +585,15 @@ Available in modes\+: Passive, Safe, or Full.
 
 Changes mode to\+: Passive. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_ad5bfebf55b685a6c793bb948618bd265}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!pwm\+Motors@{pwm\+Motors}}
 \index{pwm\+Motors@{pwm\+Motors}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{pwm\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::pwm\+Motors (

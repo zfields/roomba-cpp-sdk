@@ -1,4 +1,4 @@
-.TH "roomba::series500::OpenInterface" 3 "Sat Aug 16 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::OpenInterface" 3 "Thu Aug 21 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -103,11 +103,11 @@ Inherited by \fBOpenInterface_TC\fP\&.
 .br
 .RI "\fIControls Roomba’s drive wheels\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBdriveDirect\fP (const int16_t right_wheel_velocity_, const int16_t left_wheel_velocity_) const "
+.RI "\fBReturnCode\fP \fBdriveDirect\fP (const int16_t left_wheel_velocity_, const int16_t right_wheel_velocity_) const "
 .br
 .RI "\fIControls the forward and backward motion of Roomba’s drive wheels independently\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBdrivePWM\fP (const int16_t right_wheel_pwm_, const int16_t left_wheel_pwm_) const "
+.RI "\fBReturnCode\fP \fBdrivePWM\fP (const int16_t left_wheel_pwm_, const int16_t right_wheel_pwm_) const "
 .br
 .RI "\fIControls the raw forward and backward motion of Roomba’s drive wheels independently\&. \fP"
 .ti -1c
@@ -319,7 +319,7 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::drive (const int16_tvelocity_, const int16_tradius_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::drive (const int16_tvelocity_, const int16_tradius_) const"
 
 .PP
 Controls Roomba’s drive wheels\&. This command controls Roomba’s drive wheels\&. A Drive command with a positive velocity and a positive radius makes Roomba drive forward while turning toward the left\&. A negative radius makes Roomba turn toward the right\&. Special cases for the radius make Roomba turn in place or drive straight, as specified below\&. A negative velocity makes Roomba drive backward\&. 
@@ -361,17 +361,30 @@ Available in modes: Safe or Full\&.
 Internal and environmental restrictions may prevent Roomba from accurately carrying out some drive commands\&. 
 .RE
 .PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::driveDirect (const int16_tright_wheel_velocity_, const int16_tleft_wheel_velocity_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::driveDirect (const int16_tleft_wheel_velocity_, const int16_tright_wheel_velocity_) const"
 
 .PP
 Controls the forward and backward motion of Roomba’s drive wheels independently\&. This command lets you control the forward and backward motion of Roomba’s drive wheels independently\&. A positive velocity makes that wheel drive forward, while a negative velocity makes it drive backward\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIright_wheel_velocity\fP (-500 – 500) The velocity of the right wheel in millimeters per second (mm/s)\&. 
-.br
 \fIleft_wheel_velocity\fP (-500 – 500) The velocity of the left wheel in millimeters per second (mm/s)\&. 
+.br
+\fIright_wheel_velocity\fP (-500 – 500) The velocity of the right wheel in millimeters per second (mm/s)\&. 
 .RE
 .PP
 \fBNote:\fP
@@ -379,22 +392,48 @@ Controls the forward and backward motion of Roomba’s drive wheels independentl
 Available in modes: Safe or Full\&. 
 .RE
 .PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::drivePWM (const int16_tright_wheel_pwm_, const int16_tleft_wheel_pwm_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::drivePWM (const int16_tleft_wheel_pwm_, const int16_tright_wheel_pwm_) const"
 
 .PP
 Controls the raw forward and backward motion of Roomba’s drive wheels independently\&. This command lets you control the raw forward and backward motion of Roomba’s drive wheels independently\&. A positive PWM makes that wheel drive forward, while a negative PWM makes it drive backward\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIright_wheel_pwm\fP (-255 – 255) The PWM of the right wheel\&. 
-.br
 \fIleft_wheel_pwm\fP (-255 – 255) The PWM of the left wheel\&. 
+.br
+\fIright_wheel_pwm\fP (-255 – 255) The PWM of the right wheel\&. 
 .RE
 .PP
 \fBNote:\fP
 .RS 4
 Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -548,6 +587,15 @@ Powers down Roomba\&. This command powers down Roomba\&. The OI can be in Passiv
 Available in modes: Passive, Safe, or Full\&. 
 .PP
 Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
