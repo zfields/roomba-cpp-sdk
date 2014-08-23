@@ -361,6 +361,11 @@ class OpenInterface {
 	/// \note Default direction for the side brush is counter-clockwise.
 	/// \note Default direction for the main brush/flapper is inward.
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	pwmMotors (
 		const int8_t main_brush_,

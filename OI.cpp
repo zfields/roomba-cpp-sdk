@@ -258,6 +258,26 @@ OpenInterface::motors (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::pwmMotors (
+	const int8_t main_brush_,
+	const int8_t side_brush_,
+	const int8_t vacuum_
+) const {
+	uint8_t serial_data[4] = { command::PWM_MOTORS };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( -128 == main_brush_ || -128 == side_brush_ || vacuum_ < 0 ) { return INVALID_PARAMETER; }
+	
+	serial_data[1] = main_brush_;
+	serial_data[2] = side_brush_;
+	serial_data[3] = vacuum_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 
