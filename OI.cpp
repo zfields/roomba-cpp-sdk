@@ -139,6 +139,7 @@ OpenInterface::schedule (
 ) const {
 	uint8_t serial_data[16] = { command::SCHEDULE };
 	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( day_mask_ > 127 ) { return INVALID_PARAMETER; }
 	
 	if ( day_mask_ && clock_times_ ) {
 		serial_data[1] = day_mask_;
@@ -250,6 +251,7 @@ OpenInterface::motors (
 	uint8_t serial_data[2] = { command::MOTORS };
 	if ( OFF == _mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( motor_state_mask_ > 31 ) { return INVALID_PARAMETER; }
 	
 	serial_data[1] = motor_state_mask_;
 	

@@ -217,6 +217,7 @@ class OpenInterface {
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	schedule (
@@ -339,6 +340,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	motors (

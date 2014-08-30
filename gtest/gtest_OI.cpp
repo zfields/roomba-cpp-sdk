@@ -510,6 +510,15 @@ TEST_F(AllSystemsGoOIModeFULL, motors$WHENCalledTHEN138AndParametersAreWrittenTo
 	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[1]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, motors$WHENMotorStateMaskIsGreaterThan31THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.motors(static_cast<bitmask::MotorStates>(32)));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, motors$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.motors(static_cast<bitmask::MotorStates>(32)));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModeOFF, motors$WHENOIModeIsOffTHENReturnsError) {
 	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
 	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.motors(motor_states));
@@ -915,6 +924,27 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithInvalidTimeParametersTH
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[13]));
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[14]));
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[15]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENDaysMaskIsGreaterThan127THENParameterIsInvalid) {
+	bitmask::Days days = static_cast<bitmask::Days>(128);
+	OpenInterface::clock_time_t clk_time[2];
+	clk_time[0].hour = 15;
+	clk_time[0].minute = 35;
+	clk_time[1].hour = 10;
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.schedule(days, clk_time));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	bitmask::Days days = static_cast<bitmask::Days>(128);
+	OpenInterface::clock_time_t clk_time[2];
+	clk_time[0].hour = 15;
+	clk_time[0].minute = 35;
+	clk_time[1].hour = 10;
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.schedule(days, clk_time));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, schedule$WHENOIModeIsOffTHENReturnsError) {
