@@ -386,6 +386,11 @@ class OpenInterface {
 	/// \note Check Robot uses an orange LED.
 	/// \note Debris uses a blue LED.
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	leds (
 		const bitmask::display::LEDs led_mask_,

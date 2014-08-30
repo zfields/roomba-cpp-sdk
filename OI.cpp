@@ -278,6 +278,26 @@ OpenInterface::pwmMotors (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::leds (
+	const bitmask::display::LEDs led_mask_,
+	const uint8_t color_,
+	const uint8_t intensity_
+) const {
+	uint8_t serial_data[4] = { command::LEDS };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( led_mask_ > 15 ) { return INVALID_PARAMETER; }
+
+	serial_data[1] = led_mask_;
+	serial_data[2] = color_;
+	serial_data[3] = intensity_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 
