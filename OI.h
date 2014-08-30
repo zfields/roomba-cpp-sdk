@@ -405,6 +405,11 @@ class OpenInterface {
 	/// \param [in] led_mask
 	/// \note All use red LEDs
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	schedulingLEDs (
 		const bitmask::Days day_mask_,

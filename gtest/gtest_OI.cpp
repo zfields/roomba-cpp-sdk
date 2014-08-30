@@ -773,6 +773,49 @@ TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWritte
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENCalledTHEN162AndParametersAreWrittenToTheSerialBus) {
+	OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM));
+	
+	ASSERT_EQ(162, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(68, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[2]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENDayMaskIsGreaterThan127THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(128), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENDisplayMaskIsGreaterThan31THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(32)));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(32)));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, schedulingLEDs$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, schedulingLEDs$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, schedulingLEDs$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, schedulingLEDs$WHENOIModeIsPassiveTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, schedulingLEDs$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledTHEN167AndParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::SUNDAY | bitmask::MONDAY | bitmask::TUESDAY | bitmask::WEDNESDAY | bitmask::THURSDAY | bitmask::FRIDAY | bitmask::SATURDAY);
 	OpenInterface::clock_time_t clk_time[7];
@@ -926,7 +969,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithInvalidTimeParametersTH
 	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[15]));
 }
 
-TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENDaysMaskIsGreaterThan127THENParameterIsInvalid) {
+TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENDaysMaskIsGreaterThan127THENParameterIsInvalid) {
 	bitmask::Days days = static_cast<bitmask::Days>(128);
 	OpenInterface::clock_time_t clk_time[2];
 	clk_time[0].hour = 15;
