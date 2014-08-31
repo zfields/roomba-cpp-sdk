@@ -364,6 +364,22 @@ OpenInterface::buttons (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::play (
+	const uint8_t song_number_
+) const {
+	uint8_t serial_data[2] = { command::PLAY };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( song_number_ > 4 ) { return INVALID_PARAMETER; }
+	
+	serial_data[1] = song_number_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

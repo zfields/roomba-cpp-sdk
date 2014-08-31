@@ -586,6 +586,44 @@ TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, play$WHENCalledTHEN141AndParametersAreWrittenToTheSerialBus) {
+	OI_tc.play(1);
+	
+	ASSERT_EQ(141, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(1, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, play$WHENSongNumberIsGreaterThan4THENParameterIsInvalid) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.play(5));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, play$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.play(5));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, play$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.play(1));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, play$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.play(1));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, play$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.play(1));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.play(1));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.play(1));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	OI_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));

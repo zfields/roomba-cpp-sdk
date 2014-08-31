@@ -497,6 +497,11 @@ class OpenInterface {
 	/// song Roomba is to play.
 	/// \note Available in modes: Safe or Full
 	/// \see OpenInterface::song
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	play (
 		const uint8_t song_number_
