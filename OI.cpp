@@ -334,6 +334,22 @@ OpenInterface::digitLEDsRaw (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::digitLEDsASCII (
+	const char ascii_leds_[4]
+) const {
+	uint8_t serial_data[5] = { command::DIGIT_LEDS_ASCII };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( ascii_leds_[0] < 32 || ascii_leds_[0] > 126 || ascii_leds_[1] < 32 || ascii_leds_[1] > 126 || ascii_leds_[2] < 32 || ascii_leds_[2] > 126 || ascii_leds_[3] < 32 || ascii_leds_[3] > 126 ) { return INVALID_PARAMETER; }
+	
+	*reinterpret_cast<uint32_t *>(&serial_data[1]) = *reinterpret_cast<const uint32_t *>(ascii_leds_);
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

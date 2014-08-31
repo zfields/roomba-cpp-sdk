@@ -946,6 +946,105 @@ TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsRaw$WHENOIModeIsPassiveTHENNoDataIsWr
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENCalledTHEN164AndParametersAreWrittenToTheSerialBus) {
+	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
+	
+	OI_tc.digitLEDsASCII(seven_segments);
+	
+	ASSERT_EQ(164, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(90, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(65, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(75, static_cast<uint8_t>(serial_bus[3]));
+	EXPECT_EQ(33, static_cast<uint8_t>(serial_bus[4]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit3IsGreaterThan126THENParameterIsInvalid) {
+	char seven_segments[4] = { static_cast<char>(127), 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit3IsLessThan32THENParameterIsInvalid) {
+	char seven_segments[4] = { static_cast<char>(31), 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit2IsGreaterThan126THENParameterIsInvalid) {
+	char seven_segments[4] = { 'Z', static_cast<char>(127), 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit2IsLessThan32THENParameterIsInvalid) {
+	char seven_segments[4] = { 'Z', static_cast<char>(31), 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit1IsGreaterThan126THENParameterIsInvalid) {
+	char seven_segments[4] = { 'Z', 'A', static_cast<char>(127), '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit1IsLessThan32THENParameterIsInvalid) {
+	char seven_segments[4] = { 'Z', 'A', static_cast<char>(31), '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit0IsGreaterThan127THENParameterIsInvalid) {
+	char seven_segments[4] = { 'Z', 'A', 'K', static_cast<char>(127) };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit0IsLessThan32THENParameterIsInvalid) {
+	char seven_segments[4] = { 'Z', 'A', 'K', static_cast<char>(31) };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	char seven_segments[4] = { 'Z', 'A', 'K', static_cast<char>(31) };
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, digitLEDsASCII$WHENOIModeIsOffTHENReturnsError) {
+	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, digitLEDsASCII$WHENfnSerialWriteFailsTHENReturnsError) {
+	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, digitLEDsASCII$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsASCII(seven_segments));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsASCII$WHENOIModeIsPassiveTHENReturnsError) {
+	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsASCII(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsASCII$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
+	
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsASCII(seven_segments));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledTHEN167AndParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::SUNDAY | bitmask::MONDAY | bitmask::TUESDAY | bitmask::WEDNESDAY | bitmask::THURSDAY | bitmask::FRIDAY | bitmask::SATURDAY);
 	OpenInterface::clock_time_t clk_time[7];

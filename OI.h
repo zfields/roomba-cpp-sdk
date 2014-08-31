@@ -441,6 +441,11 @@ class OpenInterface {
 	/// from (32-126).
 	/// \note Available in modes: Safe or Full
 	/// \warning Not all ASCII codes are implemented.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	digitLEDsASCII (
 		const char ascii_leds_[4]
