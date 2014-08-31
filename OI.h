@@ -452,10 +452,13 @@ class OpenInterface {
 	) const;
 	
 	/// \brief Push Roomba’s buttons.
-	/// \details This command lets you push Roomba’s buttons. The buttons
-	/// will automatically release after 1/6th of a second.
+	/// \details This command lets you push Roomba’s buttons.
 	/// \param [in] button_mask
+	/// \note The buttons will automatically release after 1/6th of a second.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	buttons (
 		const bitmask::Buttons button_mask_
