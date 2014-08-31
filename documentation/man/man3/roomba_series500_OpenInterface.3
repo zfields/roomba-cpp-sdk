@@ -1,4 +1,4 @@
-.TH "roomba::series500::OpenInterface" 3 "Thu Aug 21 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::OpenInterface" 3 "Sun Aug 31 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -215,10 +215,10 @@ Available in modes: Passive, Safe, or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::buttons (const bitmask::Buttonsbutton_mask_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::buttons (const bitmask::Buttonsbutton_mask_) const"
 
 .PP
-Push Roomba’s buttons\&. This command lets you push Roomba’s buttons\&. The buttons will automatically release after 1/6th of a second\&. 
+Push Roomba’s buttons\&. This command lets you push Roomba’s buttons\&. 
 .PP
 \fBParameters:\fP
 .RS 4
@@ -227,7 +227,18 @@ Push Roomba’s buttons\&. This command lets you push Roomba’s buttons\&. The 
 .PP
 \fBNote:\fP
 .RS 4
+The buttons will automatically release after 1/6th of a second\&. 
+.PP
 Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -280,7 +291,7 @@ The effect and usage of the Control command are identical to the Safe command\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::digitLEDsASCII (const charascii_leds_[4]) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::digitLEDsASCII (const charascii_leds_[4]) const"
 
 .PP
 Controls the 7 segment displays using ASCII character codes\&. This command controls the four 7 segment displays on the Roomba 560 and 570 using ASCII character codes\&. Because a 7 segment display is not sufficient to display alphabetic characters properly, all characters are an approximation 
@@ -300,8 +311,21 @@ Available in modes: Safe or Full
 Not all ASCII codes are implemented\&. 
 .RE
 .PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::digitLEDsRaw (const bitmask::display::DigitNraw_leds_[4]) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::digitLEDsRaw (const bitmask::display::DigitNraw_leds_[4]) const"
 
 .PP
 Controls the 7 segment displays\&. This command controls the four 7 segment displays on the Roomba 560 and 570\&. 
@@ -316,6 +340,19 @@ Controls the 7 segment displays\&. This command controls the four 7 segment disp
 All use red LEDs 
 .PP
 Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -463,7 +500,7 @@ Changes mode to: Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::leds (const bitmask::display::LEDsled_mask_, const uint8_tcolor_, const uint8_tintensity_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::leds (const bitmask::display::LEDsled_mask_, const uint8_tcolor_, const uint8_tintensity_) const"
 
 .PP
 Controls the LEDs\&. This command controls the LEDs common to all models of Roomba 500\&. Clean/Power uses a bicolor (red/green) LED\&. The intensity and color of this LED can be controlled with 8-bit resolution\&. 
@@ -486,6 +523,19 @@ Check Robot uses an orange LED\&.
 Debris uses a blue LED\&. 
 .PP
 Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -511,7 +561,7 @@ Changes mode to: Passive\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::motors (const bitmask::MotorStatesmotor_state_mask_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::motors (const bitmask::MotorStatesmotor_state_mask_) const"
 
 .PP
 Controls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. This command lets you control the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. Motor velocity cannot be controlled with this command, all motors will run at maximum speed when enabled\&. The main brush and side brush can be run in either direction\&. The vacuum only runs forward\&. 
@@ -524,6 +574,19 @@ Controls the forward and backward motion of Roomba’s main brush, side brush, a
 \fBNote:\fP
 .RS 4
 Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -599,7 +662,7 @@ Changes mode to: Passive\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::pwmMotors (const int8_tmain_brush_, const int8_tside_brush_, const int8_tvacuum_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::pwmMotors (const int8_tmain_brush_, const int8_tside_brush_, const int8_tvacuum_) const"
 
 .PP
 Controls the speed of Roomba’s main brush, side brush, and vacuum independently\&. This command lets you control the speed of Roomba’s main brush, side brush, and vacuum independently\&. With each parameter, you specify the duty cycle for the low side driver (max 127)\&. Positive speeds turn the motor in its default (cleaning) direction\&. For example, if you want to control a motor with 25% of battery voltage, choose a duty cycle of 127 * 25% ~ 32\&. 
@@ -624,6 +687,19 @@ Default direction for the side brush is counter-clockwise\&.
 Default direction for the main brush/flapper is inward\&. 
 .PP
 Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -696,11 +772,13 @@ Available in modes: Passive, Safe, or Full\&.
 .br
 \fIOI_NOT_STARTED\fP 
 .br
+\fIINVALID_PARAMETER\fP 
+.br
 \fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::schedulingLEDs (const bitmask::Daysday_mask_, const bitmask::display::SchedulingLEDsled_mask_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::schedulingLEDs (const bitmask::Daysday_mask_, const bitmask::display::SchedulingLEDsled_mask_) const"
 
 .PP
 Controls the state of the scheduling LEDs present on the Roomba 560 and 570\&. 
@@ -717,6 +795,19 @@ Controls the state of the scheduling LEDs present on the Roomba 560 and 570\&.
 All use red LEDs 
 .PP
 Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 

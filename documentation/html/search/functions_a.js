@@ -2,7 +2,7 @@ var searchData=
 [
   ['safe',['safe',['../classroomba_1_1series500_1_1_open_interface.html#a899d23ab053c49ac6555c27f2474b5a0',1,'roomba::series500::OpenInterface']]],
   ['schedule',['schedule',['../classroomba_1_1series500_1_1_open_interface.html#a9dcca64026dc1a9a563e90f0cfe97396',1,'roomba::series500::OpenInterface']]],
-  ['schedulingleds',['schedulingLEDs',['../classroomba_1_1series500_1_1_open_interface.html#a9d7f8c1cca2d76a71fae39d7b29ebe94',1,'roomba::series500::OpenInterface']]],
+  ['schedulingleds',['schedulingLEDs',['../classroomba_1_1series500_1_1_open_interface.html#a85c35ebdfac719346777f2d4e8080431',1,'roomba::series500::OpenInterface']]],
   ['seekdock',['seekDock',['../classroomba_1_1series500_1_1_open_interface.html#a45c9d9d77731030da42f9e3a337c45ed',1,'roomba::series500::OpenInterface']]],
   ['sensors',['sensors',['../classroomba_1_1series500_1_1_open_interface.html#af7b042d7919548d8feae666f097e3392',1,'roomba::series500::OpenInterface']]],
   ['setdaytime',['setDayTime',['../classroomba_1_1series500_1_1_open_interface.html#a68e09461fd2d7e3fbe20b1e70ea2a3a9',1,'roomba::series500::OpenInterface']]],
