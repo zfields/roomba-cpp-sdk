@@ -422,6 +422,11 @@ class OpenInterface {
 	/// \param [in] raw_leds An array representing the four 7 segment display values.
 	/// \note All use red LEDs
 	/// \note Available in modes: Safe or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	digitLEDsRaw (
 		const bitmask::display::DigitN raw_leds_[4]

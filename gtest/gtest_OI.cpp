@@ -816,6 +816,136 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedulingLEDs$WHENOIModeIsPassiveTHENNoDataIs
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsRaw$WHENCalledTHEN163AndParametersAreWrittenToTheSerialBus) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	OI_tc.digitLEDsRaw(seven_segments);
+	
+	ASSERT_EQ(163, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(3, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(12, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(48, static_cast<uint8_t>(serial_bus[3]));
+	EXPECT_EQ(65, static_cast<uint8_t>(serial_bus[4]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsRaw$WHENDigit3MaskIsGreaterThan127THENParameterIsInvalid) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(128),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsRaw$WHENDigit2MaskIsGreaterThan127THENParameterIsInvalid) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(128),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsRaw$WHENDigit1MaskIsGreaterThan127THENParameterIsInvalid) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(128),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsRaw$WHENDigit0MaskIsGreaterThan127THENParameterIsInvalid) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(128)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, digitLEDsRaw$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(128)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsRaw(seven_segments));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, digitLEDsRaw$WHENOIModeIsOffTHENReturnsError) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, digitLEDsRaw$WHENfnSerialWriteFailsTHENReturnsError) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, digitLEDsRaw$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsRaw(seven_segments));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsRaw$WHENOIModeIsPassiveTHENReturnsError) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsRaw(seven_segments));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsRaw$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
+	bitmask::display::DigitN seven_segments[4] = {
+		static_cast<bitmask::display::DigitN>(bitmask::display::A | bitmask::display::B),
+		static_cast<bitmask::display::DigitN>(bitmask::display::C | bitmask::display::D),
+		static_cast<bitmask::display::DigitN>(bitmask::display::E | bitmask::display::F),
+		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
+	};
+	
+	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsRaw(seven_segments));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledTHEN167AndParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::SUNDAY | bitmask::MONDAY | bitmask::TUESDAY | bitmask::WEDNESDAY | bitmask::THURSDAY | bitmask::FRIDAY | bitmask::SATURDAY);
 	OpenInterface::clock_time_t clk_time[7];

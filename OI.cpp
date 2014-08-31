@@ -318,6 +318,22 @@ OpenInterface::schedulingLEDs (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::digitLEDsRaw (
+	const bitmask::display::DigitN raw_leds_[4]
+) const {
+	uint8_t serial_data[5] = { command::DIGIT_LEDS_RAW };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( PASSIVE == _mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
+	if ( raw_leds_[0] > 127 || raw_leds_[1] > 127 || raw_leds_[2] > 127 || raw_leds_[3] > 127 ) { return INVALID_PARAMETER; }
+	
+	*reinterpret_cast<uint32_t *>(&serial_data[1]) = *reinterpret_cast<const uint32_t *>(raw_leds_);
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 
