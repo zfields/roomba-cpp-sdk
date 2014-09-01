@@ -365,6 +365,29 @@ OpenInterface::buttons (
 }
 
 OpenInterface::ReturnCode
+OpenInterface::song (
+	const uint8_t song_number_,
+	const std::vector<note_t> & notes_
+) const {
+	uint8_t serial_data[35] = { command::SONG };
+	uint8_t data_index = 2;
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( song_number_ > 4 || !notes_.size() || notes_.size() > 16 ) { return INVALID_PARAMETER; }
+	
+	serial_data[1] = song_number_;
+	serial_data[2] = notes_.size();
+	
+	for (auto &note : notes_) {
+		serial_data[++data_index] = note.first;
+		serial_data[++data_index] = note.second;
+	}
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
+OpenInterface::ReturnCode
 OpenInterface::play (
 	const uint8_t song_number_
 ) const {

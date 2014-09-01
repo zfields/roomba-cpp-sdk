@@ -33,6 +33,15 @@ class OpenInterface {
 		SUCCESS = 0,
 	};
 	
+	/// \brief A musical note is defined by the frequency
+	/// related pitch and length or duration.
+	/// \details The information is stored in std::pair
+	/// data structure where the first member represents
+	/// the pitch and the second represent a scalar to
+	/// apply to 1/64th of a second (i.e. the value 32 is
+	/// half a second).
+	typedef std::pair<Pitch, uint8_t> note_t;
+	
 	/// \brief Time representation for the scheduling methods
 	/// \details This struct represents time in military time
 	/// with the two fields hour and minute. The values in the
@@ -481,10 +490,14 @@ class OpenInterface {
 	/// same song number, the old song is overwritten.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \see OpenInterface::play
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	song (
 		const uint8_t song_number_,
-		const std::vector<std::pair<Note, uint8_t> > & notes_
+		const std::vector<note_t> & notes_
 	) const;
 	
 	/// \brief Select a song to play.

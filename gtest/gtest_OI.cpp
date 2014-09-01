@@ -586,6 +586,149 @@ TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenToTheSerialBus) {
+	std::vector<OpenInterface::note_t> fur_elise;
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(B3, 11));
+	fur_elise.push_back(std::make_pair(D4, 11));
+	fur_elise.push_back(std::make_pair(C4, 11));
+	fur_elise.push_back(std::make_pair(A3, 32));
+	
+	OI_tc.song(1, fur_elise);
+	
+	ASSERT_EQ(140, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(1, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(9, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(64, static_cast<uint8_t>(serial_bus[3]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[4]));
+	EXPECT_EQ(63, static_cast<uint8_t>(serial_bus[5]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[6]));
+	EXPECT_EQ(64, static_cast<uint8_t>(serial_bus[7]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[8]));
+	EXPECT_EQ(63, static_cast<uint8_t>(serial_bus[9]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[10]));
+	EXPECT_EQ(64, static_cast<uint8_t>(serial_bus[11]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[12]));
+	EXPECT_EQ(59, static_cast<uint8_t>(serial_bus[13]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[14]));
+	EXPECT_EQ(62, static_cast<uint8_t>(serial_bus[15]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[16]));
+	EXPECT_EQ(60, static_cast<uint8_t>(serial_bus[17]));
+	EXPECT_EQ(11, static_cast<uint8_t>(serial_bus[18]));
+	EXPECT_EQ(57, static_cast<uint8_t>(serial_bus[19]));
+	EXPECT_EQ(32, static_cast<uint8_t>(serial_bus[20]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENParameterIsInvalid) {
+	std::vector<OpenInterface::note_t> fur_elise;
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(B3, 11));
+	fur_elise.push_back(std::make_pair(D4, 11));
+	fur_elise.push_back(std::make_pair(C4, 11));
+	fur_elise.push_back(std::make_pair(A3, 32));
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(5, fur_elise));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsZeroNotesTHENParameterIsInvalid) {
+	std::vector<OpenInterface::note_t> no_song;
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(1, no_song));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENParameterIsInvalid) {
+	std::vector<OpenInterface::note_t> fur_elise_ep;
+	fur_elise_ep.push_back(std::make_pair(E4, 11));
+	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise_ep.push_back(std::make_pair(E4, 11));
+	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise_ep.push_back(std::make_pair(E4, 11));
+	fur_elise_ep.push_back(std::make_pair(B3, 11));
+	fur_elise_ep.push_back(std::make_pair(D4, 11));
+	fur_elise_ep.push_back(std::make_pair(C4, 11));
+	fur_elise_ep.push_back(std::make_pair(A3, 32));
+	fur_elise_ep.push_back(std::make_pair(A3, 21));
+	fur_elise_ep.push_back(std::make_pair(A3, 11));
+	fur_elise_ep.push_back(std::make_pair(B3, 32));
+	fur_elise_ep.push_back(std::make_pair(B3, 21));
+	fur_elise_ep.push_back(std::make_pair(B3, 11));
+	fur_elise_ep.push_back(std::make_pair(C4, 43));
+	fur_elise_ep.push_back(std::make_pair(E4, 11));
+	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	std::vector<OpenInterface::note_t> fur_elise;
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(B3, 11));
+	fur_elise.push_back(std::make_pair(D4, 11));
+	fur_elise.push_back(std::make_pair(C4, 11));
+	fur_elise.push_back(std::make_pair(A3, 32));
+	
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(5, fur_elise));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENReturnsError) {
+	std::vector<OpenInterface::note_t> fur_elise;
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(B3, 11));
+	fur_elise.push_back(std::make_pair(D4, 11));
+	fur_elise.push_back(std::make_pair(C4, 11));
+	fur_elise.push_back(std::make_pair(A3, 32));
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.song(1, fur_elise));
+}
+
+TEST_F(SerialTransactionFailureOIModePASSIVE, song$WHENfnSerialWriteFailsTHENReturnsError) {
+	std::vector<OpenInterface::note_t> fur_elise;
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(B3, 11));
+	fur_elise.push_back(std::make_pair(D4, 11));
+	fur_elise.push_back(std::make_pair(C4, 11));
+	fur_elise.push_back(std::make_pair(A3, 32));
+	
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.song(1, fur_elise));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	std::vector<OpenInterface::note_t> fur_elise;
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
+	fur_elise.push_back(std::make_pair(E4, 11));
+	fur_elise.push_back(std::make_pair(B3, 11));
+	fur_elise.push_back(std::make_pair(D4, 11));
+	fur_elise.push_back(std::make_pair(C4, 11));
+	fur_elise.push_back(std::make_pair(A3, 32));
+	
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.song(1, fur_elise));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModeFULL, play$WHENCalledTHEN141AndParametersAreWrittenToTheSerialBus) {
 	OI_tc.play(1);
 	
