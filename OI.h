@@ -52,6 +52,68 @@ class OpenInterface {
 		uint8_t minute; ///< minute (0-59)
 	} clock_time_t;
 	
+	/// \brief Data structure to hold sensor data
+	/// \details Data structure to hold sensor data
+	/// returned by the Roomba sensor array
+	/// \see OpenInterface::sensors
+	/// \see OpenInterface::queryList
+	/// \see OpenInterface::stream
+	/// \see OpenInterface::pauseResumeStream
+	typedef struct sensor_data_t {
+		uint8_t bumps_and_wheel_drops : 8;
+		uint8_t wall : 8;
+		uint8_t cliff_left : 8;
+		uint8_t cliff_front_left : 8;
+		uint8_t cliff_front_right : 8;
+		uint8_t cliff_right : 8;
+		uint8_t virtual_wall : 8;
+		uint8_t motor_overcurrents : 8;
+		uint8_t dirt_detect : 8;
+		uint8_t reserved_1 : 8;
+		uint8_t infrared_character_omni : 8;
+		uint8_t buttons : 8;
+		uint16_t distance : 16;
+		uint16_t angle : 16;
+		uint8_t charging_state : 8;
+		uint16_t voltage : 16;
+		uint16_t current : 16;
+		uint8_t temperature : 8;
+		uint16_t battery_charge : 16;
+		uint16_t battery_capacity : 16;
+		uint16_t wall_signal : 16;
+		uint16_t cliff_left_signal : 16;
+		uint16_t cliff_front_left_signal : 16;
+		uint16_t cliff_front_right_signal : 16;
+		uint16_t cliff_right_signal : 16;
+		uint8_t reserved_2 : 8;
+		uint16_t reserved_3 : 16;
+		uint8_t charging_sources_available : 8;
+		uint8_t oi_mode : 8;
+		uint8_t song_number : 8;
+		uint8_t song_playing : 8;
+		uint8_t number_of_stream_packets : 8;
+		uint16_t requested_velocity : 16;
+		uint16_t requested_radius : 16;
+		uint16_t requested_right_velocity : 16;
+		uint16_t requested_left_velocity : 16;
+		uint16_t right_encoder_counts : 16;
+		uint16_t left_encoder_counts : 16;
+		uint8_t light_bumper : 8;
+		uint16_t light_bump_left_signal : 16;
+		uint16_t light_bump_front_left_signal : 16;
+		uint16_t light_bump_center_left_signal : 16;
+		uint16_t light_bump_center_right_signal : 16;
+		uint16_t light_bump_front_right_signal : 16;
+		uint16_t light_bump_right_signal : 16;
+		uint8_t infrared_character_left : 8;
+		uint8_t infrared_character_right : 8;
+		uint16_t left_motor_current : 16;
+		uint16_t right_motor_current : 16;
+		uint16_t main_brush_motor_current : 16;
+		uint16_t side_brush_motor_current : 16;
+		uint8_t stasis : 8;
+	} sensor_data_t;
+
 	OpenInterface (
 		void
 	);
@@ -576,6 +638,7 @@ class OpenInterface {
   protected:
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
 	OIMode _mode;
+	sensor_data_t _sensor_data;
 };
 
 } // namespace series500
