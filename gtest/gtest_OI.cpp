@@ -767,6 +767,55 @@ TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, sensors$WHENCalledTHEN142AndParametersAreWrittenToTheSerialBus) {
+	OI_tc.sensors(sensor::DIRT_DETECT);
+	
+	ASSERT_EQ(142, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(15, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween0And58InclusiveTHENParameterIsValid) {
+	for ( int i = 0 ; i <= 58 ; ++i ) {
+		EXPECT_EQ(OpenInterface::SUCCESS, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween59And99InclusiveTHENParameterIsInvalid) {
+	for ( int i = 59 ; i <= 99 ; ++i ) {
+		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween100And107InclusiveTHENParameterIsValid) {
+	for ( int i = 100 ; i <= 107 ; ++i ) {
+		EXPECT_EQ(OpenInterface::SUCCESS, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsGreaterThan107THENParameterIsInvalid) {
+	for ( int i = 108 ; i < 256 ; ++i ) {
+		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, sensors$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(72)));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, sensors$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.sensors(sensor::DIRT_DETECT));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, sensors$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.sensors(sensor::DIRT_DETECT));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, sensors$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.sensors(sensor::DIRT_DETECT));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	OI_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));

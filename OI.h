@@ -594,6 +594,10 @@ class OpenInterface {
 	/// through 107 indicate specific subgroups of the sensor
 	/// data.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	sensors (
 		const sensor::PacketId packet_id_
@@ -637,8 +641,9 @@ class OpenInterface {
 	
   protected:
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
+	static const uint8_t OFFSET[64];
 	OIMode _mode;
-	sensor_data_t _sensor_data;
+	sensor_data_t *_sensor_data;
 };
 
 } // namespace series500

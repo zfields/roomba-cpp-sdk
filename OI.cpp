@@ -403,6 +403,20 @@ OpenInterface::play (
 	return SUCCESS;
 }
 
+OpenInterface::ReturnCode
+OpenInterface::sensors (
+	const sensor::PacketId packet_id_
+) const {
+	uint8_t serial_data[2] = { command::SENSORS };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( (packet_id_ > 58 && packet_id_ < 100) || packet_id_ > 107 ) { return INVALID_PARAMETER; }
+
+	serial_data[1] = packet_id_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
 } // namespace series500
 } // namespace roomba
 
