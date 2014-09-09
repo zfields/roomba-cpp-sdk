@@ -6,6 +6,9 @@
 
 #include <cstring>
 
+//TODO: Confirm sensor packets are not requested more than every 15ms
+//TODO: Confirm requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
+
 using namespace roomba::series500;
 
   /******************/
