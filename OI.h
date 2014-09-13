@@ -578,6 +578,15 @@ class OpenInterface {
 	/// (which has poor real-time characteristics) with
 	/// software running on a desktop computer.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \warning It is up to you not to request more data
+	/// than can be sent at the current baud rate in the 15
+	/// ms time slot. If more data is requested, the data
+	/// stream will eventually become corrupted. This can be
+	/// confirmed by checking the checksum.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	stream (
 		const std::vector<sensor::PacketId> & sensor_list_
@@ -596,6 +605,25 @@ class OpenInterface {
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
 	OIMode _mode;
 	sensor_data_t *_sensor_data;
+	
+	/// \brief Core functionality of both queryList() and stream()
+	/// \details Both queryList() and stream() have identical
+	/// implementations. The only difference is the original Open
+	/// Interface opcode, which tells the the Roomba to send the
+	/// data once or until asked not to.
+	/// \param [in] opcode Send either QUERY_LIST or STREAM
+	/// \param [in] sensor_list A vector of packet ids
+	/// \see OpenInterface::queryList
+	/// \see OpenInterface::stream
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
+	ReturnCode
+	pollSensors (
+		const command::OpCode opcode_,
+		const std::vector<sensor::PacketId> & sensor_list_
+	) const;
 };
 
 } // namespace series500

@@ -422,12 +422,28 @@ OpenInterface::ReturnCode
 OpenInterface::queryList (
 	const std::vector<sensor::PacketId> & sensor_list_
 ) const {
+	return pollSensors(command::QUERY_LIST, sensor_list_);
+}
+
+OpenInterface::ReturnCode
+OpenInterface::stream (
+	const std::vector<sensor::PacketId> & sensor_list_
+) const {
+	return pollSensors(command::STREAM, sensor_list_);
+}
+
+OpenInterface::ReturnCode
+OpenInterface::pollSensors (
+	const command::OpCode opcode_,
+	const std::vector<sensor::PacketId> & sensor_list_
+) const {
 	const uint8_t bytes = sensor_list_.size();
 	uint8_t serial_data[(2 + bytes)];
 	uint8_t data_index = 1;
 	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	if ( command::QUERY_LIST != opcode_ && command::STREAM != opcode_ ) { return INVALID_PARAMETER; }
 	
-	serial_data[0] = command::QUERY_LIST;
+	serial_data[0] = opcode_;
 	serial_data[1] = bytes;
 	
 	for (auto &sensor : sensor_list_) {
