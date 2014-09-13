@@ -143,9 +143,9 @@ OpenInterface::schedule (
 	
 	if ( day_mask_ && clock_times_ ) {
 		serial_data[1] = day_mask_;
-		for (uint8_t day = 0, parameter_index = 0, serial_index = 2 ; day < 7 ; ++day, parameter_index += !!(day_mask_ & (1 << day)), serial_index = ((2 * day) + 2)) {
+		for (uint8_t day = 0, parameter_index = 0, serial_index = 2 ; day < 7 ; ++day, parameter_index += ((day_mask_ >> day) & 1), serial_index = ((2 * day) + 2)) {
 			// Test conditions without branching logic to allow for code pipelining and parallel execution with loop unroll
-			*reinterpret_cast<uint16_t *>(&serial_data[serial_index]) = ((!!(day_mask_ & (1 << day)) && (clock_times_[parameter_index].hour >= 0 && clock_times_[parameter_index].hour < 23) && (clock_times_[parameter_index].minute >= 0 && clock_times_[parameter_index].minute <= 59)) * (*reinterpret_cast<const uint16_t *>(&clock_times_[parameter_index])));
+			*reinterpret_cast<uint16_t *>(&serial_data[serial_index]) = ((((day_mask_ >> day) & 1) && (clock_times_[parameter_index].hour >= 0 && clock_times_[parameter_index].hour < 23) && (clock_times_[parameter_index].minute >= 0 && clock_times_[parameter_index].minute <= 59)) * (*reinterpret_cast<const uint16_t *>(&clock_times_[parameter_index])));
 		}
 	}
 	
@@ -417,6 +417,30 @@ OpenInterface::sensors (
 	
 	return SUCCESS;
 }
+
+OpenInterface::ReturnCode
+OpenInterface::queryList (
+	const std::vector<sensor::PacketId> & sensor_list_
+) const {
+	const uint8_t bytes = sensor_list_.size();
+	uint8_t serial_data[(2 + bytes)];
+	uint8_t data_index = 1;
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+	
+	serial_data[0] = command::QUERY_LIST;
+	serial_data[1] = bytes;
+	
+	for (auto &sensor : sensor_list_) {
+		if ( (sensor > 58 && sensor < 100) || sensor > 107 ) { continue; }
+		serial_data[++data_index] = sensor;
+	}
+	if ( 1 == data_index ) { return INVALID_PARAMETER; }
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
 } // namespace series500
 } // namespace roomba
 

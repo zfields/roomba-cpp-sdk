@@ -6,6 +6,8 @@
 
 #include <cstring>
 
+//TODO: Hardware test Roomba for reaction to bad bytes and reduce data scrubbing if possible
+//TODO: Make all sure no data is written to the serial bus for each type of invalid parameter
 //TODO: Confirm sensor packets are not requested more than every 15ms
 //TODO: Confirm requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
 
@@ -796,7 +798,7 @@ TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween100And107Inclusi
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsGreaterThan107THENParameterIsInvalid) {
-	for ( int i = 108 ; i < 256 ; ++i ) {
+	for ( int i = 108 ; i <= 255 ; ++i ) {
 		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
 	}
 }
@@ -1003,6 +1005,108 @@ TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENReturnsError) 
 
 TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
 	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENCalledTHEN149AndParametersAreWrittenToTheSerialBus) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	OI_tc.queryList(sensor_list);
+	
+	ASSERT_EQ(149, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(2, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(29, static_cast<uint8_t>(serial_bus[2]));
+	EXPECT_EQ(13, static_cast<uint8_t>(serial_bus[3]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsEmptyTHENParameterIsInvalid) {
+	std::vector<sensor::PacketId> sensor_list;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsEmptyTHENNoDataIsWrittenToSerialBus) {
+	std::vector<sensor::PacketId> sensor_list;
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween0And58InclusiveTHENValueIsAccepted) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
+	for ( int i = 0 ; i <= 58 ; ++i ) {
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
+		OI_tc.queryList(sensor_list);
+		EXPECT_EQ(29, static_cast<uint8_t>(serial_bus[2]));
+		EXPECT_EQ(i, static_cast<uint8_t>(serial_bus[3]));
+		EXPECT_EQ(13, static_cast<uint8_t>(serial_bus[4]));
+		sensor_list.pop_back();
+		sensor_list.pop_back();
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween59And99InclusiveTHENValueIsIgnored) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
+	for ( int i = 59 ; i <= 99 ; ++i ) {
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
+		OI_tc.queryList(sensor_list);
+		EXPECT_EQ(29, static_cast<uint8_t>(serial_bus[2]));
+		EXPECT_EQ(13, static_cast<uint8_t>(serial_bus[3]));
+		sensor_list.pop_back();
+		sensor_list.pop_back();
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween100And107InclusiveTHENValueIsAccepted) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
+	for ( int i = 100 ; i <= 107 ; ++i ) {
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
+		OI_tc.queryList(sensor_list);
+		EXPECT_EQ(29, static_cast<uint8_t>(serial_bus[2]));
+		EXPECT_EQ(i, static_cast<uint8_t>(serial_bus[3]));
+		EXPECT_EQ(13, static_cast<uint8_t>(serial_bus[4]));
+		sensor_list.pop_back();
+		sensor_list.pop_back();
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween108And255InclusiveTHENValueIsIgnored) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
+	for ( int i = 108 ; i <= 255 ; ++i ) {
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
+		OI_tc.queryList(sensor_list);
+		EXPECT_EQ(29, static_cast<uint8_t>(serial_bus[2]));
+		EXPECT_EQ(13, static_cast<uint8_t>(serial_bus[3]));
+		sensor_list.pop_back();
+		sensor_list.pop_back();
+	}
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENAllSensorsAreIgnoredTHENParameterIsInvalid) {
+	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENAllSensorsAreIgnoredTHENNoDataIsWrittenToSerialBus) {
+	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
+	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENReturnsError) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.queryList(sensor_list));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, queryList$WHENfnSerialWriteFailsTHENReturnsError) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.queryList(sensor_list));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.queryList(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 

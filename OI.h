@@ -557,18 +557,22 @@ class OpenInterface {
 	/// sensor packets. The result is returned once, as
 	/// in the Sensors command. The robot returns the
 	/// packets in the order you specify.
-	/// \param packet_ids A vector of packet ids
+	/// \param [in] sensor_list A vector of packet ids
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval INVALID_PARAMETER
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	queryList (
-		const std::vector<sensor::PacketId> & packet_ids_
+		const std::vector<sensor::PacketId> & sensor_list_
 	) const;
 	
 	/// \brief Start a data stream based on a query list.
 	/// \details This command starts a stream of data packets.
 	/// The list of packets requested is sent every 15 ms,
 	/// which is the rate Roomba uses to update data.
-	/// \param 
+	/// \param [in] sensor_list A vector of packet ids
 	/// \note This method of requesting sensor data is best
 	/// if you are controlling Roomba over a wireless network
 	/// (which has poor real-time characteristics) with
@@ -576,7 +580,7 @@ class OpenInterface {
 	/// \note Available in modes: Passive, Safe, or Full.
 	ReturnCode
 	stream (
-		const std::vector<sensor::PacketId> & packet_ids_
+		const std::vector<sensor::PacketId> & sensor_list_
 	) const;
 	
 	/// \brief Stop and restart the stream.
@@ -590,7 +594,6 @@ class OpenInterface {
 	
   protected:
 	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
-	static const uint8_t OFFSET[64];
 	OIMode _mode;
 	sensor_data_t *_sensor_data;
 };
