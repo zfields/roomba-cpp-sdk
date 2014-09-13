@@ -34,9 +34,10 @@ struct \hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t
  \}}\label{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}
 
 \begin{DoxyCompactList}\small\item\em Return codes. \end{DoxyCompactList}\item 
-typedef struct \\*
-\hyperlink{structroomba_1_1series500_1_1_open_interface_1_1clock__time__t}{roomba\+::series500\+::\+Open\+Interface\+::clock\+\_\+time\+\_\+t} \hyperlink{classroomba_1_1series500_1_1_open_interface_a28e1b87b0cce69349c416a7fcda3d624}{clock\+\_\+time\+\_\+t}
-\begin{DoxyCompactList}\small\item\em Time representation for the scheduling methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+typedef std\+::pair$<$ Pitch, uint8\+\_\+t $>$ \hyperlink{classroomba_1_1series500_1_1_open_interface_a0c3ce39185b625b630aa156be63fd57c}{note\+\_\+t}
+\begin{DoxyCompactList}\small\item\em A musical note is defined by the frequency related pitch and length or duration. \end{DoxyCompactList}\item 
+typedef uint8\+\_\+t $\ast$ \hyperlink{classroomba_1_1series500_1_1_open_interface_a292dd23045ef4827673822518f08fb0f}{sensor\+\_\+data\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Data type returned by sensor methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -90,18 +91,23 @@ void \hyperlink{classroomba_1_1series500_1_1_open_interface_a8a4ce79aebcc3a1c79e
 \begin{DoxyCompactList}\small\item\em Controls the 7 segment displays using A\+S\+C\+I\+I character codes. \end{DoxyCompactList}\item 
 \hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a1f9fcb9cf787c15c7323c0e56755579a}{buttons} (const bitmask\+::\+Buttons button\+\_\+mask\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Push Roomba’s buttons. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a316b270bdf96b6b89c9ecc8a4f7a39bd}{song} (const uint8\+\_\+t song\+\_\+number\+\_\+, const std\+::vector$<$ std\+::pair$<$ Note, uint8\+\_\+t $>$ $>$ \&notes\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a1947d81511ad33a3ffe8432fa5957845}{song} (const uint8\+\_\+t song\+\_\+number\+\_\+, const std\+::vector$<$ \hyperlink{classroomba_1_1series500_1_1_open_interface_a0c3ce39185b625b630aa156be63fd57c}{note\+\_\+t} $>$ \&notes\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Specify songs to be played at a later time. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a89c1c582ee1254d283fdb3ebbeb6ba67}{play} (const uint8\+\_\+t song\+\_\+number\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a45a0be479446315917583b5f58108952}{play} (const uint8\+\_\+t song\+\_\+number\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Select a song to play. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_af7b042d7919548d8feae666f097e3392}{sensors} (const sensor\+::\+Packet\+Id packet\+\_\+id\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a60b670d97a0f3ab5695529a00b81c73f}{sensors} (const sensor\+::\+Packet\+Id packet\+\_\+id\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Request sensor data. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a1a1f69be99bb2833580bddcaa60bf15a}{query\+List} (const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&packet\+\_\+ids\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{query\+List} (const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&sensor\+\_\+list\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Request list of sensor packets. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a902485dee6502c9f89627ae824c5b1d1}{stream} (const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&packet\+\_\+ids\+\_\+) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{stream} (const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&sensor\+\_\+list\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Start a data stream based on a query list. \end{DoxyCompactList}\item 
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a610783954ac02c9a6ee349e864143554}{pause\+Resume\+Stream} (void) const 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_adc45affe626cbf44e50c26b472cd8c00}{pause\+Resume\+Stream} (const bool resume\+\_\+) const 
 \begin{DoxyCompactList}\small\item\em Stop and restart the stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a43fc2ae1216e57cfb46901331b9ab4c7}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1_open_interface_a92e659d63fe2191abd702a4c23326969}{poll\+Sensors} (const command\+::\+Op\+Code opcode\+\_\+, const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&sensor\+\_\+list\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Core functionality of both \hyperlink{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{query\+List()} and \hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{stream()} \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -110,6 +116,9 @@ uint8\+\_\+t $\ast$, size\+\_\+t)$>$ {\bfseries \+\_\+fn\+Serial\+Write}}\label{
 
 \item 
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a2491dd5d1efe4358d7d5b76e272163c3}{O\+I\+Mode {\bfseries \+\_\+mode}}\label{classroomba_1_1series500_1_1_open_interface_a2491dd5d1efe4358d7d5b76e272163c3}
+
+\item 
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a127e0b53fc665ae71cbc3f15d45158f2}{\hyperlink{classroomba_1_1series500_1_1_open_interface_a292dd23045ef4827673822518f08fb0f}{sensor\+\_\+data\+\_\+t} $\ast$ {\bfseries \+\_\+sensor\+\_\+data}}\label{classroomba_1_1series500_1_1_open_interface_a127e0b53fc665ae71cbc3f15d45158f2}
 
 \end{DoxyCompactItemize}
 
@@ -120,14 +129,21 @@ The Roomba Open Interface (O\+I) class.
 The Roomba Open Interface (O\+I) is a software interface for controlling and manipulating Roomba’s behavior. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a P\+C or microcontroller that is connected to the Mini-\/\+D\+I\+N connector. 
 
 \subsection{Member Typedef Documentation}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a28e1b87b0cce69349c416a7fcda3d624}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!clock\+\_\+time\+\_\+t@{clock\+\_\+time\+\_\+t}}
-\index{clock\+\_\+time\+\_\+t@{clock\+\_\+time\+\_\+t}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{clock\+\_\+time\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf roomba\+::series500\+::\+Open\+Interface\+::clock\+\_\+time\+\_\+t}  {\bf roomba\+::series500\+::\+Open\+Interface\+::clock\+\_\+time\+\_\+t}}}\label{classroomba_1_1series500_1_1_open_interface_a28e1b87b0cce69349c416a7fcda3d624}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a0c3ce39185b625b630aa156be63fd57c}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!note\+\_\+t@{note\+\_\+t}}
+\index{note\+\_\+t@{note\+\_\+t}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
+\subsubsection[{note\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::pair$<$Pitch, uint8\+\_\+t$>$ {\bf roomba\+::series500\+::\+Open\+Interface\+::note\+\_\+t}}}\label{classroomba_1_1series500_1_1_open_interface_a0c3ce39185b625b630aa156be63fd57c}
 
 
-Time representation for the scheduling methods. 
+A musical note is defined by the frequency related pitch and length or duration. 
 
-This struct represents time in military time with the two fields hour and minute. The values in the structure are initialized to zero upon instantiation. 
+The information is stored in std\+::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i.\+e. the value 32 is half a second). \hypertarget{classroomba_1_1series500_1_1_open_interface_a292dd23045ef4827673822518f08fb0f}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!sensor\+\_\+data\+\_\+t@{sensor\+\_\+data\+\_\+t}}
+\index{sensor\+\_\+data\+\_\+t@{sensor\+\_\+data\+\_\+t}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
+\subsubsection[{sensor\+\_\+data\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint8\+\_\+t$\ast$ {\bf roomba\+::series500\+::\+Open\+Interface\+::sensor\+\_\+data\+\_\+t}}}\label{classroomba_1_1series500_1_1_open_interface_a292dd23045ef4827673822518f08fb0f}
+
+
+Data type returned by sensor methods. 
+
+Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see \hyperlink{classroomba_1_1series500_1_1_open_interface_a60b670d97a0f3ab5695529a00b81c73f}{Open\+Interface\+::sensors} see \hyperlink{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{Open\+Interface\+::query\+List} see \hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{Open\+Interface\+::stream} 
 
 \subsection{Member Function Documentation}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a87e093214d5f7542062ac180d109f4fa}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!baud@{baud}}
@@ -596,27 +612,44 @@ Direct access sends bytes directly to the Open Interface. Direct access is poten
 \begin{DoxyWarning}{Warning}
 Use of direct access will invalidate the current state of the object, and will incur the overhead associated with polling the state of the device to restore the current state. 
 \end{DoxyWarning}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a610783954ac02c9a6ee349e864143554}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!pause\+Resume\+Stream@{pause\+Resume\+Stream}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_adc45affe626cbf44e50c26b472cd8c00}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!pause\+Resume\+Stream@{pause\+Resume\+Stream}}
 \index{pause\+Resume\+Stream@{pause\+Resume\+Stream}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{pause\+Resume\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::pause\+Resume\+Stream (
+\subsubsection[{pause\+Resume\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::pause\+Resume\+Stream (
 \begin{DoxyParamCaption}
-\item[{void}]{}
+\item[{const bool}]{resume\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a610783954ac02c9a6ee349e864143554}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_adc45affe626cbf44e50c26b472cd8c00}
 
 
 Stop and restart the stream. 
 
-This command lets you stop and restart the steam without clearing the list of requested packets. \begin{DoxyNote}{Note}
+This command lets you stop and restart the steam without clearing the list of requested packets. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em resume} & An argument of false stops the stream without clearing the list of requested packets. An argument of true starts the stream using the list of packets last requested. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a89c1c582ee1254d283fdb3ebbeb6ba67}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!play@{play}}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{Open\+Interface\+::stream} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a45a0be479446315917583b5f58108952}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!play@{play}}
 \index{play@{play}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{play}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::play (
+\subsubsection[{play}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::play (
 \begin{DoxyParamCaption}
 \item[{const uint8\+\_\+t}]{song\+\_\+number\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a89c1c582ee1254d283fdb3ebbeb6ba67}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a45a0be479446315917583b5f58108952}
 
 
 Select a song to play. 
@@ -630,8 +663,56 @@ This command lets you select a song to play from the songs added to Roomba using
 Available in modes\+: Safe or Full 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a316b270bdf96b6b89c9ecc8a4f7a39bd}{Open\+Interface\+::song} 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a1947d81511ad33a3ffe8432fa5957845}{Open\+Interface\+::song} 
 \end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a92e659d63fe2191abd702a4c23326969}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!poll\+Sensors@{poll\+Sensors}}
+\index{poll\+Sensors@{poll\+Sensors}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
+\subsubsection[{poll\+Sensors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::poll\+Sensors (
+\begin{DoxyParamCaption}
+\item[{const command\+::\+Op\+Code}]{opcode\+\_\+, }
+\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{sensor\+\_\+list\+\_\+}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classroomba_1_1series500_1_1_open_interface_a92e659d63fe2191abd702a4c23326969}
+
+
+Core functionality of both \hyperlink{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{query\+List()} and \hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{stream()} 
+
+Both \hyperlink{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{query\+List()} and \hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{stream()} have identical implementations. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em opcode} & Send either Q\+U\+E\+R\+Y\+\_\+\+L\+I\+S\+T or S\+T\+R\+E\+A\+M \\
+\hline
+\mbox{\tt in}  & {\em sensor\+\_\+list} & A vector of packet ids \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{Open\+Interface\+::query\+List} 
+
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{Open\+Interface\+::stream} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_ae1abe0755730f35dd98d626c48d3f355}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!power@{power}}
 \index{power@{power}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{power}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::power (
@@ -703,25 +784,36 @@ Available in modes\+: Safe or Full.
 {\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
 \hline
 \end{DoxyRetVals}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a1a1f69be99bb2833580bddcaa60bf15a}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!query\+List@{query\+List}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!query\+List@{query\+List}}
 \index{query\+List@{query\+List}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{query\+List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::query\+List (
+\subsubsection[{query\+List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::query\+List (
 \begin{DoxyParamCaption}
-\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{packet\+\_\+ids\+\_\+}
+\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{sensor\+\_\+list\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a1a1f69be99bb2833580bddcaa60bf15a}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_aeb6ba5e140e821bb0cf1c9dd70465fc0}
 
 
 Request list of sensor packets. 
 
 This command lets you ask for a list of sensor packets. The result is returned once, as in the Sensors command. The robot returns the packets in the order you specify. 
-\begin{DoxyParams}{Parameters}
-{\em packet\+\_\+ids} & A vector of packet ids \\
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em sensor\+\_\+list} & A vector of packet ids \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a899d23ab053c49ac6555c27f2474b5a0}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!safe@{safe}}
 \index{safe@{safe}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{safe}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::safe (
@@ -850,13 +942,13 @@ Changes mode to\+: Passive.
 {\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
 \hline
 \end{DoxyRetVals}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_af7b042d7919548d8feae666f097e3392}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!sensors@{sensors}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a60b670d97a0f3ab5695529a00b81c73f}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!sensors@{sensors}}
 \index{sensors@{sensors}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{sensors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::sensors (
+\subsubsection[{sensors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::sensors (
 \begin{DoxyParamCaption}
 \item[{const sensor\+::\+Packet\+Id}]{packet\+\_\+id\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_af7b042d7919548d8feae666f097e3392}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a60b670d97a0f3ab5695529a00b81c73f}
 
 
 Request sensor data. 
@@ -871,6 +963,17 @@ A value of 100 indicates a packet with all of the sensor data. Values of 0 throu
 
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a68e09461fd2d7e3fbe20b1e70ea2a3a9}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!set\+Day\+Time@{set\+Day\+Time}}
 \index{set\+Day\+Time@{set\+Day\+Time}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{set\+Day\+Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::set\+Day\+Time (
@@ -906,14 +1009,14 @@ Available in modes\+: Passive, Safe, or Full.
 {\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
 \hline
 \end{DoxyRetVals}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a316b270bdf96b6b89c9ecc8a4f7a39bd}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!song@{song}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a1947d81511ad33a3ffe8432fa5957845}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!song@{song}}
 \index{song@{song}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{song}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::song (
+\subsubsection[{song}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::song (
 \begin{DoxyParamCaption}
 \item[{const uint8\+\_\+t}]{song\+\_\+number\+\_\+, }
-\item[{const std\+::vector$<$ std\+::pair$<$ Note, uint8\+\_\+t $>$ $>$ \&}]{notes\+\_\+}
+\item[{const std\+::vector$<$ {\bf note\+\_\+t} $>$ \&}]{notes\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a316b270bdf96b6b89c9ecc8a4f7a39bd}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a1947d81511ad33a3ffe8432fa5957845}
 
 
 Specify songs to be played at a later time. 
@@ -931,8 +1034,19 @@ If you send a second Song command, using the same song number, the old song is o
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{classroomba_1_1series500_1_1_open_interface_a89c1c582ee1254d283fdb3ebbeb6ba67}{Open\+Interface\+::play} 
+\hyperlink{classroomba_1_1series500_1_1_open_interface_a45a0be479446315917583b5f58108952}{Open\+Interface\+::play} 
 \end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 \hypertarget{classroomba_1_1series500_1_1_open_interface_a7126b2aa105dea4b043c7acb4650f7c0}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!spot@{spot}}
 \index{spot@{spot}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
 \subsubsection[{spot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::spot (
@@ -981,25 +1095,44 @@ Changes mode to\+: Passive. Roomba beeps once to acknowledge it is starting from
 {\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
 \hline
 \end{DoxyRetVals}
-\hypertarget{classroomba_1_1series500_1_1_open_interface_a902485dee6502c9f89627ae824c5b1d1}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!stream@{stream}}
+\hypertarget{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}{\index{roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}!stream@{stream}}
 \index{stream@{stream}!roomba\+::series500\+::\+Open\+Interface@{roomba\+::series500\+::\+Open\+Interface}}
-\subsubsection[{stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::stream (
+\subsubsection[{stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Open\+Interface\+::\+Return\+Code} roomba\+::series500\+::\+Open\+Interface\+::stream (
 \begin{DoxyParamCaption}
-\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{packet\+\_\+ids\+\_\+}
+\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{sensor\+\_\+list\+\_\+}
 \end{DoxyParamCaption}
-) const}}\label{classroomba_1_1series500_1_1_open_interface_a902485dee6502c9f89627ae824c5b1d1}
+) const}}\label{classroomba_1_1series500_1_1_open_interface_a990642768282c49110d83da52a4f8e6f}
 
 
 Start a data stream based on a query list. 
 
 This command starts a stream of data packets. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data. 
-\begin{DoxyParams}{Parameters}
-{\em } & note This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-\/time characteristics) with software running on a desktop computer. \\
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em sensor\+\_\+list} & A vector of packet ids \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
+This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-\/time characteristics) with software running on a desktop computer. 
+
 Available in modes\+: Passive, Safe, or Full. 
 \end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+It is up to you not to request more data than can be sent at the current baud rate in the 15 ms time slot. If more data is requested, the data stream will eventually become corrupted. This can be confirmed by checking the checksum. 
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1_open_interface_adc45affe626cbf44e50c26b472cd8c00}{Open\+Interface\+::pause\+Resume\+Stream} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classroomba_1_1series500_1_1_open_interface-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -132,10 +133,12 @@ Public Types</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a43fc2ae1216e57cfb46901331b9ab4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return codes. <br /></td></tr>
 <tr class="separator:a43fc2ae1216e57cfb46901331b9ab4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28e1b87b0cce69349c416a7fcda3d624"><td class="memItemLeft" align="right" valign="top">typedef struct <br class="typebreak" />
-<a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">roomba::series500::OpenInterface::clock_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a28e1b87b0cce69349c416a7fcda3d624">clock_time_t</a></td></tr>
-<tr class="memdesc:a28e1b87b0cce69349c416a7fcda3d624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time representation for the scheduling methods.  <a href="#a28e1b87b0cce69349c416a7fcda3d624">More...</a><br /></td></tr>
-<tr class="separator:a28e1b87b0cce69349c416a7fcda3d624"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c3ce39185b625b630aa156be63fd57c"><td class="memItemLeft" align="right" valign="top">typedef std::pair&lt; Pitch, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a0c3ce39185b625b630aa156be63fd57c">note_t</a></td></tr>
+<tr class="memdesc:a0c3ce39185b625b630aa156be63fd57c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A musical note is defined by the frequency related pitch and length or duration.  <a href="#a0c3ce39185b625b630aa156be63fd57c">More...</a><br /></td></tr>
+<tr class="separator:a0c3ce39185b625b630aa156be63fd57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292dd23045ef4827673822518f08fb0f"><td class="memItemLeft" align="right" valign="top">typedef uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a292dd23045ef4827673822518f08fb0f">sensor_data_t</a></td></tr>
+<tr class="memdesc:a292dd23045ef4827673822518f08fb0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data type returned by sensor methods.  <a href="#a292dd23045ef4827673822518f08fb0f">More...</a><br /></td></tr>
+<tr class="separator:a292dd23045ef4827673822518f08fb0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -214,24 +217,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1f9fcb9cf787c15c7323c0e56755579a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a1f9fcb9cf787c15c7323c0e56755579a">buttons</a> (const bitmask::Buttons button_mask_) const </td></tr>
 <tr class="memdesc:a1f9fcb9cf787c15c7323c0e56755579a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push Roombaâ€™s buttons.  <a href="#a1f9fcb9cf787c15c7323c0e56755579a">More...</a><br /></td></tr>
 <tr class="separator:a1f9fcb9cf787c15c7323c0e56755579a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a316b270bdf96b6b89c9ecc8a4f7a39bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a316b270bdf96b6b89c9ecc8a4f7a39bd">song</a> (const uint8_t song_number_, const std::vector&lt; std::pair&lt; Note, uint8_t &gt; &gt; &amp;notes_) const </td></tr>
-<tr class="memdesc:a316b270bdf96b6b89c9ecc8a4f7a39bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify songs to be played at a later time.  <a href="#a316b270bdf96b6b89c9ecc8a4f7a39bd">More...</a><br /></td></tr>
-<tr class="separator:a316b270bdf96b6b89c9ecc8a4f7a39bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89c1c582ee1254d283fdb3ebbeb6ba67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a89c1c582ee1254d283fdb3ebbeb6ba67">play</a> (const uint8_t song_number_) const </td></tr>
-<tr class="memdesc:a89c1c582ee1254d283fdb3ebbeb6ba67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select a song to play.  <a href="#a89c1c582ee1254d283fdb3ebbeb6ba67">More...</a><br /></td></tr>
-<tr class="separator:a89c1c582ee1254d283fdb3ebbeb6ba67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b042d7919548d8feae666f097e3392"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#af7b042d7919548d8feae666f097e3392">sensors</a> (const sensor::PacketId packet_id_) const </td></tr>
-<tr class="memdesc:af7b042d7919548d8feae666f097e3392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request sensor data.  <a href="#af7b042d7919548d8feae666f097e3392">More...</a><br /></td></tr>
-<tr class="separator:af7b042d7919548d8feae666f097e3392"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a1f69be99bb2833580bddcaa60bf15a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a1a1f69be99bb2833580bddcaa60bf15a">queryList</a> (const std::vector&lt; sensor::PacketId &gt; &amp;packet_ids_) const </td></tr>
-<tr class="memdesc:a1a1f69be99bb2833580bddcaa60bf15a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request list of sensor packets.  <a href="#a1a1f69be99bb2833580bddcaa60bf15a">More...</a><br /></td></tr>
-<tr class="separator:a1a1f69be99bb2833580bddcaa60bf15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a902485dee6502c9f89627ae824c5b1d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a902485dee6502c9f89627ae824c5b1d1">stream</a> (const std::vector&lt; sensor::PacketId &gt; &amp;packet_ids_) const </td></tr>
-<tr class="memdesc:a902485dee6502c9f89627ae824c5b1d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a data stream based on a query list.  <a href="#a902485dee6502c9f89627ae824c5b1d1">More...</a><br /></td></tr>
-<tr class="separator:a902485dee6502c9f89627ae824c5b1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a610783954ac02c9a6ee349e864143554"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a610783954ac02c9a6ee349e864143554">pauseResumeStream</a> (void) const </td></tr>
-<tr class="memdesc:a610783954ac02c9a6ee349e864143554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop and restart the stream.  <a href="#a610783954ac02c9a6ee349e864143554">More...</a><br /></td></tr>
-<tr class="separator:a610783954ac02c9a6ee349e864143554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1947d81511ad33a3ffe8432fa5957845"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a1947d81511ad33a3ffe8432fa5957845">song</a> (const uint8_t song_number_, const std::vector&lt; <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a0c3ce39185b625b630aa156be63fd57c">note_t</a> &gt; &amp;notes_) const </td></tr>
+<tr class="memdesc:a1947d81511ad33a3ffe8432fa5957845"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify songs to be played at a later time.  <a href="#a1947d81511ad33a3ffe8432fa5957845">More...</a><br /></td></tr>
+<tr class="separator:a1947d81511ad33a3ffe8432fa5957845"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45a0be479446315917583b5f58108952"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a45a0be479446315917583b5f58108952">play</a> (const uint8_t song_number_) const </td></tr>
+<tr class="memdesc:a45a0be479446315917583b5f58108952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select a song to play.  <a href="#a45a0be479446315917583b5f58108952">More...</a><br /></td></tr>
+<tr class="separator:a45a0be479446315917583b5f58108952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b670d97a0f3ab5695529a00b81c73f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a60b670d97a0f3ab5695529a00b81c73f">sensors</a> (const sensor::PacketId packet_id_) const </td></tr>
+<tr class="memdesc:a60b670d97a0f3ab5695529a00b81c73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request sensor data.  <a href="#a60b670d97a0f3ab5695529a00b81c73f">More...</a><br /></td></tr>
+<tr class="separator:a60b670d97a0f3ab5695529a00b81c73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb6ba5e140e821bb0cf1c9dd70465fc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#aeb6ba5e140e821bb0cf1c9dd70465fc0">queryList</a> (const std::vector&lt; sensor::PacketId &gt; &amp;sensor_list_) const </td></tr>
+<tr class="memdesc:aeb6ba5e140e821bb0cf1c9dd70465fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request list of sensor packets.  <a href="#aeb6ba5e140e821bb0cf1c9dd70465fc0">More...</a><br /></td></tr>
+<tr class="separator:aeb6ba5e140e821bb0cf1c9dd70465fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a990642768282c49110d83da52a4f8e6f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f">stream</a> (const std::vector&lt; sensor::PacketId &gt; &amp;sensor_list_) const </td></tr>
+<tr class="memdesc:a990642768282c49110d83da52a4f8e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a data stream based on a query list.  <a href="#a990642768282c49110d83da52a4f8e6f">More...</a><br /></td></tr>
+<tr class="separator:a990642768282c49110d83da52a4f8e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc45affe626cbf44e50c26b472cd8c00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#adc45affe626cbf44e50c26b472cd8c00">pauseResumeStream</a> (const bool resume_) const </td></tr>
+<tr class="memdesc:adc45affe626cbf44e50c26b472cd8c00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop and restart the stream.  <a href="#adc45affe626cbf44e50c26b472cd8c00">More...</a><br /></td></tr>
+<tr class="separator:adc45affe626cbf44e50c26b472cd8c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a92e659d63fe2191abd702a4c23326969"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a92e659d63fe2191abd702a4c23326969">pollSensors</a> (const command::OpCode opcode_, const std::vector&lt; sensor::PacketId &gt; &amp;sensor_list_) const </td></tr>
+<tr class="memdesc:a92e659d63fe2191abd702a4c23326969"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core functionality of both <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#aeb6ba5e140e821bb0cf1c9dd70465fc0" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f" title="Start a data stream based on a query list. ">stream()</a>  <a href="#a92e659d63fe2191abd702a4c23326969">More...</a><br /></td></tr>
+<tr class="separator:a92e659d63fe2191abd702a4c23326969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -242,23 +251,41 @@ uint8_t *, size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_fn
 <tr class="memitem:a2491dd5d1efe4358d7d5b76e272163c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2491dd5d1efe4358d7d5b76e272163c3"></a>
 OIMode&#160;</td><td class="memItemRight" valign="bottom"><b>_mode</b></td></tr>
 <tr class="separator:a2491dd5d1efe4358d7d5b76e272163c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a127e0b53fc665ae71cbc3f15d45158f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a127e0b53fc665ae71cbc3f15d45158f2"></a>
+<a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a292dd23045ef4827673822518f08fb0f">sensor_data_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_sensor_data</b></td></tr>
+<tr class="separator:a127e0b53fc665ae71cbc3f15d45158f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Roomba Open Interface (OI) class. </p>
 <p>The Roomba Open Interface (OI) is a software interface for controlling and manipulating Roombaâ€™s behavior. The software interface lets you manipulate Roombaâ€™s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roombaâ€™s serial port by way of a PC or microcontroller that is connected to the Mini-DIN connector. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a28e1b87b0cce69349c416a7fcda3d624"></a>
+<a class="anchor" id="a0c3ce39185b625b630aa156be63fd57c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">roomba::series500::OpenInterface::clock_time_t</a>  <a class="el" href="structroomba_1_1series500_1_1_open_interface_1_1clock__time__t.html">roomba::series500::OpenInterface::clock_time_t</a></td>
+          <td class="memname">typedef std::pair&lt;Pitch, uint8_t&gt; <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a0c3ce39185b625b630aa156be63fd57c">roomba::series500::OpenInterface::note_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Time representation for the scheduling methods. </p>
-<p>This struct represents time in military time with the two fields hour and minute. The values in the structure are initialized to zero upon instantiation. </p>
+<p>A musical note is defined by the frequency related pitch and length or duration. </p>
+<p>The information is stored in std::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i.e. the value 32 is half a second). </p>
+
+</div>
+</div>
+<a class="anchor" id="a292dd23045ef4827673822518f08fb0f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint8_t* <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a292dd23045ef4827673822518f08fb0f">roomba::series500::OpenInterface::sensor_data_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Data type returned by sensor methods. </p>
+<p>Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a60b670d97a0f3ab5695529a00b81c73f" title="Request sensor data. ">OpenInterface::sensors</a> see <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#aeb6ba5e140e821bb0cf1c9dd70465fc0" title="Request list of sensor packets. ">OpenInterface::queryList</a> see <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f" title="Start a data stream based on a query list. ">OpenInterface::stream</a> </p>
 
 </div>
 </div>
@@ -829,31 +856,46 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a610783954ac02c9a6ee349e864143554"></a>
+<a class="anchor" id="adc45affe626cbf44e50c26b472cd8c00"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::pauseResumeStream </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::pauseResumeStream </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>resume_</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Stop and restart the stream. </p>
-<p>This command lets you stop and restart the steam without clearing the list of requested packets. </p><dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd></dl>
+<p>This command lets you stop and restart the steam without clearing the list of requested packets. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">resume</td><td>An argument of false stops the stream without clearing the list of requested packets. An argument of true starts the stream using the list of packets last requested. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f" title="Start a data stream based on a query list. ">OpenInterface::stream</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="a89c1c582ee1254d283fdb3ebbeb6ba67"></a>
+<a class="anchor" id="a45a0be479446315917583b5f58108952"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::play </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::play </td>
           <td>(</td>
           <td class="paramtype">const uint8_t&#160;</td>
           <td class="paramname"><em>song_number_</em></td><td>)</td>
@@ -870,7 +912,72 @@ Changes mode to: Passive. </dd></dl>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Safe or Full </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a316b270bdf96b6b89c9ecc8a4f7a39bd" title="Specify songs to be played at a later time. ">OpenInterface::song</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a1947d81511ad33a3ffe8432fa5957845" title="Specify songs to be played at a later time. ">OpenInterface::song</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_MODE_FOR_REQUESTED_OPERATION</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a92e659d63fe2191abd702a4c23326969"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::pollSensors </td>
+          <td>(</td>
+          <td class="paramtype">const command::OpCode&#160;</td>
+          <td class="paramname"><em>opcode_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; sensor::PacketId &gt; &amp;&#160;</td>
+          <td class="paramname"><em>sensor_list_</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Core functionality of both <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#aeb6ba5e140e821bb0cf1c9dd70465fc0" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f" title="Start a data stream based on a query list. ">stream()</a> </p>
+<p>Both <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#aeb6ba5e140e821bb0cf1c9dd70465fc0" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f" title="Start a data stream based on a query list. ">stream()</a> have identical implementations. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">opcode</td><td>Send either QUERY_LIST or STREAM </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sensor_list</td><td>A vector of packet ids </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#aeb6ba5e140e821bb0cf1c9dd70465fc0" title="Request list of sensor packets. ">OpenInterface::queryList</a> </dd>
+<dd>
+<a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f" title="Start a data stream based on a query list. ">OpenInterface::stream</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -964,15 +1071,15 @@ Available in modes: Safe or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a1a1f69be99bb2833580bddcaa60bf15a"></a>
+<a class="anchor" id="aeb6ba5e140e821bb0cf1c9dd70465fc0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::queryList </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::queryList </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; sensor::PacketId &gt; &amp;&#160;</td>
-          <td class="paramname"><em>packet_ids_</em></td><td>)</td>
+          <td class="paramname"><em>sensor_list_</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -981,11 +1088,20 @@ Available in modes: Safe or Full. </dd></dl>
 <p>Request list of sensor packets. </p>
 <p>This command lets you ask for a list of sensor packets. The result is returned once, as in the Sensors command. The robot returns the packets in the order you specify. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">packet_ids</td><td>A vector of packet ids </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sensor_list</td><td>A vector of packet ids </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1148,12 +1264,12 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af7b042d7919548d8feae666f097e3392"></a>
+<a class="anchor" id="a60b670d97a0f3ab5695529a00b81c73f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::sensors </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::sensors </td>
           <td>(</td>
           <td class="paramtype">const sensor::PacketId&#160;</td>
           <td class="paramname"><em>packet_id_</em></td><td>)</td>
@@ -1172,6 +1288,15 @@ Changes mode to: Passive. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>A value of 100 indicates a packet with all of the sensor data. Values of 0 through 6 and 101 through 107 indicate specific subgroups of the sensor data. </dd>
 <dd>
 Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1222,12 +1347,12 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a316b270bdf96b6b89c9ecc8a4f7a39bd"></a>
+<a class="anchor" id="a1947d81511ad33a3ffe8432fa5957845"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::song </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::song </td>
           <td>(</td>
           <td class="paramtype">const uint8_t&#160;</td>
           <td class="paramname"><em>song_number_</em>, </td>
@@ -1235,7 +1360,7 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::pair&lt; Note, uint8_t &gt; &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a0c3ce39185b625b630aa156be63fd57c">note_t</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>notes_</em>&#160;</td>
         </tr>
         <tr>
@@ -1257,7 +1382,16 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>If you send a second Song command, using the same song number, the old song is overwritten. </dd>
 <dd>
 Available in modes: Passive, Safe, or Full. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a89c1c582ee1254d283fdb3ebbeb6ba67" title="Select a song to play. ">OpenInterface::play</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a45a0be479446315917583b5f58108952" title="Select a song to play. ">OpenInterface::play</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1318,15 +1452,15 @@ Changes mode to: Passive. Roomba beeps once to acknowledge it is starting from â
 
 </div>
 </div>
-<a class="anchor" id="a902485dee6502c9f89627ae824c5b1d1"></a>
+<a class="anchor" id="a990642768282c49110d83da52a4f8e6f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">ReturnCode</a> roomba::series500::OpenInterface::stream </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#a43fc2ae1216e57cfb46901331b9ab4c7">OpenInterface::ReturnCode</a> roomba::series500::OpenInterface::stream </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; sensor::PacketId &gt; &amp;&#160;</td>
-          <td class="paramname"><em>packet_ids_</em></td><td>)</td>
+          <td class="paramname"><em>sensor_list_</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1335,11 +1469,24 @@ Changes mode to: Passive. Roomba beeps once to acknowledge it is starting from â
 <p>Start a data stream based on a query list. </p>
 <p>This command starts a stream of data packets. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td>note This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-time characteristics) with software running on a desktop computer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sensor_list</td><td>A vector of packet ids </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-time characteristics) with software running on a desktop computer. </dd>
+<dd>
+Available in modes: Passive, Safe, or Full. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>It is up to you not to request more data than can be sent at the current baud rate in the 15 ms time slot. If more data is requested, the data stream will eventually become corrupted. This can be confirmed by checking the checksum. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1_open_interface.html#adc45affe626cbf44e50c26b472cd8c00" title="Stop and restart the stream. ">OpenInterface::pauseResumeStream</a> </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1350,7 +1497,7 @@ Changes mode to: Passive. Roomba beeps once to acknowledge it is starting from â
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 31 2014 10:29:36 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Sep 13 2014 04:33:20 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -1,4 +1,4 @@
-.TH "roomba::series500::OpenInterface" 3 "Sun Aug 31 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::OpenInterface" 3 "Sat Sep 13 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -29,11 +29,13 @@ Inherited by \fBOpenInterface_TC\fP\&.
 .br
 .RI "\fIReturn codes\&. \fP"
 .ti -1c
-.RI "typedef struct 
+.RI "typedef std::pair< Pitch, uint8_t > \fBnote_t\fP"
 .br
-\fBroomba::series500::OpenInterface::clock_time_t\fP \fBclock_time_t\fP"
+.RI "\fIA musical note is defined by the frequency related pitch and length or duration\&. \fP"
+.ti -1c
+.RI "typedef uint8_t * \fBsensor_data_t\fP"
 .br
-.RI "\fITime representation for the scheduling methods\&. \fP"
+.RI "\fIData type returned by sensor methods\&. \fP"
 .in -1c
 .SS "Public Member Functions"
 
@@ -139,7 +141,7 @@ Inherited by \fBOpenInterface_TC\fP\&.
 .br
 .RI "\fIPush Roomba’s buttons\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBsong\fP (const uint8_t song_number_, const std::vector< std::pair< Note, uint8_t > > &notes_) const "
+.RI "\fBReturnCode\fP \fBsong\fP (const uint8_t song_number_, const std::vector< \fBnote_t\fP > &notes_) const "
 .br
 .RI "\fISpecify songs to be played at a later time\&. \fP"
 .ti -1c
@@ -151,17 +153,25 @@ Inherited by \fBOpenInterface_TC\fP\&.
 .br
 .RI "\fIRequest sensor data\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBqueryList\fP (const std::vector< sensor::PacketId > &packet_ids_) const "
+.RI "\fBReturnCode\fP \fBqueryList\fP (const std::vector< sensor::PacketId > &sensor_list_) const "
 .br
 .RI "\fIRequest list of sensor packets\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBstream\fP (const std::vector< sensor::PacketId > &packet_ids_) const "
+.RI "\fBReturnCode\fP \fBstream\fP (const std::vector< sensor::PacketId > &sensor_list_) const "
 .br
 .RI "\fIStart a data stream based on a query list\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBpauseResumeStream\fP (void) const "
+.RI "\fBReturnCode\fP \fBpauseResumeStream\fP (const bool resume_) const "
 .br
 .RI "\fIStop and restart the stream\&. \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBReturnCode\fP \fBpollSensors\fP (const command::OpCode opcode_, const std::vector< sensor::PacketId > &sensor_list_) const "
+.br
+.RI "\fICore functionality of both \fBqueryList()\fP and \fBstream()\fP \fP"
 .in -1c
 .SS "Protected Attributes"
 
@@ -174,6 +184,9 @@ uint8_t *, size_t)> \fB_fnSerialWrite\fP"
 .ti -1c
 .RI "OIMode \fB_mode\fP"
 .br
+.ti -1c
+.RI "\fBsensor_data_t\fP * \fB_sensor_data\fP"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -182,10 +195,14 @@ The Roomba Open Interface (OI) class\&.
 The Roomba Open Interface (OI) is a software interface for controlling and manipulating Roomba’s behavior\&. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a PC or microcontroller that is connected to the Mini-DIN connector\&. 
 .SH "Member Typedef Documentation"
 .PP 
-.SS "typedef struct \fBroomba::series500::OpenInterface::clock_time_t\fP  \fBroomba::series500::OpenInterface::clock_time_t\fP"
+.SS "typedef std::pair<Pitch, uint8_t> \fBroomba::series500::OpenInterface::note_t\fP"
 
 .PP
-Time representation for the scheduling methods\&. This struct represents time in military time with the two fields hour and minute\&. The values in the structure are initialized to zero upon instantiation\&. 
+A musical note is defined by the frequency related pitch and length or duration\&. The information is stored in std::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i\&.e\&. the value 32 is half a second)\&. 
+.SS "typedef uint8_t* \fBroomba::series500::OpenInterface::sensor_data_t\fP"
+
+.PP
+Data type returned by sensor methods\&. Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see \fBOpenInterface::sensors\fP see \fBOpenInterface::queryList\fP see \fBOpenInterface::stream\fP 
 .SH "Member Function Documentation"
 .PP 
 .SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::baud (const BaudCodebaud_code_) const"
@@ -608,18 +625,37 @@ Use of direct access will invalidate the current state of the object, and will i
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::pauseResumeStream (void) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::pauseResumeStream (const boolresume_) const"
 
 .PP
 Stop and restart the stream\&. This command lets you stop and restart the steam without clearing the list of requested packets\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIresume\fP An argument of false stops the stream without clearing the list of requested packets\&. An argument of true starts the stream using the list of packets last requested\&. 
+.RE
 .PP
 \fBNote:\fP
 .RS 4
 Available in modes: Passive, Safe, or Full\&. 
 .RE
 .PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::stream\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::play (const uint8_tsong_number_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::play (const uint8_tsong_number_) const"
 
 .PP
 Select a song to play\&. This command lets you select a song to play from the songs added to Roomba using the Song command\&. You must add one or more songs to Roomba using the Song command in order for the Play command to work\&. 
@@ -637,6 +673,50 @@ Available in modes: Safe or Full
 \fBSee also:\fP
 .RS 4
 \fBOpenInterface::song\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::pollSensors (const command::OpCodeopcode_, const std::vector< sensor::PacketId > &sensor_list_) const\fC [protected]\fP"
+
+.PP
+Core functionality of both \fBqueryList()\fP and \fBstream()\fP Both \fBqueryList()\fP and \fBstream()\fP have identical implementations\&. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIopcode\fP Send either QUERY_LIST or STREAM 
+.br
+\fIsensor_list\fP A vector of packet ids 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::queryList\fP 
+.PP
+\fBOpenInterface::stream\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -703,19 +783,30 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::queryList (const std::vector< sensor::PacketId > &packet_ids_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::queryList (const std::vector< sensor::PacketId > &sensor_list_) const"
 
 .PP
 Request list of sensor packets\&. This command lets you ask for a list of sensor packets\&. The result is returned once, as in the Sensors command\&. The robot returns the packets in the order you specify\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpacket_ids\fP A vector of packet ids 
+\fIsensor_list\fP A vector of packet ids 
 .RE
 .PP
 \fBNote:\fP
 .RS 4
 Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -833,7 +924,7 @@ Changes mode to: Passive\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::sensors (const sensor::PacketIdpacket_id_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::sensors (const sensor::PacketIdpacket_id_) const"
 
 .PP
 Request sensor data\&. This command requests the OI to send a packet of sensor data bytes\&. There are 58 different sensor data packets\&. Each provides a value of a specific sensor or group of sensors\&. 
@@ -848,6 +939,17 @@ Request sensor data\&. This command requests the OI to send a packet of sensor d
 A value of 100 indicates a packet with all of the sensor data\&. Values of 0 through 6 and 101 through 107 indicate specific subgroups of the sensor data\&. 
 .PP
 Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -882,7 +984,7 @@ Available in modes: Passive, Safe, or Full\&.
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::song (const uint8_tsong_number_, const std::vector< std::pair< Note, uint8_t > > &notes_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::song (const uint8_tsong_number_, const std::vector< \fBnote_t\fP > &notes_) const"
 
 .PP
 Specify songs to be played at a later time\&. This command lets you specify up to four songs to the OI that you can play at a later time\&. Each song is associated with a song number\&. The Play command uses the song number to identify your song selection\&. Each song can contain up to sixteen notes\&. Each note is associated with a note number that uses MIDI note definitions and a duration that is specified in increments of 1/64th of a second\&. 
@@ -904,6 +1006,17 @@ Available in modes: Passive, Safe, or Full\&.
 \fBSee also:\fP
 .RS 4
 \fBOpenInterface::play\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -949,19 +1062,42 @@ Changes mode to: Passive\&. Roomba beeps once to acknowledge it is starting from
 .RE
 .PP
 
-.SS "\fBReturnCode\fP roomba::series500::OpenInterface::stream (const std::vector< sensor::PacketId > &packet_ids_) const"
+.SS "\fBOpenInterface::ReturnCode\fP roomba::series500::OpenInterface::stream (const std::vector< sensor::PacketId > &sensor_list_) const"
 
 .PP
 Start a data stream based on a query list\&. This command starts a stream of data packets\&. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fI\fP note This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-time characteristics) with software running on a desktop computer\&. 
+\fIsensor_list\fP A vector of packet ids 
 .RE
 .PP
 \fBNote:\fP
 .RS 4
+This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-time characteristics) with software running on a desktop computer\&. 
+.PP
 Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+It is up to you not to request more data than can be sent at the current baud rate in the 15 ms time slot\&. If more data is requested, the data stream will eventually become corrupted\&. This can be confirmed by checking the checksum\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::pauseResumeStream\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
