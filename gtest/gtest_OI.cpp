@@ -1213,6 +1213,33 @@ TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENNoDataIsWrittenToSeri
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, pauseResumeStream$WHENCalledTHEN141AndParametersAreWrittenToTheSerialBus) {
+	OI_tc.pauseResumeStream(false);
+	
+	ASSERT_EQ(150, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(0, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, pauseResumeStream$WHENParameterIsNonZeroTHEN1WrittenToTheSerialBus) {
+	OI_tc.pauseResumeStream(46);
+	
+	ASSERT_EQ(150, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(1, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, pauseResumeStream$WHENOIModeIsOffTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.pauseResumeStream(true));
+}
+
+TEST_F(SerialTransactionFailureOIModeFULL, pauseResumeStream$WHENfnSerialWriteFailsTHENReturnsError) {
+	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.pauseResumeStream(true));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, pauseResumeStream$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
+	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.pauseResumeStream(true));
+	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0]));
+}
+
 TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENCalledTHEN162AndParametersAreWrittenToTheSerialBus) {
 	OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM));
 	

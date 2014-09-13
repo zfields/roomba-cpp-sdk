@@ -583,6 +583,7 @@ class OpenInterface {
 	/// ms time slot. If more data is requested, the data
 	/// stream will eventually become corrupted. This can be
 	/// confirmed by checking the checksum.
+	/// \see OpenInterface::pauseResumeStream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -595,10 +596,18 @@ class OpenInterface {
 	/// \brief Stop and restart the stream.
 	/// \details This command lets you stop and restart the
 	/// steam without clearing the list of requested packets.
+	/// \param [in] resume An argument of false stops the stream
+	/// without clearing the list of requested packets. An
+	/// argument of true starts the stream using the list of
+	/// packets last requested.
 	/// \note Available in modes: Passive, Safe, or Full.
+	/// \see OpenInterface::stream
+	/// \retval SUCCESS
+	/// \retval OI_NOT_STARTED
+	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	pauseResumeStream (
-		void
+		const bool resume_
 	) const;
 	
   protected:

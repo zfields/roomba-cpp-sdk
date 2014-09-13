@@ -433,6 +433,20 @@ OpenInterface::stream (
 }
 
 OpenInterface::ReturnCode
+OpenInterface::pauseResumeStream (
+	const bool resume_
+) const {
+	uint8_t serial_data[2] = { command::PAUSE_RESUME_STREAM };
+	if ( OFF == _mode ) { return OI_NOT_STARTED; }
+
+	serial_data[1] = resume_;
+	
+	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
+	return SUCCESS;
+}
+
+OpenInterface::ReturnCode
 OpenInterface::pollSensors (
 	const command::OpCode opcode_,
 	const std::vector<sensor::PacketId> & sensor_list_
