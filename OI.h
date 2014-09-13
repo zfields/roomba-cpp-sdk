@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "OINames.h"
+#include "OIDefines.h"
 
 namespace roomba {
 namespace series500 {

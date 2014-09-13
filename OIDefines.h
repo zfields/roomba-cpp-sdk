@@ -1,7 +1,7 @@
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
 
-#ifndef OI_NAMES_H
-#define OI_NAMES_H
+#ifndef OI_DEFINES_H
+#define OI_DEFINES_H
 
 #include <cstdint>
 
