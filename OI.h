@@ -133,6 +133,7 @@ class OpenInterface {
 	/// \note The default baud rate at power up is 115200 bps.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
+	/// \retval INVALID_PARAMETER
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
@@ -237,7 +238,6 @@ class OpenInterface {
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
-	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	schedule (
@@ -360,7 +360,6 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
-	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	motors (
@@ -411,7 +410,6 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
-	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	leds (
@@ -428,7 +426,6 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
-	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	schedulingLEDs (
@@ -445,7 +442,6 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
-	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	digitLEDsRaw (
