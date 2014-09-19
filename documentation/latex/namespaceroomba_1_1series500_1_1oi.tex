@@ -1,0 +1,178 @@
+\hypertarget{namespaceroomba_1_1series500_1_1oi}{\section{roomba\+:\+:series500\+:\+:oi Namespace Reference}
+\label{namespaceroomba_1_1series500_1_1oi}\index{roomba\+::series500\+::oi@{roomba\+::series500\+::oi}}
+}
+
+
+The Roomba Open Interface (O\+I)  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder}
+\begin{DoxyCompactList}\small\item\em The Roomba Open Interface (O\+I) \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} static class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_ae5028fe52e1dabe309aff04a45581bfd}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_ae5028fe52e1dabe309aff04a45581bfd}{Baud\+Code} \+: uint8\+\_\+t \{ \\*
+{\bfseries B\+A\+U\+D\+\_\+300} = 0, 
+{\bfseries B\+A\+U\+D\+\_\+600}, 
+{\bfseries B\+A\+U\+D\+\_\+1200}, 
+{\bfseries B\+A\+U\+D\+\_\+2400}, 
+\\*
+{\bfseries B\+A\+U\+D\+\_\+4800}, 
+{\bfseries B\+A\+U\+D\+\_\+9600}, 
+{\bfseries B\+A\+U\+D\+\_\+14400}, 
+{\bfseries B\+A\+U\+D\+\_\+19200}, 
+\\*
+{\bfseries B\+A\+U\+D\+\_\+28800}, 
+{\bfseries B\+A\+U\+D\+\_\+38400}, 
+{\bfseries B\+A\+U\+D\+\_\+57600}, 
+{\bfseries B\+A\+U\+D\+\_\+115200}
+ \}}\label{namespaceroomba_1_1series500_1_1oi_ae5028fe52e1dabe309aff04a45581bfd}
+
+\begin{DoxyCompactList}\small\item\em Baud (Op\+Code 129) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_a1a8bf7d79627d7b145a833e43b8cd214}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_a1a8bf7d79627d7b145a833e43b8cd214}{Pitch} \+: uint8\+\_\+t \{ \\*
+{\bfseries R\+E\+S\+T} = 30, 
+{\bfseries G1} = 31, 
+{\bfseries G1\+\_\+\+S\+H\+A\+R\+P} = 32, 
+{\bfseries A1} = 33, 
+\\*
+{\bfseries A1\+\_\+\+S\+H\+A\+R\+P} = 34, 
+{\bfseries B1} = 35, 
+{\bfseries C2} = 36, 
+{\bfseries C2\+\_\+\+S\+H\+A\+R\+P} = 37, 
+\\*
+{\bfseries D2} = 38, 
+{\bfseries D2\+\_\+\+S\+H\+A\+R\+P} = 39, 
+{\bfseries E2} = 40, 
+{\bfseries F2} = 41, 
+\\*
+{\bfseries F2\+\_\+\+S\+H\+A\+R\+P} = 42, 
+{\bfseries G2} = 43, 
+{\bfseries G2\+\_\+\+S\+H\+A\+R\+P} = 44, 
+{\bfseries A2} = 45, 
+\\*
+{\bfseries A2\+\_\+\+S\+H\+A\+R\+P} = 46, 
+{\bfseries B2} = 47, 
+{\bfseries C3} = 48, 
+{\bfseries C3\+\_\+\+S\+H\+A\+R\+P} = 49, 
+\\*
+{\bfseries D3} = 50, 
+{\bfseries D3\+\_\+\+S\+H\+A\+R\+P} = 51, 
+{\bfseries E3} = 52, 
+{\bfseries F3} = 53, 
+\\*
+{\bfseries F3\+\_\+\+S\+H\+A\+R\+P} = 54, 
+{\bfseries G3} = 55, 
+{\bfseries G3\+\_\+\+S\+H\+A\+R\+P} = 56, 
+{\bfseries A3} = 57, 
+\\*
+{\bfseries A3\+\_\+\+S\+H\+A\+R\+P} = 58, 
+{\bfseries B3} = 59, 
+{\bfseries C4} = 60, 
+{\bfseries M\+I\+D\+D\+L\+E\+\_\+\+C} = 60, 
+\\*
+{\bfseries C4\+\_\+\+S\+H\+A\+R\+P} = 61, 
+{\bfseries D4} = 62, 
+{\bfseries D4\+\_\+\+S\+H\+A\+R\+P} = 63, 
+{\bfseries E4} = 64, 
+\\*
+{\bfseries F4} = 65, 
+{\bfseries F4\+\_\+\+S\+H\+A\+R\+P} = 66, 
+{\bfseries G4} = 67, 
+{\bfseries G4\+\_\+\+S\+H\+A\+R\+P} = 68, 
+\\*
+{\bfseries A4} = 69, 
+{\bfseries A4\+\_\+\+S\+H\+A\+R\+P} = 70, 
+{\bfseries B4} = 71, 
+{\bfseries C5} = 72, 
+\\*
+{\bfseries C5\+\_\+\+S\+H\+A\+R\+P} = 73, 
+{\bfseries D5} = 74, 
+{\bfseries D5\+\_\+\+S\+H\+A\+R\+P} = 75, 
+{\bfseries E5} = 76, 
+\\*
+{\bfseries F5} = 77, 
+{\bfseries F5\+\_\+\+S\+H\+A\+R\+P} = 78, 
+{\bfseries G5} = 79, 
+{\bfseries G5\+\_\+\+S\+H\+A\+R\+P} = 80, 
+\\*
+{\bfseries A5} = 81, 
+{\bfseries A5\+\_\+\+S\+H\+A\+R\+P} = 82, 
+{\bfseries B5} = 83, 
+{\bfseries C6} = 84, 
+\\*
+{\bfseries C6\+\_\+\+S\+H\+A\+R\+P} = 85, 
+{\bfseries D6} = 86, 
+{\bfseries D6\+\_\+\+S\+H\+A\+R\+P} = 87, 
+{\bfseries E6} = 88, 
+\\*
+{\bfseries F6} = 89, 
+{\bfseries F6\+\_\+\+S\+H\+A\+R\+P} = 90, 
+{\bfseries G6} = 91, 
+{\bfseries G6\+\_\+\+S\+H\+A\+R\+P} = 92, 
+\\*
+{\bfseries A6} = 93, 
+{\bfseries A6\+\_\+\+S\+H\+A\+R\+P} = 94, 
+{\bfseries B6} = 95, 
+{\bfseries C7} = 96, 
+\\*
+{\bfseries C7\+\_\+\+S\+H\+A\+R\+P} = 97, 
+{\bfseries D7} = 98, 
+{\bfseries D7\+\_\+\+S\+H\+A\+R\+P} = 99, 
+{\bfseries E7} = 100, 
+\\*
+{\bfseries F7} = 101, 
+{\bfseries F7\+\_\+\+S\+H\+A\+R\+P} = 102, 
+{\bfseries G7} = 103, 
+{\bfseries G7\+\_\+\+S\+H\+A\+R\+P} = 104, 
+\\*
+{\bfseries A7} = 105, 
+{\bfseries A7\+\_\+\+S\+H\+A\+R\+P} = 106, 
+{\bfseries B7} = 107
+ \}}\label{namespaceroomba_1_1series500_1_1oi_a1a8bf7d79627d7b145a833e43b8cd214}
+
+\begin{DoxyCompactList}\small\item\em Song (Op\+Code 140) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_a46858f88a73ed1b4e2ebc7ede94d1d84}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_a46858f88a73ed1b4e2ebc7ede94d1d84}{Day} \+: uint8\+\_\+t \{ \\*
+{\bfseries S\+U\+N\+D\+A\+Y} = 0, 
+{\bfseries M\+O\+N\+D\+A\+Y}, 
+{\bfseries T\+U\+E\+S\+D\+A\+Y}, 
+{\bfseries W\+E\+D\+N\+E\+S\+D\+A\+Y}, 
+\\*
+{\bfseries T\+H\+U\+R\+S\+D\+A\+Y}, 
+{\bfseries F\+R\+I\+D\+A\+Y}, 
+{\bfseries S\+A\+T\+U\+R\+D\+A\+Y}
+ \}}\label{namespaceroomba_1_1series500_1_1oi_a46858f88a73ed1b4e2ebc7ede94d1d84}
+
+\begin{DoxyCompactList}\small\item\em Set Day/\+Time (Op\+Code 168) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_a2d3327fa62385afc4aeb87395832033e}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_a2d3327fa62385afc4aeb87395832033e}{Charging\+State} \+: uint8\+\_\+t \{ \\*
+{\bfseries N\+O\+T\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G} = 0, 
+{\bfseries R\+E\+C\+O\+N\+D\+I\+T\+I\+O\+N\+I\+N\+G\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G}, 
+{\bfseries F\+U\+L\+L\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G}, 
+{\bfseries T\+R\+I\+C\+K\+L\+E\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G}, 
+\\*
+{\bfseries W\+A\+I\+T\+I\+N\+G}, 
+{\bfseries C\+H\+A\+R\+G\+I\+N\+G\+\_\+\+F\+A\+U\+L\+T}
+ \}}\label{namespaceroomba_1_1series500_1_1oi_a2d3327fa62385afc4aeb87395832033e}
+
+\begin{DoxyCompactList}\small\item\em Charging State (Packet\+Id 21) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} \+: uint8\+\_\+t \{ {\bfseries O\+F\+F} = 0, 
+{\bfseries P\+A\+S\+S\+I\+V\+E}, 
+{\bfseries S\+A\+F\+E}, 
+{\bfseries F\+U\+L\+L}
+ \}}\label{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}
+
+\begin{DoxyCompactList}\small\item\em O\+I Mode (Packet\+Id 35) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_a378fc26d801a71128dc75a42a876551d}{{\bfseries \+\_\+mode} (O\+F\+F)}\label{namespaceroomba_1_1series500_1_1oi_a378fc26d801a71128dc75a42a876551d}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The Roomba Open Interface (O\+I) 
+
+The Roomba Open Interface (O\+I) is a software interface for controlling and manipulating Roomba’s behavior. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a P\+C or microcontroller that is connected to the Mini-\/\+D\+I\+N connector. 

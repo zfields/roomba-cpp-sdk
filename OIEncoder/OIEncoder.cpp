@@ -329,9 +329,9 @@ OIEncoder::buttons (
 OIEncoder::ReturnCode
 OIEncoder::song (
 	const uint8_t song_number_,
-	const std::vector<note_t> & notes_
+	const std::vector<note_t> & song_
 ) const {
-	const uint8_t note_count = notes_.size();
+	const uint8_t note_count = song_.size();
 	uint8_t serial_data[(3 + (note_count * 2))];
 	uint8_t data_index = 2;
 	if ( OFF == _mode ) { return OI_NOT_STARTED; }
@@ -341,7 +341,7 @@ OIEncoder::song (
 	serial_data[1] = song_number_;
 	serial_data[2] = note_count;
 	
-	for (auto &note : notes_) {
+	for (auto &note : song_) {
 		serial_data[++data_index] = note.first;
 		serial_data[++data_index] = note.second;
 	}
@@ -402,6 +402,15 @@ OIEncoder::pauseResumeStream (
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
 	
 	return SUCCESS;
+}
+
+void
+OIEncoder::operator() (
+	const std::vector<uint8_t> & data_,
+	const OIMode resulting_baud_,
+	const OIMode resulting_mode_
+) {
+	return;
 }
 
 OIEncoder::ReturnCode

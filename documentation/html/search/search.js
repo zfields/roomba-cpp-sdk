@@ -9,20 +9,22 @@ var indexSectionsWithContent =
 {
   0: "bcdefhlmnopqrs",
   1: "co",
-  2: "bcdeflmopqs",
-  3: "hm",
-  4: "ns",
-  5: "r"
+  2: "r",
+  3: "bcdeflmopqs",
+  4: "hm",
+  5: "ns",
+  6: "bcdopr"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "functions",
-  3: "variables",
-  4: "typedefs",
-  5: "enums"
+  2: "namespaces",
+  3: "functions",
+  4: "variables",
+  5: "typedefs",
+  6: "enums"
 };
 
 function convertToId(search)

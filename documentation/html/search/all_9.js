@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['openinterface',['OpenInterface',['../classroomba_1_1series500_1_1_open_interface.html',1,'roomba::series500']]],
-  ['openinterface_5ftc',['OpenInterface_TC',['../class_open_interface___t_c.html',1,'']]],
-  ['operator_28_29',['operator()',['../classroomba_1_1series500_1_1_open_interface.html#a3da6204e57a44fbd562fe5711126b069',1,'roomba::series500::OpenInterface']]]
+  ['oiencoder',['OIEncoder',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html',1,'roomba::series500::oi']]],
+  ['oiencoder_5ftc',['OIEncoder_TC',['../class_o_i_encoder___t_c.html',1,'']]],
+  ['oimode',['OIMode',['../namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063',1,'roomba::series500::oi']]],
+  ['operator_28_29',['operator()',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aab22c772c7033ffeb8cca563ebea42bd',1,'roomba::series500::oi::OIEncoder']]]
 ];

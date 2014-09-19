@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['safe',['safe',['../classroomba_1_1series500_1_1_open_interface.html#a899d23ab053c49ac6555c27f2474b5a0',1,'roomba::series500::OpenInterface']]],
-  ['schedule',['schedule',['../classroomba_1_1series500_1_1_open_interface.html#a9dcca64026dc1a9a563e90f0cfe97396',1,'roomba::series500::OpenInterface']]],
-  ['schedulingleds',['schedulingLEDs',['../classroomba_1_1series500_1_1_open_interface.html#a85c35ebdfac719346777f2d4e8080431',1,'roomba::series500::OpenInterface']]],
-  ['seekdock',['seekDock',['../classroomba_1_1series500_1_1_open_interface.html#a45c9d9d77731030da42f9e3a337c45ed',1,'roomba::series500::OpenInterface']]],
-  ['sensors',['sensors',['../classroomba_1_1series500_1_1_open_interface.html#a60b670d97a0f3ab5695529a00b81c73f',1,'roomba::series500::OpenInterface']]],
-  ['setdaytime',['setDayTime',['../classroomba_1_1series500_1_1_open_interface.html#a68e09461fd2d7e3fbe20b1e70ea2a3a9',1,'roomba::series500::OpenInterface']]],
-  ['song',['song',['../classroomba_1_1series500_1_1_open_interface.html#a1947d81511ad33a3ffe8432fa5957845',1,'roomba::series500::OpenInterface']]],
-  ['spot',['spot',['../classroomba_1_1series500_1_1_open_interface.html#a7126b2aa105dea4b043c7acb4650f7c0',1,'roomba::series500::OpenInterface']]],
-  ['start',['start',['../classroomba_1_1series500_1_1_open_interface.html#a5a0876c4910ead045cde79d49a99137a',1,'roomba::series500::OpenInterface']]],
-  ['stream',['stream',['../classroomba_1_1series500_1_1_open_interface.html#a990642768282c49110d83da52a4f8e6f',1,'roomba::series500::OpenInterface']]]
+  ['safe',['safe',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a01413ddf9d88eb62229dad6d4ed1801d',1,'roomba::series500::oi::OIEncoder']]],
+  ['schedule',['schedule',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a69fee4c553ddc88a6e3742a8e225dbf5',1,'roomba::series500::oi::OIEncoder']]],
+  ['schedulingleds',['schedulingLEDs',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a42fe70c13a369206c439002c5859a27d',1,'roomba::series500::oi::OIEncoder']]],
+  ['seekdock',['seekDock',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a4995464b64134a5d8fbf5737ddd625be',1,'roomba::series500::oi::OIEncoder']]],
+  ['sensors',['sensors',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a84fbcbb2bca5e68e163c7df0e0cfae7b',1,'roomba::series500::oi::OIEncoder']]],
+  ['setdaytime',['setDayTime',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab45c741ad238ae93592854dd13abe175',1,'roomba::series500::oi::OIEncoder']]],
+  ['song',['song',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a420d412677b5359d413f0baf729a13e3',1,'roomba::series500::oi::OIEncoder']]],
+  ['spot',['spot',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a4a0dacfeeadc3fe61d86cc09a3f4357d',1,'roomba::series500::oi::OIEncoder']]],
+  ['start',['start',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a1601020b3fbf4e02e5cd2cf87fbf4432',1,'roomba::series500::oi::OIEncoder']]],
+  ['stream',['stream',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf',1,'roomba::series500::oi::OIEncoder']]]
 ];

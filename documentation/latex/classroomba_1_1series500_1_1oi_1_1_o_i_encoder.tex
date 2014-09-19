@@ -1,0 +1,1141 @@
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{\section{roomba\+:\+:series500\+:\+:oi\+:\+:O\+I\+Encoder Class Reference}
+\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+}
+
+
+The Roomba Open Interface (O\+I) \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} static class.  
+
+
+
+
+{\ttfamily \#include $<$O\+I\+Encoder.\+h$>$}
+
+Inheritance diagram for roomba\+:\+:series500\+:\+:oi\+:\+:O\+I\+Encoder\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structroomba_1_1series500_1_1oi_1_1_o_i_encoder_1_1clock__time__t}{clock\+\_\+time\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Time representation for the scheduling methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{enum \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \+: int8\+\_\+t \{ \\*
+{\bfseries S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} = -\/100, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} = -\/10, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} = -\/2, 
+{\bfseries O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} = -\/1, 
+\\*
+{\bfseries S\+U\+C\+C\+E\+S\+S} = 0
+ \}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}
+
+\begin{DoxyCompactList}\small\item\em Return codes. \end{DoxyCompactList}\item 
+typedef std\+::pair$<$ \hyperlink{namespaceroomba_1_1series500_1_1oi_a1a8bf7d79627d7b145a833e43b8cd214}{Pitch}, uint8\+\_\+t $>$ \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab4b7bf89bb873d838512791e339694fd}{note\+\_\+t}
+\begin{DoxyCompactList}\small\item\em A musical note is defined by the frequency related pitch and length or duration. \end{DoxyCompactList}\item 
+typedef uint8\+\_\+t $\ast$ \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a19ddaf411fb6201dde68dd359932992b}{sensor\+\_\+data\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Data type returned by sensor methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab22c772c7033ffeb8cca563ebea42bd}{operator()} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data\+\_\+, const \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} resulting\+\_\+baud\+\_\+, const \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} resulting\+\_\+mode\+\_\+=static\+\_\+cast$<$ \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} $>$(-\/1))
+\begin{DoxyCompactList}\small\item\em Direct access to the Open Interface. \end{DoxyCompactList}\item 
+void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac70158274e90759a4d93ccf27a076c47}{connect\+To\+Serial\+Bus} (const std\+::function$<$ size\+\_\+t(const uint8\+\_\+t $\ast$, const size\+\_\+t)$>$ fn\+Serial\+Write\+\_\+)
+\begin{DoxyCompactList}\small\item\em Establishes a serial channel with the hardware. \end{DoxyCompactList}\item 
+void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac4b19dd3355212072fd27700e6d239ad}{end} (void) const 
+\begin{DoxyCompactList}\small\item\em Releases control of the Roomba. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a1601020b3fbf4e02e5cd2cf87fbf4432}{start} (void)
+\begin{DoxyCompactList}\small\item\em Starts the O\+I. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a063c0c08f5d6ac8fd97d2cbdd4e9f3f9}{baud} (const \hyperlink{namespaceroomba_1_1series500_1_1oi_ae5028fe52e1dabe309aff04a45581bfd}{Baud\+Code} baud\+\_\+code\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Sets the baud rate in bits per second (bps). \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32a31a2fb7e5457685428949f14d25c}{control} (void)
+\begin{DoxyCompactList}\small\item\em The effect and usage of the Control command are identical to the Safe command. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a01413ddf9d88eb62229dad6d4ed1801d}{safe} (void)
+\begin{DoxyCompactList}\small\item\em Puts the O\+I into Safe mode. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab8b00ade2c7a6fb9568ef1920734b5a}{full} (void)
+\begin{DoxyCompactList}\small\item\em Puts the O\+I into Full mode. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a93e858788e85afdf4a04237eb5c526e0}{clean} (void)
+\begin{DoxyCompactList}\small\item\em Starts the default cleaning mode. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a027e42d59c0ae1131928f2c42f076340}{max} (void)
+\begin{DoxyCompactList}\small\item\em Starts the Max cleaning mode. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4a0dacfeeadc3fe61d86cc09a3f4357d}{spot} (void)
+\begin{DoxyCompactList}\small\item\em Starts the Spot cleaning mode. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4995464b64134a5d8fbf5737ddd625be}{seek\+Dock} (void)
+\begin{DoxyCompactList}\small\item\em Sends Roomba to the dock. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a69fee4c553ddc88a6e3742a8e225dbf5}{schedule} (const bitmask\+::\+Days day\+\_\+mask\+\_\+, const \hyperlink{structroomba_1_1series500_1_1oi_1_1_o_i_encoder_1_1clock__time__t}{clock\+\_\+time\+\_\+t} $\ast$const clock\+\_\+times\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Sends Roomba a new schedule. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab45c741ad238ae93592854dd13abe175}{set\+Day\+Time} (const \hyperlink{namespaceroomba_1_1series500_1_1oi_a46858f88a73ed1b4e2ebc7ede94d1d84}{Day} day\+\_\+, const \hyperlink{structroomba_1_1series500_1_1oi_1_1_o_i_encoder_1_1clock__time__t}{clock\+\_\+time\+\_\+t} clock\+\_\+time\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Sets Roomba’s clock. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a1e7270f7d8fc1c19659c08135c619f03}{power} (void)
+\begin{DoxyCompactList}\small\item\em Powers down Roomba. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aea532d32e746df738e58e8ccdb74cf0c}{drive} (const int16\+\_\+t velocity\+\_\+, const int16\+\_\+t radius\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls Roomba’s drive wheels. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_acd959b32a171bbd588bd01d6799f3ec2}{drive\+Direct} (const int16\+\_\+t left\+\_\+wheel\+\_\+velocity\+\_\+, const int16\+\_\+t right\+\_\+wheel\+\_\+velocity\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls the forward and backward motion of Roomba’s drive wheels independently. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4059279c20999fa10ff6b137f06c3ea6}{drive\+P\+W\+M} (const int16\+\_\+t left\+\_\+wheel\+\_\+pwm\+\_\+, const int16\+\_\+t right\+\_\+wheel\+\_\+pwm\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls the raw forward and backward motion of Roomba’s drive wheels independently. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a828609a0ba48ceb31d2ce674e69e4951}{motors} (const bitmask\+::\+Motor\+States motor\+\_\+state\+\_\+mask\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aee910e2a71de7ecab2367cbfcd621fed}{pwm\+Motors} (const int8\+\_\+t main\+\_\+brush\+\_\+, const int8\+\_\+t side\+\_\+brush\+\_\+, const int8\+\_\+t vacuum\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls the speed of Roomba’s main brush, side brush, and vacuum independently. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4f382fc939dad7b6a9618e36a5cf4d47}{leds} (const bitmask\+::display\+::\+L\+E\+Ds led\+\_\+mask\+\_\+, const uint8\+\_\+t color\+\_\+, const uint8\+\_\+t intensity\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls the L\+E\+Ds. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a42fe70c13a369206c439002c5859a27d}{scheduling\+L\+E\+Ds} (const bitmask\+::\+Days day\+\_\+mask\+\_\+, const bitmask\+::display\+::\+Scheduling\+L\+E\+Ds led\+\_\+mask\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Controls the state of the scheduling L\+E\+Ds present on the Roomba 560 and 570. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aafaa740b0a3d1214e351623fa736ed82}{digit\+L\+E\+Ds\+Raw} (const bitmask\+::display\+::\+Digit\+N raw\+\_\+leds\+\_\+\mbox{[}4\mbox{]}) const 
+\begin{DoxyCompactList}\small\item\em Controls the 7 segment displays. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ae660ba123459c7fcdef6b8db247e56cf}{digit\+L\+E\+Ds\+A\+S\+C\+I\+I} (const char ascii\+\_\+leds\+\_\+\mbox{[}4\mbox{]}) const 
+\begin{DoxyCompactList}\small\item\em Controls the 7 segment displays using A\+S\+C\+I\+I character codes. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad1b02e78c92ebde01bfda683618c8a05}{buttons} (const bitmask\+::\+Buttons button\+\_\+mask\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Push Roomba’s buttons. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a420d412677b5359d413f0baf729a13e3}{song} (const uint8\+\_\+t song\+\_\+number\+\_\+, const std\+::vector$<$ \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab4b7bf89bb873d838512791e339694fd}{note\+\_\+t} $>$ \&song\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Specify songs to be played at a later time. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af555b482307a4918c2b98eea4d8f2ba2}{play} (const uint8\+\_\+t song\+\_\+number\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Select a song to play. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a84fbcbb2bca5e68e163c7df0e0cfae7b}{sensors} (const sensor\+::\+Packet\+Id packet\+\_\+id\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Request sensor data. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{query\+List} (const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&sensor\+\_\+list\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Request list of sensor packets. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{stream} (const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&sensor\+\_\+list\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Start a data stream based on a query list. \end{DoxyCompactList}\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a7fa2db1885854427094d67cae5b29837}{pause\+Resume\+Stream} (const bool resume\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Stop and restart the stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac2c8ad2f0306050926f89882d74696cc}{Return\+Code} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_afd9efab31327a919e219580c2d09a9d9}{poll\+Sensors} (const command\+::\+Op\+Code opcode\+\_\+, const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&sensor\+\_\+list\+\_\+) const 
+\begin{DoxyCompactList}\small\item\em Core functionality of both \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{query\+List()} and \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{stream()} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}{std\+::function$<$ size\+\_\+t(const \\*
+uint8\+\_\+t $\ast$, const size\+\_\+t)$>$ {\bfseries \+\_\+fn\+Serial\+Write}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}
+
+\item 
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32c2523ae60429c8e3cd20e11414de8}{\hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} {\bfseries \+\_\+mode}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32c2523ae60429c8e3cd20e11414de8}
+
+\item 
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}{\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a19ddaf411fb6201dde68dd359932992b}{sensor\+\_\+data\+\_\+t} $\ast$ {\bfseries \+\_\+sensor\+\_\+data}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The Roomba Open Interface (O\+I) \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} static class. 
+
+The Roomba Open Interface (O\+I) \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} is a C++ wrapper for data to be written the serial bus. It provides functionality such as request throttling with respect to baud rate, ensuring full parameter sets are delivered to the underlying serial interface, as well as offering error codes without crashing the system. 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab4b7bf89bb873d838512791e339694fd}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!note\+\_\+t@{note\+\_\+t}}
+\index{note\+\_\+t@{note\+\_\+t}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{note\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::pair$<${\bf Pitch}, uint8\+\_\+t$>$ {\bf roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::note\+\_\+t}}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab4b7bf89bb873d838512791e339694fd}
+
+
+A musical note is defined by the frequency related pitch and length or duration. 
+
+The information is stored in std\+::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i.\+e. the value 32 is half a second). \hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a19ddaf411fb6201dde68dd359932992b}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!sensor\+\_\+data\+\_\+t@{sensor\+\_\+data\+\_\+t}}
+\index{sensor\+\_\+data\+\_\+t@{sensor\+\_\+data\+\_\+t}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{sensor\+\_\+data\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef uint8\+\_\+t$\ast$ {\bf roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::sensor\+\_\+data\+\_\+t}}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a19ddaf411fb6201dde68dd359932992b}
+
+
+Data type returned by sensor methods. 
+
+Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a84fbcbb2bca5e68e163c7df0e0cfae7b}{O\+I\+Encoder\+::sensors} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{O\+I\+Encoder\+::query\+List} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{O\+I\+Encoder\+::stream} 
+
+\subsection{Member Function Documentation}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a063c0c08f5d6ac8fd97d2cbdd4e9f3f9}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!baud@{baud}}
+\index{baud@{baud}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{baud}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::baud (
+\begin{DoxyParamCaption}
+\item[{const {\bf Baud\+Code}}]{baud\+\_\+code\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a063c0c08f5d6ac8fd97d2cbdd4e9f3f9}
+
+
+Sets the baud rate in bits per second (bps). 
+
+This command sets the baud rate in bits per second (bps) at which O\+I commands and data are sent according to the baud code sent in the data byte. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em baud\+\_\+code\+\_\+} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The default baud rate at power up is 115200 bps. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad1b02e78c92ebde01bfda683618c8a05}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!buttons@{buttons}}
+\index{buttons@{buttons}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{buttons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::buttons (
+\begin{DoxyParamCaption}
+\item[{const bitmask\+::\+Buttons}]{button\+\_\+mask\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad1b02e78c92ebde01bfda683618c8a05}
+
+
+Push Roomba’s buttons. 
+
+This command lets you push Roomba’s buttons. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em button\+\_\+mask\+\_\+} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The buttons will automatically release after 1/6th of a second. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a93e858788e85afdf4a04237eb5c526e0}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!clean@{clean}}
+\index{clean@{clean}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{clean}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::clean (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a93e858788e85afdf4a04237eb5c526e0}
+
+
+Starts the default cleaning mode. 
+
+\begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Passive. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac70158274e90759a4d93ccf27a076c47}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!connect\+To\+Serial\+Bus@{connect\+To\+Serial\+Bus}}
+\index{connect\+To\+Serial\+Bus@{connect\+To\+Serial\+Bus}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{connect\+To\+Serial\+Bus}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::connect\+To\+Serial\+Bus (
+\begin{DoxyParamCaption}
+\item[{const std\+::function$<$ size\+\_\+t(const uint8\+\_\+t $\ast$, const size\+\_\+t)$>$}]{fn\+Serial\+Write\+\_\+}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac70158274e90759a4d93ccf27a076c47}
+
+
+Establishes a serial channel with the hardware. 
+
+This method must be called before any other methods of this class. It establishes a serial channel between the Open Interface class and the underlying hardware. The default baud for communicating with the Roomba outside the Open Interface is 115200, if the external microcontroller is unable to communicate at that speed, an alternative baud, 19200, is available. To enable the slower baud on the Roomba you must power-\/on the Roomba by holding down the clean/power button, or the Roomba can be signaled on the baud rate change line. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em fn\+Serial\+Write\+\_\+} & A function that writes to the serial bus at either 115200 or 19200 baud. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+If the baud rate of fn\+Serial\+Write is not synchronized to the baud rate of the Roomba, then this class will be unable to communicate with the Roomba's Open Interface. 
+\end{DoxyWarning}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32a31a2fb7e5457685428949f14d25c}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!control@{control}}
+\index{control@{control}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{control}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::control (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32a31a2fb7e5457685428949f14d25c}
+
+
+The effect and usage of the Control command are identical to the Safe command. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a01413ddf9d88eb62229dad6d4ed1801d}{O\+I\+Encoder\+::safe} 
+\end{DoxySeeAlso}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ae660ba123459c7fcdef6b8db247e56cf}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!digit\+L\+E\+Ds\+A\+S\+C\+I\+I@{digit\+L\+E\+Ds\+A\+S\+C\+I\+I}}
+\index{digit\+L\+E\+Ds\+A\+S\+C\+I\+I@{digit\+L\+E\+Ds\+A\+S\+C\+I\+I}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{digit\+L\+E\+Ds\+A\+S\+C\+I\+I}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::digit\+L\+E\+Ds\+A\+S\+C\+I\+I (
+\begin{DoxyParamCaption}
+\item[{const char}]{ascii\+\_\+leds\+\_\+\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ae660ba123459c7fcdef6b8db247e56cf}
+
+
+Controls the 7 segment displays using A\+S\+C\+I\+I character codes. 
+
+This command controls the four 7 segment displays on the Roomba 560 and 570 using A\+S\+C\+I\+I character codes. Because a 7 segment display is not sufficient to display alphabetic characters properly, all characters are an approximation 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ascii\+\_\+leds\+\_\+} & An A\+S\+C\+I\+I char array (valid values range from (32-\/126). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Safe or Full 
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+Not all A\+S\+C\+I\+I codes are implemented. 
+\end{DoxyWarning}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aafaa740b0a3d1214e351623fa736ed82}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!digit\+L\+E\+Ds\+Raw@{digit\+L\+E\+Ds\+Raw}}
+\index{digit\+L\+E\+Ds\+Raw@{digit\+L\+E\+Ds\+Raw}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{digit\+L\+E\+Ds\+Raw}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::digit\+L\+E\+Ds\+Raw (
+\begin{DoxyParamCaption}
+\item[{const bitmask\+::display\+::\+Digit\+N}]{raw\+\_\+leds\+\_\+\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aafaa740b0a3d1214e351623fa736ed82}
+
+
+Controls the 7 segment displays. 
+
+This command controls the four 7 segment displays on the Roomba 560 and 570. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em raw\+\_\+leds\+\_\+} & An array representing the four 7 segment display values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+All use red L\+E\+Ds 
+
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aea532d32e746df738e58e8ccdb74cf0c}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!drive@{drive}}
+\index{drive@{drive}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{drive}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::drive (
+\begin{DoxyParamCaption}
+\item[{const int16\+\_\+t}]{velocity\+\_\+, }
+\item[{const int16\+\_\+t}]{radius\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aea532d32e746df738e58e8ccdb74cf0c}
+
+
+Controls Roomba’s drive wheels. 
+
+This command controls Roomba’s drive wheels. A Drive command with a positive velocity and a positive radius makes Roomba drive forward while turning toward the left. A negative radius makes Roomba turn toward the right. Special cases for the radius make Roomba turn in place or drive straight, as specified below. A negative velocity makes Roomba drive backward. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em velocity\+\_\+} & (-\/500 – 500) The average velocity of the drive wheels in millimeters per second (mm/s). \\
+\hline
+\mbox{\tt in}  & {\em radius\+\_\+} & (-\/2000 – 2000) The radius in millimeters at which Roomba will turn. The radius is measured from the center of the turning circle to the center of Roomba. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Special cases}
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Straight = 32768 (0x8000) or 32767 (0x7\+F\+F\+F) 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Turn in place clockwise = -\/1 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{}
+Turn in place counter-\/clockwise = 1 
+\end{DoxyParagraph}
+\begin{DoxyNote}{Note}
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+Internal and environmental restrictions may prevent Roomba from accurately carrying out some drive commands. 
+\end{DoxyWarning}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_acd959b32a171bbd588bd01d6799f3ec2}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!drive\+Direct@{drive\+Direct}}
+\index{drive\+Direct@{drive\+Direct}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{drive\+Direct}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::drive\+Direct (
+\begin{DoxyParamCaption}
+\item[{const int16\+\_\+t}]{left\+\_\+wheel\+\_\+velocity\+\_\+, }
+\item[{const int16\+\_\+t}]{right\+\_\+wheel\+\_\+velocity\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_acd959b32a171bbd588bd01d6799f3ec2}
+
+
+Controls the forward and backward motion of Roomba’s drive wheels independently. 
+
+This command lets you control the forward and backward motion of Roomba’s drive wheels independently. A positive velocity makes that wheel drive forward, while a negative velocity makes it drive backward. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em left\+\_\+wheel\+\_\+velocity\+\_\+} & (-\/500 – 500) The velocity of the left wheel in millimeters per second (mm/s). \\
+\hline
+\mbox{\tt in}  & {\em right\+\_\+wheel\+\_\+velocity\+\_\+} & (-\/500 – 500) The velocity of the right wheel in millimeters per second (mm/s). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4059279c20999fa10ff6b137f06c3ea6}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!drive\+P\+W\+M@{drive\+P\+W\+M}}
+\index{drive\+P\+W\+M@{drive\+P\+W\+M}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{drive\+P\+W\+M}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::drive\+P\+W\+M (
+\begin{DoxyParamCaption}
+\item[{const int16\+\_\+t}]{left\+\_\+wheel\+\_\+pwm\+\_\+, }
+\item[{const int16\+\_\+t}]{right\+\_\+wheel\+\_\+pwm\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4059279c20999fa10ff6b137f06c3ea6}
+
+
+Controls the raw forward and backward motion of Roomba’s drive wheels independently. 
+
+This command lets you control the raw forward and backward motion of Roomba’s drive wheels independently. A positive P\+W\+M makes that wheel drive forward, while a negative P\+W\+M makes it drive backward. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em left\+\_\+wheel\+\_\+pwm\+\_\+} & (-\/255 – 255) The P\+W\+M of the left wheel. \\
+\hline
+\mbox{\tt in}  & {\em right\+\_\+wheel\+\_\+pwm\+\_\+} & (-\/255 – 255) The P\+W\+M of the right wheel. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac4b19dd3355212072fd27700e6d239ad}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!end@{end}}
+\index{end@{end}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::end (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac4b19dd3355212072fd27700e6d239ad}
+
+
+Releases control of the Roomba. 
+
+This method with set the O\+I Mode to passive and return the Roomba to its docking station. It will also reinitialize the class member variables to restore it to a clean state. \hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab8b00ade2c7a6fb9568ef1920734b5a}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!full@{full}}
+\index{full@{full}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{full}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::full (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab8b00ade2c7a6fb9568ef1920734b5a}
+
+
+Puts the O\+I into Full mode. 
+
+This command gives you complete control over Roomba by putting the O\+I into Full mode, and turning off the cliff, wheel-\/drop and internal charger safety features. \begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4f382fc939dad7b6a9618e36a5cf4d47}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!leds@{leds}}
+\index{leds@{leds}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{leds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::leds (
+\begin{DoxyParamCaption}
+\item[{const bitmask\+::display\+::\+L\+E\+Ds}]{led\+\_\+mask\+\_\+, }
+\item[{const uint8\+\_\+t}]{color\+\_\+, }
+\item[{const uint8\+\_\+t}]{intensity\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4f382fc939dad7b6a9618e36a5cf4d47}
+
+
+Controls the L\+E\+Ds. 
+
+This command controls the L\+E\+Ds common to all models of Roomba 500. Clean/\+Power uses a bicolor (red/green) L\+E\+D. The intensity and color of this L\+E\+D can be controlled with 8-\/bit resolution. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em led\+\_\+mask\+\_\+} & \\
+\hline
+\mbox{\tt in}  & {\em color\+\_\+} & 0 = green, 255 = red. Intermediate values are intermediate colors (orange, yellow, etc). \\
+\hline
+\mbox{\tt in}  & {\em intensity\+\_\+} & 0 = off, 255 = full intensity. Intermediate values are intermediate intensities. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Home and Spot use green L\+E\+Ds\+: 0 = off, 1 = on. 
+
+Check Robot uses an orange L\+E\+D. 
+
+Debris uses a blue L\+E\+D. 
+
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a027e42d59c0ae1131928f2c42f076340}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!max@{max}}
+\index{max@{max}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::max (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a027e42d59c0ae1131928f2c42f076340}
+
+
+Starts the Max cleaning mode. 
+
+\begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Passive. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a828609a0ba48ceb31d2ce674e69e4951}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!motors@{motors}}
+\index{motors@{motors}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{motors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::motors (
+\begin{DoxyParamCaption}
+\item[{const bitmask\+::\+Motor\+States}]{motor\+\_\+state\+\_\+mask\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a828609a0ba48ceb31d2ce674e69e4951}
+
+
+Controls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently. 
+
+This command lets you control the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently. Motor velocity cannot be controlled with this command, all motors will run at maximum speed when enabled. The main brush and side brush can be run in either direction. The vacuum only runs forward. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em motor\+\_\+state\+\_\+mask\+\_\+} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab22c772c7033ffeb8cca563ebea42bd}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!operator()@{operator()}}
+\index{operator()@{operator()}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::operator() (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data\+\_\+, }
+\item[{const {\bf O\+I\+Mode}}]{resulting\+\_\+baud\+\_\+, }
+\item[{const {\bf O\+I\+Mode}}]{resulting\+\_\+mode\+\_\+ = {\ttfamily static\+\_\+cast$<${\bf O\+I\+Mode}$>$(-\/1)}}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab22c772c7033ffeb8cca563ebea42bd}
+
+
+Direct access to the Open Interface. 
+
+Direct access sends bytes directly to the Open Interface. Direct access is potentially dangerous, because the parameters are not checked and the device can be left in a \char`\"{}waiting\char`\"{} state. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data\+\_\+} & A stream of bytes guaranteed to be a valid command chain by the caller. \\
+\hline
+\mbox{\tt in}  & {\em resulting\+\_\+baud\+\_\+} & The baud rate the Roomba will be using after the execution of the byte stream provided in the data\+\_\+ parameter. \\
+\hline
+\mbox{\tt in}  & {\em \mbox{[}} & resulting\+\_\+mode\+\_\+ \mbox{]} The O\+I mode the Roomba will be left in after the execution of the byte stream provided in the data\+\_\+ parameter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If resulting\+\_\+mode\+\_\+ is not provided, then this function will incur the overhead associated with polling the state of the device to restore the current state. 
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+If resulting\+\_\+baud\+\_\+ is given an erroneous value, the \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} will no longer be able to calculate buffer overrun protection, even if you have synchronized the caller and the Roomba correctly. 
+
+If resulting\+\_\+mode\+\_\+ is given an erroneous value, the \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} will be left in an invalid state. At this time the stability and behavior of this class become undefined. If you are unsure, then you 
+\end{DoxyWarning}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a7fa2db1885854427094d67cae5b29837}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!pause\+Resume\+Stream@{pause\+Resume\+Stream}}
+\index{pause\+Resume\+Stream@{pause\+Resume\+Stream}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{pause\+Resume\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::pause\+Resume\+Stream (
+\begin{DoxyParamCaption}
+\item[{const bool}]{resume\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a7fa2db1885854427094d67cae5b29837}
+
+
+Stop and restart the stream. 
+
+This command lets you stop and restart the steam without clearing the list of requested packets. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em resume\+\_\+} & An argument of false stops the stream without clearing the list of requested packets. An argument of true starts the stream using the list of packets last requested. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{O\+I\+Encoder\+::stream} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af555b482307a4918c2b98eea4d8f2ba2}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!play@{play}}
+\index{play@{play}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{play}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::play (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{song\+\_\+number\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af555b482307a4918c2b98eea4d8f2ba2}
+
+
+Select a song to play. 
+
+This command lets you select a song to play from the songs added to Roomba using the Song command. You must add one or more songs to Roomba using the Song command in order for the Play command to work. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em song\+\_\+number\+\_\+} & (0-\/4) The number of the song Roomba is to play. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Safe or Full 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a420d412677b5359d413f0baf729a13e3}{O\+I\+Encoder\+::song} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_afd9efab31327a919e219580c2d09a9d9}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!poll\+Sensors@{poll\+Sensors}}
+\index{poll\+Sensors@{poll\+Sensors}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{poll\+Sensors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::poll\+Sensors (
+\begin{DoxyParamCaption}
+\item[{const command\+::\+Op\+Code}]{opcode\+\_\+, }
+\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{sensor\+\_\+list\+\_\+}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_afd9efab31327a919e219580c2d09a9d9}
+
+
+Core functionality of both \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{query\+List()} and \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{stream()} 
+
+Both \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{query\+List()} and \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{stream()} have identical implementations. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em opcode\+\_\+} & Send either Q\+U\+E\+R\+Y\+\_\+\+L\+I\+S\+T or S\+T\+R\+E\+A\+M \\
+\hline
+\mbox{\tt in}  & {\em sensor\+\_\+list\+\_\+} & A vector of packet ids \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{O\+I\+Encoder\+::query\+List} 
+
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{O\+I\+Encoder\+::stream} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a1e7270f7d8fc1c19659c08135c619f03}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!power@{power}}
+\index{power@{power}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{power}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::power (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a1e7270f7d8fc1c19659c08135c619f03}
+
+
+Powers down Roomba. 
+
+This command powers down Roomba. The O\+I can be in Passive, Safe, or Full mode to accept this command. \begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Passive. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aee910e2a71de7ecab2367cbfcd621fed}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!pwm\+Motors@{pwm\+Motors}}
+\index{pwm\+Motors@{pwm\+Motors}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{pwm\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::pwm\+Motors (
+\begin{DoxyParamCaption}
+\item[{const int8\+\_\+t}]{main\+\_\+brush\+\_\+, }
+\item[{const int8\+\_\+t}]{side\+\_\+brush\+\_\+, }
+\item[{const int8\+\_\+t}]{vacuum\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aee910e2a71de7ecab2367cbfcd621fed}
+
+
+Controls the speed of Roomba’s main brush, side brush, and vacuum independently. 
+
+This command lets you control the speed of Roomba’s main brush, side brush, and vacuum independently. With each parameter, you specify the duty cycle for the low side driver (max 127). Positive speeds turn the motor in its default (cleaning) direction. For example, if you want to control a motor with 25\% of battery voltage, choose a duty cycle of 127 $\ast$ 25\% $\sim$ 32. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em main\+\_\+brush\+\_\+} & (-\/127 – 127) \\
+\hline
+\mbox{\tt in}  & {\em side\+\_\+brush\+\_\+} & (-\/127 – 127) \\
+\hline
+\mbox{\tt in}  & {\em vacuum\+\_\+} & (0 – 127) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The vacuum only runs forward. 
+
+The main brush and side brush can be run in either direction. 
+
+Default direction for the side brush is counter-\/clockwise. 
+
+Default direction for the main brush/flapper is inward. 
+
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!query\+List@{query\+List}}
+\index{query\+List@{query\+List}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{query\+List}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::query\+List (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{sensor\+\_\+list\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a05c85b8943ee3c596c814c24fd5a9607}
+
+
+Request list of sensor packets. 
+
+This command lets you ask for a list of sensor packets. The result is returned once, as in the Sensors command. The robot returns the packets in the order you specify. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em sensor\+\_\+list\+\_\+} & A vector of packet ids \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a01413ddf9d88eb62229dad6d4ed1801d}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!safe@{safe}}
+\index{safe@{safe}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{safe}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::safe (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a01413ddf9d88eb62229dad6d4ed1801d}
+
+
+Puts the O\+I into Safe mode. 
+
+This command puts the O\+I into Safe mode, enabling user control of Roomba. It turns off all L\+E\+Ds. The O\+I can be in Passive, Safe, or Full mode to accept this command. \begin{DoxyNote}{Note}
+If a safety condition occurs (see above) Roomba reverts automatically to Passive mode. 
+
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Safe. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a69fee4c553ddc88a6e3742a8e225dbf5}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!schedule@{schedule}}
+\index{schedule@{schedule}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::schedule (
+\begin{DoxyParamCaption}
+\item[{const bitmask\+::\+Days}]{day\+\_\+mask\+\_\+, }
+\item[{const {\bf clock\+\_\+time\+\_\+t} $\ast$const}]{clock\+\_\+times\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a69fee4c553ddc88a6e3742a8e225dbf5}
+
+
+Sends Roomba a new schedule. 
+
+This command sends Roomba a new schedule. To disable scheduled cleaning, send all 0s. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em day\+\_\+mask\+\_\+} & A bitmask representing the days of the week \\
+\hline
+\mbox{\tt in}  & {\em clock\+\_\+times\+\_\+} & A sparse array of \hyperlink{structroomba_1_1series500_1_1oi_1_1_o_i_encoder_1_1clock__time__t}{clock\+\_\+time\+\_\+t} variables following \{ Sun time, Mon time, ..., Sat time \}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The day\+\_\+mask variable will determine which days the array elements will be applied to, disabled days will be zero filled. 
+
+If a \hyperlink{structroomba_1_1series500_1_1oi_1_1_o_i_encoder_1_1clock__time__t}{clock\+\_\+time\+\_\+t} variable contains any values out of range, then the corresponding day will be ignored. 
+
+If Roomba’s schedule or clock button is pressed, this command will be ignored. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a42fe70c13a369206c439002c5859a27d}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!scheduling\+L\+E\+Ds@{scheduling\+L\+E\+Ds}}
+\index{scheduling\+L\+E\+Ds@{scheduling\+L\+E\+Ds}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{scheduling\+L\+E\+Ds}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::scheduling\+L\+E\+Ds (
+\begin{DoxyParamCaption}
+\item[{const bitmask\+::\+Days}]{day\+\_\+mask\+\_\+, }
+\item[{const bitmask\+::display\+::\+Scheduling\+L\+E\+Ds}]{led\+\_\+mask\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a42fe70c13a369206c439002c5859a27d}
+
+
+Controls the state of the scheduling L\+E\+Ds present on the Roomba 560 and 570. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em day\+\_\+mask\+\_\+} & \\
+\hline
+\mbox{\tt in}  & {\em led\+\_\+mask\+\_\+} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+All use red L\+E\+Ds 
+
+Available in modes\+: Safe or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4995464b64134a5d8fbf5737ddd625be}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!seek\+Dock@{seek\+Dock}}
+\index{seek\+Dock@{seek\+Dock}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{seek\+Dock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::seek\+Dock (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4995464b64134a5d8fbf5737ddd625be}
+
+
+Sends Roomba to the dock. 
+
+\begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Passive. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a84fbcbb2bca5e68e163c7df0e0cfae7b}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!sensors@{sensors}}
+\index{sensors@{sensors}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{sensors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::sensors (
+\begin{DoxyParamCaption}
+\item[{const sensor\+::\+Packet\+Id}]{packet\+\_\+id\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a84fbcbb2bca5e68e163c7df0e0cfae7b}
+
+
+Request sensor data. 
+
+This command requests the O\+I to send a packet of sensor data bytes. There are 58 different sensor data packets. Each provides a value of a specific sensor or group of sensors. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em packet\+\_\+id\+\_\+} & Identifies which of the 58 sensor data packets should be sent back by the O\+I. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+A value of 100 indicates a packet with all of the sensor data. Values of 0 through 6 and 101 through 107 indicate specific subgroups of the sensor data. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab45c741ad238ae93592854dd13abe175}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!set\+Day\+Time@{set\+Day\+Time}}
+\index{set\+Day\+Time@{set\+Day\+Time}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{set\+Day\+Time}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::set\+Day\+Time (
+\begin{DoxyParamCaption}
+\item[{const {\bf Day}}]{day\+\_\+, }
+\item[{const {\bf clock\+\_\+time\+\_\+t}}]{clock\+\_\+time\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab45c741ad238ae93592854dd13abe175}
+
+
+Sets Roomba’s clock. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em day\+\_\+} & \\
+\hline
+\mbox{\tt in}  & {\em clock\+\_\+time\+\_\+} & (hour \mbox{[}0-\/23\mbox{]} and minute \mbox{[}0-\/59\mbox{]}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If Roomba’s schedule or clock button is pressed, this command will be ignored. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a420d412677b5359d413f0baf729a13e3}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!song@{song}}
+\index{song@{song}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{song}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::song (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t}]{song\+\_\+number\+\_\+, }
+\item[{const std\+::vector$<$ {\bf note\+\_\+t} $>$ \&}]{song\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a420d412677b5359d413f0baf729a13e3}
+
+
+Specify songs to be played at a later time. 
+
+This command lets you specify up to four songs to the O\+I that you can play at a later time. Each song is associated with a song number. The Play command uses the song number to identify your song selection. Each song can contain up to sixteen notes. Each note is associated with a note number that uses M\+I\+D\+I note definitions and a duration that is specified in increments of 1/64th of a second. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em song\+\_\+number\+\_\+} & (0-\/4) The song number associated with the specific song. \\
+\hline
+\mbox{\tt in}  & {\em song\+\_\+} & A vector of std\+::pairs composed of Note and duration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If you send a second Song command, using the same song number, the old song is overwritten. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af555b482307a4918c2b98eea4d8f2ba2}{O\+I\+Encoder\+::play} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4a0dacfeeadc3fe61d86cc09a3f4357d}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!spot@{spot}}
+\index{spot@{spot}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{spot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::spot (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a4a0dacfeeadc3fe61d86cc09a3f4357d}
+
+
+Starts the Spot cleaning mode. 
+
+\begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Passive. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a1601020b3fbf4e02e5cd2cf87fbf4432}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!start@{start}}
+\index{start@{start}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::start (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a1601020b3fbf4e02e5cd2cf87fbf4432}
+
+
+Starts the O\+I. 
+
+You must always send the Start command before sending any other commands to the O\+I. \begin{DoxyNote}{Note}
+Available in modes\+: Passive, Safe, or Full. 
+
+Changes mode to\+: Passive. Roomba beeps once to acknowledge it is starting from “off” mode. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!stream@{stream}}
+\index{stream@{stream}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{stream}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Encoder\+::\+Return\+Code} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::stream (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ sensor\+::\+Packet\+Id $>$ \&}]{sensor\+\_\+list\+\_\+}
+\end{DoxyParamCaption}
+) const}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ab771291acce95812bd1b41ff2b674baf}
+
+
+Start a data stream based on a query list. 
+
+This command starts a stream of data packets. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em sensor\+\_\+list\+\_\+} & A vector of packet ids \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-\/time characteristics) with software running on a desktop computer. 
+
+Available in modes\+: Passive, Safe, or Full. 
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+It is up to you not to request more data than can be sent at the current baud rate in the 15 ms time slot. If more data is requested, the data stream will eventually become corrupted. This can be confirmed by checking the checksum. 
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a7fa2db1885854427094d67cae5b29837}{O\+I\+Encoder\+::pause\+Resume\+Stream} 
+\end{DoxySeeAlso}
+
+\begin{DoxyRetVals}{Return values}
+{\em S\+U\+C\+C\+E\+S\+S} & \\
+\hline
+{\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
+\hline
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
+\hline
+{\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
+\hline
+\end{DoxyRetVals}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/zachary\+\_\+fields/\+Development/bitbucket/irobot-\/roomba-\/500-\/series-\/sdk/\+O\+I\+Encoder/O\+I\+Encoder.\+h\item 
+/\+Users/zachary\+\_\+fields/\+Development/bitbucket/irobot-\/roomba-\/500-\/series-\/sdk/\+O\+I\+Encoder/O\+I\+Encoder.\+cpp\end{DoxyCompactItemize}

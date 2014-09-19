@@ -132,7 +132,7 @@ class OIEncoder {
 	/// is available. To enable the slower baud on the Roomba you must
 	/// power-on the Roomba by holding down the clean/power button,
 	/// or the Roomba can be signaled on the baud rate change line.
-	/// \param [in] fnSerialWrite A function that writes to the
+	/// \param [in] fnSerialWrite_ A function that writes to the
 	/// serial bus at either 115200 or 19200 baud.
 	/// \warning If the baud rate of fnSerialWrite is not synchronized
 	/// to the baud rate of the Roomba, then this class will be unable
@@ -168,7 +168,7 @@ class OIEncoder {
 	/// \details This command sets the baud rate in bits per second (bps)
 	/// at which OI commands and data are sent according to the baud code
 	/// sent in the data byte.
-	/// \param [in] baud_code
+	/// \param [in] baud_code_
 	/// \note The default baud rate at power up is 115200 bps.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
@@ -265,7 +265,7 @@ class OIEncoder {
 	/// \brief Sends Roomba a new schedule.
 	/// \details This command sends Roomba a new schedule. To disable
 	/// scheduled cleaning, send all 0s.
-	/// \param [in] day_mask A bitmask representing the days of the week
+	/// \param [in] day_mask_ A bitmask representing the days of the week
 	/// \param [in] clock_times_ A sparse array of clock_time_t variables
 	/// following { Sun time, Mon time, ..., Sat time }.
 	/// \note The day_mask variable will determine which days the array
@@ -285,8 +285,8 @@ class OIEncoder {
 	) const;
 	
 	/// \brief Sets Roomba’s clock.
-	/// \param [in] day
-	/// \param [in] clock time (hour [0-23] and minute [0-59])
+	/// \param [in] day_
+	/// \param [in] clock_time_ (hour [0-23] and minute [0-59])
 	/// \note If Roomba’s schedule or clock button is pressed,
 	/// this command will be ignored.
 	/// \note Available in modes: Passive, Safe, or Full.
@@ -320,9 +320,9 @@ class OIEncoder {
 	/// negative radius makes Roomba turn toward the right. Special
 	/// cases for the radius make Roomba turn in place or drive straight,
 	/// as specified below. A negative velocity makes Roomba drive backward.
-	/// \param [in] velocity (-500 – 500) The average velocity of the drive
+	/// \param [in] velocity_ (-500 – 500) The average velocity of the drive
 	/// wheels in millimeters per second (mm/s).
-	/// \param [in] radius (-2000 – 2000) The radius in millimeters at which
+	/// \param [in] radius_ (-2000 – 2000) The radius in millimeters at which
 	/// Roomba will turn. The radius is measured from the center of the
 	/// turning circle to the center of Roomba.
 	/// \par Special cases
@@ -352,9 +352,9 @@ class OIEncoder {
 	/// motion of Roomba’s drive wheels independently. A positive velocity
 	/// makes that wheel drive forward, while a negative velocity makes it
 	/// drive backward.
-	/// \param [in] left_wheel_velocity (-500 – 500) The velocity of the
+	/// \param [in] left_wheel_velocity_ (-500 – 500) The velocity of the
 	/// left wheel in millimeters per second (mm/s).
-	/// \param [in] right_wheel_velocity (-500 – 500) The velocity of the
+	/// \param [in] right_wheel_velocity_ (-500 – 500) The velocity of the
 	/// right wheel in millimeters per second (mm/s).
 	/// \note Available in modes: Safe or Full.
 	/// \retval SUCCESS
@@ -373,8 +373,8 @@ class OIEncoder {
 	/// \details This command lets you control the raw forward and backward
 	/// motion of Roomba’s drive wheels independently. A positive PWM makes
 	/// that wheel drive forward, while a negative PWM makes it drive backward.
-	/// \param [in] left_wheel_pwm (-255 – 255) The PWM of the left wheel.
-	/// \param [in] right_wheel_pwm (-255 – 255) The PWM of the right wheel.
+	/// \param [in] left_wheel_pwm_ (-255 – 255) The PWM of the left wheel.
+	/// \param [in] right_wheel_pwm_ (-255 – 255) The PWM of the right wheel.
 	/// \note Available in modes: Safe or Full.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
@@ -394,7 +394,7 @@ class OIEncoder {
 	/// velocity cannot be controlled with this command, all motors will run at
 	/// maximum speed when enabled. The main brush and side brush can be run in
 	/// either direction. The vacuum only runs forward.
-	/// \param [in] motor_state_mask 
+	/// \param [in] motor_state_mask_
 	/// \note Available in modes: Safe or Full.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
@@ -413,9 +413,9 @@ class OIEncoder {
 	/// the motor in its default (cleaning) direction. For example, if you want
 	/// to control a motor with 25% of battery voltage, choose a duty cycle of
 	/// 127 * 25% ~ 32.
-	/// \param [in] main_brush (-127 – 127)
-	/// \param [in] side_brush (-127 – 127)
-	/// \param [in] vacuum (0 – 127)
+	/// \param [in] main_brush_ (-127 – 127)
+	/// \param [in] side_brush_ (-127 – 127)
+	/// \param [in] vacuum_ (0 – 127)
 	/// \note The vacuum only runs forward.
 	/// \note The main brush and side brush can be run in either direction.
 	/// \note Default direction for the side brush is counter-clockwise.
@@ -437,10 +437,10 @@ class OIEncoder {
 	/// \details This command controls the LEDs common to all models of
 	/// Roomba 500. Clean/Power uses a bicolor (red/green) LED. The intensity
 	/// and color of this LED can be controlled with 8-bit resolution.
-	/// \param [in] led_mask
-	/// \param [in] color 0 = green, 255 = red. Intermediate values are
+	/// \param [in] led_mask_
+	/// \param [in] color_ 0 = green, 255 = red. Intermediate values are
 	/// intermediate colors (orange, yellow, etc).
-	/// \param [in] intensity 0 = off, 255 = full intensity. Intermediate
+	/// \param [in] intensity_ 0 = off, 255 = full intensity. Intermediate
 	/// values are intermediate intensities.
 	/// \note Home and Spot use green LEDs: 0 = off, 1 = on.
 	/// \note Check Robot uses an orange LED.
@@ -458,8 +458,8 @@ class OIEncoder {
 	) const;
 	
 	/// \brief Controls the state of the scheduling LEDs present on the Roomba 560 and 570.
-	/// \param [in] day_mask
-	/// \param [in] led_mask
+	/// \param [in] day_mask_
+	/// \param [in] led_mask_
 	/// \note All use red LEDs
 	/// \note Available in modes: Safe or Full.
 	/// \retval SUCCESS
@@ -475,7 +475,7 @@ class OIEncoder {
 	/// \brief Controls the 7 segment displays.
 	/// \details This command controls the four 7 segment displays on
 	/// the Roomba 560 and 570.
-	/// \param [in] raw_leds An array representing the four 7 segment display values.
+	/// \param [in] raw_leds_ An array representing the four 7 segment display values.
 	/// \note All use red LEDs
 	/// \note Available in modes: Safe or Full.
 	/// \retval SUCCESS
@@ -492,7 +492,7 @@ class OIEncoder {
 	/// the Roomba 560 and 570 using ASCII character codes. Because a
 	/// 7 segment display is not sufficient to display alphabetic
 	/// characters properly, all characters are an approximation
-	/// \param [in] ascii_leds An ASCII char array (valid values range
+	/// \param [in] ascii_leds_ An ASCII char array (valid values range
 	/// from (32-126).
 	/// \note Available in modes: Safe or Full
 	/// \warning Not all ASCII codes are implemented.
@@ -508,7 +508,7 @@ class OIEncoder {
 	
 	/// \brief Push Roomba’s buttons.
 	/// \details This command lets you push Roomba’s buttons.
-	/// \param [in] button_mask
+	/// \param [in] button_mask_
 	/// \note The buttons will automatically release after 1/6th of a second.
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
@@ -528,9 +528,9 @@ class OIEncoder {
 	/// Each note is associated with a note number that uses
 	/// MIDI note definitions and a duration that is specified
 	/// in increments of 1/64th of a second.
-	/// \param [in] song_number (0-4) The song number
+	/// \param [in] song_number_ (0-4) The song number
 	/// associated with the specific song.
-	/// \param [in] song A vector of std::pairs composed
+	/// \param [in] song_ A vector of std::pairs composed
 	/// of Note and duration.
 	/// \note If you send a second Song command, using the
 	/// same song number, the old song is overwritten.
@@ -543,7 +543,7 @@ class OIEncoder {
 	ReturnCode
 	song (
 		const uint8_t song_number_,
-		const std::vector<note_t> & notes_
+		const std::vector<note_t> & song_
 	) const;
 	
 	/// \brief Select a song to play.
@@ -552,7 +552,7 @@ class OIEncoder {
 	/// command. You must add one or more songs to Roomba
 	/// using the Song command in order for the Play command
 	/// to work.
-	/// \param [in] song_number (0-4) The number of the
+	/// \param [in] song_number_ (0-4) The number of the
 	/// song Roomba is to play.
 	/// \note Available in modes: Safe or Full
 	/// \see OIEncoder::song
@@ -571,7 +571,7 @@ class OIEncoder {
 	/// packet of sensor data bytes. There are 58 different
 	/// sensor data packets. Each provides a value of a
 	/// specific sensor or group of sensors.
-	/// \param [in] packet_id Identifies which of the 58
+	/// \param [in] packet_id_ Identifies which of the 58
 	/// sensor data packets should be sent back by the OI.
 	/// \note A value of 100 indicates a packet with all
 	/// of the sensor data. Values of 0 through 6 and 101
@@ -592,7 +592,7 @@ class OIEncoder {
 	/// sensor packets. The result is returned once, as
 	/// in the Sensors command. The robot returns the
 	/// packets in the order you specify.
-	/// \param [in] sensor_list A vector of packet ids
+	/// \param [in] sensor_list_ A vector of packet ids
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
@@ -607,7 +607,7 @@ class OIEncoder {
 	/// \details This command starts a stream of data packets.
 	/// The list of packets requested is sent every 15 ms,
 	/// which is the rate Roomba uses to update data.
-	/// \param [in] sensor_list A vector of packet ids
+	/// \param [in] sensor_list_ A vector of packet ids
 	/// \note This method of requesting sensor data is best
 	/// if you are controlling Roomba over a wireless network
 	/// (which has poor real-time characteristics) with
@@ -631,7 +631,7 @@ class OIEncoder {
 	/// \brief Stop and restart the stream.
 	/// \details This command lets you stop and restart the
 	/// steam without clearing the list of requested packets.
-	/// \param [in] resume An argument of false stops the stream
+	/// \param [in] resume_ An argument of false stops the stream
 	/// without clearing the list of requested packets. An
 	/// argument of true starts the stream using the list of
 	/// packets last requested.
@@ -655,8 +655,8 @@ class OIEncoder {
 	/// implementations. The only difference is the original Open
 	/// Interface opcode, which tells the the Roomba to send the
 	/// data once or until asked not to.
-	/// \param [in] opcode Send either QUERY_LIST or STREAM
-	/// \param [in] sensor_list A vector of packet ids
+	/// \param [in] opcode_ Send either QUERY_LIST or STREAM
+	/// \param [in] sensor_list_ A vector of packet ids
 	/// \see OIEncoder::queryList
 	/// \see OIEncoder::stream
 	/// \retval SUCCESS
