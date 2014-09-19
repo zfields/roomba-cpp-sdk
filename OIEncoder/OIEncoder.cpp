@@ -1,29 +1,30 @@
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
 
-#include "OI.h"
+#include "OIEncoder.h"
 
 #include <chrono>
 #include <thread>
 
 namespace roomba {
 namespace series500 {
+namespace oi {
 
-OpenInterface::OpenInterface (
+OIEncoder::OIEncoder (
 	void
 ) :
-	_fnSerialWrite([](const uint8_t *, size_t){ return 0; }),
+	_fnSerialWrite([](const uint8_t *, const size_t){ return 0; }),
 	_mode(OFF)
 {}
 
 void
-OpenInterface::connectToSerialBus (
-	const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_
+OIEncoder::connectToSerialBus (
+	const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_
 ) {
 	_fnSerialWrite = fnSerialWrite_;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::start (
+OIEncoder::ReturnCode
+OIEncoder::start (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::START };
@@ -34,8 +35,8 @@ OpenInterface::start (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::baud (
+OIEncoder::ReturnCode
+OIEncoder::baud (
 	const BaudCode baud_code_
 ) const {
 	const uint8_t serial_data[2] = { command::BAUD, baud_code_ };
@@ -48,8 +49,8 @@ OpenInterface::baud (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::safe (
+OIEncoder::ReturnCode
+OIEncoder::safe (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::SAFE };
@@ -61,15 +62,15 @@ OpenInterface::safe (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::control (
+OIEncoder::ReturnCode
+OIEncoder::control (
 	void
 ) {
 	return safe();
 }
 
-OpenInterface::ReturnCode
-OpenInterface::full (
+OIEncoder::ReturnCode
+OIEncoder::full (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::FULL };
@@ -81,8 +82,8 @@ OpenInterface::full (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::clean (
+OIEncoder::ReturnCode
+OIEncoder::clean (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::CLEAN };
@@ -94,8 +95,8 @@ OpenInterface::clean (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::max (
+OIEncoder::ReturnCode
+OIEncoder::max (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::MAX };
@@ -107,8 +108,8 @@ OpenInterface::max (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::spot (
+OIEncoder::ReturnCode
+OIEncoder::spot (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::SPOT };
@@ -120,8 +121,8 @@ OpenInterface::spot (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::seekDock (
+OIEncoder::ReturnCode
+OIEncoder::seekDock (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::SEEK_DOCK };
@@ -133,8 +134,8 @@ OpenInterface::seekDock (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::schedule (
+OIEncoder::ReturnCode
+OIEncoder::schedule (
 	const bitmask::Days day_mask_,
 	const clock_time_t * const clock_times_
 ) const {
@@ -156,8 +157,8 @@ OpenInterface::schedule (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::setDayTime (
+OIEncoder::ReturnCode
+OIEncoder::setDayTime (
 	const Day day_,
 	const clock_time_t clock_time_
 ) const {
@@ -170,8 +171,8 @@ OpenInterface::setDayTime (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::power (
+OIEncoder::ReturnCode
+OIEncoder::power (
 	void
 ) {
 	const uint8_t serial_data[1] = { command::POWER };
@@ -183,8 +184,8 @@ OpenInterface::power (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::drive (
+OIEncoder::ReturnCode
+OIEncoder::drive (
 	const int16_t velocity_,
 	const int16_t radius_
 ) const {
@@ -198,8 +199,8 @@ OpenInterface::drive (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::driveDirect (
+OIEncoder::ReturnCode
+OIEncoder::driveDirect (
 	const int16_t left_wheel_velocity_,
 	const int16_t right_wheel_velocity_
 ) const {
@@ -213,8 +214,8 @@ OpenInterface::driveDirect (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::drivePWM (
+OIEncoder::ReturnCode
+OIEncoder::drivePWM (
 	const int16_t left_wheel_pwm_,
 	const int16_t right_wheel_pwm_
 ) const {
@@ -228,8 +229,8 @@ OpenInterface::drivePWM (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::motors (
+OIEncoder::ReturnCode
+OIEncoder::motors (
 	const bitmask::MotorStates motor_state_mask_
 ) const {
 	const uint8_t serial_data[2] = { command::MOTORS, static_cast<const uint8_t>(motor_state_mask_ & 0x1F) };
@@ -241,8 +242,8 @@ OpenInterface::motors (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::pwmMotors (
+OIEncoder::ReturnCode
+OIEncoder::pwmMotors (
 	const int8_t main_brush_,
 	const int8_t side_brush_,
 	const int8_t vacuum_
@@ -257,8 +258,8 @@ OpenInterface::pwmMotors (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::leds (
+OIEncoder::ReturnCode
+OIEncoder::leds (
 	const bitmask::display::LEDs led_mask_,
 	const uint8_t color_,
 	const uint8_t intensity_
@@ -272,8 +273,8 @@ OpenInterface::leds (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::schedulingLEDs (
+OIEncoder::ReturnCode
+OIEncoder::schedulingLEDs (
 	const bitmask::Days day_mask_,
 	const bitmask::display::SchedulingLEDs display_mask_
 ) const {
@@ -286,8 +287,8 @@ OpenInterface::schedulingLEDs (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::digitLEDsRaw (
+OIEncoder::ReturnCode
+OIEncoder::digitLEDsRaw (
 	const bitmask::display::DigitN raw_leds_[4]
 ) const {
 	const uint8_t serial_data[5] = { command::DIGIT_LEDS_RAW, static_cast<const bitmask::display::DigitN>(raw_leds_[0] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[1] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[2] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[3] & 0x7F) };
@@ -299,8 +300,8 @@ OpenInterface::digitLEDsRaw (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::digitLEDsASCII (
+OIEncoder::ReturnCode
+OIEncoder::digitLEDsASCII (
 	const char ascii_leds_[4]
 ) const {
 	const uint8_t serial_data[5] = { command::DIGIT_LEDS_ASCII, static_cast<const uint8_t>(ascii_leds_[0]), static_cast<const uint8_t>(ascii_leds_[1]), static_cast<const uint8_t>(ascii_leds_[2]), static_cast<const uint8_t>(ascii_leds_[3]) };
@@ -313,8 +314,8 @@ OpenInterface::digitLEDsASCII (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::buttons (
+OIEncoder::ReturnCode
+OIEncoder::buttons (
 	const bitmask::Buttons button_mask_
 ) const {
 	const uint8_t serial_data[2] = { command::BUTTONS, button_mask_ };
@@ -325,8 +326,8 @@ OpenInterface::buttons (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::song (
+OIEncoder::ReturnCode
+OIEncoder::song (
 	const uint8_t song_number_,
 	const std::vector<note_t> & notes_
 ) const {
@@ -350,8 +351,8 @@ OpenInterface::song (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::play (
+OIEncoder::ReturnCode
+OIEncoder::play (
 	const uint8_t song_number_
 ) const {
 	const uint8_t serial_data[2] = { command::PLAY, song_number_ };
@@ -364,8 +365,8 @@ OpenInterface::play (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::sensors (
+OIEncoder::ReturnCode
+OIEncoder::sensors (
 	const sensor::PacketId packet_id_
 ) const {
 	const uint8_t serial_data[2] = { command::SENSORS, packet_id_ };
@@ -377,22 +378,22 @@ OpenInterface::sensors (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::queryList (
+OIEncoder::ReturnCode
+OIEncoder::queryList (
 	const std::vector<sensor::PacketId> & sensor_list_
 ) const {
 	return pollSensors(command::QUERY_LIST, sensor_list_);
 }
 
-OpenInterface::ReturnCode
-OpenInterface::stream (
+OIEncoder::ReturnCode
+OIEncoder::stream (
 	const std::vector<sensor::PacketId> & sensor_list_
 ) const {
 	return pollSensors(command::STREAM, sensor_list_);
 }
 
-OpenInterface::ReturnCode
-OpenInterface::pauseResumeStream (
+OIEncoder::ReturnCode
+OIEncoder::pauseResumeStream (
 	const bool resume_
 ) const {
 	const uint8_t serial_data[2] = { command::PAUSE_RESUME_STREAM, resume_ };
@@ -403,8 +404,8 @@ OpenInterface::pauseResumeStream (
 	return SUCCESS;
 }
 
-OpenInterface::ReturnCode
-OpenInterface::pollSensors (
+OIEncoder::ReturnCode
+OIEncoder::pollSensors (
 	const command::OpCode opcode_,
 	const std::vector<sensor::PacketId> & sensor_list_
 ) const {
@@ -428,9 +429,10 @@ OpenInterface::pollSensors (
 	return SUCCESS;
 }
 
+} // namespace oi
 } // namespace series500
 } // namespace roomba
 
-roomba::series500::OpenInterface OI;
+roomba::series500::oi::OIEncoder Encoder;
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */

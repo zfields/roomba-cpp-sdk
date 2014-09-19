@@ -45,7 +45,7 @@ CXXFLAGS += -g \
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-UNDER_TEST = OI
+UNDER_TEST = OIEncoder
 
 # All Google Test headers. Usually you shouldn't change this
 # definition.

@@ -1,19 +1,39 @@
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
 
-#ifndef OI_H
-#define OI_H
+#ifndef OI_ENCODER_H
+#define OI_ENCODER_H
 
 #include <cstdint>
 #include <functional>
 #include <utility>
 #include <vector>
 
-#include "OIDefines.h"
+#include "../OIDefines.h"
 
+/// \brief The iRobot Roomba autonomous robotic vacuum cleaner
+/// \details Roomba was introduced in 2002. As of Feb 2014, over
+/// 10 million units have been sold worldwide. Roomba features a
+/// set of basic sensors that help it perform tasks. For instance,
+/// the Roomba is able to change direction on encountering obstacles,
+/// detect dirty spots on the floor, and detect steep drops to keep
+/// it from falling down stairs. It uses two independently operating
+/// wheels that allow 360 degree turns. Additionally, it can adapt
+/// to perform other more "creative" tasks using an embedded computer
+/// in conjunction with the Roomba Open Interface.
 namespace roomba {
-namespace series500 {
 
-/// \brief The Roomba Open Interface (OI) class
+/// \brief The Roomba 500 Series Model (5xx)
+/// \details The third-generation, 500-series, Roomba was
+/// first introduced in August 2007, and features a
+/// forward-looking infrared sensor to detect obstacles
+/// and reduce speed, a "Dock" button, improved mechanical
+/// components, smoothness of operation & a modular design
+/// making part replacement trivial. It also introduced
+/// customizable decorative face plates. The Roomba 530
+/// came with two Virtual Walls and a recharging dock.
+namespace series500 {
+	
+/// \brief The Roomba Open Interface (OI)
 /// \details The Roomba Open Interface (OI) is a software
 /// interface for controlling and manipulating Roomba’s
 /// behavior. The software interface lets you manipulate
@@ -22,7 +42,16 @@ namespace series500 {
 /// song commands, and sensor commands that you send to the
 /// Roomba’s serial port by way of a PC or microcontroller
 /// that is connected to the Mini-DIN connector.
-class OpenInterface {
+namespace oi {
+	
+/// \brief The Roomba Open Interface (OI) OIEncoder static class
+/// \details The Roomba Open Interface (OI) OIEncoder is a C++
+/// wrapper for data to be written the serial bus. It provides
+/// functionality such as request throttling with respect to
+/// baud rate, ensuring full parameter sets are delivered to
+/// the underlying serial interface, as well as offering error
+/// codes without crashing the system.
+class OIEncoder {
   public:
 	/// \brief Return codes
 	enum ReturnCode : int8_t {
@@ -58,12 +87,12 @@ class OpenInterface {
 	/// representation of the returned sensor data,
 	/// as it strikes the balance between usability,
 	/// size and speed optimization.
-	/// see OpenInterface::sensors
-	/// see OpenInterface::queryList
-	/// see OpenInterface::stream
+	/// see OIEncoder::sensors
+	/// see OIEncoder::queryList
+	/// see OIEncoder::stream
 	typedef uint8_t * sensor_data_t;
 	
-	OpenInterface (
+	OIEncoder (
 		void
 	);
 	
@@ -71,16 +100,26 @@ class OpenInterface {
 	/// \details Direct access sends bytes directly to the Open Interface.
 	/// Direct access is potentially dangerous, because the parameters are
 	/// not checked and the device can be left in a "waiting" state.
-	/// \param [in] opcode
-	/// \param [in] [data] An optional list of parameters for the OpCode
-	/// specified.
-	/// \warning Use of direct access will invalidate the current state of
-	/// the object, and will incur the overhead associated with polling
-	/// the state of the device to restore the current state.
+	/// \param [in] data_ A stream of bytes guaranteed to be a valid command
+	/// chain by the caller.
+	/// \param [in] resulting_baud_ The baud rate the Roomba will be using
+	/// after the execution of the byte stream provided in the data_ parameter.
+	/// \param [in] [ resulting_mode_ ] The OI mode the Roomba will be left in
+	/// after the execution of the byte stream provided in the data_ parameter.
+	/// \note If resulting_mode_ is not provided, then this function will incur
+	/// the overhead associated with polling the state of the device to restore
+	/// the current state.
+	/// \warning If resulting_baud_ is given an erroneous value, the OIEncoder
+	/// will no longer be able to calculate buffer overrun protection, even if
+	/// you have synchronized the caller and the Roomba correctly.
+	/// \warning If resulting_mode_ is given an erroneous value, the OIEncoder
+	/// will be left in an invalid state. At this time the stability and
+	/// behavior of this class become undefined. If you are unsure, then you 
 	void
 	operator() (
-		const command::OpCode opcode_,
-		const std::vector<uint8_t> & data_
+		const std::vector<uint8_t> & data_,
+		const OIMode resulting_baud_,
+		const OIMode resulting_mode_ = static_cast<OIMode>(-1)
 	);
 	
 	/// \brief Establishes a serial channel with the hardware.
@@ -100,7 +139,7 @@ class OpenInterface {
 	/// to communicate with the Roomba's Open Interface.
 	void
 	connectToSerialBus (
-		const std::function<size_t(const uint8_t *, size_t)> fnSerialWrite_
+		const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_
 	);
 	
 	/// \brief Releases control of the Roomba.
@@ -143,7 +182,7 @@ class OpenInterface {
 	
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
-	/// \see OpenInterface::safe
+	/// \see OIEncoder::safe
 	ReturnCode
 	control (
 		void
@@ -496,7 +535,7 @@ class OpenInterface {
 	/// \note If you send a second Song command, using the
 	/// same song number, the old song is overwritten.
 	/// \note Available in modes: Passive, Safe, or Full.
-	/// \see OpenInterface::play
+	/// \see OIEncoder::play
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -516,7 +555,7 @@ class OpenInterface {
 	/// \param [in] song_number (0-4) The number of the
 	/// song Roomba is to play.
 	/// \note Available in modes: Safe or Full
-	/// \see OpenInterface::song
+	/// \see OIEncoder::song
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
@@ -579,7 +618,7 @@ class OpenInterface {
 	/// ms time slot. If more data is requested, the data
 	/// stream will eventually become corrupted. This can be
 	/// confirmed by checking the checksum.
-	/// \see OpenInterface::pauseResumeStream
+	/// \see OIEncoder::pauseResumeStream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -597,7 +636,7 @@ class OpenInterface {
 	/// argument of true starts the stream using the list of
 	/// packets last requested.
 	/// \note Available in modes: Passive, Safe, or Full.
-	/// \see OpenInterface::stream
+	/// \see OIEncoder::stream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
@@ -607,7 +646,7 @@ class OpenInterface {
 	) const;
 	
   protected:
-	std::function<size_t(const uint8_t *, size_t)> _fnSerialWrite;
+	std::function<size_t(const uint8_t *, const size_t)> _fnSerialWrite;
 	OIMode _mode;
 	sensor_data_t *_sensor_data;
 	
@@ -618,8 +657,8 @@ class OpenInterface {
 	/// data once or until asked not to.
 	/// \param [in] opcode Send either QUERY_LIST or STREAM
 	/// \param [in] sensor_list A vector of packet ids
-	/// \see OpenInterface::queryList
-	/// \see OpenInterface::stream
+	/// \see OIEncoder::queryList
+	/// \see OIEncoder::stream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -631,10 +670,11 @@ class OpenInterface {
 	) const;
 };
 
+} // namespace oi
 } // namespace series500
 } // namespace roomba
 
-extern roomba::series500::OpenInterface OI;
+extern roomba::series500::oi::OIEncoder Encoder;
 
 #endif
 

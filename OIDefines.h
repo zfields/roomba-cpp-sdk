@@ -7,6 +7,8 @@
 
 namespace roomba {
 namespace series500 {
+namespace oi {
+
 /// \brief Baud (OpCode 129)
 enum BaudCode : uint8_t {
 	BAUD_300 = 0,
@@ -337,7 +339,9 @@ enum PacketId : uint8_t {
 	PACKETS_46_THRU_51 = 106,
 	PACKETS_54_THRU_58 = 107,
 };
+
 } // namespace sensor
+} // namespace oi
 } // namespace series500
 } // namespace roomba
 
