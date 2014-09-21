@@ -143,9 +143,9 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aab22c772c7033ffeb8cca563ebea42bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aab22c772c7033ffeb8cca563ebea42bd">operator()</a> (const std::vector&lt; uint8_t &gt; &amp;data_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> resulting_baud_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> resulting_mode_=static_cast&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> &gt;(-1))</td></tr>
-<tr class="memdesc:aab22c772c7033ffeb8cca563ebea42bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct access to the Open Interface.  <a href="#aab22c772c7033ffeb8cca563ebea42bd">More...</a><br /></td></tr>
-<tr class="separator:aab22c772c7033ffeb8cca563ebea42bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af84c9d7d238d3ae55ca51f86e351db12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af84c9d7d238d3ae55ca51f86e351db12">operator()</a> (const std::vector&lt; uint8_t &gt; &amp;data_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> resulting_baud_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> resulting_mode_=static_cast&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> &gt;(-1))</td></tr>
+<tr class="memdesc:af84c9d7d238d3ae55ca51f86e351db12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct access to the Open Interface.  <a href="#af84c9d7d238d3ae55ca51f86e351db12">More...</a><br /></td></tr>
+<tr class="separator:af84c9d7d238d3ae55ca51f86e351db12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac70158274e90759a4d93ccf27a076c47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac70158274e90759a4d93ccf27a076c47">connectToSerialBus</a> (const std::function&lt; size_t(const uint8_t *, const size_t)&gt; fnSerialWrite_)</td></tr>
 <tr class="memdesc:ac70158274e90759a4d93ccf27a076c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes a serial channel with the hardware.  <a href="#ac70158274e90759a4d93ccf27a076c47">More...</a><br /></td></tr>
 <tr class="separator:ac70158274e90759a4d93ccf27a076c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -245,15 +245,16 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:adea2ff25939589efd18d0ae64b14049b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adea2ff25939589efd18d0ae64b14049b"></a>
-std::function&lt; size_t(const <br class="typebreak" />
-uint8_t *, const size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_fnSerialWrite</b></td></tr>
+<tr class="memitem:adea2ff25939589efd18d0ae64b14049b"><td class="memItemLeft" align="right" valign="top">std::function&lt; size_t(const <br class="typebreak" />
+uint8_t *, const size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#adea2ff25939589efd18d0ae64b14049b">_fnSerialWrite</a></td></tr>
+<tr class="memdesc:adea2ff25939589efd18d0ae64b14049b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function supplying access to the serial bus.  <a href="#adea2ff25939589efd18d0ae64b14049b">More...</a><br /></td></tr>
 <tr class="separator:adea2ff25939589efd18d0ae64b14049b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad32c2523ae60429c8e3cd20e11414de8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad32c2523ae60429c8e3cd20e11414de8"></a>
-<a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>_mode</b></td></tr>
-<tr class="separator:ad32c2523ae60429c8e3cd20e11414de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22983349615457194a9714375f391b8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a22983349615457194a9714375f391b8b">_oi_mode</a></td></tr>
+<tr class="memdesc:a22983349615457194a9714375f391b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The operating mode of the Open Interface.  <a href="#a22983349615457194a9714375f391b8b">More...</a><br /></td></tr>
+<tr class="separator:a22983349615457194a9714375f391b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaf8bdbc3ee35ac20da50619cfaddd86"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeaf8bdbc3ee35ac20da50619cfaddd86"></a>
-<a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a19ddaf411fb6201dde68dd359932992b">sensor_data_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_sensor_data</b></td></tr>
+<a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a19ddaf411fb6201dde68dd359932992b">sensor_data_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aeaf8bdbc3ee35ac20da50619cfaddd86">_sensor_data</a></td></tr>
+<tr class="memdesc:aeaf8bdbc3ee35ac20da50619cfaddd86"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the data collected from the sensors. <br /></td></tr>
 <tr class="separator:aeaf8bdbc3ee35ac20da50619cfaddd86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -549,7 +550,7 @@ Available in modes: Safe or Full. </dd></dl>
   <table class="retval">
     <tr><td class="paramname">SUCCESS</td><td></td></tr>
     <tr><td class="paramname">OI_NOT_STARTED</td><td></td></tr>
-    <tr><td class="paramname">INVALID_MODE_FOR_REQUESTED_OPERATION</td><td></td></tr>
+    <tr><td class="paramname">INVALID__MODE__FOR_REQUESTED_OPERATION</td><td></td></tr>
     <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
     <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
   </table>
@@ -819,7 +820,7 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aab22c772c7033ffeb8cca563ebea42bd"></a>
+<a class="anchor" id="af84c9d7d238d3ae55ca51f86e351db12"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -832,7 +833,7 @@ Changes mode to: Passive. </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&#160;</td>
           <td class="paramname"><em>resulting_baud_</em>, </td>
         </tr>
         <tr>
@@ -854,7 +855,7 @@ Changes mode to: Passive. </dd></dl>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">data_</td><td>A stream of bytes guaranteed to be a valid command chain by the caller. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">resulting_baud_</td><td>The baud rate the Roomba will be using after the execution of the byte stream provided in the data_ parameter. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">[</td><td>resulting_mode_ ] The OI mode the Roomba will be left in after the execution of the byte stream provided in the data_ parameter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">[resulting_mode_]</td><td>The OI mode the Roomba will be left in after the execution of the byte stream provided in the data_ parameter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1497,6 +1498,53 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="adea2ff25939589efd18d0ae64b14049b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;size_t(const uint8_t *, const size_t)&gt; roomba::series500::oi::OIEncoder::_fnSerialWrite</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A function supplying access to the serial bus. </p>
+<p>This function is provided from the call to <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac70158274e90759a4d93ccf27a076c47" title="Establishes a serial channel with the hardware. ">connectToSerialBus()</a> after class has been instantiated. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac70158274e90759a4d93ccf27a076c47" title="Establishes a serial channel with the hardware. ">OIEncoder::connectToSerialBus</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a22983349615457194a9714375f391b8b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> roomba::series500::oi::OIEncoder::_oi_mode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The operating mode of the Open Interface. </p>
+<p>This variable is used to track the current operating mode of the open interface (i.e. Off, Passive, Safe, Full) </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/zachary_fields/Development/bitbucket/irobot-roomba-500-series-sdk/OIEncoder/<a class="el" href="_o_i_encoder_8h_source.html">OIEncoder.h</a></li>
 <li>/Users/zachary_fields/Development/bitbucket/irobot-roomba-500-series-sdk/OIEncoder/OIEncoder.cpp</li>
@@ -1504,7 +1552,7 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 19 2014 15:42:26 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 21 2014 16:44:50 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -1,4 +1,4 @@
-.TH "roomba::series500::oi::OIEncoder" 3 "Fri Sep 19 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::oi::OIEncoder" 3 "Sun Sep 21 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -41,7 +41,7 @@ Inherited by \fBOIEncoder_TC\fP\&.
 
 .in +1c
 .ti -1c
-.RI "void \fBoperator()\fP (const std::vector< uint8_t > &data_, const \fBOIMode\fP resulting_baud_, const \fBOIMode\fP resulting_mode_=static_cast< \fBOIMode\fP >(-1))"
+.RI "void \fBoperator()\fP (const std::vector< uint8_t > &data_, const \fBBaudCode\fP resulting_baud_, const \fBOIMode\fP resulting_mode_=static_cast< \fBOIMode\fP >(-1))"
 .br
 .RI "\fIDirect access to the Open Interface\&. \fP"
 .ti -1c
@@ -181,12 +181,15 @@ Inherited by \fBOIEncoder_TC\fP\&.
 .br
 uint8_t *, const size_t)> \fB_fnSerialWrite\fP"
 .br
+.RI "\fIA function supplying access to the serial bus\&. \fP"
 .ti -1c
-.RI "\fBOIMode\fP \fB_mode\fP"
+.RI "\fBOIMode\fP \fB_oi_mode\fP"
 .br
+.RI "\fIThe operating mode of the Open Interface\&. \fP"
 .ti -1c
 .RI "\fBsensor_data_t\fP * \fB_sensor_data\fP"
 .br
+.RI "\fIA pointer to the data collected from the sensors\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -421,7 +424,7 @@ Internal and environmental restrictions may prevent Roomba from accurately carry
 .br
 \fIOI_NOT_STARTED\fP 
 .br
-\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+\fIINVALID__MODE__FOR_REQUESTED_OPERATION\fP 
 .br
 \fIINVALID_PARAMETER\fP 
 .br
@@ -603,7 +606,7 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "void roomba::series500::oi::OIEncoder::operator() (const std::vector< uint8_t > &data_, const \fBOIMode\fPresulting_baud_, const \fBOIMode\fPresulting_mode_ = \fCstatic_cast<\fBOIMode\fP>(-1)\fP)"
+.SS "void roomba::series500::oi::OIEncoder::operator() (const std::vector< uint8_t > &data_, const \fBBaudCode\fPresulting_baud_, const \fBOIMode\fPresulting_mode_ = \fCstatic_cast<\fBOIMode\fP>(-1)\fP)"
 
 .PP
 Direct access to the Open Interface\&. Direct access sends bytes directly to the Open Interface\&. Direct access is potentially dangerous, because the parameters are not checked and the device can be left in a 'waiting' state\&. 
@@ -614,7 +617,7 @@ Direct access to the Open Interface\&. Direct access sends bytes directly to the
 .br
 \fIresulting_baud_\fP The baud rate the Roomba will be using after the execution of the byte stream provided in the data_ parameter\&. 
 .br
-\fI[\fP resulting_mode_ ] The OI mode the Roomba will be left in after the execution of the byte stream provided in the data_ parameter\&. 
+\fI[resulting_mode_]\fP The OI mode the Roomba will be left in after the execution of the byte stream provided in the data_ parameter\&. 
 .RE
 .PP
 \fBNote:\fP
@@ -1102,6 +1105,23 @@ It is up to you not to request more data than can be sent at the current baud ra
 .RE
 .PP
 
+.SH "Member Data Documentation"
+.PP 
+.SS "std::function<size_t(const uint8_t *, const size_t)> roomba::series500::oi::OIEncoder::_fnSerialWrite\fC [protected]\fP"
+
+.PP
+A function supplying access to the serial bus\&. This function is provided from the call to \fBconnectToSerialBus()\fP after class has been instantiated\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOIEncoder::connectToSerialBus\fP 
+.RE
+.PP
+
+.SS "\fBOIMode\fP roomba::series500::oi::OIEncoder::_oi_mode\fC [protected]\fP"
+
+.PP
+The operating mode of the Open Interface\&. This variable is used to track the current operating mode of the open interface (i\&.e\&. Off, Passive, Safe, Full) 
 
 .SH "Author"
 .PP 

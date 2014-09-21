@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hour',['hour',['../structroomba_1_1series500_1_1oi_1_1_o_i_encoder_1_1clock__time__t.html#a51b3ad60a0a77de31cd4bf301aa90db2',1,'roomba::series500::oi::OIEncoder::clock_time_t']]]
+  ['full',['full',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aab8b00ade2c7a6fb9568ef1920734b5a',1,'roomba::series500::oi::OIEncoder']]]
 ];

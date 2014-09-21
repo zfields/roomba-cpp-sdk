@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['pauseresumestream',['pauseResumeStream',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a7fa2db1885854427094d67cae5b29837',1,'roomba::series500::oi::OIEncoder']]],
-  ['pitch',['Pitch',['../namespaceroomba_1_1series500_1_1oi.html#a1a8bf7d79627d7b145a833e43b8cd214',1,'roomba::series500::oi']]],
-  ['play',['play',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af555b482307a4918c2b98eea4d8f2ba2',1,'roomba::series500::oi::OIEncoder']]],
-  ['pollsensors',['pollSensors',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#afd9efab31327a919e219580c2d09a9d9',1,'roomba::series500::oi::OIEncoder']]],
-  ['power',['power',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a1e7270f7d8fc1c19659c08135c619f03',1,'roomba::series500::oi::OIEncoder']]],
-  ['pwmmotors',['pwmMotors',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aee910e2a71de7ecab2367cbfcd621fed',1,'roomba::series500::oi::OIEncoder']]]
+  ['oiencoder',['OIEncoder',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html',1,'roomba::series500::oi']]],
+  ['oiencoder_5ftc',['OIEncoder_TC',['../class_o_i_encoder___t_c.html',1,'']]],
+  ['oimode',['OIMode',['../namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063',1,'roomba::series500::oi']]],
+  ['operator_28_29',['operator()',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af84c9d7d238d3ae55ca51f86e351db12',1,'roomba::series500::oi::OIEncoder']]]
 ];

@@ -104,7 +104,7 @@ class OIEncoder {
 	/// chain by the caller.
 	/// \param [in] resulting_baud_ The baud rate the Roomba will be using
 	/// after the execution of the byte stream provided in the data_ parameter.
-	/// \param [in] [ resulting_mode_ ] The OI mode the Roomba will be left in
+	/// \param [in] [resulting_mode_] The OI mode the Roomba will be left in
 	/// after the execution of the byte stream provided in the data_ parameter.
 	/// \note If resulting_mode_ is not provided, then this function will incur
 	/// the overhead associated with polling the state of the device to restore
@@ -118,7 +118,7 @@ class OIEncoder {
 	void
 	operator() (
 		const std::vector<uint8_t> & data_,
-		const OIMode resulting_baud_,
+		const BaudCode resulting_baud_,
 		const OIMode resulting_mode_ = static_cast<OIMode>(-1)
 	);
 	
@@ -337,7 +337,7 @@ class OIEncoder {
 	/// from accurately carrying out some drive commands.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
-	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
+	/// \retval INVALID__MODE__FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
@@ -646,8 +646,18 @@ class OIEncoder {
 	) const;
 	
   protected:
+	/// \brief A function supplying access to the serial bus
+	/// \details This function is provided from the call to
+	/// connectToSerialBus() after class has been instantiated.
+	/// \see OIEncoder::connectToSerialBus
 	std::function<size_t(const uint8_t *, const size_t)> _fnSerialWrite;
-	OIMode _mode;
+	
+	/// \brief The operating mode of the Open Interface
+	/// \details This variable is used to track the current operating
+	/// mode of the open interface (i.e. Off, Passive, Safe, Full)
+	OIMode _oi_mode;
+	
+	/// \brief A pointer to the data collected from the sensors
 	sensor_data_t *_sensor_data;
 	
 	/// \brief Core functionality of both queryList() and stream()

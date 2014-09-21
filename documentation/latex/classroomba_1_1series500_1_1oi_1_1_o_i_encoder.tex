@@ -41,7 +41,7 @@ typedef uint8\+\_\+t $\ast$ \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_en
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab22c772c7033ffeb8cca563ebea42bd}{operator()} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data\+\_\+, const \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} resulting\+\_\+baud\+\_\+, const \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} resulting\+\_\+mode\+\_\+=static\+\_\+cast$<$ \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} $>$(-\/1))
+void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af84c9d7d238d3ae55ca51f86e351db12}{operator()} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data\+\_\+, const \hyperlink{namespaceroomba_1_1series500_1_1oi_ae5028fe52e1dabe309aff04a45581bfd}{Baud\+Code} resulting\+\_\+baud\+\_\+, const \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} resulting\+\_\+mode\+\_\+=static\+\_\+cast$<$ \hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} $>$(-\/1))
 \begin{DoxyCompactList}\small\item\em Direct access to the Open Interface. \end{DoxyCompactList}\item 
 void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac70158274e90759a4d93ccf27a076c47}{connect\+To\+Serial\+Bus} (const std\+::function$<$ size\+\_\+t(const uint8\+\_\+t $\ast$, const size\+\_\+t)$>$ fn\+Serial\+Write\+\_\+)
 \begin{DoxyCompactList}\small\item\em Establishes a serial channel with the hardware. \end{DoxyCompactList}\item 
@@ -111,16 +111,14 @@ void \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac4b19dd335521207
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}{std\+::function$<$ size\+\_\+t(const \\*
-uint8\+\_\+t $\ast$, const size\+\_\+t)$>$ {\bfseries \+\_\+fn\+Serial\+Write}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}
+std\+::function$<$ size\+\_\+t(const \\*
+uint8\+\_\+t $\ast$, const size\+\_\+t)$>$ \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}{\+\_\+fn\+Serial\+Write}
+\begin{DoxyCompactList}\small\item\em A function supplying access to the serial bus. \end{DoxyCompactList}\item 
+\hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a22983349615457194a9714375f391b8b}{\+\_\+oi\+\_\+mode}
+\begin{DoxyCompactList}\small\item\em The operating mode of the Open Interface. \end{DoxyCompactList}\item 
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}{\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a19ddaf411fb6201dde68dd359932992b}{sensor\+\_\+data\+\_\+t} $\ast$ \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}{\+\_\+sensor\+\_\+data}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}
 
-\item 
-\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32c2523ae60429c8e3cd20e11414de8}{\hyperlink{namespaceroomba_1_1series500_1_1oi_a8dde6b4ac23e862ae50868c3963d7063}{O\+I\+Mode} {\bfseries \+\_\+mode}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ad32c2523ae60429c8e3cd20e11414de8}
-
-\item 
-\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}{\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a19ddaf411fb6201dde68dd359932992b}{sensor\+\_\+data\+\_\+t} $\ast$ {\bfseries \+\_\+sensor\+\_\+data}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aeaf8bdbc3ee35ac20da50619cfaddd86}
-
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em A pointer to the data collected from the sensors. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -376,7 +374,7 @@ Internal and environmental restrictions may prevent Roomba from accurately carry
 \hline
 {\em O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} & \\
 \hline
-{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
+{\em I\+N\+V\+A\+L\+I\+D\+\_\+\+\_\+\+M\+O\+D\+E\+\_\+\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} & \\
 \hline
 {\em I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} & \\
 \hline
@@ -586,15 +584,15 @@ Available in modes\+: Safe or Full.
 {\em S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} & \\
 \hline
 \end{DoxyRetVals}
-\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab22c772c7033ffeb8cca563ebea42bd}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!operator()@{operator()}}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af84c9d7d238d3ae55ca51f86e351db12}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!operator()@{operator()}}
 \index{operator()@{operator()}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
 \subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::operator() (
 \begin{DoxyParamCaption}
 \item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data\+\_\+, }
-\item[{const {\bf O\+I\+Mode}}]{resulting\+\_\+baud\+\_\+, }
+\item[{const {\bf Baud\+Code}}]{resulting\+\_\+baud\+\_\+, }
 \item[{const {\bf O\+I\+Mode}}]{resulting\+\_\+mode\+\_\+ = {\ttfamily static\+\_\+cast$<${\bf O\+I\+Mode}$>$(-\/1)}}
 \end{DoxyParamCaption}
-)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_aab22c772c7033ffeb8cca563ebea42bd}
+)}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af84c9d7d238d3ae55ca51f86e351db12}
 
 
 Direct access to the Open Interface. 
@@ -605,7 +603,7 @@ Direct access sends bytes directly to the Open Interface. Direct access is poten
 \hline
 \mbox{\tt in}  & {\em resulting\+\_\+baud\+\_\+} & The baud rate the Roomba will be using after the execution of the byte stream provided in the data\+\_\+ parameter. \\
 \hline
-\mbox{\tt in}  & {\em \mbox{[}} & resulting\+\_\+mode\+\_\+ \mbox{]} The O\+I mode the Roomba will be left in after the execution of the byte stream provided in the data\+\_\+ parameter. \\
+\mbox{\tt in}  & {\em \mbox{[}resulting\+\_\+mode\+\_\+\mbox{]}} & The O\+I mode the Roomba will be left in after the execution of the byte stream provided in the data\+\_\+ parameter. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyNote}{Note}
@@ -1134,6 +1132,26 @@ It is up to you not to request more data than can be sent at the current baud ra
 \hline
 \end{DoxyRetVals}
 
+
+\subsection{Member Data Documentation}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!\+\_\+fn\+Serial\+Write@{\+\_\+fn\+Serial\+Write}}
+\index{\+\_\+fn\+Serial\+Write@{\+\_\+fn\+Serial\+Write}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{\+\_\+fn\+Serial\+Write}]{\setlength{\rightskip}{0pt plus 5cm}std\+::function$<$size\+\_\+t(const uint8\+\_\+t $\ast$, const size\+\_\+t)$>$ roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::\+\_\+fn\+Serial\+Write\hspace{0.3cm}{\ttfamily [protected]}}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_adea2ff25939589efd18d0ae64b14049b}
+
+
+A function supplying access to the serial bus. 
+
+This function is provided from the call to \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac70158274e90759a4d93ccf27a076c47}{connect\+To\+Serial\+Bus()} after class has been instantiated. \begin{DoxySeeAlso}{See also}
+\hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_ac70158274e90759a4d93ccf27a076c47}{O\+I\+Encoder\+::connect\+To\+Serial\+Bus} 
+\end{DoxySeeAlso}
+\hypertarget{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a22983349615457194a9714375f391b8b}{\index{roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}!\+\_\+oi\+\_\+mode@{\+\_\+oi\+\_\+mode}}
+\index{\+\_\+oi\+\_\+mode@{\+\_\+oi\+\_\+mode}!roomba\+::series500\+::oi\+::\+O\+I\+Encoder@{roomba\+::series500\+::oi\+::\+O\+I\+Encoder}}
+\subsubsection[{\+\_\+oi\+\_\+mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf O\+I\+Mode} roomba\+::series500\+::oi\+::\+O\+I\+Encoder\+::\+\_\+oi\+\_\+mode\hspace{0.3cm}{\ttfamily [protected]}}}\label{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a22983349615457194a9714375f391b8b}
+
+
+The operating mode of the Open Interface. 
+
+This variable is used to track the current operating mode of the open interface (i.\+e. Off, Passive, Safe, Full) 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

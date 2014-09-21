@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['baud',['baud',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a063c0c08f5d6ac8fd97d2cbdd4e9f3f9',1,'roomba::series500::oi::OIEncoder']]],
-  ['baudcode',['BaudCode',['../namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd',1,'roomba::series500::oi']]],
-  ['buttons',['buttons',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ad1b02e78c92ebde01bfda683618c8a05',1,'roomba::series500::oi::OIEncoder']]]
+  ['_5ffnserialwrite',['_fnSerialWrite',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#adea2ff25939589efd18d0ae64b14049b',1,'roomba::series500::oi::OIEncoder']]],
+  ['_5foi_5fmode',['_oi_mode',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a22983349615457194a9714375f391b8b',1,'roomba::series500::oi::OIEncoder']]],
+  ['_5fsensor_5fdata',['_sensor_data',['../classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aeaf8bdbc3ee35ac20da50619cfaddd86',1,'roomba::series500::oi::OIEncoder']]]
 ];

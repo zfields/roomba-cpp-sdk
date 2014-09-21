@@ -20,7 +20,7 @@ using namespace roomba::series500::oi;
 class OIEncoder_TC : public OIEncoder {
   public:
 	using OIEncoder::_fnSerialWrite;
-	using OIEncoder::_mode;
+	using OIEncoder::_oi_mode;
 };
 
 namespace {
@@ -62,7 +62,7 @@ class SerialTransactionFailureOIModePASSIVE : public ::testing::Test {
 		void
 	) {
 		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
-		Encoder_tc._mode = PASSIVE;
+		Encoder_tc._oi_mode = PASSIVE;
 	}
 	
 	//virtual ~Initialization() {}
@@ -78,7 +78,7 @@ class SerialTransactionFailureOIModeFULL : public ::testing::Test {
 		void
 	) {
 		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
-		Encoder_tc._mode = FULL;
+		Encoder_tc._oi_mode = FULL;
 	}
 	
 	//virtual ~Initialization() {}
@@ -132,7 +132,7 @@ class AllSystemsGoOIModePASSIVE : public ::testing::Test {
 				return strnlen(serial_bus, 64);
 			}
 		);
-		Encoder_tc._mode = PASSIVE;
+		Encoder_tc._oi_mode = PASSIVE;
 	}
 	
 	//virtual ~Initialization() {}
@@ -162,7 +162,7 @@ class AllSystemsGoOIModeFULL : public ::testing::Test {
 				return strnlen(serial_bus, 64);
 			}
 		);
-		Encoder_tc._mode = FULL;
+		Encoder_tc._oi_mode = FULL;
 	}
 	
 	//virtual ~Initialization() {}
@@ -190,7 +190,7 @@ TEST_F(ObjectInitialization, constructor$WHENInitializedTHENCallingFnSerialWrite
 }
 
 TEST_F(ObjectInitialization, constructor$WHENInitializedTHENModeWillBeSetToOFF) {
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(ObjectInitialization, connectToSerialBus$WHENCalledTHENFnSerialWriteIsStored) {
@@ -206,7 +206,7 @@ TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
 
 TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHENModeIsSetToPassive) {
 	Encoder_tc.start();
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModeOFF, start$WHENfnSerialWriteFailsTHENReturnsError) {
@@ -215,7 +215,7 @@ TEST_F(SerialTransactionFailureOIModeOFF, start$WHENfnSerialWriteFailsTHENReturn
 
 TEST_F(SerialTransactionFailureOIModeOFF, start$WHENReturnsErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.start());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHEN129AndParametersAreWrittenToTheSerialBus) {
@@ -267,7 +267,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, safe$WHENCalledTHEN131IsWrittenToTheSerialBus)
 
 TEST_F(AllSystemsGoOIModePASSIVE, safe$WHENCalledTHENModeIsSetToSafe) {
 	Encoder_tc.safe();
-	ASSERT_EQ(SAFE, Encoder_tc._mode);
+	ASSERT_EQ(SAFE, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, safe$WHENOIModeIsOffTHENReturnsError) {
@@ -280,12 +280,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, safe$WHENfnSerialWriteFailsTHENRet
 
 TEST_F(AllSystemsGoOIModeOFF, safe$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.safe());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, safe$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.safe());
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, safe$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -300,7 +300,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, full$WHENCalledTHEN132IsWrittenToTheSerialBus)
 
 TEST_F(AllSystemsGoOIModePASSIVE, full$WHENCalledTHENModeIsSetToFull) {
 	Encoder_tc.full();
-	ASSERT_EQ(FULL, Encoder_tc._mode);
+	ASSERT_EQ(FULL, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, full$WHENOIModeIsOffTHENReturnsError) {
@@ -313,12 +313,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, full$WHENfnSerialWriteFailsTHENRet
 
 TEST_F(AllSystemsGoOIModeOFF, full$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.full());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, full$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.full());
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, full$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -333,7 +333,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, power$WHENCalledTHEN133IsWrittenToTheSerialBus
 
 TEST_F(AllSystemsGoOIModeFULL, power$WHENCalledTHENModeIsSetToPassive) {
 	Encoder_tc.power();
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, power$WHENOIModeIsOffTHENReturnsError) {
@@ -346,12 +346,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, power$WHENfnSerialWriteFailsTHENRe
 
 TEST_F(AllSystemsGoOIModeOFF, power$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.power());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, power$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.power());
-	ASSERT_EQ(FULL, Encoder_tc._mode);
+	ASSERT_EQ(FULL, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, power$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -370,7 +370,7 @@ TEST_F(AllSystemsGoOIModeOFF, spot$WHENOIModeIsOffTHENReturnsError) {
 
 TEST_F(AllSystemsGoOIModeFULL, spot$WHENCalledTHENModeIsSetToPassive) {
 	Encoder_tc.spot();
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, spot$WHENfnSerialWriteFailsTHENReturnsError) {
@@ -379,12 +379,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, spot$WHENfnSerialWriteFailsTHENRet
 
 TEST_F(AllSystemsGoOIModeOFF, spot$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.spot());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, spot$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.spot());
-	ASSERT_EQ(FULL, Encoder_tc._mode);
+	ASSERT_EQ(FULL, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, spot$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -403,7 +403,7 @@ TEST_F(AllSystemsGoOIModeOFF, clean$WHENOIModeIsOffTHENReturnsError) {
 
 TEST_F(AllSystemsGoOIModeFULL, clean$WHENCalledTHENModeIsSetToPassive) {
 	Encoder_tc.clean();
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, clean$WHENfnSerialWriteFailsTHENReturnsError) {
@@ -412,12 +412,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, clean$WHENfnSerialWriteFailsTHENRe
 
 TEST_F(AllSystemsGoOIModeOFF, clean$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.clean());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, clean$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.clean());
-	ASSERT_EQ(FULL, Encoder_tc._mode);
+	ASSERT_EQ(FULL, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, clean$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -436,7 +436,7 @@ TEST_F(AllSystemsGoOIModeOFF, max$WHENOIModeIsOffTHENReturnsError) {
 
 TEST_F(AllSystemsGoOIModeFULL, max$WHENCalledTHENModeIsSetToPassive) {
 	Encoder_tc.max();
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, max$WHENfnSerialWriteFailsTHENReturnsError) {
@@ -445,12 +445,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, max$WHENfnSerialWriteFailsTHENRetu
 
 TEST_F(AllSystemsGoOIModeOFF, max$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.max());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, max$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.max());
-	ASSERT_EQ(FULL, Encoder_tc._mode);
+	ASSERT_EQ(FULL, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, max$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -917,7 +917,7 @@ TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENOIModeIsOffTHENReturnsError) {
 
 TEST_F(AllSystemsGoOIModeFULL, seekDock$WHENCalledTHENModeIsSetToPassive) {
 	Encoder_tc.seekDock();
-	ASSERT_EQ(PASSIVE, Encoder_tc._mode);
+	ASSERT_EQ(PASSIVE, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, seekDock$WHENfnSerialWriteFailsTHENReturnsError) {
@@ -926,12 +926,12 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, seekDock$WHENfnSerialWriteFailsTHE
 
 TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.seekDock());
-	ASSERT_EQ(OFF, Encoder_tc._mode);
+	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, seekDock$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.seekDock());
-	ASSERT_EQ(FULL, Encoder_tc._mode);
+	ASSERT_EQ(FULL, Encoder_tc._oi_mode);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
