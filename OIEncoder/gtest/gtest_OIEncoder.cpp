@@ -7,10 +7,10 @@
 #include <cstring>
 
 //TODO: Hardware test Roomba for reaction to bad bytes and reduce data scrubbing if possible
-//TODO: Store _baud_rate as state for subsequent timing calculations
 //TODO: Confirm sensor packets are not requested more than every 15ms
 //TODO: Confirm requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
 //TODO: Review connectToSerialBus/_fnSerialWrite signatures for explicit lambda syntax
+//TODO: Move from pseudo-static class to namespace, assuming testing framework allows
 
 using namespace roomba::series500::oi;
 
@@ -21,6 +21,7 @@ class OIEncoder_TC : public OIEncoder {
   public:
 	using OIEncoder::_fnSerialWrite;
 	using OIEncoder::_oi_mode;
+	using OIEncoder::_baud_code;
 };
 
 namespace {
@@ -46,7 +47,7 @@ class SerialTransactionFailureOIModeOFF : public ::testing::Test {
 	SerialTransactionFailureOIModeOFF (
 		void
 	) {
-		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
+		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; }, BAUD_115200);
 	}
 	
 	//virtual ~Initialization() {}
@@ -61,7 +62,7 @@ class SerialTransactionFailureOIModePASSIVE : public ::testing::Test {
 	SerialTransactionFailureOIModePASSIVE (
 		void
 	) {
-		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
+		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; }, BAUD_115200);
 		Encoder_tc._oi_mode = PASSIVE;
 	}
 	
@@ -77,7 +78,7 @@ class SerialTransactionFailureOIModeFULL : public ::testing::Test {
 	SerialTransactionFailureOIModeFULL (
 		void
 	) {
-		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; });
+		Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 0; }, BAUD_115200);
 		Encoder_tc._oi_mode = FULL;
 	}
 	
@@ -101,7 +102,8 @@ class AllSystemsGoOIModeOFF : public ::testing::Test {
 				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
 				memcpy(serial_bus, byte_array_, length_);
 				return strnlen(serial_bus, 64);
-			}
+			},
+			BAUD_115200
 		);
 	}
 	
@@ -130,7 +132,8 @@ class AllSystemsGoOIModePASSIVE : public ::testing::Test {
 				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
 				memcpy(serial_bus, byte_array_, length_);
 				return strnlen(serial_bus, 64);
-			}
+			}, 
+			BAUD_115200
 		);
 		Encoder_tc._oi_mode = PASSIVE;
 	}
@@ -160,7 +163,8 @@ class AllSystemsGoOIModeFULL : public ::testing::Test {
 				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
 				memcpy(serial_bus, byte_array_, length_);
 				return strnlen(serial_bus, 64);
-			}
+			},
+			BAUD_115200
 		);
 		Encoder_tc._oi_mode = FULL;
 	}
@@ -189,14 +193,43 @@ TEST_F(ObjectInitialization, constructor$WHENInitializedTHENCallingFnSerialWrite
 	Encoder_tc._fnSerialWrite(NULL, 0);
 }
 
-TEST_F(ObjectInitialization, constructor$WHENInitializedTHENModeWillBeSetToOFF) {
-	ASSERT_EQ(OFF, Encoder_tc._oi_mode);
+TEST_F(ObjectInitialization, constructor$WHENInitializedTHENOIModeWillBeSetToOFF) {
+	ASSERT_EQ(Encoder_tc._oi_mode, OFF);
+}
+
+TEST_F(ObjectInitialization, constructor$WHENInitializedTHENBaudCodeWillBeSetToBAUD115200) {
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_115200);
 }
 
 TEST_F(ObjectInitialization, connectToSerialBus$WHENCalledTHENFnSerialWriteIsStored) {
 	ASSERT_EQ(0, Encoder_tc._fnSerialWrite(NULL, 0));
-	Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; });
+	Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; }, BAUD_19200);
 	ASSERT_EQ(69, Encoder_tc._fnSerialWrite(NULL, 0));
+}
+
+TEST_F(ObjectInitialization, connectToSerialBus$WHENOptionalParameterBaudCodeIsProvidedTHENBaudCodeIsSet) {
+	Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; }, BAUD_19200);
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_19200);
+}
+
+TEST_F(ObjectInitialization, connectToSerialBus$WHENOptionalParameterBaudCodeIsNOTProvidedTHENBaudCodeIsSetToBAUD115200) {
+	Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; }, BAUD_19200);
+	Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; });
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_115200);
+}
+
+TEST_F(ObjectInitialization, connectToSerialBus$WHENBaudCodeIsNotEqualToBAUD19200OrBAUD115200THENParameterIsInvalid) {
+	ASSERT_EQ(OIEncoder::INVALID_PARAMETER, Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; }, BAUD_57600));
+}
+
+TEST_F(ObjectInitialization, connectToSerialBus$WHENBaudCodeIsNotEqualToBAUD19200OrBAUD115200THENBaudCodeIsNotSet) {
+	ASSERT_EQ(OIEncoder::INVALID_PARAMETER, Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; }, BAUD_57600));
+	ASSERT_NE(Encoder_tc._baud_code, BAUD_57600);
+}
+
+TEST_F(ObjectInitialization, connectToSerialBus$WHENBaudCodeIsNotEqualToBAUD19200OrBAUD115200THENFnSerialWriteIsNotStored) {
+	ASSERT_EQ(OIEncoder::INVALID_PARAMETER, Encoder_tc.connectToSerialBus([](const uint8_t *, size_t){ return 69; }, BAUD_57600));
+	ASSERT_EQ(0, Encoder_tc._fnSerialWrite(NULL, 0));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
@@ -221,7 +254,12 @@ TEST_F(SerialTransactionFailureOIModeOFF, start$WHENReturnsErrorTHENModeIsUnchan
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHEN129AndParametersAreWrittenToTheSerialBus) {
 	Encoder_tc.baud(BAUD_57600);
 	ASSERT_EQ(129, static_cast<uint8_t>(serial_bus[0]));
-	ASSERT_EQ(BAUD_57600, static_cast<uint8_t>(serial_bus[1]));
+	ASSERT_EQ(10, static_cast<uint8_t>(serial_bus[1]));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHENBaudCodeIsSet) {
+	Encoder_tc.baud(BAUD_57600);
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_57600);
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHENBlockFor100ms) {
@@ -247,12 +285,29 @@ TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENParameterIsInvalidTHENNoDataIsWritten
 	}
 }
 
+TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENParameterIsInvalidTHENBaudCodeIsNotSet) {
+	for ( int i = 12 ; i <= 255 ; ++i ) {
+		EXPECT_EQ(OIEncoder::INVALID_PARAMETER, Encoder_tc.baud(static_cast<BaudCode>(i)));
+		ASSERT_EQ(Encoder_tc._baud_code, BAUD_115200);
+	}
+}
+
 TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENReturnsError) {
 	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.baud(BAUD_57600));
 }
 
+TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENBaudCodeIsNotSet) {
+	ASSERT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.baud(BAUD_57600));
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_115200);
+}
+
 TEST_F(SerialTransactionFailureOIModePASSIVE, baud$WHENfnSerialWriteFailsTHENReturnsError) {
 	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.baud(BAUD_57600));
+}
+
+TEST_F(SerialTransactionFailureOIModePASSIVE, baud$WHENfnSerialWriteFailsTHENBaudCodeIsNotSet) {
+	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc.baud(BAUD_57600));
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_115200);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -1936,6 +1991,64 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, setDayTime$WHENfnSerialWriteFailsT
 TEST_F(AllSystemsGoOIModeOFF, setDayTime$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	EXPECT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.setDayTime(TUESDAY, OIEncoder::clock_time_t(11,23)));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
+}
+
+TEST_F(AllSystemsGoOIModeOFF, rawData$WHENRawDataIsPassedToOIEncoderTHENTheDataIsWrittenDirectlyToTheSerialBus) {
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	Encoder_tc(raw_instructions);
+	
+	EXPECT_EQ(128, static_cast<uint8_t>(serial_bus[0]));
+	EXPECT_EQ(132, static_cast<uint8_t>(serial_bus[1]));
+	EXPECT_EQ(134, static_cast<uint8_t>(serial_bus[2]));
+}
+
+TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingModeIsProvidedTHENOIModeIsSet) {
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	Encoder_tc(raw_instructions, PASSIVE);
+	
+	ASSERT_EQ(Encoder_tc._oi_mode, PASSIVE);
+}
+
+TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingModeIsNOTProvidedTHENOIModeIsNOTChanged) {
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	Encoder_tc(raw_instructions);
+	
+	ASSERT_EQ(Encoder_tc._oi_mode, OFF);
+}
+
+TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingBaudIsProvidedTHENBaudCodeIsSet) {
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	Encoder_tc(raw_instructions, PASSIVE, BAUD_57600);
+	
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_57600);
+}
+
+TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingModeIsNOTProvidedTHENBaudCodeIsNOTChanged) {
+	Encoder_tc._baud_code = BAUD_19200;
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	Encoder_tc(raw_instructions);
+	
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_19200);
+}
+
+TEST_F(SerialTransactionFailureOIModeOFF, rawData$WHENfnSerialWriteFailsTHENReturnsError) {
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc(raw_instructions));
+}
+
+TEST_F(SerialTransactionFailureOIModeOFF, rawData$WHENfnSerialWriteFailsTHENOIModeIsNOTChanged) {
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc(raw_instructions, PASSIVE));
+	
+	ASSERT_EQ(Encoder_tc._oi_mode, OFF);
+}
+
+TEST_F(SerialTransactionFailureOIModeOFF, rawData$WHENfnSerialWriteFailsTHENBaudCodeIsNOTChanged) {
+	Encoder_tc._baud_code = BAUD_19200;
+	std::vector<uint8_t> raw_instructions = { 0x80, 0x84, 0x86 };
+	ASSERT_EQ(OIEncoder::SERIAL_TRANSFER_FAILURE, Encoder_tc(raw_instructions, PASSIVE, BAUD_57600));
+	
+	ASSERT_EQ(Encoder_tc._baud_code, BAUD_19200);
 }
 
 } // namespace

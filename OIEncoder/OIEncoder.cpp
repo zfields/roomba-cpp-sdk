@@ -13,14 +13,21 @@ OIEncoder::OIEncoder (
 	void
 ) :
 	_fnSerialWrite([](const uint8_t *, const size_t){ return 0; }),
-	_oi_mode(OFF)
+	_oi_mode(OFF),
+	_baud_code(BAUD_115200)
 {}
 
-void
+OIEncoder::ReturnCode
 OIEncoder::connectToSerialBus (
-	const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_
+	const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_,
+	const BaudCode baud_code_
 ) {
+	if ( BAUD_115200 != baud_code_ && BAUD_19200 != baud_code_ ) { return INVALID_PARAMETER; }
+	
 	_fnSerialWrite = fnSerialWrite_;
+	_baud_code = baud_code_;
+	
+	return SUCCESS;
 }
 
 OIEncoder::ReturnCode
@@ -38,12 +45,13 @@ OIEncoder::start (
 OIEncoder::ReturnCode
 OIEncoder::baud (
 	const BaudCode baud_code_
-) const {
+) {
 	const uint8_t serial_data[2] = { command::BAUD, baud_code_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( baud_code_ > 11 ) { return INVALID_PARAMETER; }
-	
+
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	_baud_code = baud_code_;
 	
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	return SUCCESS;
@@ -404,13 +412,17 @@ OIEncoder::pauseResumeStream (
 	return SUCCESS;
 }
 
-void
+OIEncoder::ReturnCode
 OIEncoder::operator() (
-	const std::vector<uint8_t> & data_,
-	const BaudCode resulting_baud_,
-	const OIMode resulting_mode_
+	const std::vector<uint8_t> & raw_instructions_,
+	const OIMode resulting_mode_,
+	const BaudCode resulting_baud_
 ) {
-	return;
+	if ( !_fnSerialWrite(raw_instructions_.data(), raw_instructions_.size()) ) { return SERIAL_TRANSFER_FAILURE; }
+	if ( 0xFF != resulting_mode_ ) { _oi_mode = resulting_mode_; }
+	if ( 0xFF != resulting_baud_ ) { _baud_code = resulting_baud_; }
+	
+	return SUCCESS;
 }
 
 OIEncoder::ReturnCode

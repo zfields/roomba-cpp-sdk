@@ -100,8 +100,8 @@ class OIEncoder {
 	/// \details Direct access sends bytes directly to the Open Interface.
 	/// Direct access is potentially dangerous, because the parameters are
 	/// not checked and the device can be left in a "waiting" state.
-	/// \param [in] data_ A stream of bytes guaranteed to be a valid command
-	/// chain by the caller.
+	/// \param [in] raw_instructions_ A stream of bytes guaranteed to be a
+	/// valid command chain by the caller.
 	/// \param [in] resulting_baud_ The baud rate the Roomba will be using
 	/// after the execution of the byte stream provided in the data_ parameter.
 	/// \param [in] [resulting_mode_] The OI mode the Roomba will be left in
@@ -115,11 +115,13 @@ class OIEncoder {
 	/// \warning If resulting_mode_ is given an erroneous value, the OIEncoder
 	/// will be left in an invalid state. At this time the stability and
 	/// behavior of this class become undefined. If you are unsure, then you 
-	void
+	/// \retval SUCCESS
+	/// \retval SERIAL_TRANSFER_FAILURE
+	ReturnCode
 	operator() (
-		const std::vector<uint8_t> & data_,
-		const BaudCode resulting_baud_,
-		const OIMode resulting_mode_ = static_cast<OIMode>(-1)
+		const std::vector<uint8_t> & raw_instructions_,
+		const OIMode resulting_mode_ = static_cast<OIMode>(-1),
+		const BaudCode resulting_baud_ = static_cast<BaudCode>(-1)
 	);
 	
 	/// \brief Establishes a serial channel with the hardware.
@@ -134,12 +136,18 @@ class OIEncoder {
 	/// or the Roomba can be signaled on the baud rate change line.
 	/// \param [in] fnSerialWrite_ A function that writes to the
 	/// serial bus at either 115200 or 19200 baud.
+	/// \param [in] [baud_code_] The baud rate at which the specified
+	/// serial function will write to the serial bus (default value:
+	/// BAUD_115200).
 	/// \warning If the baud rate of fnSerialWrite is not synchronized
 	/// to the baud rate of the Roomba, then this class will be unable
 	/// to communicate with the Roomba's Open Interface.
-	void
+	/// \retval SUCCESS
+	/// \retval INVALID_PARAMETER
+	OIEncoder::ReturnCode
 	connectToSerialBus (
-		const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_
+		const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_,
+		const BaudCode baud_code_ = BAUD_115200
 	);
 	
 	/// \brief Releases control of the Roomba.
@@ -178,7 +186,7 @@ class OIEncoder {
 	ReturnCode
 	baud (
 		const BaudCode baud_code_
-	) const;
+	);
 	
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
@@ -656,6 +664,11 @@ class OIEncoder {
 	/// \details This variable is used to track the current operating
 	/// mode of the open interface (i.e. Off, Passive, Safe, Full)
 	OIMode _oi_mode;
+	
+	/// \brief The baud rate associated with the serial bus
+	/// \details This variable is used to calculate buffer overrun
+	/// protection.
+	BaudCode _baud_code;
 	
 	/// \brief A pointer to the data collected from the sensors
 	sensor_data_t *_sensor_data;
