@@ -7,9 +7,8 @@
 #include <cstring>
 
 //TODO: Hardware test Roomba for reaction to bad bytes and reduce data scrubbing if possible
-//TODO: Confirm sensor packets are not requested more than every 15ms
-//TODO: Confirm requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
-//TODO: Review connectToSerialBus/_fnSerialWrite signatures for explicit lambda syntax
+//TODO: Guarantee sensor packets are not requested more than every 15ms
+//TODO: Guarantee requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
 //TODO: Move from pseudo-static class to namespace, assuming testing framework allows
 
 using namespace roomba::series500::oi;
