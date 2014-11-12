@@ -1,0 +1,189 @@
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors}{\section{roomba\+:\+:series500\+:\+:oi\+:\+:sensors Namespace Reference}
+\label{namespaceroomba_1_1series500_1_1oi_1_1sensors}\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
+}
+
+
+Data type loaded by sensor methods.  
+
+
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}{Return\+Code} \+: int8\+\_\+t \{ \\*
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+C\+H\+E\+C\+K\+S\+U\+M} = -\/101, 
+{\bfseries S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} = -\/100, 
+{\bfseries N\+O\+\_\+\+D\+A\+T\+A\+\_\+\+A\+V\+A\+I\+L\+A\+B\+L\+E} = -\/2, 
+{\bfseries F\+A\+I\+L\+U\+R\+E\+\_\+\+T\+O\+\_\+\+S\+Y\+N\+C} = -\/1, 
+\\*
+{\bfseries S\+U\+C\+C\+E\+S\+S} = 0
+ \}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}
+
+\begin{DoxyCompactList}\small\item\em Return codes. \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{enum \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} \+: uint8\+\_\+t \{ \\*
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+7\+\_\+\+T\+H\+R\+U\+\_\+26} = 0, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+7\+\_\+\+T\+H\+R\+U\+\_\+16} = 1, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+17\+\_\+\+T\+H\+R\+U\+\_\+20} = 2, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+21\+\_\+\+T\+H\+R\+U\+\_\+26} = 3, 
+\\*
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+27\+\_\+\+T\+H\+R\+U\+\_\+34} = 4, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+35\+\_\+\+T\+H\+R\+U\+\_\+42} = 5, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+7\+\_\+\+T\+H\+R\+U\+\_\+42} = 6, 
+{\bfseries B\+U\+M\+P\+S\+\_\+\+A\+N\+D\+\_\+\+W\+H\+E\+E\+L\+\_\+\+D\+R\+O\+P\+S} = 7, 
+\\*
+{\bfseries W\+A\+L\+L} = 8, 
+{\bfseries C\+L\+I\+F\+F\+\_\+\+L\+E\+F\+T} = 9, 
+{\bfseries C\+L\+I\+F\+F\+\_\+\+F\+R\+O\+N\+T\+\_\+\+L\+E\+F\+T} = 10, 
+{\bfseries C\+L\+I\+F\+F\+\_\+\+F\+R\+O\+N\+T\+\_\+\+R\+I\+G\+H\+T} = 11, 
+\\*
+{\bfseries C\+L\+I\+F\+F\+\_\+\+R\+I\+G\+H\+T} = 12, 
+{\bfseries V\+I\+R\+T\+U\+A\+L\+\_\+\+W\+A\+L\+L} = 13, 
+{\bfseries M\+O\+T\+O\+R\+\_\+\+O\+V\+E\+R\+C\+U\+R\+R\+E\+N\+T\+S} = 14, 
+{\bfseries D\+I\+R\+T\+\_\+\+D\+E\+T\+E\+C\+T} = 15, 
+\\*
+{\bfseries I\+N\+F\+R\+A\+R\+E\+D\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R\+\_\+\+O\+M\+N\+I} = 17, 
+{\bfseries B\+U\+T\+T\+O\+N\+S} = 18, 
+{\bfseries D\+I\+S\+T\+A\+N\+C\+E} = 19, 
+{\bfseries A\+N\+G\+L\+E} = 20, 
+\\*
+{\bfseries C\+H\+A\+R\+G\+I\+N\+G\+\_\+\+S\+T\+A\+T\+E} = 21, 
+{\bfseries V\+O\+L\+T\+A\+G\+E} = 22, 
+{\bfseries C\+U\+R\+R\+E\+N\+T} = 23, 
+{\bfseries T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E} = 24, 
+\\*
+{\bfseries B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+H\+A\+R\+G\+E} = 25, 
+{\bfseries B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y} = 26, 
+{\bfseries W\+A\+L\+L\+\_\+\+S\+I\+G\+N\+A\+L} = 27, 
+{\bfseries C\+L\+I\+F\+F\+\_\+\+L\+E\+F\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 28, 
+\\*
+{\bfseries C\+L\+I\+F\+F\+\_\+\+F\+R\+O\+N\+T\+\_\+\+L\+E\+F\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 29, 
+{\bfseries C\+L\+I\+F\+F\+\_\+\+F\+R\+O\+N\+T\+\_\+\+R\+I\+G\+H\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 30, 
+{\bfseries C\+L\+I\+F\+F\+\_\+\+R\+I\+G\+H\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 31, 
+{\bfseries C\+H\+A\+R\+G\+I\+N\+G\+\_\+\+S\+O\+U\+R\+C\+E\+S\+\_\+\+A\+V\+A\+I\+L\+A\+B\+L\+E} = 34, 
+\\*
+{\bfseries O\+I\+\_\+\+M\+O\+D\+E} = 35, 
+{\bfseries S\+O\+N\+G\+\_\+\+N\+U\+M\+B\+E\+R} = 36, 
+{\bfseries S\+O\+N\+G\+\_\+\+P\+L\+A\+Y\+I\+N\+G} = 37, 
+{\bfseries N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+P\+A\+C\+K\+E\+T\+S} = 38, 
+\\*
+{\bfseries R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+V\+E\+L\+O\+C\+I\+T\+Y} = 39, 
+{\bfseries R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+R\+A\+D\+I\+U\+S} = 40, 
+{\bfseries R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+R\+I\+G\+H\+T\+\_\+\+V\+E\+L\+O\+C\+I\+T\+Y} = 41, 
+{\bfseries R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+L\+E\+F\+T\+\_\+\+V\+E\+L\+O\+C\+I\+T\+Y} = 42, 
+\\*
+{\bfseries R\+I\+G\+H\+T\+\_\+\+E\+N\+C\+O\+D\+E\+R\+\_\+\+C\+O\+U\+N\+T\+S} = 43, 
+{\bfseries L\+E\+F\+T\+\_\+\+E\+N\+C\+O\+D\+E\+R\+\_\+\+C\+O\+U\+N\+T\+S} = 44, 
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+E\+R} = 45, 
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+\_\+\+L\+E\+F\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 46, 
+\\*
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+\_\+\+F\+R\+O\+N\+T\+\_\+\+L\+E\+F\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 47, 
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+\_\+\+C\+E\+N\+T\+E\+R\+\_\+\+L\+E\+F\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 48, 
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+\_\+\+C\+E\+N\+T\+E\+R\+\_\+\+R\+I\+G\+H\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 49, 
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+\_\+\+F\+R\+O\+N\+T\+\_\+\+R\+I\+G\+H\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 50, 
+\\*
+{\bfseries L\+I\+G\+H\+T\+\_\+\+B\+U\+M\+P\+\_\+\+R\+I\+G\+H\+T\+\_\+\+S\+I\+G\+N\+A\+L} = 51, 
+{\bfseries I\+N\+F\+R\+A\+R\+E\+D\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R\+\_\+\+L\+E\+F\+T} = 52, 
+{\bfseries I\+N\+F\+R\+A\+R\+E\+D\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R\+\_\+\+R\+I\+G\+H\+T} = 53, 
+{\bfseries L\+E\+F\+T\+\_\+\+M\+O\+T\+O\+R\+\_\+\+C\+U\+R\+R\+E\+N\+T} = 54, 
+\\*
+{\bfseries R\+I\+G\+H\+T\+\_\+\+M\+O\+T\+O\+R\+\_\+\+C\+U\+R\+R\+E\+N\+T} = 55, 
+{\bfseries M\+A\+I\+N\+\_\+\+B\+R\+U\+S\+H\+\_\+\+M\+O\+T\+O\+R\+\_\+\+C\+U\+R\+R\+E\+N\+T} = 56, 
+{\bfseries S\+I\+D\+E\+\_\+\+B\+R\+U\+S\+H\+\_\+\+M\+O\+T\+O\+R\+\_\+\+C\+U\+R\+R\+E\+N\+T} = 57, 
+{\bfseries S\+T\+A\+S\+I\+S} = 58, 
+\\*
+{\bfseries A\+L\+L\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+D\+A\+T\+A} = 100, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+7\+\_\+\+T\+H\+R\+U\+\_\+58} = 100, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+43\+\_\+\+T\+H\+R\+U\+\_\+58} = 101, 
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+46\+\_\+\+T\+H\+R\+U\+\_\+51} = 106, 
+\\*
+{\bfseries P\+A\+C\+K\+E\+T\+S\+\_\+54\+\_\+\+T\+H\+R\+U\+\_\+58} = 107
+ \}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}
+
+\begin{DoxyCompactList}\small\item\em i\+Robot® Roomba Open Interface (O\+I) Sensor Packets \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}{Return\+Code} \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a55e703cd451e199cd600a41230239de7}{parse\+Serial\+Data} (void)
+\begin{DoxyCompactList}\small\item\em Function to receive serial data. \end{DoxyCompactList}\item 
+\hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}{Return\+Code} \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_aad9d5021c285d0aa1382be994ccdc841}{set\+Parse\+Key} (uint8\+\_\+t const $\ast$const parse\+\_\+key\+\_\+)
+\begin{DoxyCompactList}\small\item\em Function to store parse key. \end{DoxyCompactList}\item 
+\hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}{Return\+Code} \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a670e21671d8c2923a3fbac6e7ebc28eb}{value\+Of\+Sensor} (const \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} packet\+\_\+id\+\_\+, uint16\+\_\+t $\ast$const value\+\_\+, bool $\ast$const is\+\_\+signed\+\_\+)
+\begin{DoxyCompactList}\small\item\em Provides access to sensor data. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a63498ea1417feb6c390694f752277641}{packet\+Size} (const \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} packet\+\_\+id\+\_\+)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a4869957d0a94bd8548056c4ebd8effb6}{const \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} {\bfseries P\+A\+C\+K\+E\+T\+\_\+\+I\+N\+F\+O} \mbox{[}$\,$\mbox{]}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a4869957d0a94bd8548056c4ebd8effb6}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data type loaded by sensor methods. 
+
+Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a5b7751abfbb6a07a0c62b7a1646e3703}{O\+I\+Encoder\+::sensors} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a576852ce7ce8da29fd1e1088abc8c466}{O\+I\+Encoder\+::query\+List} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af0a440e4ed8b689a2ba9a8554f951e91}{O\+I\+Encoder\+::stream}
+
+Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a5b7751abfbb6a07a0c62b7a1646e3703}{O\+I\+Encoder\+::sensors} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a576852ce7ce8da29fd1e1088abc8c466}{O\+I\+Encoder\+::query\+List} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af0a440e4ed8b689a2ba9a8554f951e91}{O\+I\+Encoder\+::stream} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a7fa2db1885854427094d67cae5b29837}{O\+I\+Encoder\+::pause\+Resume\+Stream} 
+
+\subsection{Function Documentation}
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a63498ea1417feb6c390694f752277641}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!packet\+Size@{packet\+Size}}
+\index{packet\+Size@{packet\+Size}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
+\subsubsection[{packet\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t roomba\+::series500\+::oi\+::sensors\+::packet\+Size (
+\begin{DoxyParamCaption}
+\item[{const Packet\+Id}]{packet\+\_\+id\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a63498ea1417feb6c390694f752277641}
+\begin{DoxyNote}{Note}
+Values taken from i\+Robot® Roomba Open Interface (O\+I) Specification (page 19) 
+\end{DoxyNote}
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a55e703cd451e199cd600a41230239de7}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!parse\+Serial\+Data@{parse\+Serial\+Data}}
+\index{parse\+Serial\+Data@{parse\+Serial\+Data}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
+\subsubsection[{parse\+Serial\+Data}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::sensors\+::parse\+Serial\+Data (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a55e703cd451e199cd600a41230239de7}
+
+
+Function to receive serial data. 
+
+Parses data received from Roomba and stores it in memory accessible by the \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} object. \hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_aad9d5021c285d0aa1382be994ccdc841}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!set\+Parse\+Key@{set\+Parse\+Key}}
+\index{set\+Parse\+Key@{set\+Parse\+Key}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
+\subsubsection[{set\+Parse\+Key}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::sensors\+::set\+Parse\+Key (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t const $\ast$const}]{parse\+\_\+key\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_aad9d5021c285d0aa1382be994ccdc841}
+
+
+Function to store parse key. 
+
+A parsing key is generated during the call to query\+List() or sensors() to describe the format of the data returned by the i\+Robot® Roomba. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em parse\+\_\+key\+\_\+} & An array of bytes describing the data requested from the i\+Robot® Roomba. ~\newline
+ Index 0 contains the length of the array. ~\newline
+ The remaining values are packet id values of the data requested from the i\+Robot® Roomba. \\
+\hline
+\end{DoxyParams}
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a670e21671d8c2923a3fbac6e7ebc28eb}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!value\+Of\+Sensor@{value\+Of\+Sensor}}
+\index{value\+Of\+Sensor@{value\+Of\+Sensor}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
+\subsubsection[{value\+Of\+Sensor}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::sensors\+::value\+Of\+Sensor (
+\begin{DoxyParamCaption}
+\item[{const Packet\+Id}]{packet\+\_\+id\+\_\+, }
+\item[{uint16\+\_\+t $\ast$const}]{value\+\_\+, }
+\item[{bool $\ast$const}]{is\+\_\+signed\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a670e21671d8c2923a3fbac6e7ebc28eb}
+
+
+Provides access to sensor data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em packet\+\_\+id\+\_\+} & The packet id of the sensor you want the value of \\
+\hline
+\mbox{\tt out}  & {\em value\+\_\+} & A pointer to the sixteen-\/bit field to store the value of the requested sensor \\
+\hline
+\mbox{\tt out}  & {\em is\+\_\+signed\+\_\+} & A boolean indicating if the value of the requested sensor is signed or unsigned \\
+\hline
+\end{DoxyParams}

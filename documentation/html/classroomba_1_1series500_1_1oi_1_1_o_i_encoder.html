@@ -137,27 +137,24 @@ Public Types</h2></td></tr>
 <tr class="memitem:ab4b7bf89bb873d838512791e339694fd"><td class="memItemLeft" align="right" valign="top">typedef std::pair&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a1a8bf7d79627d7b145a833e43b8cd214">Pitch</a>, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab4b7bf89bb873d838512791e339694fd">note_t</a></td></tr>
 <tr class="memdesc:ab4b7bf89bb873d838512791e339694fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A musical note is defined by the frequency related pitch and length or duration.  <a href="#ab4b7bf89bb873d838512791e339694fd">More...</a><br /></td></tr>
 <tr class="separator:ab4b7bf89bb873d838512791e339694fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19ddaf411fb6201dde68dd359932992b"><td class="memItemLeft" align="right" valign="top">typedef uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a19ddaf411fb6201dde68dd359932992b">sensor_data_t</a></td></tr>
-<tr class="memdesc:a19ddaf411fb6201dde68dd359932992b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data type returned by sensor methods.  <a href="#a19ddaf411fb6201dde68dd359932992b">More...</a><br /></td></tr>
-<tr class="separator:a19ddaf411fb6201dde68dd359932992b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af84c9d7d238d3ae55ca51f86e351db12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af84c9d7d238d3ae55ca51f86e351db12">operator()</a> (const std::vector&lt; uint8_t &gt; &amp;data_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> resulting_baud_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> resulting_mode_=static_cast&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> &gt;(-1))</td></tr>
-<tr class="memdesc:af84c9d7d238d3ae55ca51f86e351db12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct access to the Open Interface.  <a href="#af84c9d7d238d3ae55ca51f86e351db12">More...</a><br /></td></tr>
-<tr class="separator:af84c9d7d238d3ae55ca51f86e351db12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac70158274e90759a4d93ccf27a076c47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac70158274e90759a4d93ccf27a076c47">connectToSerialBus</a> (const std::function&lt; size_t(const uint8_t *, const size_t)&gt; fnSerialWrite_)</td></tr>
-<tr class="memdesc:ac70158274e90759a4d93ccf27a076c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes a serial channel with the hardware.  <a href="#ac70158274e90759a4d93ccf27a076c47">More...</a><br /></td></tr>
-<tr class="separator:ac70158274e90759a4d93ccf27a076c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20312fcf19260bf60956455a9a529f3a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a20312fcf19260bf60956455a9a529f3a">operator()</a> (const std::vector&lt; uint8_t &gt; &amp;raw_instructions_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> resulting_mode_=static_cast&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a> &gt;(-1), const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> resulting_baud_=static_cast&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> &gt;(-1))</td></tr>
+<tr class="memdesc:a20312fcf19260bf60956455a9a529f3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct access to the Open Interface.  <a href="#a20312fcf19260bf60956455a9a529f3a">More...</a><br /></td></tr>
+<tr class="separator:a20312fcf19260bf60956455a9a529f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94c90ba60036d4647c1286107520f60a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">OIEncoder::ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a94c90ba60036d4647c1286107520f60a">connectToSerialBus</a> (const std::function&lt; size_t(const uint8_t *, const size_t)&gt; fnSerialWrite_, const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> baud_code_=BAUD_115200)</td></tr>
+<tr class="memdesc:a94c90ba60036d4647c1286107520f60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes a serial channel with the hardware.  <a href="#a94c90ba60036d4647c1286107520f60a">More...</a><br /></td></tr>
+<tr class="separator:a94c90ba60036d4647c1286107520f60a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4b19dd3355212072fd27700e6d239ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac4b19dd3355212072fd27700e6d239ad">end</a> (void) const </td></tr>
 <tr class="memdesc:ac4b19dd3355212072fd27700e6d239ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases control of the Roomba.  <a href="#ac4b19dd3355212072fd27700e6d239ad">More...</a><br /></td></tr>
 <tr class="separator:ac4b19dd3355212072fd27700e6d239ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1601020b3fbf4e02e5cd2cf87fbf4432"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a1601020b3fbf4e02e5cd2cf87fbf4432">start</a> (void)</td></tr>
 <tr class="memdesc:a1601020b3fbf4e02e5cd2cf87fbf4432"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the OI.  <a href="#a1601020b3fbf4e02e5cd2cf87fbf4432">More...</a><br /></td></tr>
 <tr class="separator:a1601020b3fbf4e02e5cd2cf87fbf4432"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a063c0c08f5d6ac8fd97d2cbdd4e9f3f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a063c0c08f5d6ac8fd97d2cbdd4e9f3f9">baud</a> (const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> baud_code_) const </td></tr>
-<tr class="memdesc:a063c0c08f5d6ac8fd97d2cbdd4e9f3f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the baud rate in bits per second (bps).  <a href="#a063c0c08f5d6ac8fd97d2cbdd4e9f3f9">More...</a><br /></td></tr>
-<tr class="separator:a063c0c08f5d6ac8fd97d2cbdd4e9f3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae97ef2868921728fee9b14f7ecfc4b5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ae97ef2868921728fee9b14f7ecfc4b5c">baud</a> (const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> baud_code_)</td></tr>
+<tr class="memdesc:ae97ef2868921728fee9b14f7ecfc4b5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the baud rate in bits per second (bps).  <a href="#ae97ef2868921728fee9b14f7ecfc4b5c">More...</a><br /></td></tr>
+<tr class="separator:ae97ef2868921728fee9b14f7ecfc4b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad32a31a2fb7e5457685428949f14d25c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ad32a31a2fb7e5457685428949f14d25c">control</a> (void)</td></tr>
 <tr class="memdesc:ad32a31a2fb7e5457685428949f14d25c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The effect and usage of the Control command are identical to the Safe command.  <a href="#ad32a31a2fb7e5457685428949f14d25c">More...</a><br /></td></tr>
 <tr class="separator:ad32a31a2fb7e5457685428949f14d25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,24 +221,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af555b482307a4918c2b98eea4d8f2ba2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af555b482307a4918c2b98eea4d8f2ba2">play</a> (const uint8_t song_number_) const </td></tr>
 <tr class="memdesc:af555b482307a4918c2b98eea4d8f2ba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select a song to play.  <a href="#af555b482307a4918c2b98eea4d8f2ba2">More...</a><br /></td></tr>
 <tr class="separator:af555b482307a4918c2b98eea4d8f2ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84fbcbb2bca5e68e163c7df0e0cfae7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a84fbcbb2bca5e68e163c7df0e0cfae7b">sensors</a> (const sensor::PacketId packet_id_) const </td></tr>
-<tr class="memdesc:a84fbcbb2bca5e68e163c7df0e0cfae7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request sensor data.  <a href="#a84fbcbb2bca5e68e163c7df0e0cfae7b">More...</a><br /></td></tr>
-<tr class="separator:a84fbcbb2bca5e68e163c7df0e0cfae7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05c85b8943ee3c596c814c24fd5a9607"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a05c85b8943ee3c596c814c24fd5a9607">queryList</a> (const std::vector&lt; sensor::PacketId &gt; &amp;sensor_list_) const </td></tr>
-<tr class="memdesc:a05c85b8943ee3c596c814c24fd5a9607"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request list of sensor packets.  <a href="#a05c85b8943ee3c596c814c24fd5a9607">More...</a><br /></td></tr>
-<tr class="separator:a05c85b8943ee3c596c814c24fd5a9607"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab771291acce95812bd1b41ff2b674baf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf">stream</a> (const std::vector&lt; sensor::PacketId &gt; &amp;sensor_list_) const </td></tr>
-<tr class="memdesc:ab771291acce95812bd1b41ff2b674baf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a data stream based on a query list.  <a href="#ab771291acce95812bd1b41ff2b674baf">More...</a><br /></td></tr>
-<tr class="separator:ab771291acce95812bd1b41ff2b674baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b7751abfbb6a07a0c62b7a1646e3703"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a5b7751abfbb6a07a0c62b7a1646e3703">sensors</a> (const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> packet_id_) const </td></tr>
+<tr class="memdesc:a5b7751abfbb6a07a0c62b7a1646e3703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request sensor data.  <a href="#a5b7751abfbb6a07a0c62b7a1646e3703">More...</a><br /></td></tr>
+<tr class="separator:a5b7751abfbb6a07a0c62b7a1646e3703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a576852ce7ce8da29fd1e1088abc8c466"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466">queryList</a> (const std::vector&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> &gt; &amp;sensor_list_) const </td></tr>
+<tr class="memdesc:a576852ce7ce8da29fd1e1088abc8c466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request list of sensor packets.  <a href="#a576852ce7ce8da29fd1e1088abc8c466">More...</a><br /></td></tr>
+<tr class="separator:a576852ce7ce8da29fd1e1088abc8c466"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0a440e4ed8b689a2ba9a8554f951e91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91">stream</a> (const std::vector&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> &gt; &amp;sensor_list_) const </td></tr>
+<tr class="memdesc:af0a440e4ed8b689a2ba9a8554f951e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a data stream based on a query list.  <a href="#af0a440e4ed8b689a2ba9a8554f951e91">More...</a><br /></td></tr>
+<tr class="separator:af0a440e4ed8b689a2ba9a8554f951e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fa2db1885854427094d67cae5b29837"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a7fa2db1885854427094d67cae5b29837">pauseResumeStream</a> (const bool resume_) const </td></tr>
 <tr class="memdesc:a7fa2db1885854427094d67cae5b29837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop and restart the stream.  <a href="#a7fa2db1885854427094d67cae5b29837">More...</a><br /></td></tr>
 <tr class="separator:a7fa2db1885854427094d67cae5b29837"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:afd9efab31327a919e219580c2d09a9d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#afd9efab31327a919e219580c2d09a9d9">pollSensors</a> (const command::OpCode opcode_, const std::vector&lt; sensor::PacketId &gt; &amp;sensor_list_) const </td></tr>
-<tr class="memdesc:afd9efab31327a919e219580c2d09a9d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core functionality of both <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a05c85b8943ee3c596c814c24fd5a9607" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf" title="Start a data stream based on a query list. ">stream()</a>  <a href="#afd9efab31327a919e219580c2d09a9d9">More...</a><br /></td></tr>
-<tr class="separator:afd9efab31327a919e219580c2d09a9d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a268ff3f5446b14e595d0197d75499f20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a268ff3f5446b14e595d0197d75499f20">pollSensors</a> (const command::OpCode opcode_, const std::vector&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> &gt; &amp;sensor_list_) const </td></tr>
+<tr class="memdesc:a268ff3f5446b14e595d0197d75499f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core functionality of both <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">stream()</a>  <a href="#a268ff3f5446b14e595d0197d75499f20">More...</a><br /></td></tr>
+<tr class="separator:a268ff3f5446b14e595d0197d75499f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -252,10 +249,9 @@ uint8_t *, const size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memitem:a22983349615457194a9714375f391b8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a22983349615457194a9714375f391b8b">_oi_mode</a></td></tr>
 <tr class="memdesc:a22983349615457194a9714375f391b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The operating mode of the Open Interface.  <a href="#a22983349615457194a9714375f391b8b">More...</a><br /></td></tr>
 <tr class="separator:a22983349615457194a9714375f391b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaf8bdbc3ee35ac20da50619cfaddd86"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeaf8bdbc3ee35ac20da50619cfaddd86"></a>
-<a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a19ddaf411fb6201dde68dd359932992b">sensor_data_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#aeaf8bdbc3ee35ac20da50619cfaddd86">_sensor_data</a></td></tr>
-<tr class="memdesc:aeaf8bdbc3ee35ac20da50619cfaddd86"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the data collected from the sensors. <br /></td></tr>
-<tr class="separator:aeaf8bdbc3ee35ac20da50619cfaddd86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bcaee2d98338552fa1434baf1bbeef2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a5bcaee2d98338552fa1434baf1bbeef2">_baud_code</a></td></tr>
+<tr class="memdesc:a5bcaee2d98338552fa1434baf1bbeef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The baud rate associated with the serial bus.  <a href="#a5bcaee2d98338552fa1434baf1bbeef2">More...</a><br /></td></tr>
+<tr class="separator:a5bcaee2d98338552fa1434baf1bbeef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The Roomba Open Interface (OI) <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html" title="The Roomba Open Interface (OI) OIEncoder static class. ">OIEncoder</a> static class. </p>
@@ -276,23 +272,8 @@ uint8_t *, const size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom">
 
 </div>
 </div>
-<a class="anchor" id="a19ddaf411fb6201dde68dd359932992b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef uint8_t* <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a19ddaf411fb6201dde68dd359932992b">roomba::series500::oi::OIEncoder::sensor_data_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Data type returned by sensor methods. </p>
-<p>Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a84fbcbb2bca5e68e163c7df0e0cfae7b" title="Request sensor data. ">OIEncoder::sensors</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a05c85b8943ee3c596c814c24fd5a9607" title="Request list of sensor packets. ">OIEncoder::queryList</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf" title="Start a data stream based on a query list. ">OIEncoder::stream</a> </p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a063c0c08f5d6ac8fd97d2cbdd4e9f3f9"></a>
+<a class="anchor" id="ae97ef2868921728fee9b14f7ecfc4b5c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -301,7 +282,7 @@ uint8_t *, const size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom">
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&#160;</td>
           <td class="paramname"><em>baud_code_</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -392,16 +373,26 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ac70158274e90759a4d93ccf27a076c47"></a>
+<a class="anchor" id="a94c90ba60036d4647c1286107520f60a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void roomba::series500::oi::OIEncoder::connectToSerialBus </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">OIEncoder::ReturnCode</a> roomba::series500::oi::OIEncoder::connectToSerialBus </td>
           <td>(</td>
           <td class="paramtype">const std::function&lt; size_t(const uint8_t *, const size_t)&gt;&#160;</td>
-          <td class="paramname"><em>fnSerialWrite_</em></td><td>)</td>
+          <td class="paramname"><em>fnSerialWrite_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&#160;</td>
+          <td class="paramname"><em>baud_code_</em> = <code>BAUD_115200</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -410,10 +401,25 @@ Changes mode to: Passive. </dd></dl>
 <p>This method must be called before any other methods of this class. It establishes a serial channel between the Open Interface class and the underlying hardware. The default baud for communicating with the Roomba outside the Open Interface is 115200, if the external microcontroller is unable to communicate at that speed, an alternative baud, 19200, is available. To enable the slower baud on the Roomba you must power-on the Roomba by holding down the clean/power button, or the Roomba can be signaled on the baud rate change line. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fnSerialWrite_</td><td>A function that writes to the serial bus at either 115200 or 19200 baud. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">[baud_code_]</td><td>The baud rate at which the specified serial function will write to the serial bus (default value: BAUD_115200). <br />
+ Non-variable Configuration:<ul>
+<li>Data bits: 8</li>
+<li>Parity: None</li>
+<li>Stop bits: 1</li>
+<li>Flow Control: None </li>
+</ul>
+</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>If the baud rate of fnSerialWrite is not synchronized to the baud rate of the Roomba, then this class will be unable to communicate with the Roomba's Open Interface. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">INVALID_PARAMETER</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -666,7 +672,7 @@ Available in modes: Safe or Full. </dd></dl>
 </div><div class="memdoc">
 
 <p>Releases control of the Roomba. </p>
-<p>This method with set the OI Mode to passive and return the Roomba to its docking station. It will also reinitialize the class member variables to restore it to a clean state. </p>
+<p>This method will set the OI Mode to passive and return the Roomba to its docking station. It will also reinitialize the class member variables to restore it to a clean state. </p>
 
 </div>
 </div>
@@ -820,27 +826,27 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af84c9d7d238d3ae55ca51f86e351db12"></a>
+<a class="anchor" id="a20312fcf19260bf60956455a9a529f3a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void roomba::series500::oi::OIEncoder::operator() </td>
+          <td class="memname"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">OIEncoder::ReturnCode</a> roomba::series500::oi::OIEncoder::operator() </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data_</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&#160;</td>
-          <td class="paramname"><em>resulting_baud_</em>, </td>
+          <td class="paramname"><em>raw_instructions_</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&#160;</td>
-          <td class="paramname"><em>resulting_mode_</em> = <code>static_cast&lt;<a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&gt;(-1)</code>&#160;</td>
+          <td class="paramname"><em>resulting_mode_</em> = <code>static_cast&lt;<a class="el" href="namespaceroomba_1_1series500_1_1oi.html#a8dde6b4ac23e862ae50868c3963d7063">OIMode</a>&gt;(-1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&#160;</td>
+          <td class="paramname"><em>resulting_baud_</em> = <code>static_cast&lt;<a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a>&gt;(-1)</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -853,7 +859,7 @@ Changes mode to: Passive. </dd></dl>
 <p>Direct access to the Open Interface. </p>
 <p>Direct access sends bytes directly to the Open Interface. Direct access is potentially dangerous, because the parameters are not checked and the device can be left in a "waiting" state. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data_</td><td>A stream of bytes guaranteed to be a valid command chain by the caller. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">raw_instructions_</td><td>A stream of bytes guaranteed to be a valid command chain by the caller. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">resulting_baud_</td><td>The baud rate the Roomba will be using after the execution of the byte stream provided in the data_ parameter. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">[resulting_mode_]</td><td>The OI mode the Roomba will be left in after the execution of the byte stream provided in the data_ parameter. </td></tr>
   </table>
@@ -863,6 +869,13 @@ Changes mode to: Passive. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>If resulting_baud_ is given an erroneous value, the <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html" title="The Roomba Open Interface (OI) OIEncoder static class. ">OIEncoder</a> will no longer be able to calculate buffer overrun protection, even if you have synchronized the caller and the Roomba correctly. </dd>
 <dd>
 If resulting_mode_ is given an erroneous value, the <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html" title="The Roomba Open Interface (OI) OIEncoder static class. ">OIEncoder</a> will be left in an invalid state. At this time the stability and behavior of this class become undefined. If you are unsure, then you </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">SUCCESS</td><td></td></tr>
+    <tr><td class="paramname">SERIAL_TRANSFER_FAILURE</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -888,7 +901,7 @@ If resulting_mode_ is given an erroneous value, the <a class="el" href="classroo
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Available in modes: Passive, Safe, or Full. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf" title="Start a data stream based on a query list. ">OIEncoder::stream</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">OIEncoder::stream</a> </dd></dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">SUCCESS</td><td></td></tr>
@@ -936,7 +949,7 @@ If resulting_mode_ is given an erroneous value, the <a class="el" href="classroo
 
 </div>
 </div>
-<a class="anchor" id="afd9efab31327a919e219580c2d09a9d9"></a>
+<a class="anchor" id="a268ff3f5446b14e595d0197d75499f20"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -952,7 +965,7 @@ If resulting_mode_ is given an erroneous value, the <a class="el" href="classroo
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; sensor::PacketId &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>sensor_list_</em>&#160;</td>
         </tr>
         <tr>
@@ -968,17 +981,17 @@ If resulting_mode_ is given an erroneous value, the <a class="el" href="classroo
 </table>
 </div><div class="memdoc">
 
-<p>Core functionality of both <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a05c85b8943ee3c596c814c24fd5a9607" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf" title="Start a data stream based on a query list. ">stream()</a> </p>
-<p>Both <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a05c85b8943ee3c596c814c24fd5a9607" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf" title="Start a data stream based on a query list. ">stream()</a> have identical implementations. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Core functionality of both <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">stream()</a> </p>
+<p>Both <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466" title="Request list of sensor packets. ">queryList()</a> and <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">stream()</a> have identical implementations. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">opcode_</td><td>Send either QUERY_LIST or STREAM </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">sensor_list_</td><td>A vector of packet ids </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a05c85b8943ee3c596c814c24fd5a9607" title="Request list of sensor packets. ">OIEncoder::queryList</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466" title="Request list of sensor packets. ">OIEncoder::queryList</a> </dd>
 <dd>
-<a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ab771291acce95812bd1b41ff2b674baf" title="Start a data stream based on a query list. ">OIEncoder::stream</a> </dd></dl>
+<a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">OIEncoder::stream</a> </dd></dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">SUCCESS</td><td></td></tr>
@@ -1081,14 +1094,14 @@ Available in modes: Safe or Full. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a05c85b8943ee3c596c814c24fd5a9607"></a>
+<a class="anchor" id="a576852ce7ce8da29fd1e1088abc8c466"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">OIEncoder::ReturnCode</a> roomba::series500::oi::OIEncoder::queryList </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; sensor::PacketId &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>sensor_list_</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -1272,14 +1285,14 @@ Changes mode to: Passive. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a84fbcbb2bca5e68e163c7df0e0cfae7b"></a>
+<a class="anchor" id="a5b7751abfbb6a07a0c62b7a1646e3703"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">OIEncoder::ReturnCode</a> roomba::series500::oi::OIEncoder::sensors </td>
           <td>(</td>
-          <td class="paramtype">const sensor::PacketId&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a>&#160;</td>
           <td class="paramname"><em>packet_id_</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -1460,14 +1473,14 @@ Changes mode to: Passive. Roomba beeps once to acknowledge it is starting from â
 
 </div>
 </div>
-<a class="anchor" id="ab771291acce95812bd1b41ff2b674baf"></a>
+<a class="anchor" id="af0a440e4ed8b689a2ba9a8554f951e91"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac2c8ad2f0306050926f89882d74696cc">OIEncoder::ReturnCode</a> roomba::series500::oi::OIEncoder::stream </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; sensor::PacketId &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">sensors::PacketId</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>sensor_list_</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -1499,6 +1512,29 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a5bcaee2d98338552fa1434baf1bbeef2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceroomba_1_1series500_1_1oi.html#ae5028fe52e1dabe309aff04a45581bfd">BaudCode</a> roomba::series500::oi::OIEncoder::_baud_code</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The baud rate associated with the serial bus. </p>
+<p>This variable is used to calculate buffer overrun protection. </p>
+
+</div>
+</div>
 <a class="anchor" id="adea2ff25939589efd18d0ae64b14049b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1518,7 +1554,7 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 </div><div class="memdoc">
 
 <p>A function supplying access to the serial bus. </p>
-<p>This function is provided from the call to <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac70158274e90759a4d93ccf27a076c47" title="Establishes a serial channel with the hardware. ">connectToSerialBus()</a> after class has been instantiated. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#ac70158274e90759a4d93ccf27a076c47" title="Establishes a serial channel with the hardware. ">OIEncoder::connectToSerialBus</a> </dd></dl>
+<p>This function is provided from the call to <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a94c90ba60036d4647c1286107520f60a" title="Establishes a serial channel with the hardware. ">connectToSerialBus()</a> after class has been instantiated. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a94c90ba60036d4647c1286107520f60a" title="Establishes a serial channel with the hardware. ">OIEncoder::connectToSerialBus</a> </dd></dl>
 
 </div>
 </div>
@@ -1552,7 +1588,7 @@ Available in modes: Passive, Safe, or Full. </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Sep 21 2014 16:44:50 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 11 2014 23:52:15 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

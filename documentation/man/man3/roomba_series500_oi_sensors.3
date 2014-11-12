@@ -1,0 +1,104 @@
+.TH "roomba::series500::oi::sensors" 3 "Tue Nov 11 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+roomba::series500::oi::sensors \- 
+.PP
+Data type loaded by sensor methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBReturnCode\fP : int8_t { \fBINVALID_CHECKSUM\fP = -101, \fBSERIAL_TRANSFER_FAILURE\fP = -100, \fBNO_DATA_AVAILABLE\fP = -2, \fBFAILURE_TO_SYNC\fP = -1, \fBSUCCESS\fP = 0 }"
+.br
+.RI "\fIReturn codes\&. \fP"
+.ti -1c
+.RI "enum \fBPacketId\fP : uint8_t { \fBPACKETS_7_THRU_26\fP = 0, \fBPACKETS_7_THRU_16\fP = 1, \fBPACKETS_17_THRU_20\fP = 2, \fBPACKETS_21_THRU_26\fP = 3, \fBPACKETS_27_THRU_34\fP = 4, \fBPACKETS_35_THRU_42\fP = 5, \fBPACKETS_7_THRU_42\fP = 6, \fBBUMPS_AND_WHEEL_DROPS\fP = 7, \fBWALL\fP = 8, \fBCLIFF_LEFT\fP = 9, \fBCLIFF_FRONT_LEFT\fP = 10, \fBCLIFF_FRONT_RIGHT\fP = 11, \fBCLIFF_RIGHT\fP = 12, \fBVIRTUAL_WALL\fP = 13, \fBMOTOR_OVERCURRENTS\fP = 14, \fBDIRT_DETECT\fP = 15, \fBINFRARED_CHARACTER_OMNI\fP = 17, \fBBUTTONS\fP = 18, \fBDISTANCE\fP = 19, \fBANGLE\fP = 20, \fBCHARGING_STATE\fP = 21, \fBVOLTAGE\fP = 22, \fBCURRENT\fP = 23, \fBTEMPERATURE\fP = 24, \fBBATTERY_CHARGE\fP = 25, \fBBATTERY_CAPACITY\fP = 26, \fBWALL_SIGNAL\fP = 27, \fBCLIFF_LEFT_SIGNAL\fP = 28, \fBCLIFF_FRONT_LEFT_SIGNAL\fP = 29, \fBCLIFF_FRONT_RIGHT_SIGNAL\fP = 30, \fBCLIFF_RIGHT_SIGNAL\fP = 31, \fBCHARGING_SOURCES_AVAILABLE\fP = 34, \fBOI_MODE\fP = 35, \fBSONG_NUMBER\fP = 36, \fBSONG_PLAYING\fP = 37, \fBNUMBER_OF_STREAM_PACKETS\fP = 38, \fBREQUESTED_VELOCITY\fP = 39, \fBREQUESTED_RADIUS\fP = 40, \fBREQUESTED_RIGHT_VELOCITY\fP = 41, \fBREQUESTED_LEFT_VELOCITY\fP = 42, \fBRIGHT_ENCODER_COUNTS\fP = 43, \fBLEFT_ENCODER_COUNTS\fP = 44, \fBLIGHT_BUMPER\fP = 45, \fBLIGHT_BUMP_LEFT_SIGNAL\fP = 46, \fBLIGHT_BUMP_FRONT_LEFT_SIGNAL\fP = 47, \fBLIGHT_BUMP_CENTER_LEFT_SIGNAL\fP = 48, \fBLIGHT_BUMP_CENTER_RIGHT_SIGNAL\fP = 49, \fBLIGHT_BUMP_FRONT_RIGHT_SIGNAL\fP = 50, \fBLIGHT_BUMP_RIGHT_SIGNAL\fP = 51, \fBINFRARED_CHARACTER_LEFT\fP = 52, \fBINFRARED_CHARACTER_RIGHT\fP = 53, \fBLEFT_MOTOR_CURRENT\fP = 54, \fBRIGHT_MOTOR_CURRENT\fP = 55, \fBMAIN_BRUSH_MOTOR_CURRENT\fP = 56, \fBSIDE_BRUSH_MOTOR_CURRENT\fP = 57, \fBSTASIS\fP = 58, \fBALL_SENSOR_DATA\fP = 100, \fBPACKETS_7_THRU_58\fP = 100, \fBPACKETS_43_THRU_58\fP = 101, \fBPACKETS_46_THRU_51\fP = 106, \fBPACKETS_54_THRU_58\fP = 107 }"
+.br
+.RI "\fIiRobot® Roomba Open Interface (OI) Sensor Packets \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBReturnCode\fP \fBparseSerialData\fP (void)"
+.br
+.RI "\fIFunction to receive serial data\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBsetParseKey\fP (uint8_t const *const parse_key_)"
+.br
+.RI "\fIFunction to store parse key\&. \fP"
+.ti -1c
+.RI "\fBReturnCode\fP \fBvalueOfSensor\fP (const \fBPacketId\fP packet_id_, uint16_t *const value_, bool *const is_signed_)"
+.br
+.RI "\fIProvides access to sensor data\&. \fP"
+.ti -1c
+.RI "uint8_t \fBpacketSize\fP (const \fBPacketId\fP packet_id_)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const \fBPacketId\fP \fBPACKET_INFO\fP []"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Data type loaded by sensor methods\&. 
+
+Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see \fBOIEncoder::sensors\fP see \fBOIEncoder::queryList\fP see \fBOIEncoder::stream\fP
+.PP
+Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see \fBOIEncoder::sensors\fP see \fBOIEncoder::queryList\fP see \fBOIEncoder::stream\fP see \fBOIEncoder::pauseResumeStream\fP 
+.SH "Function Documentation"
+.PP 
+.SS "uint8_t roomba::series500::oi::sensors::packetSize (const PacketIdpacket_id_)\fC [inline]\fP"
+
+.PP
+\fBNote:\fP
+.RS 4
+Values taken from iRobot® Roomba Open Interface (OI) Specification (page 19) 
+.RE
+.PP
+
+.SS "void roomba::series500::oi::sensors::parseSerialData (void)\fC [inline]\fP"
+
+.PP
+Function to receive serial data\&. Parses data received from Roomba and stores it in memory accessible by the \fBOIEncoder\fP object\&. 
+.SS "void roomba::series500::oi::sensors::setParseKey (uint8_t const *constparse_key_)\fC [inline]\fP"
+
+.PP
+Function to store parse key\&. A parsing key is generated during the call to queryList() or sensors() to describe the format of the data returned by the iRobot® Roomba\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparse_key_\fP An array of bytes describing the data requested from the iRobot® Roomba\&. 
+.br
+ Index 0 contains the length of the array\&. 
+.br
+ The remaining values are packet id values of the data requested from the iRobot® Roomba\&. 
+.RE
+.PP
+
+.SS "void roomba::series500::oi::sensors::valueOfSensor (const PacketIdpacket_id_, uint16_t *constvalue_, bool *constis_signed_)\fC [inline]\fP"
+
+.PP
+Provides access to sensor data\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpacket_id_\fP The packet id of the sensor you want the value of 
+.br
+\fIvalue_\fP A pointer to the sixteen-bit field to store the value of the requested sensor 
+.br
+\fIis_signed_\fP A boolean indicating if the value of the requested sensor is signed or unsigned 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for iRobot Roomba 500 Series SDK from the source code\&.

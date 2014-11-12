@@ -1,4 +1,4 @@
-.TH "roomba::series500::oi::OIEncoder" 3 "Sun Sep 21 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::oi::OIEncoder" 3 "Tue Nov 11 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -32,20 +32,16 @@ Inherited by \fBOIEncoder_TC\fP\&.
 .RI "typedef std::pair< \fBPitch\fP, uint8_t > \fBnote_t\fP"
 .br
 .RI "\fIA musical note is defined by the frequency related pitch and length or duration\&. \fP"
-.ti -1c
-.RI "typedef uint8_t * \fBsensor_data_t\fP"
-.br
-.RI "\fIData type returned by sensor methods\&. \fP"
 .in -1c
 .SS "Public Member Functions"
 
 .in +1c
 .ti -1c
-.RI "void \fBoperator()\fP (const std::vector< uint8_t > &data_, const \fBBaudCode\fP resulting_baud_, const \fBOIMode\fP resulting_mode_=static_cast< \fBOIMode\fP >(-1))"
+.RI "\fBReturnCode\fP \fBoperator()\fP (const std::vector< uint8_t > &raw_instructions_, const \fBOIMode\fP resulting_mode_=static_cast< \fBOIMode\fP >(-1), const \fBBaudCode\fP resulting_baud_=static_cast< \fBBaudCode\fP >(-1))"
 .br
 .RI "\fIDirect access to the Open Interface\&. \fP"
 .ti -1c
-.RI "void \fBconnectToSerialBus\fP (const std::function< size_t(const uint8_t *, const size_t)> fnSerialWrite_)"
+.RI "\fBOIEncoder::ReturnCode\fP \fBconnectToSerialBus\fP (const std::function< size_t(const uint8_t *, const size_t)> fnSerialWrite_, const \fBBaudCode\fP baud_code_=BAUD_115200)"
 .br
 .RI "\fIEstablishes a serial channel with the hardware\&. \fP"
 .ti -1c
@@ -57,7 +53,7 @@ Inherited by \fBOIEncoder_TC\fP\&.
 .br
 .RI "\fIStarts the OI\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBbaud\fP (const \fBBaudCode\fP baud_code_) const "
+.RI "\fBReturnCode\fP \fBbaud\fP (const \fBBaudCode\fP baud_code_)"
 .br
 .RI "\fISets the baud rate in bits per second (bps)\&. \fP"
 .ti -1c
@@ -149,15 +145,15 @@ Inherited by \fBOIEncoder_TC\fP\&.
 .br
 .RI "\fISelect a song to play\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBsensors\fP (const sensor::PacketId packet_id_) const "
+.RI "\fBReturnCode\fP \fBsensors\fP (const \fBsensors::PacketId\fP packet_id_) const "
 .br
 .RI "\fIRequest sensor data\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBqueryList\fP (const std::vector< sensor::PacketId > &sensor_list_) const "
+.RI "\fBReturnCode\fP \fBqueryList\fP (const std::vector< \fBsensors::PacketId\fP > &sensor_list_) const "
 .br
 .RI "\fIRequest list of sensor packets\&. \fP"
 .ti -1c
-.RI "\fBReturnCode\fP \fBstream\fP (const std::vector< sensor::PacketId > &sensor_list_) const "
+.RI "\fBReturnCode\fP \fBstream\fP (const std::vector< \fBsensors::PacketId\fP > &sensor_list_) const "
 .br
 .RI "\fIStart a data stream based on a query list\&. \fP"
 .ti -1c
@@ -169,7 +165,7 @@ Inherited by \fBOIEncoder_TC\fP\&.
 
 .in +1c
 .ti -1c
-.RI "\fBReturnCode\fP \fBpollSensors\fP (const command::OpCode opcode_, const std::vector< sensor::PacketId > &sensor_list_) const "
+.RI "\fBReturnCode\fP \fBpollSensors\fP (const command::OpCode opcode_, const std::vector< \fBsensors::PacketId\fP > &sensor_list_) const "
 .br
 .RI "\fICore functionality of both \fBqueryList()\fP and \fBstream()\fP \fP"
 .in -1c
@@ -187,9 +183,9 @@ uint8_t *, const size_t)> \fB_fnSerialWrite\fP"
 .br
 .RI "\fIThe operating mode of the Open Interface\&. \fP"
 .ti -1c
-.RI "\fBsensor_data_t\fP * \fB_sensor_data\fP"
+.RI "\fBBaudCode\fP \fB_baud_code\fP"
 .br
-.RI "\fIA pointer to the data collected from the sensors\&. \fP"
+.RI "\fIThe baud rate associated with the serial bus\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -202,13 +198,9 @@ The Roomba Open Interface (OI) \fBOIEncoder\fP is a C++ wrapper for data to be w
 
 .PP
 A musical note is defined by the frequency related pitch and length or duration\&. The information is stored in std::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i\&.e\&. the value 32 is half a second)\&. 
-.SS "typedef uint8_t* \fBroomba::series500::oi::OIEncoder::sensor_data_t\fP"
-
-.PP
-Data type returned by sensor methods\&. Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see \fBOIEncoder::sensors\fP see \fBOIEncoder::queryList\fP see \fBOIEncoder::stream\fP 
 .SH "Member Function Documentation"
 .PP 
-.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::baud (const \fBBaudCode\fPbaud_code_) const"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::baud (const \fBBaudCode\fPbaud_code_)"
 
 .PP
 Sets the baud rate in bits per second (bps)\&. This command sets the baud rate in bits per second (bps) at which OI commands and data are sent according to the baud code sent in the data byte\&. 
@@ -286,7 +278,7 @@ Changes mode to: Passive\&.
 .RE
 .PP
 
-.SS "void roomba::series500::oi::OIEncoder::connectToSerialBus (const std::function< size_t(const uint8_t *, const size_t)>fnSerialWrite_)"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::connectToSerialBus (const std::function< size_t(const uint8_t *, const size_t)>fnSerialWrite_, const \fBBaudCode\fPbaud_code_ = \fCBAUD_115200\fP)"
 
 .PP
 Establishes a serial channel with the hardware\&. This method must be called before any other methods of this class\&. It establishes a serial channel between the Open Interface class and the underlying hardware\&. The default baud for communicating with the Roomba outside the Open Interface is 115200, if the external microcontroller is unable to communicate at that speed, an alternative baud, 19200, is available\&. To enable the slower baud on the Roomba you must power-on the Roomba by holding down the clean/power button, or the Roomba can be signaled on the baud rate change line\&. 
@@ -294,11 +286,31 @@ Establishes a serial channel with the hardware\&. This method must be called bef
 \fBParameters:\fP
 .RS 4
 \fIfnSerialWrite_\fP A function that writes to the serial bus at either 115200 or 19200 baud\&. 
+.br
+\fI[baud_code_]\fP The baud rate at which the specified serial function will write to the serial bus (default value: BAUD_115200)\&. 
+.br
+ Non-variable Configuration:
+.IP "\(bu" 2
+Data bits: 8
+.IP "\(bu" 2
+Parity: None
+.IP "\(bu" 2
+Stop bits: 1
+.IP "\(bu" 2
+Flow Control: None 
+.PP
 .RE
 .PP
 \fBWarning:\fP
 .RS 4
 If the baud rate of fnSerialWrite is not synchronized to the baud rate of the Roomba, then this class will be unable to communicate with the Roomba's Open Interface\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIINVALID_PARAMETER\fP 
 .RE
 .PP
 
@@ -497,7 +509,7 @@ Available in modes: Safe or Full\&.
 .SS "void roomba::series500::oi::OIEncoder::end (void) const"
 
 .PP
-Releases control of the Roomba\&. This method with set the OI Mode to passive and return the Roomba to its docking station\&. It will also reinitialize the class member variables to restore it to a clean state\&. 
+Releases control of the Roomba\&. This method will set the OI Mode to passive and return the Roomba to its docking station\&. It will also reinitialize the class member variables to restore it to a clean state\&. 
 .SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::full (void)"
 
 .PP
@@ -606,14 +618,14 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "void roomba::series500::oi::OIEncoder::operator() (const std::vector< uint8_t > &data_, const \fBBaudCode\fPresulting_baud_, const \fBOIMode\fPresulting_mode_ = \fCstatic_cast<\fBOIMode\fP>(-1)\fP)"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::operator() (const std::vector< uint8_t > &raw_instructions_, const \fBOIMode\fPresulting_mode_ = \fCstatic_cast<\fBOIMode\fP>(-1)\fP, const \fBBaudCode\fPresulting_baud_ = \fCstatic_cast<\fBBaudCode\fP>(-1)\fP)"
 
 .PP
 Direct access to the Open Interface\&. Direct access sends bytes directly to the Open Interface\&. Direct access is potentially dangerous, because the parameters are not checked and the device can be left in a 'waiting' state\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIdata_\fP A stream of bytes guaranteed to be a valid command chain by the caller\&. 
+\fIraw_instructions_\fP A stream of bytes guaranteed to be a valid command chain by the caller\&. 
 .br
 \fIresulting_baud_\fP The baud rate the Roomba will be using after the execution of the byte stream provided in the data_ parameter\&. 
 .br
@@ -630,6 +642,13 @@ If resulting_mode_ is not provided, then this function will incur the overhead a
 If resulting_baud_ is given an erroneous value, the \fBOIEncoder\fP will no longer be able to calculate buffer overrun protection, even if you have synchronized the caller and the Roomba correctly\&. 
 .PP
 If resulting_mode_ is given an erroneous value, the \fBOIEncoder\fP will be left in an invalid state\&. At this time the stability and behavior of this class become undefined\&. If you are unsure, then you 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
 .RE
 .PP
 
@@ -697,7 +716,7 @@ Available in modes: Safe or Full
 .RE
 .PP
 
-.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::pollSensors (const command::OpCodeopcode_, const std::vector< sensor::PacketId > &sensor_list_) const\fC [protected]\fP"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::pollSensors (const command::OpCodeopcode_, const std::vector< \fBsensors::PacketId\fP > &sensor_list_) const\fC [protected]\fP"
 
 .PP
 Core functionality of both \fBqueryList()\fP and \fBstream()\fP Both \fBqueryList()\fP and \fBstream()\fP have identical implementations\&. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to\&. 
@@ -791,7 +810,7 @@ Available in modes: Safe or Full\&.
 .RE
 .PP
 
-.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::queryList (const std::vector< sensor::PacketId > &sensor_list_) const"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::queryList (const std::vector< \fBsensors::PacketId\fP > &sensor_list_) const"
 
 .PP
 Request list of sensor packets\&. This command lets you ask for a list of sensor packets\&. The result is returned once, as in the Sensors command\&. The robot returns the packets in the order you specify\&. 
@@ -928,7 +947,7 @@ Changes mode to: Passive\&.
 .RE
 .PP
 
-.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::sensors (const sensor::PacketIdpacket_id_) const"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::sensors (const \fBsensors::PacketId\fPpacket_id_) const"
 
 .PP
 Request sensor data\&. This command requests the OI to send a packet of sensor data bytes\&. There are 58 different sensor data packets\&. Each provides a value of a specific sensor or group of sensors\&. 
@@ -1066,7 +1085,7 @@ Changes mode to: Passive\&. Roomba beeps once to acknowledge it is starting from
 .RE
 .PP
 
-.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::stream (const std::vector< sensor::PacketId > &sensor_list_) const"
+.SS "\fBOIEncoder::ReturnCode\fP roomba::series500::oi::OIEncoder::stream (const std::vector< \fBsensors::PacketId\fP > &sensor_list_) const"
 
 .PP
 Start a data stream based on a query list\&. This command starts a stream of data packets\&. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data\&. 
@@ -1107,6 +1126,10 @@ It is up to you not to request more data than can be sent at the current baud ra
 
 .SH "Member Data Documentation"
 .PP 
+.SS "\fBBaudCode\fP roomba::series500::oi::OIEncoder::_baud_code\fC [protected]\fP"
+
+.PP
+The baud rate associated with the serial bus\&. This variable is used to calculate buffer overrun protection\&. 
 .SS "std::function<size_t(const uint8_t *, const size_t)> roomba::series500::oi::OIEncoder::_fnSerialWrite\fC [protected]\fP"
 
 .PP
