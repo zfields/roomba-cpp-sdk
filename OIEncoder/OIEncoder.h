@@ -10,40 +10,10 @@
 
 #include "../OIDefines.h"
 
-/// \brief The iRobot Roomba autonomous robotic vacuum cleaner
-/// \details Roomba was introduced in 2002. As of Feb 2014, over
-/// 10 million units have been sold worldwide. Roomba features a
-/// set of basic sensors that help it perform tasks. For instance,
-/// the Roomba is able to change direction on encountering obstacles,
-/// detect dirty spots on the floor, and detect steep drops to keep
-/// it from falling down stairs. It uses two independently operating
-/// wheels that allow 360 degree turns. Additionally, it can adapt
-/// to perform other more "creative" tasks using an embedded computer
-/// in conjunction with the Roomba Open Interface.
 namespace roomba {
-
-/// \brief The Roomba 500 Series Model (5xx)
-/// \details The third-generation, 500-series, Roomba was
-/// first introduced in August 2007, and features a
-/// forward-looking infrared sensor to detect obstacles
-/// and reduce speed, a "Dock" button, improved mechanical
-/// components, smoothness of operation & a modular design
-/// making part replacement trivial. It also introduced
-/// customizable decorative face plates. The Roomba 530
-/// came with two Virtual Walls and a recharging dock.
 namespace series500 {
-	
-/// \brief The Roomba Open Interface (OI)
-/// \details The Roomba Open Interface (OI) is a software
-/// interface for controlling and manipulating Roomba’s
-/// behavior. The software interface lets you manipulate
-/// Roomba’s behavior and read its sensors through a series
-/// of commands, including mode commands, actuator commands,
-/// song commands, and sensor commands that you send to the
-/// Roomba’s serial port by way of a PC or microcontroller
-/// that is connected to the Mini-DIN connector.
 namespace oi {
-	
+
 /// \brief The Roomba Open Interface (OI) OIEncoder static class
 /// \details The Roomba Open Interface (OI) OIEncoder is a C++
 /// wrapper for data to be written the serial bus. It provides
@@ -80,17 +50,6 @@ class OIEncoder {
 	/// apply to 1/64th of a second (i.e. the value 32 is
 	/// half a second).
 	typedef std::pair<Pitch, uint8_t> note_t;
-	
-	/// \brief Data type returned by sensor methods
-	/// \details Sensor data is returned as a byte array
-	/// with checksum. This type reflects the data
-	/// representation of the returned sensor data,
-	/// as it strikes the balance between usability,
-	/// size and speed optimization.
-	/// see OIEncoder::sensors
-	/// see OIEncoder::queryList
-	/// see OIEncoder::stream
-	typedef uint8_t * sensor_data_t;
 	
 	OIEncoder (
 		void
@@ -139,6 +98,11 @@ class OIEncoder {
 	/// \param [in] [baud_code_] The baud rate at which the specified
 	/// serial function will write to the serial bus (default value:
 	/// BAUD_115200).
+	/// \n Non-variable Configuration:
+	/// * Data bits: 8
+	/// * Parity: None
+	/// * Stop bits: 1
+	/// * Flow Control: None
 	/// \warning If the baud rate of fnSerialWrite is not synchronized
 	/// to the baud rate of the Roomba, then this class will be unable
 	/// to communicate with the Roomba's Open Interface.
@@ -151,7 +115,7 @@ class OIEncoder {
 	);
 	
 	/// \brief Releases control of the Roomba.
-	/// \details This method with set the OI Mode to passive and return
+	/// \details This method will set the OI Mode to passive and return
 	/// the Roomba to its docking station. It will also reinitialize the
 	/// class member variables to restore it to a clean state.
 	void
@@ -573,7 +537,7 @@ class OIEncoder {
 	play (
 		const uint8_t song_number_
 	) const;
-	
+#ifdef SENSORS_ENABLED
 	/// \brief Request sensor data.
 	/// \details This command requests the OI to send a
 	/// packet of sensor data bytes. There are 58 different
@@ -592,7 +556,7 @@ class OIEncoder {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	sensors (
-		const sensor::PacketId packet_id_
+		const sensors::PacketId packet_id_
 	) const;
 	
 	/// \brief Request list of sensor packets
@@ -608,7 +572,7 @@ class OIEncoder {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	queryList (
-		const std::vector<sensor::PacketId> & sensor_list_
+		const std::vector<sensors::PacketId> & sensor_list_
 	) const;
 	
 	/// \brief Start a data stream based on a query list.
@@ -633,7 +597,7 @@ class OIEncoder {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	stream (
-		const std::vector<sensor::PacketId> & sensor_list_
+		const std::vector<sensors::PacketId> & sensor_list_
 	) const;
 	
 	/// \brief Stop and restart the stream.
@@ -652,7 +616,7 @@ class OIEncoder {
 	pauseResumeStream (
 		const bool resume_
 	) const;
-	
+#endif
   protected:
 	/// \brief A function supplying access to the serial bus
 	/// \details This function is provided from the call to
@@ -669,10 +633,7 @@ class OIEncoder {
 	/// \details This variable is used to calculate buffer overrun
 	/// protection.
 	BaudCode _baud_code;
-	
-	/// \brief A pointer to the data collected from the sensors
-	sensor_data_t *_sensor_data;
-	
+#ifdef SENSORS_ENABLED
 	/// \brief Core functionality of both queryList() and stream()
 	/// \details Both queryList() and stream() have identical
 	/// implementations. The only difference is the original Open
@@ -689,8 +650,9 @@ class OIEncoder {
 	ReturnCode
 	pollSensors (
 		const command::OpCode opcode_,
-		const std::vector<sensor::PacketId> & sensor_list_
+		const std::vector<sensors::PacketId> & sensor_list_
 	) const;
+#endif
 };
 
 } // namespace oi

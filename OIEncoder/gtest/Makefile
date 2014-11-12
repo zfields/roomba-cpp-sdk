@@ -42,6 +42,7 @@ CXXFLAGS += -g \
             -Wextra \
             -Wno-c++11-extensions \
             -Wno-missing-field-initializers \
+            -Wno-tautological-constant-out-of-range-compare \
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.

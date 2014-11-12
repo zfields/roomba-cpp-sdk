@@ -18,6 +18,19 @@ OIEncoder::OIEncoder (
 {}
 
 OIEncoder::ReturnCode
+OIEncoder::operator() (
+	const std::vector<uint8_t> & raw_instructions_,
+	const OIMode resulting_mode_,
+	const BaudCode resulting_baud_
+) {
+	if ( !_fnSerialWrite(raw_instructions_.data(), raw_instructions_.size()) ) { return SERIAL_TRANSFER_FAILURE; }
+	if ( 0xFF != resulting_mode_ ) { _oi_mode = resulting_mode_; }
+	if ( 0xFF != resulting_baud_ ) { _baud_code = resulting_baud_; }
+	
+	return SUCCESS;
+}
+
+OIEncoder::ReturnCode
 OIEncoder::connectToSerialBus (
 	const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_,
 	const BaudCode baud_code_
@@ -372,10 +385,10 @@ OIEncoder::play (
 	
 	return SUCCESS;
 }
-
+#ifdef SENSORS_ENABLED
 OIEncoder::ReturnCode
 OIEncoder::sensors (
-	const sensor::PacketId packet_id_
+	const sensors::PacketId packet_id_
 ) const {
 	const uint8_t serial_data[2] = { command::SENSORS, packet_id_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
@@ -388,14 +401,14 @@ OIEncoder::sensors (
 
 OIEncoder::ReturnCode
 OIEncoder::queryList (
-	const std::vector<sensor::PacketId> & sensor_list_
+	const std::vector<sensors::PacketId> & sensor_list_
 ) const {
 	return pollSensors(command::QUERY_LIST, sensor_list_);
 }
 
 OIEncoder::ReturnCode
 OIEncoder::stream (
-	const std::vector<sensor::PacketId> & sensor_list_
+	const std::vector<sensors::PacketId> & sensor_list_
 ) const {
 	return pollSensors(command::STREAM, sensor_list_);
 }
@@ -413,22 +426,9 @@ OIEncoder::pauseResumeStream (
 }
 
 OIEncoder::ReturnCode
-OIEncoder::operator() (
-	const std::vector<uint8_t> & raw_instructions_,
-	const OIMode resulting_mode_,
-	const BaudCode resulting_baud_
-) {
-	if ( !_fnSerialWrite(raw_instructions_.data(), raw_instructions_.size()) ) { return SERIAL_TRANSFER_FAILURE; }
-	if ( 0xFF != resulting_mode_ ) { _oi_mode = resulting_mode_; }
-	if ( 0xFF != resulting_baud_ ) { _baud_code = resulting_baud_; }
-	
-	return SUCCESS;
-}
-
-OIEncoder::ReturnCode
 OIEncoder::pollSensors (
 	const command::OpCode opcode_,
-	const std::vector<sensor::PacketId> & sensor_list_
+	const std::vector<sensors::PacketId> & sensor_list_
 ) const {
 	const uint8_t byte_length = sensor_list_.size();
 	uint8_t serial_data[(2 + byte_length)];
@@ -449,7 +449,7 @@ OIEncoder::pollSensors (
 	
 	return SUCCESS;
 }
-
+#endif
 } // namespace oi
 } // namespace series500
 } // namespace roomba

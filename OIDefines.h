@@ -5,8 +5,38 @@
 
 #include <cstdint>
 
+/// \brief The iRobot Roomba autonomous robotic vacuum cleaner
+/// \details Roomba was introduced in 2002. As of Feb 2014, over
+/// 10 million units have been sold worldwide. Roomba features a
+/// set of basic sensors that help it perform tasks. For instance,
+/// the Roomba is able to change direction on encountering obstacles,
+/// detect dirty spots on the floor, and detect steep drops to keep
+/// it from falling down stairs. It uses two independently operating
+/// wheels that allow 360 degree turns. Additionally, it can adapt
+/// to perform other more "creative" tasks using an embedded computer
+/// in conjunction with the Roomba Open Interface.
 namespace roomba {
+
+/// \brief The Roomba 500 Series Model (5xx)
+/// \details The third-generation, 500-series, Roomba was
+/// first introduced in August 2007, and features a
+/// forward-looking infrared sensor to detect obstacles
+/// and reduce speed, a "Dock" button, improved mechanical
+/// components, smoothness of operation & a modular design
+/// making part replacement trivial. It also introduced
+/// customizable decorative face plates. The Roomba 530
+/// came with two Virtual Walls and a recharging dock.
 namespace series500 {
+	
+/// \brief The Roomba Open Interface (OI)
+/// \details The Roomba Open Interface (OI) is a software
+/// interface for controlling and manipulating Roomba’s
+/// behavior. The software interface lets you manipulate
+/// Roomba’s behavior and read its sensors through a series
+/// of commands, including mode commands, actuator commands,
+/// song commands, and sensor commands that you send to the
+/// Roomba’s serial port by way of a PC or microcontroller
+/// that is connected to the Mini-DIN connector.
 namespace oi {
 
 /// \brief Baud (OpCode 129)
@@ -273,77 +303,14 @@ enum OpCode : uint8_t {
 	SET_DAY_TIME = 168,
 };
 } // namespace command
-
-namespace sensor {
-/// \brief Roomba Open Interface Sensor Packet Identification numbers
-enum PacketId : uint8_t {
-	PACKETS_7_THRU_26 = 0,
-	PACKETS_7_THRU_16 = 1,
-	PACKETS_17_THRU_20 = 2,
-	PACKETS_21_THRU_26 = 3,
-	PACKETS_27_THRU_34 = 4,
-	PACKETS_35_THRU_42 = 5,
-	PACKETS_7_THRU_42 = 6,
-	BUMPS_AND_WHEEL_DROPS = 7,
-	WALL = 8,
-	CLIFF_LEFT = 9,
-	CLIFF_FRONT_LEFT = 10,
-	CLIFF_FRONT_RIGHT = 11,
-	CLIFF_RIGHT = 12,
-	VIRTUAL_WALL = 13,
-	MOTOR_OVERCURRENTS = 14,
-	DIRT_DETECT = 15,
-	INFRARED_CHARACTER_OMNI = 17,
-	BUTTONS = 18,
-	DISTANCE = 19,
-	ANGLE = 20,
-	CHARGING_STATE = 21,
-	VOLTAGE = 22,
-	CURRENT = 23,
-	TEMPERATURE = 24,
-	BATTERY_CHARGE = 25,
-	BATTERY_CAPACITY = 26,
-	WALL_SIGNAL = 27,
-	CLIFF_LEFT_SIGNAL = 28,
-	CLIFF_FRONT_LEFT_SIGNAL = 29,
-	CLIFF_FRONT_RIGHT_SIGNAL = 30,
-	CLIFF_RIGHT_SIGNAL = 31,
-	CHARGING_SOURCES_AVAILABLE = 34,
-	OI_MODE = 35,
-	SONG_NUMBER = 36,
-	SONG_PLAYING = 37,
-	NUMBER_OF_STREAM_PACKETS = 38,
-	REQUESTED_VELOCITY = 39,
-	REQUESTED_RADIUS = 40,
-	REQUESTED_RIGHT_VELOCITY = 41,
-	REQUESTED_LEFT_VELOCITY = 42,
-	RIGHT_ENCODER_COUNTS = 43,
-	LEFT_ENCODER_COUNTS = 44,
-	LIGHT_BUMPER = 45,
-	LIGHT_BUMP_LEFT_SIGNAL = 46,
-	LIGHT_BUMP_FRONT_LEFT_SIGNAL = 47,
-	LIGHT_BUMP_CENTER_LEFT_SIGNAL = 48,
-	LIGHT_BUMP_CENTER_RIGHT_SIGNAL = 49,
-	LIGHT_BUMP_FRONT_RIGHT_SIGNAL = 50,
-	LIGHT_BUMP_RIGHT_SIGNAL = 51,
-	INFRARED_CHARACTER_LEFT = 52,
-	INFRARED_CHARACTER_RIGHT = 53,
-	LEFT_MOTOR_CURRENT = 54,
-	RIGHT_MOTOR_CURRENT = 55,
-	MAIN_BRUSH_MOTOR_CURRENT = 56,
-	SIDE_BRUSH_MOTOR_CURRENT = 57,
-	STASIS = 58,
-	ALL_SENSOR_DATA = 100,
-	PACKETS_7_THRU_58 = 100,
-	PACKETS_43_THRU_58 = 101,
-	PACKETS_46_THRU_51 = 106,
-	PACKETS_54_THRU_58 = 107,
-};
-
-} // namespace sensor
 } // namespace oi
 } // namespace series500
 } // namespace roomba
+
+#ifndef DISABLE_SENSORS
+#define SENSORS_ENABLED
+#include "OISensors/OISensors.h"
+#endif
 
 #endif
 
