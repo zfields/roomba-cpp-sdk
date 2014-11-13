@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
+//#define DISABLE_SENSORS
 #include "../OIEncoder.h"
 
 #include <cstring>
@@ -905,7 +906,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 	EXPECT_EQ(OIEncoder::INVALID_MODE_FOR_REQUESTED_OPERATION, Encoder_tc.play(1));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-
+#ifndef DISABLE_SENSORS
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENCalledTHEN142AndParametersAreWrittenToTheSerialBus) {
 	Encoder_tc.sensors(sensors::DIRT_DETECT);
 	
@@ -963,7 +964,7 @@ TEST_F(AllSystemsGoOIModeOFF, sensors$WHENOIModeIsOffTHENNoDataIsWrittenToSerial
 	EXPECT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.sensors(sensors::DIRT_DETECT));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-
+#endif
 TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	Encoder_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint8_t>(serial_bus[0]));
@@ -1222,7 +1223,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWritte
 	EXPECT_EQ(OIEncoder::INVALID_MODE_FOR_REQUESTED_OPERATION, Encoder_tc.drivePWM(-32, 32));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-
+#ifndef DISABLE_SENSORS
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENCalledTHEN148AndParametersAreWrittenToTheSerialBus) {
 	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
 	Encoder_tc.stream(sensor_list);
@@ -1453,7 +1454,7 @@ TEST_F(AllSystemsGoOIModeOFF, pauseResumeStream$WHENOIModeIsOffTHENNoDataIsWritt
 	EXPECT_EQ(OIEncoder::OI_NOT_STARTED, Encoder_tc.pauseResumeStream(true));
 	ASSERT_EQ('\0', static_cast<uint8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-
+#endif
 TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENCalledTHEN162AndParametersAreWrittenToTheSerialBus) {
 	Encoder_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM));
 	

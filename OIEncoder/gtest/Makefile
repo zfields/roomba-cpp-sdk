@@ -47,6 +47,7 @@ CXXFLAGS += -g \
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
 UNDER_TEST = OIEncoder
+DEPENDENCY_1 = OISensors
 
 # All Google Test headers. Usually you shouldn't change this
 # definition.
@@ -110,8 +111,14 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 # function.  It's fine if your test only uses features from Google
 # Test (and not Google Mock).
 
+$(DEPENDENCY_1).o : $(CODE_DIR)/../$(DEPENDENCY_1)/$(DEPENDENCY_1).cpp \
+                    $(CODE_DIR)/../$(DEPENDENCY_1)/$(DEPENDENCY_1).h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
+    -c $(CODE_DIR)/../$(DEPENDENCY_1)/$(DEPENDENCY_1).cpp
+
 $(UNDER_TEST).o : $(CODE_DIR)/$(UNDER_TEST).cpp \
-                  $(CODE_DIR)/$(UNDER_TEST).h
+                  $(CODE_DIR)/$(UNDER_TEST).h \
+                  $(DEPENDENCY_1).o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(CODE_DIR)/$(UNDER_TEST).cpp
 
