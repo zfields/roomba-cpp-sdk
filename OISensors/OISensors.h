@@ -3,7 +3,12 @@
 #ifndef OI_SENSORS_H
 #define OI_SENSORS_H
 
+#include <cstdint>
+#include <functional>
+
 #include "../OIDefines.h"
+
+//TODO: Consider method to return multiple sensor values (std::tuple<uint8_t packet_id_, uint16_t value_, bool signed_>)
 
 namespace roomba {
 namespace series500 {
@@ -109,7 +114,7 @@ namespace sensors {
 	/// \param [in] parse_key_ An array of bytes describing
 	/// the data requested from the iRobot® Roomba.
 	/// \n Index 0 contains the length of the array.
-	/// \n The remaining values are packet id values of the
+	/// \n The remaining values are the packet ids of the
 	/// data requested from the iRobot® Roomba.
 	ReturnCode
 	setParseKey (
@@ -118,7 +123,7 @@ namespace sensors {
 	
 	/// \brief Provides access to sensor data
 	/// \param [in] packet_id_ The packet id of the sensor
-	/// you want the value of
+	/// who's value you want
 	/// \param [out] value_ A pointer to the sixteen-bit
 	/// field to store the value of the requested sensor
 	/// \param [out] is_signed_ A boolean indicating if the
@@ -130,6 +135,9 @@ namespace sensors {
 		bool * const is_signed_
 	);
 	
+	/// \brief Indicates ready state of OISensors internals
+	/// \return Returns "true" if ready, "false" otherwise
+	bool sensorsReady (void);
 } // namespace sensor
 } // namespace oi
 } // namespace series500

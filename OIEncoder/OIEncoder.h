@@ -618,7 +618,7 @@ class OIEncoder {
 	) const;
 #endif
   protected:
-	/// \brief A function supplying access to the serial bus
+	/// \brief A function supplying multi-byte write access to the serial bus
 	/// \details This function is provided from the call to
 	/// connectToSerialBus() after class has been instantiated.
 	/// \see OIEncoder::connectToSerialBus

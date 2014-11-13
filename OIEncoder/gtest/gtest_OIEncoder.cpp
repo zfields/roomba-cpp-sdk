@@ -10,7 +10,7 @@
 //TODO: See what happens when a request goes out while streaming data is being returned
 //TODO: Guarantee sensor packets are not requested more than every 15ms
 //TODO: Guarantee requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
-//TODO: Guarantee queryList() calculates the time required to retrieve the amount of data it is requesting
+//TODO: Guarantee queryList() calculates the time required to retrieve the amount of data it is requesting (via setParseKey())
 //TODO: Guarantee the stream is paused when queryList() is called
 //TODO: Move from pseudo-static class to namespace, assuming testing framework allows
 //TODO: Maintain a handle to the thread (to be created at the inital invocation of stream(), queryList() or sensors()), ensuring it can be killed and restarted if necessary.
