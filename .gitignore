@@ -1,5 +1,5 @@
 .gtest_build_log.txt
 documentation/debug.txt
 documentation/doxygen_log.txt
-OIEncoder/gtest/gtest_OIEncoder
+OICommand/gtest/gtest_OICommand
 OISensors/gtest/gtest_OISensors

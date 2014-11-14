@@ -46,7 +46,7 @@ CXXFLAGS += -g \
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-UNDER_TEST = OIEncoder
+UNDER_TEST = OICommand
 DEPENDENCY_1 = OISensors
 
 # All Google Test headers. Usually you shouldn't change this
