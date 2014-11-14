@@ -89,14 +89,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">roomba::series500::oi::sensors Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Data type loaded by sensor methods.  
+<p>Constant data used to manage data returned from the iRobot® Roomba.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -205,45 +204,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a670e21671d8c2923a3fbac6e7ebc28eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#afedb9083158162092444b523e0a32ebb">ReturnCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a670e21671d8c2923a3fbac6e7ebc28eb">valueOfSensor</a> (const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">PacketId</a> packet_id_, uint16_t *const value_, bool *const is_signed_)</td></tr>
 <tr class="memdesc:a670e21671d8c2923a3fbac6e7ebc28eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to sensor data.  <a href="#a670e21671d8c2923a3fbac6e7ebc28eb">More...</a><br /></td></tr>
 <tr class="separator:a670e21671d8c2923a3fbac6e7ebc28eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63498ea1417feb6c390694f752277641"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a63498ea1417feb6c390694f752277641">packetSize</a> (const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">PacketId</a> packet_id_)</td></tr>
-<tr class="separator:a63498ea1417feb6c390694f752277641"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a4869957d0a94bd8548056c4ebd8effb6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4869957d0a94bd8548056c4ebd8effb6"></a>
-const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a909f47d40452d1cabb85eef642ac04b6">PacketId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PACKET_INFO</b> []</td></tr>
-<tr class="separator:a4869957d0a94bd8548056c4ebd8effb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a74efce16d762ee40f45bf26d128b66"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a0a74efce16d762ee40f45bf26d128b66">sensorsReady</a> (void)</td></tr>
+<tr class="memdesc:a0a74efce16d762ee40f45bf26d128b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates ready state of OISensors internals.  <a href="#a0a74efce16d762ee40f45bf26d128b66">More...</a><br /></td></tr>
+<tr class="separator:a0a74efce16d762ee40f45bf26d128b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data type loaded by sensor methods. </p>
-<p>Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a5b7751abfbb6a07a0c62b7a1646e3703" title="Request sensor data. ">OIEncoder::sensors</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466" title="Request list of sensor packets. ">OIEncoder::queryList</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">OIEncoder::stream</a></p>
-<p>Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a5b7751abfbb6a07a0c62b7a1646e3703" title="Request sensor data. ">OIEncoder::sensors</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a576852ce7ce8da29fd1e1088abc8c466" title="Request list of sensor packets. ">OIEncoder::queryList</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#af0a440e4ed8b689a2ba9a8554f951e91" title="Start a data stream based on a query list. ">OIEncoder::stream</a> see <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html#a7fa2db1885854427094d67cae5b29837" title="Stop and restart the stream. ">OIEncoder::pauseResumeStream</a> </p>
+<div class="textblock"><p>Constant data used to manage data returned from the iRobot® Roomba. </p>
+<p>Data type loaded by sensor methods.</p>
+<p>This constant data facilitates inserting and retreiving sensor data from the blob. Some "data" is represented "functionally" to reduce wasted space for sparse data sets. The data functions do not contain error checking, and should only be used internally.</p>
+<p>Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see OIEncoder::sensors see OIEncoder::queryList see OIEncoder::stream see OIEncoder::pauseResumeStream</p>
+<p>Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see OIEncoder::sensors see OIEncoder::queryList see OIEncoder::stream </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a63498ea1417feb6c390694f752277641"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t roomba::series500::oi::sensors::packetSize </td>
-          <td>(</td>
-          <td class="paramtype">const PacketId&#160;</td>
-          <td class="paramname"><em>packet_id_</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section note"><dt>Note</dt><dd>Values taken from iRobot® Roomba Open Interface (OI) Specification (page 19) </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a55e703cd451e199cd600a41230239de7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +238,26 @@ const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a90
 </div><div class="memdoc">
 
 <p>Function to receive serial data. </p>
-<p>Parses data received from Roomba and stores it in memory accessible by the <a class="el" href="classroomba_1_1series500_1_1oi_1_1_o_i_encoder.html" title="The Roomba Open Interface (OI) OIEncoder static class. ">OIEncoder</a> object. </p>
+<p>Parses data received from Roomba and stores it in memory accessible by the OIEncoder object. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0a74efce16d762ee40f45bf26d128b66"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool roomba::series500::oi::sensors::sensorsReady </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Indicates ready state of OISensors internals. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns "true" if ready, "false" otherwise </dd></dl>
 
 </div>
 </div>
@@ -298,7 +288,7 @@ const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a90
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">parse_key_</td><td>An array of bytes describing the data requested from the iRobot® Roomba. <br />
  Index 0 contains the length of the array. <br />
- The remaining values are packet id values of the data requested from the iRobot® Roomba. </td></tr>
+ The remaining values are the packet ids of the data requested from the iRobot® Roomba. </td></tr>
   </table>
   </dd>
 </dl>
@@ -346,7 +336,7 @@ const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a90
 <p>Provides access to sensor data. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">packet_id_</td><td>The packet id of the sensor you want the value of </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">packet_id_</td><td>The packet id of the sensor who's value you want </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">value_</td><td>A pointer to the sixteen-bit field to store the value of the requested sensor </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">is_signed_</td><td>A boolean indicating if the value of the requested sensor is signed or unsigned </td></tr>
   </table>
@@ -358,7 +348,7 @@ const <a class="el" href="namespaceroomba_1_1series500_1_1oi_1_1sensors.html#a90
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 11 2014 23:52:15 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 13 2014 17:17:10 for iRobot Roomba 500 Series SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

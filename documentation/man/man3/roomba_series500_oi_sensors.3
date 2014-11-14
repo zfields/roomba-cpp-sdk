@@ -1,10 +1,10 @@
-.TH "roomba::series500::oi::sensors" 3 "Tue Nov 11 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba::series500::oi::sensors" 3 "Thu Nov 13 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 roomba::series500::oi::sensors \- 
 .PP
-Data type loaded by sensor methods\&.  
+Constant data used to manage data returned from the iRobot® Roomba\&.  
 
 .SH SYNOPSIS
 .br
@@ -37,38 +37,38 @@ Data type loaded by sensor methods\&.
 .br
 .RI "\fIProvides access to sensor data\&. \fP"
 .ti -1c
-.RI "uint8_t \fBpacketSize\fP (const \fBPacketId\fP packet_id_)"
+.RI "bool \fBsensorsReady\fP (void)"
 .br
-.in -1c
-.SS "Variables"
-
-.in +1c
-.ti -1c
-.RI "const \fBPacketId\fP \fBPACKET_INFO\fP []"
-.br
+.RI "\fIIndicates ready state of OISensors internals\&. \fP"
 .in -1c
 .SH "Detailed Description"
 .PP 
-Data type loaded by sensor methods\&. 
+Constant data used to manage data returned from the iRobot® Roomba\&. 
 
-Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see \fBOIEncoder::sensors\fP see \fBOIEncoder::queryList\fP see \fBOIEncoder::stream\fP
+Data type loaded by sensor methods\&.
 .PP
-Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see \fBOIEncoder::sensors\fP see \fBOIEncoder::queryList\fP see \fBOIEncoder::stream\fP see \fBOIEncoder::pauseResumeStream\fP 
+This constant data facilitates inserting and retreiving sensor data from the blob\&. Some 'data' is represented 'functionally' to reduce wasted space for sparse data sets\&. The data functions do not contain error checking, and should only be used internally\&.
+.PP
+Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see OIEncoder::sensors see OIEncoder::queryList see OIEncoder::stream see OIEncoder::pauseResumeStream
+.PP
+Sensor data is returned as a byte array with checksum\&. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization\&. see OIEncoder::sensors see OIEncoder::queryList see OIEncoder::stream 
 .SH "Function Documentation"
 .PP 
-.SS "uint8_t roomba::series500::oi::sensors::packetSize (const PacketIdpacket_id_)\fC [inline]\fP"
-
-.PP
-\fBNote:\fP
-.RS 4
-Values taken from iRobot® Roomba Open Interface (OI) Specification (page 19) 
-.RE
-.PP
-
 .SS "void roomba::series500::oi::sensors::parseSerialData (void)\fC [inline]\fP"
 
 .PP
-Function to receive serial data\&. Parses data received from Roomba and stores it in memory accessible by the \fBOIEncoder\fP object\&. 
+Function to receive serial data\&. Parses data received from Roomba and stores it in memory accessible by the OIEncoder object\&. 
+.SS "bool roomba::series500::oi::sensors::sensorsReady (void)"
+
+.PP
+Indicates ready state of OISensors internals\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Returns 'true' if ready, 'false' otherwise 
+.RE
+.PP
+
 .SS "void roomba::series500::oi::sensors::setParseKey (uint8_t const *constparse_key_)\fC [inline]\fP"
 
 .PP
@@ -80,7 +80,7 @@ Function to store parse key\&. A parsing key is generated during the call to que
 .br
  Index 0 contains the length of the array\&. 
 .br
- The remaining values are packet id values of the data requested from the iRobot® Roomba\&. 
+ The remaining values are the packet ids of the data requested from the iRobot® Roomba\&. 
 .RE
 .PP
 
@@ -91,7 +91,7 @@ Provides access to sensor data\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpacket_id_\fP The packet id of the sensor you want the value of 
+\fIpacket_id_\fP The packet id of the sensor who's value you want 
 .br
 \fIvalue_\fP A pointer to the sixteen-bit field to store the value of the requested sensor 
 .br

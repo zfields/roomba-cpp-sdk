@@ -3,7 +3,7 @@
 }
 
 
-Data type loaded by sensor methods.  
+Constant data used to manage data returned from the i\+Robot® Roomba.  
 
 
 \subsection*{Enumerations}
@@ -108,34 +108,22 @@ Data type loaded by sensor methods.
 \begin{DoxyCompactList}\small\item\em Function to store parse key. \end{DoxyCompactList}\item 
 \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_afedb9083158162092444b523e0a32ebb}{Return\+Code} \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a670e21671d8c2923a3fbac6e7ebc28eb}{value\+Of\+Sensor} (const \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} packet\+\_\+id\+\_\+, uint16\+\_\+t $\ast$const value\+\_\+, bool $\ast$const is\+\_\+signed\+\_\+)
 \begin{DoxyCompactList}\small\item\em Provides access to sensor data. \end{DoxyCompactList}\item 
-uint8\+\_\+t \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a63498ea1417feb6c390694f752277641}{packet\+Size} (const \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} packet\+\_\+id\+\_\+)
-\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a4869957d0a94bd8548056c4ebd8effb6}{const \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a909f47d40452d1cabb85eef642ac04b6}{Packet\+Id} {\bfseries P\+A\+C\+K\+E\+T\+\_\+\+I\+N\+F\+O} \mbox{[}$\,$\mbox{]}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a4869957d0a94bd8548056c4ebd8effb6}
-
-\end{DoxyCompactItemize}
+bool \hyperlink{namespaceroomba_1_1series500_1_1oi_1_1sensors_a0a74efce16d762ee40f45bf26d128b66}{sensors\+Ready} (void)
+\begin{DoxyCompactList}\small\item\em Indicates ready state of O\+I\+Sensors internals. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Data type loaded by sensor methods. 
+Constant data used to manage data returned from the i\+Robot® Roomba. 
 
-Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a5b7751abfbb6a07a0c62b7a1646e3703}{O\+I\+Encoder\+::sensors} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a576852ce7ce8da29fd1e1088abc8c466}{O\+I\+Encoder\+::query\+List} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af0a440e4ed8b689a2ba9a8554f951e91}{O\+I\+Encoder\+::stream}
+Data type loaded by sensor methods.
 
-Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a5b7751abfbb6a07a0c62b7a1646e3703}{O\+I\+Encoder\+::sensors} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a576852ce7ce8da29fd1e1088abc8c466}{O\+I\+Encoder\+::query\+List} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_af0a440e4ed8b689a2ba9a8554f951e91}{O\+I\+Encoder\+::stream} see \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder_a7fa2db1885854427094d67cae5b29837}{O\+I\+Encoder\+::pause\+Resume\+Stream} 
+This constant data facilitates inserting and retreiving sensor data from the blob. Some \char`\"{}data\char`\"{} is represented \char`\"{}functionally\char`\"{} to reduce wasted space for sparse data sets. The data functions do not contain error checking, and should only be used internally.
+
+Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see O\+I\+Encoder\+::sensors see O\+I\+Encoder\+::query\+List see O\+I\+Encoder\+::stream see O\+I\+Encoder\+::pause\+Resume\+Stream
+
+Sensor data is returned as a byte array with checksum. This type reflects the data representation of the returned sensor data, as it strikes the balance between usability, size and speed optimization. see O\+I\+Encoder\+::sensors see O\+I\+Encoder\+::query\+List see O\+I\+Encoder\+::stream 
 
 \subsection{Function Documentation}
-\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a63498ea1417feb6c390694f752277641}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!packet\+Size@{packet\+Size}}
-\index{packet\+Size@{packet\+Size}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
-\subsubsection[{packet\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t roomba\+::series500\+::oi\+::sensors\+::packet\+Size (
-\begin{DoxyParamCaption}
-\item[{const Packet\+Id}]{packet\+\_\+id\+\_\+}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a63498ea1417feb6c390694f752277641}
-\begin{DoxyNote}{Note}
-Values taken from i\+Robot® Roomba Open Interface (O\+I) Specification (page 19) 
-\end{DoxyNote}
 \hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a55e703cd451e199cd600a41230239de7}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!parse\+Serial\+Data@{parse\+Serial\+Data}}
 \index{parse\+Serial\+Data@{parse\+Serial\+Data}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
 \subsubsection[{parse\+Serial\+Data}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::sensors\+::parse\+Serial\+Data (
@@ -147,7 +135,21 @@ Values taken from i\+Robot® Roomba Open Interface (O\+I) Specification (page 19
 
 Function to receive serial data. 
 
-Parses data received from Roomba and stores it in memory accessible by the \hyperlink{classroomba_1_1series500_1_1oi_1_1_o_i_encoder}{O\+I\+Encoder} object. \hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_aad9d5021c285d0aa1382be994ccdc841}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!set\+Parse\+Key@{set\+Parse\+Key}}
+Parses data received from Roomba and stores it in memory accessible by the O\+I\+Encoder object. \hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a0a74efce16d762ee40f45bf26d128b66}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!sensors\+Ready@{sensors\+Ready}}
+\index{sensors\+Ready@{sensors\+Ready}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
+\subsubsection[{sensors\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool roomba\+::series500\+::oi\+::sensors\+::sensors\+Ready (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{namespaceroomba_1_1series500_1_1oi_1_1sensors_a0a74efce16d762ee40f45bf26d128b66}
+
+
+Indicates ready state of O\+I\+Sensors internals. 
+
+\begin{DoxyReturn}{Returns}
+Returns \char`\"{}true\char`\"{} if ready, \char`\"{}false\char`\"{} otherwise 
+\end{DoxyReturn}
+\hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_aad9d5021c285d0aa1382be994ccdc841}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!set\+Parse\+Key@{set\+Parse\+Key}}
 \index{set\+Parse\+Key@{set\+Parse\+Key}!roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}}
 \subsubsection[{set\+Parse\+Key}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::series500\+::oi\+::sensors\+::set\+Parse\+Key (
 \begin{DoxyParamCaption}
@@ -162,7 +164,7 @@ A parsing key is generated during the call to query\+List() or sensors() to desc
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parse\+\_\+key\+\_\+} & An array of bytes describing the data requested from the i\+Robot® Roomba. ~\newline
  Index 0 contains the length of the array. ~\newline
- The remaining values are packet id values of the data requested from the i\+Robot® Roomba. \\
+ The remaining values are the packet ids of the data requested from the i\+Robot® Roomba. \\
 \hline
 \end{DoxyParams}
 \hypertarget{namespaceroomba_1_1series500_1_1oi_1_1sensors_a670e21671d8c2923a3fbac6e7ebc28eb}{\index{roomba\+::series500\+::oi\+::sensors@{roomba\+::series500\+::oi\+::sensors}!value\+Of\+Sensor@{value\+Of\+Sensor}}
@@ -180,7 +182,7 @@ Provides access to sensor data.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em packet\+\_\+id\+\_\+} & The packet id of the sensor you want the value of \\
+\mbox{\tt in}  & {\em packet\+\_\+id\+\_\+} & The packet id of the sensor who's value you want \\
 \hline
 \mbox{\tt out}  & {\em value\+\_\+} & A pointer to the sixteen-\/bit field to store the value of the requested sensor \\
 \hline
