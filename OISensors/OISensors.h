@@ -20,10 +20,10 @@ namespace oi {
 /// representation of the returned sensor data,
 /// as it strikes the balance between usability,
 /// size and speed optimization.
-/// see OIEncoder::sensors
-/// see OIEncoder::queryList
-/// see OIEncoder::stream
-/// see OIEncoder::pauseResumeStream
+/// see OICommand::sensors
+/// see OICommand::queryList
+/// see OICommand::stream
+/// see OICommand::pauseResumeStream
 namespace sensors {
 	/// \brief Return codes
 	enum ReturnCode : int8_t {
@@ -99,9 +99,30 @@ namespace sensors {
 		PACKETS_54_THRU_58 = 107,
 	};
 	
+	/// \brief Function to initialize sensor
+	/// \details Enables the sensor functionality by setting
+	/// the pointer to the serial read function; enabling
+	/// serial communication.
+	/// \param fnSerialRead_ A multi-byte read serial read function
+	/// \see end()
+	ReturnCode
+	begin (
+		std::function<size_t(uint8_t * const, const size_t)> fnSerialRead_
+	);
+	
+	/// \brief Release resources tied to sensors
+	/// \details Restores internal variables to a state ready for
+	/// the next call to begin().
+	/// \return SUCCESS
+	/// \see begin
+	ReturnCode
+	end (
+		void
+	);
+	
 	/// \brief Function to receive serial data
 	/// \details Parses data received from Roomba and stores
-	/// it in memory accessible by the OIEncoder object.
+	/// it in memory accessible by the OICommand object.
 	ReturnCode
 	parseSerialData (
 		void
@@ -134,10 +155,6 @@ namespace sensors {
 		uint16_t * const value_,
 		bool * const is_signed_
 	);
-	
-	/// \brief Indicates ready state of OISensors internals
-	/// \return Returns "true" if ready, "false" otherwise
-	bool sensorsReady (void);
 } // namespace sensor
 } // namespace oi
 } // namespace series500

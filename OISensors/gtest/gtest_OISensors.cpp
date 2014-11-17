@@ -6,30 +6,58 @@
 
 using namespace roomba::series500::oi;
 
-  /******************/
- /* TESTABLE CLASS */
-/******************/
-class OIDecoder_TC/* : public OIDecoder */{
-  public:
-  // insert protected members here
-};
-
 namespace {
 
   /******************/
  /* MOCK SCENARIOS */
 /******************/
-class ObjectInitialization : public ::testing::Test {
+class BeginNotCalled : public ::testing::Test {
   protected:
-	ObjectInitialization (
-		void
-	) {}
+	//Initialization (
+	//	void
+	//) {}
 	
 	//virtual ~Initialization() {}
 	//virtual void SetUp() {}
-	//virtual void TearDown() {}
+	//virtual void TearDown() {}	
+};
+
+class BeginCalled_QueriedData : public ::testing::Test {
+  protected:
+	//Initialization (
+	//	void
+	//) {}
 	
-	OIDecoder_TC Decoder_tc;
+	//virtual ~Initialization() {}
+	virtual void SetUp() {
+		sensors::begin(
+			[] (uint8_t * const buffer_, const size_t buffer_length_) {
+				uint8_t serial_stream[] = { 0x02, 0x19, 0x00 };
+				memcpy(serial_stream, buffer_, sizeof(serial_stream));
+				return (sizeof(serial_stream));
+			}
+		);
+	}
+	//virtual void TearDown() {}
+};
+
+class BeginCalled_StreamingData : public ::testing::Test {
+  protected:
+	//Initialization (
+	//	void
+	//) {}
+	
+	//virtual ~Initialization() {}
+	virtual void SetUp() {
+		sensors::begin(
+			[] (uint8_t * const buffer_, const size_t buffer_length_) {
+				uint8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6 };
+				memcpy(serial_stream, buffer_, sizeof(serial_stream));
+				return (sizeof(serial_stream));
+			}
+		);
+	}
+	//virtual void TearDown() {}
 };
 
 /*
@@ -38,11 +66,19 @@ second argument is the test's name within the test case. Both names must
 be valid C++ identifiers, and they should not contain underscore (_). A
 test's full name consists of its containing test case and its individual
 name. Tests from different test cases can have the same individual name.
+(e.g. ASSERT_EQ(_EXPECTED_, _ACTUAL_))
 */
 
-TEST_F(ObjectInitialization, constructor$WHENInitializedTHEN_) {
-	ASSERT_EQ(1,1);
+TEST_F(BeginNotCalled, begin$WHENBeginHasNotBeenCalledTHENParseSerialDataReturnsError) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseSerialData());
 }
+
+TEST_F(BeginNotCalled, begin$WHENBeginHasNotBeenCalledTHENValueOfSensorReturnsError) {
+	uint16_t value;
+	bool is_signed;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::valueOfSensor(sensors::OI_MODE, &value, &is_signed));
+}
+
 
 } // namespace
 

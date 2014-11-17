@@ -10,20 +10,34 @@ namespace series500 {
 namespace oi {
 namespace sensors {
 
+ReturnCode
+parseSerialData (
+	void
+) {
+	return SERIAL_TRANSFER_FAILURE;
+}
+
+ReturnCode
+valueOfSensor (
+	const PacketId packet_id_,
+	uint16_t * const value_,
+	bool * const is_signed_
+) { return SERIAL_TRANSFER_FAILURE; }
+
 /// \brief Format of the data stored in shared memory
-/// \details The variable data utilized by both the OIEncoder and
-/// OISensors methods. OIEncoder and the OISensors methods execute
+/// \details The variable data utilized by both the OICommand and
+/// oi:sensors methods. OICommand and the oi::sensors methods execute
 /// concurrently, therefore this data will be accessed concurrently.
 /// All methods accessing this data will need to take possession
 /// of the internal mutex to ensure the integrity of this data.
 namespace {
 	std::chrono::system_clock::time_point _bus_next_available;  ///< Time required before the next serial request
 	uint64_t _flag_mask_dirty;  ///< Indicates the validity of the corresponding values
-	std::function<size_t(const uint8_t *, const size_t)> _fnSerialRead([](const uint8_t *, const size_t)->size_t{});  ///< A function supplying multi-byte read access to the serial bus
+	std::function<size_t(uint8_t * const, const size_t)> _fnSerialRead([](uint8_t * const, const size_t){ return 0; });  ///< A function supplying multi-byte read access to the serial bus
 	PacketId _parse_key[64] = { static_cast<PacketId>(0) };  ///< Array of packet ids required to decode the Roomba's serial stream
 	ReturnCode _parse_status(SUCCESS);  ///< Allows callback to provide error messages
 	uint8_t _raw_data[80];  ///< Data blob to store the sensor data returned from the Roomba
-	bool _sensors_ready(false);	  ///< Ready state of OISensors methods
+	bool _sensors_ready(false);	  ///< Ready state of oi:sensors methods
 	std::mutex _variable_data;  ///< Mutex for the shared sensor data
 } // namespace
 

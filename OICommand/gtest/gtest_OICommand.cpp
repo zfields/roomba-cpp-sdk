@@ -191,6 +191,7 @@ second argument is the test's name within the test case. Both names must
 be valid C++ identifiers, and they should not contain underscore (_). A
 test's full name consists of its containing test case and its individual
 name. Tests from different test cases can have the same individual name.
+(e.g. ASSERT_EQ(_EXPECTED_, _ACTUAL_))
 */
 
 TEST_F(ObjectInitialization, constructor$WHENInitializedTHENCallingFnSerialWriteWillNotThrowError) {
