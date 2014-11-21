@@ -10,20 +10,6 @@ namespace series500 {
 namespace oi {
 namespace sensors {
 
-ReturnCode
-parseSerialData (
-	void
-) {
-	return SERIAL_TRANSFER_FAILURE;
-}
-
-ReturnCode
-valueOfSensor (
-	const PacketId packet_id_,
-	uint16_t * const value_,
-	bool * const is_signed_
-) { return SERIAL_TRANSFER_FAILURE; }
-
 /// \brief Format of the data stored in shared memory
 /// \details The variable data utilized by both the OICommand and
 /// oi:sensors methods. OICommand and the oi::sensors methods execute
@@ -247,7 +233,43 @@ namespace {
 	}
 } // namespace
 
-} // namespace sensor
+ReturnCode
+begin (
+	std::function<size_t(uint8_t * const, const size_t)> fnSerialRead_
+) {
+	_fnSerialRead = fnSerialRead_;
+	return SUCCESS;
+}
+
+ReturnCode
+valueOfSensor (
+	const PacketId packet_id_,
+	uint16_t * const value_,
+	bool * const is_signed_
+) {
+	return SERIAL_TRANSFER_FAILURE;
+}
+
+#ifdef TESTING
+namespace testing {
+	size_t
+	fnSerialRead (
+		uint8_t * const buffer_,
+		const size_t buffer_length_
+	) {
+		return _fnSerialRead(buffer_, buffer_length_);
+	}
+	
+	PacketId *
+	getParseKey (
+		void
+	) {
+		return _parse_key;
+	}
+} // namespace testing
+#endif
+
+} // namespace sensors
 } // namespace oi
 } // namespace series500
 } // namespace roomba

@@ -123,7 +123,7 @@ namespace sensors {
 	/// \brief Function to receive serial data
 	/// \details Parses data received from Roomba and stores
 	/// it in memory accessible by the OICommand object.
-	ReturnCode
+	void
 	parseSerialData (
 		void
 	);
@@ -149,6 +149,8 @@ namespace sensors {
 	/// field to store the value of the requested sensor
 	/// \param [out] is_signed_ A boolean indicating if the
 	/// value of the requested sensor is signed or unsigned
+	/// \return SUCCESS
+	/// \return SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	valueOfSensor (
 		const PacketId packet_id_,

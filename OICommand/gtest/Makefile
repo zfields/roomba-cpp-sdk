@@ -34,6 +34,7 @@ TEST_DIR = .
 CPPFLAGS += -isystem $(GTEST_DIR)/include \
             -isystem $(GMOCK_DIR)/include \
             -std=c++11 \
+            -DTESTING \
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g \
