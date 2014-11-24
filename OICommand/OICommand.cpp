@@ -391,6 +391,9 @@ OICommand::sensors (
 	const sensors::PacketId packet_id_
 ) const {
 	const uint8_t serial_data[2] = { command::SENSORS, packet_id_ };
+	// Ensure this is called after _fnSerialWrite() and SUCCESS is returned
+	//const uint8_t parse_key[2] = { sizeof(parse_key), packet_id_ };
+	//sensors::setParseKey(parse_key);
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( (packet_id_ > 58 && packet_id_ < 100) || packet_id_ > 107 ) { return INVALID_PARAMETER; }
 	
