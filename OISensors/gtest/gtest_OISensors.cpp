@@ -6,6 +6,7 @@
 
 //TODO: Consider method to return multiple sensor values (std::tuple<uint8_t packet_id_, uint16_t value_, bool signed_>)
 //TODO: When data is out of sync, then it should pause data stream, then resume to sync.
+//TODO: Consider merging begin with OICommand::connectToSerialBus()
 
 using namespace roomba::series500::oi;
 
@@ -157,15 +158,29 @@ TEST_F(BeginNotCalled, begin$WHENBeginIsCalledTHENfnSerialReadIsStored) {
 	sensors::begin([](uint8_t * const, const size_t){ return 7; });
 	ASSERT_EQ(7, sensors::testing::fnSerialRead(NULL, 0));
 }
-/*
-TEST_F(QueriedData, sensors$WHENBeforeCallTHENParseKeyIsNotSet) {
+
+TEST_F(StreamingData, end$WHENEndIsCalledTHENfnSerialReadReturnsZero) {
+	uint8_t buffer[32] = { 0 };
+	ASSERT_EQ(8, sensors::testing::fnSerialRead(buffer, sizeof(buffer)));
+	sensors::end();
+	ASSERT_EQ(0, sensors::testing::fnSerialRead(buffer, sizeof(buffer)));
+}
+
+TEST_F(QueriedData, setParseKey$WHENBeforeCallTHENParseKeyIsNotSet) {
 	ASSERT_EQ(0, *reinterpret_cast<uint8_t *>(sensors::testing::getParseKey()));
 }
 
-TEST_F(QueriedData, sensors$WHENCalledTHENParseKeyIsSet) {
-	ASSERT_EQ(1, sensors::test::getParseKey());
+TEST_F(QueriedData, setParseKey$WHENCalledTHENParseKeyIsSet) {
+	const uint8_t parse_key[2] = { sizeof(parse_key), sensors::BUTTONS };
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(2, *reinterpret_cast<uint8_t *>(sensors::testing::getParseKey()));
+	ASSERT_EQ(sensors::BUTTONS, *reinterpret_cast<uint8_t *>(sensors::testing::getParseKey() + 1));
 }
-*/
+
+TEST_F(QueriedData, setParseKey$WHENCalledWithNULLTHENErrorIsReturned) {
+	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::setParseKey(NULL));
+}
+
 TEST_F(BeginNotCalled, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
 	uint16_t value;
 	bool is_signed;

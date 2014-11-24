@@ -242,6 +242,23 @@ begin (
 }
 
 ReturnCode
+end (
+	void
+) {
+	_fnSerialRead = ([](uint8_t * const, const size_t){ return 0; });
+	return SUCCESS;
+}
+
+ReturnCode
+setParseKey (
+	PacketId const * const parse_key_
+) {
+	if ( !parse_key_ ) { return INVALID_PARAMETER; }
+	memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint8_t *>(parse_key_));
+	return SUCCESS;
+}
+
+ReturnCode
 valueOfSensor (
 	const PacketId packet_id_,
 	uint16_t * const value_,

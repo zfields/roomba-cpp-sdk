@@ -29,6 +29,7 @@ namespace sensors {
 	enum ReturnCode : int8_t {
 		INVALID_CHECKSUM = -101,
 		SERIAL_TRANSFER_FAILURE = -100,
+		INVALID_PARAMETER = -10,
 		NO_DATA_AVAILABLE = -2,
 		FAILURE_TO_SYNC = -1,
 		SUCCESS = 0,
@@ -104,7 +105,8 @@ namespace sensors {
 	/// the pointer to the serial read function; enabling
 	/// serial communication.
 	/// \param fnSerialRead_ A multi-byte read serial read function
-	/// \see end()
+	/// \return SUCCESS
+	/// \see end
 	ReturnCode
 	begin (
 		std::function<size_t(uint8_t * const, const size_t)> fnSerialRead_
@@ -137,9 +139,13 @@ namespace sensors {
 	/// \n Index 0 contains the length of the array.
 	/// \n The remaining values are the packet ids of the
 	/// data requested from the iRobot® Roomba.
+	/// \return SUCCESS
+	/// \return INVALID_PARAMETER
+	/// \see OICommand::sensors
+	/// \see OICommand::queryList
 	ReturnCode
 	setParseKey (
-		uint8_t const * const parse_key_
+		PacketId const * const parse_key_
 	);
 	
 	/// \brief Provides access to sensor data
