@@ -12,8 +12,10 @@ namespace series500 {
 namespace oi {
 namespace sensors {
 namespace testing {
+	BaudCode getBaudCode (void);
 	PacketId * getParseKey (void);
-	size_t fnSerialRead (uint8_t * const, const size_t);
+	std::chrono::system_clock::time_point getTransferCompleteTime (void);
+	size_t fnSerialRead (uint_opt8_t * const, const size_t);
 } // testing
 } // namespace sensor
 } // namespace oi

@@ -4,7 +4,7 @@
 #include "gmock/gmock.h"
 #include "TESTSensors.h"
 
-//TODO: Consider method to return multiple sensor values (std::tuple<uint8_t packet_id_, uint16_t value_, bool signed_>)
+//TODO: Consider method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>)
 //TODO: When data is out of sync, then it should pause data stream, then resume to sync.
 //TODO: Consider merging begin with OICommand::connectToSerialBus()
 
@@ -35,8 +35,8 @@ class BeginCalled : public ::testing::Test {
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint8_t * const buffer_, const size_t buffer_length_) {
-				uint8_t serial_stream[] = "Hello, World!";
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				uint_opt8_t serial_stream[] = "Hello, World!";
 				memcpy(serial_stream, buffer_, sizeof(serial_stream));
 				return (sizeof(serial_stream));
 			}
@@ -54,8 +54,8 @@ class EndCalled : public ::testing::Test {
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint8_t * const buffer_, const size_t buffer_length_) {
-				uint8_t serial_stream[] = { 0x02, 0x19, 0x00 };
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				uint_opt8_t serial_stream[] = { 0x02, 0x19, 0x00 };
 				memcpy(serial_stream, buffer_, sizeof(serial_stream));
 				return (sizeof(serial_stream));
 			}
@@ -73,8 +73,8 @@ class QueriedData : public ::testing::Test {
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint8_t * const buffer_, const size_t buffer_length_) {
-				uint8_t serial_stream[] = { 0x02, 0x19, 0x00 };
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				uint_opt8_t serial_stream[] = { 0x02, 0x19, 0x00 };
 				memcpy(serial_stream, buffer_, sizeof(serial_stream));
 				return (sizeof(serial_stream));
 			}
@@ -92,8 +92,8 @@ class StreamingData : public ::testing::Test {
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint8_t * const buffer_, const size_t buffer_length_) {
-				uint8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6 };
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6 };
 				memcpy(serial_stream, buffer_, sizeof(serial_stream));
 				return (sizeof(serial_stream));
 			}
@@ -111,8 +111,8 @@ class StreamingData$BadCheckSum : public ::testing::Test {
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint8_t * const buffer_, const size_t buffer_length_) {
-				uint8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xBE };
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xBE };
 				memcpy(serial_stream, buffer_, sizeof(serial_stream));
 				return (sizeof(serial_stream));
 			}
@@ -130,8 +130,8 @@ class StreamingData$OutOfSync : public ::testing::Test {
 	//virtual ~Initialization() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint8_t * const buffer_, const size_t buffer_length_) {
-				uint8_t serial_stream[] = { 0x19, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D };
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				uint_opt8_t serial_stream[] = { 0x19, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D };
 				memcpy(serial_stream, buffer_, sizeof(serial_stream));
 				return (sizeof(serial_stream));
 			}
@@ -155,26 +155,32 @@ TEST_F(BeginNotCalled, begin$WHENBeginHasNotBeenCalledTHENfnSerialReadReturnsZer
 
 TEST_F(BeginNotCalled, begin$WHENBeginIsCalledTHENfnSerialReadIsStored) {
 	ASSERT_EQ(0, sensors::testing::fnSerialRead(NULL, 0));
-	sensors::begin([](uint8_t * const, const size_t){ return 7; });
+	sensors::begin([](uint_opt8_t * const, const size_t){ return 7; });
 	ASSERT_EQ(7, sensors::testing::fnSerialRead(NULL, 0));
 }
 
 TEST_F(StreamingData, end$WHENEndIsCalledTHENfnSerialReadReturnsZero) {
-	uint8_t buffer[32] = { 0 };
+	uint_opt8_t buffer[32] = { 0 };
 	ASSERT_EQ(8, sensors::testing::fnSerialRead(buffer, sizeof(buffer)));
 	sensors::end();
 	ASSERT_EQ(0, sensors::testing::fnSerialRead(buffer, sizeof(buffer)));
 }
 
+TEST_F(QueriedData, setBaudCode$WHENCalledTHENBaudCodeIsSet) {
+	ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
+	sensors::setBaudCode(BAUD_57600);
+	ASSERT_EQ(BAUD_57600, sensors::testing::getBaudCode());
+}
+
 TEST_F(QueriedData, setParseKey$WHENBeforeCallTHENParseKeyIsNotSet) {
-	ASSERT_EQ(0, *reinterpret_cast<uint8_t *>(sensors::testing::getParseKey()));
+	ASSERT_EQ(0, *reinterpret_cast<uint_opt8_t *>(sensors::testing::getParseKey()));
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledTHENParseKeyIsSet) {
-	const uint8_t parse_key[2] = { sizeof(parse_key), sensors::BUTTONS };
+	const uint_opt8_t parse_key[2] = { sizeof(parse_key), sensors::BUTTONS };
 	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	ASSERT_EQ(2, *reinterpret_cast<uint8_t *>(sensors::testing::getParseKey()));
-	ASSERT_EQ(sensors::BUTTONS, *reinterpret_cast<uint8_t *>(sensors::testing::getParseKey() + 1));
+	ASSERT_EQ(2, *reinterpret_cast<uint_opt8_t *>(sensors::testing::getParseKey()));
+	ASSERT_EQ(sensors::BUTTONS, *reinterpret_cast<uint_opt8_t *>(sensors::testing::getParseKey() + 1));
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledWithNULLTHENErrorIsReturned) {

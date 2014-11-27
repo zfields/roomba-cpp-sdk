@@ -3,6 +3,16 @@
 #ifndef OI_DEFINES_H
 #define OI_DEFINES_H
 
+#ifndef DISABLE_SENSORS
+#define SENSORS_ENABLED
+#endif
+
+// Setting optimization for speed
+#define uint_opt8_t uint_fast8_t
+#define uint_opt16_t uint_fast16_t
+#define uint_opt32_t uint_fast32_t
+#define uint_opt64_t uint_fast64_t
+
 #include <cstdint>
 
 /// \brief The iRobot Roomba autonomous robotic vacuum cleaner
@@ -40,7 +50,7 @@ namespace series500 {
 namespace oi {
 
 /// \brief Baud (OpCode 129)
-enum BaudCode : uint8_t {
+enum BaudCode : uint_opt8_t {
 	BAUD_300 = 0,
 	BAUD_600,
 	BAUD_1200,
@@ -56,7 +66,7 @@ enum BaudCode : uint8_t {
 };
 
 /// \brief Song (OpCode 140)
-enum Pitch : uint8_t {
+enum Pitch : uint_opt8_t {
 	REST = 30,
 	G1 = 31,
 	G1_SHARP = 32,
@@ -139,7 +149,7 @@ enum Pitch : uint8_t {
 };
 
 /// \brief Set Day/Time (OpCode 168)
-enum Day : uint8_t {
+enum Day : uint_opt8_t {
 	SUNDAY = 0,
 	MONDAY,
 	TUESDAY,
@@ -150,7 +160,7 @@ enum Day : uint8_t {
 };
 
 /// \brief Charging State (PacketId 21)
-enum ChargingState : uint8_t {
+enum ChargingState : uint_opt8_t {
 	NOT_CHARGING = 0,
 	RECONDITIONING_CHARGING,
 	FULL_CHARGING,
@@ -160,7 +170,7 @@ enum ChargingState : uint8_t {
 };
 
 /// \brief OI Mode (PacketId 35)
-enum OIMode : uint8_t {
+enum OIMode : uint_opt8_t {
 	OFF = 0,
 	PASSIVE,
 	SAFE,
@@ -169,7 +179,7 @@ enum OIMode : uint8_t {
 
 namespace bitmask {
 /// \brief Scheduling LEDs (OpCode 162) and Schedule (OpCode 167)
-enum Days : uint8_t {
+enum Days : uint_opt8_t {
 	DISABLE = 0x00,
 	SUNDAY = 0x01,
 	MONDAY = 0x02,
@@ -181,7 +191,7 @@ enum Days : uint8_t {
 };
 
 /// \brief Buttons (OpCode 165 / PacketId 18)
-enum Buttons : uint8_t {
+enum Buttons : uint_opt8_t {
 	CLEAN = 0x01,
 	SPOT = 0x02,
 	DOCK = 0x04,
@@ -193,7 +203,7 @@ enum Buttons : uint8_t {
 };
 
 /// \brief Motor Overcurrents (PacketId 14)
-enum Motors : uint8_t {
+enum Motors : uint_opt8_t {
 	SIDE_BRUSH = 0x01,
 	MAIN_BRUSH = 0x04,
 	RIGHT_WHEEL = 0x08,
@@ -201,7 +211,7 @@ enum Motors : uint8_t {
 };
 
 /// \brief Motor States (OpCode 138)
-enum MotorStates : uint8_t {
+enum MotorStates : uint_opt8_t {
 	SIDE_BRUSH_ENGAGED = 0x01,
 	VACUUM_ENGAGED = 0x02,
 	MAIN_BRUSH_ENGAGED = 0x04,
@@ -211,7 +221,7 @@ enum MotorStates : uint8_t {
 
 namespace display {
 /// \brief LEDs (OpCode 139)
-enum LEDs : uint8_t {
+enum LEDs : uint_opt8_t {
 	DEBRIS = 0x01,
 	SPOT = 0x02,
 	DOCK = 0x04,
@@ -219,7 +229,7 @@ enum LEDs : uint8_t {
 };
 
 /// \brief Scheduling LEDs (OpCode 162)
-enum SchedulingLEDs : uint8_t {
+enum SchedulingLEDs : uint_opt8_t {
 	COLON = 0x01,
 	PM = 0x02,
 	AM = 0x04,
@@ -233,7 +243,7 @@ enum SchedulingLEDs : uint8_t {
 /// \note  GGG
 /// \note E   C
 /// \note EDDDC
-enum DigitN : uint8_t {
+enum DigitN : uint_opt8_t {
 	A = 0x01,
 	B = 0x02,
 	C = 0x04,
@@ -245,7 +255,7 @@ enum DigitN : uint8_t {
 } // namespace display
 
 /// \brief Bumps and Wheel Drops (PacketId 7)
-enum BumpsAndWheelDrops : uint8_t {
+enum BumpsAndWheelDrops : uint_opt8_t {
 	BUMP_RIGHT = 0x01,
 	BUMP_LEFT = 0x02,
 	WHEEL_DROP_RIGHT = 0x04,
@@ -253,13 +263,13 @@ enum BumpsAndWheelDrops : uint8_t {
 };
 
 /// \brief Charging Sources Available (PacketId 34)
-enum ChargersAvailable : uint8_t {
+enum ChargersAvailable : uint_opt8_t {
 	INTERNAL_CHARGER = 0x01,
 	HOME_BASE = 0x02,
 };
 
 /// \brief Light Bumper (PacketId 45)
-enum LightBumpers : uint8_t {
+enum LightBumpers : uint_opt8_t {
 	LEFT = 0x01,
 	FRONT_LEFT = 0x02,
 	CENTER_LEFT = 0x04,
@@ -271,7 +281,7 @@ enum LightBumpers : uint8_t {
 
 namespace command {
 /// \brief Operation codes for the Roomba Open Interface (OI) Specification
-enum OpCode : uint8_t {
+enum OpCode : uint_opt8_t {
 	START = 128,
 	PASSIVE = 128,
 	BAUD = 129,
@@ -306,11 +316,6 @@ enum OpCode : uint8_t {
 } // namespace oi
 } // namespace series500
 } // namespace roomba
-
-#ifndef DISABLE_SENSORS
-#define SENSORS_ENABLED
-#include "OISensors/OISensors.h"
-#endif
 
 #endif
 

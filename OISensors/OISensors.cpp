@@ -17,14 +17,55 @@ namespace sensors {
 /// All methods accessing this data will need to take possession
 /// of the internal mutex to ensure the integrity of this data.
 namespace {
-	std::chrono::system_clock::time_point _bus_next_available;  ///< Time required before the next serial request
-	uint64_t _flag_mask_dirty;  ///< Indicates the validity of the corresponding values
-	std::function<size_t(uint8_t * const, const size_t)> _fnSerialRead([](uint8_t * const, const size_t){ return 0; });  ///< A function supplying multi-byte read access to the serial bus
-	PacketId _parse_key[64] = { static_cast<PacketId>(0) };  ///< Array of packet ids required to decode the Roomba's serial stream
-	ReturnCode _parse_status(SUCCESS);  ///< Allows callback to provide error messages
-	uint8_t _raw_data[80];  ///< Data blob to store the sensor data returned from the Roomba
-	bool _sensors_ready(false);	  ///< Ready state of oi:sensors methods
-	std::mutex _variable_data;  ///< Mutex for the shared sensor data
+	/// \brief The baud rate associated with the serial bus
+	/// \details This variable is used to calculate buffer overrun
+	/// protection.
+	BaudCode _baud_code(BAUD_115200);
+	
+	/// \brief Time point when all sensor data should be returned
+	/// \details Time required for the Roomba to process the query,
+	/// then return the requested data at the current baud rate.
+	std::chrono::system_clock::time_point _transfer_complete_time;
+	
+	/// \brief Indicates the validity of the sensor packet ids
+	/// \details The index of each bit is tied to the corresponding
+	/// packet id. If a sensor value returned from the Roomba has
+	/// stale or invalid data (as indicated by the checksum) then
+	/// the dirty bit will be flagged.
+	uint64_t _flag_mask_dirty;
+	
+	/// \brief Multi-byte read access to the serial bus
+	/// \detials a user supplied function that provides read access
+	/// to the serial bus. This is intended to provide an abstraction
+	/// from the particular hardware involved.
+	std::function<size_t(uint_opt8_t * const, const size_t)> _fnSerialRead([](uint_opt8_t * const, const size_t){ return 0; });
+	
+	/// \brief Key to decode the Roomba's serial stream
+	/// \details The Roomba returns a blob of data representing the
+	/// preceding sensor request. The key is a 1-base indexed array
+	/// of packet ids ordered the exact same sequence as the request.
+	/// \note The zero index is used to store the size.
+	/// \note The maximum size allowed is 64, which provides room for
+	/// the count and one of each sensor.
+	/// \see OICommand::sensors
+	/// \see OICommand::queryList
+	PacketId _parse_key[64] = { static_cast<PacketId>(0) };
+	
+	/// \brief Status messages resulting from parsing
+	/// \details The parsing function is asynchronous, and therefore
+	/// cannot return a status code directly.
+	ReturnCode _parse_status(SUCCESS);
+	
+	/// \brief Raw sensor data
+	/// \details The data blob used to store sensor data returned from
+	/// the Roomba.
+	uint_opt8_t _raw_data[80];
+	
+	/// \brief Ready state of oi:sensors methods
+	bool _sensors_ready(false);	
+	
+	/// \brief Mutex for the shared sensor data
+	std::mutex _variable_data;
 } // namespace
 
 /// \brief Constant data used to manage data returned from the iRobot® Roomba
@@ -164,7 +205,7 @@ namespace {
 	/// NOT return error codes and should only be used internally.
 	/// \return Index associated with the packet id provided
 	inline
-	uint8_t
+	uint_opt8_t
 	_packetIndex (
 		const PacketId packet_id_
 	) {
@@ -200,7 +241,7 @@ namespace {
 	/// \return The size (in bytes) of the packet id provided
 	/// \see _PACKET_INFO[]
 	inline
-	uint8_t
+	uint_opt8_t
 	_packetSize (
 		const PacketId packet_id_
 	) {
@@ -235,7 +276,7 @@ namespace {
 
 ReturnCode
 begin (
-	std::function<size_t(uint8_t * const, const size_t)> fnSerialRead_
+	std::function<size_t(uint_opt8_t * const, const size_t)> fnSerialRead_
 ) {
 	_fnSerialRead = fnSerialRead_;
 	return SUCCESS;
@@ -245,7 +286,15 @@ ReturnCode
 end (
 	void
 ) {
-	_fnSerialRead = ([](uint8_t * const, const size_t){ return 0; });
+	_fnSerialRead = ([](uint_opt8_t * const, const size_t){ return 0; });
+	return SUCCESS;
+}
+
+ReturnCode
+setBaudCode (
+	const BaudCode baud_code_
+) {
+	_baud_code = baud_code_;
 	return SUCCESS;
 }
 
@@ -253,8 +302,20 @@ ReturnCode
 setParseKey (
 	PacketId const * const parse_key_
 ) {
+	uint_opt8_t byte_count(0), serial_bit_count(0);
+	
 	if ( !parse_key_ ) { return INVALID_PARAMETER; }
-	memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint8_t *>(parse_key_));
+	for ( uint_opt8_t i = 1 ; i < *parse_key_ ; ++i ) {
+//		uint_opt8_t pi = _packetIndex(parse_key_[i]);
+//		if ( _PACKET_INFO[pi] & 0x01 ) {
+//			size += _packetSize(pi);
+//		} else {
+			++byte_count;
+//		}
+	}
+	serial_bit_count = 10 * byte_count;
+	
+	memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint_opt8_t *>(parse_key_));
 	return SUCCESS;
 }
 
@@ -271,12 +332,19 @@ valueOfSensor (
 namespace testing {
 	size_t
 	fnSerialRead (
-		uint8_t * const buffer_,
+		uint_opt8_t * const buffer_,
 		const size_t buffer_length_
 	) {
 		return _fnSerialRead(buffer_, buffer_length_);
 	}
 	
+	BaudCode
+	getBaudCode (
+		void
+	) {
+		return _baud_code;
+	}
+
 	PacketId *
 	getParseKey (
 		void

@@ -8,7 +8,7 @@
 
 #include "../OIDefines.h"
 
-//TODO: Consider method to return multiple sensor values (std::tuple<uint8_t packet_id_, uint16_t value_, bool signed_>)
+//TODO: Consider method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>)
 
 namespace roomba {
 namespace series500 {
@@ -36,7 +36,7 @@ namespace sensors {
 	};
 	
 	/// \brief iRobot® Roomba Open Interface (OI) Sensor Packets
-	enum PacketId : uint8_t {
+	enum PacketId : uint_opt8_t {
 		PACKETS_7_THRU_26 = 0,
 		PACKETS_7_THRU_16 = 1,
 		PACKETS_17_THRU_20 = 2,
@@ -109,7 +109,7 @@ namespace sensors {
 	/// \see end
 	ReturnCode
 	begin (
-		std::function<size_t(uint8_t * const, const size_t)> fnSerialRead_
+		std::function<size_t(uint_opt8_t * const, const size_t)> fnSerialRead_
 	);
 	
 	/// \brief Release resources tied to sensors
@@ -128,6 +128,17 @@ namespace sensors {
 	void
 	parseSerialData (
 		void
+	);
+	
+	/// \brief Stores the baud code
+	/// \details The baud code is used when calculating the
+	/// time required to execute a sensor query transaction.
+	/// \return SUCCESS
+	/// \see OICommand::sensors
+	/// \see OICommand::queryList
+	ReturnCode
+	setBaudCode (
+		const BaudCode baud_code_
 	);
 	
 	/// \brief Function to store parse key

@@ -10,6 +10,10 @@
 
 #include "../OIDefines.h"
 
+#ifdef SENSORS_ENABLED
+  #include "../OISensors/OISensors.h"
+#endif
+
 namespace roomba {
 namespace series500 {
 namespace oi {
@@ -37,9 +41,9 @@ class OICommand {
 	/// with the two fields hour and minute. The values in the
 	/// structure are initialized to zero upon instantiation.
 	struct clock_time_t {
-		clock_time_t (uint8_t hour_ = 0, uint8_t minute_ = 0) : hour(hour_), minute(minute_) {}
-		uint8_t hour; ///< hour (0-23)
-		uint8_t minute; ///< minute (0-59)
+		clock_time_t (uint_opt8_t hour_ = 0, uint_opt8_t minute_ = 0) : hour(hour_), minute(minute_) {}
+		uint_opt8_t hour; ///< hour (0-23)
+		uint_opt8_t minute; ///< minute (0-59)
 	};
 	
 	/// \brief A musical note is defined by the frequency
@@ -49,7 +53,7 @@ class OICommand {
 	/// the pitch and the second represent a scalar to
 	/// apply to 1/64th of a second (i.e. the value 32 is
 	/// half a second).
-	typedef std::pair<Pitch, uint8_t> note_t;
+	typedef std::pair<Pitch, uint_opt8_t> note_t;
 	
 	OICommand (
 		void
@@ -78,7 +82,7 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	operator() (
-		const std::vector<uint8_t> & raw_instructions_,
+		const std::vector<uint_opt8_t> & raw_instructions_,
 		const OIMode resulting_mode_ = static_cast<OIMode>(-1),
 		const BaudCode resulting_baud_ = static_cast<BaudCode>(-1)
 	);
@@ -110,7 +114,7 @@ class OICommand {
 	/// \retval INVALID_PARAMETER
 	OICommand::ReturnCode
 	connectToSerialBus (
-		const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_,
+		const std::function<size_t(const uint_opt8_t *, const size_t)> fnSerialWrite_,
 		const BaudCode baud_code_ = BAUD_115200
 	);
 	
@@ -425,8 +429,8 @@ class OICommand {
 	ReturnCode
 	leds (
 		const bitmask::display::LEDs led_mask_,
-		const uint8_t color_,
-		const uint8_t intensity_
+		const uint_opt8_t color_,
+		const uint_opt8_t intensity_
 	) const;
 	
 	/// \brief Controls the state of the scheduling LEDs present on the Roomba 560 and 570.
@@ -514,7 +518,7 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	song (
-		const uint8_t song_number_,
+		const uint_opt8_t song_number_,
 		const std::vector<note_t> & song_
 	) const;
 	
@@ -535,7 +539,7 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	play (
-		const uint8_t song_number_
+		const uint_opt8_t song_number_
 	) const;
 #ifdef SENSORS_ENABLED
 	/// \brief Request sensor data.
@@ -622,17 +626,13 @@ class OICommand {
 	/// \details This function is provided from the call to
 	/// connectToSerialBus() after class has been instantiated.
 	/// \see OICommand::connectToSerialBus
-	std::function<size_t(const uint8_t *, const size_t)> _fnSerialWrite;
+	std::function<size_t(const uint_opt8_t *, const size_t)> _fnSerialWrite;
 	
 	/// \brief The operating mode of the Open Interface
 	/// \details This variable is used to track the current operating
 	/// mode of the open interface (i.e. Off, Passive, Safe, Full)
 	OIMode _oi_mode;
 	
-	/// \brief The baud rate associated with the serial bus
-	/// \details This variable is used to calculate buffer overrun
-	/// protection.
-	BaudCode _baud_code;
 #ifdef SENSORS_ENABLED
 	/// \brief Core functionality of both queryList() and stream()
 	/// \details Both queryList() and stream() have identical

@@ -12,33 +12,37 @@ namespace oi {
 OICommand::OICommand (
 	void
 ) :
-	_fnSerialWrite([](const uint8_t *, const size_t){ return 0; }),
-	_oi_mode(OFF),
-	_baud_code(BAUD_115200)
+	_fnSerialWrite([](const uint_opt8_t *, const size_t){ return 0; }),
+	_oi_mode(OFF)
 {}
 
 OICommand::ReturnCode
 OICommand::operator() (
-	const std::vector<uint8_t> & raw_instructions_,
+	const std::vector<uint_opt8_t> & raw_instructions_,
 	const OIMode resulting_mode_,
 	const BaudCode resulting_baud_
 ) {
 	if ( !_fnSerialWrite(raw_instructions_.data(), raw_instructions_.size()) ) { return SERIAL_TRANSFER_FAILURE; }
+	//TODO: Validity checks on baud and mode (abstract implementation of baud check from OICommand::baud)
 	if ( 0xFF != resulting_mode_ ) { _oi_mode = resulting_mode_; }
-	if ( 0xFF != resulting_baud_ ) { _baud_code = resulting_baud_; }
+#ifdef SENSORS_ENABLED
+	if ( 0xFF != resulting_baud_ ) { sensors::setBaudCode(resulting_baud_); }
+#endif
 	
 	return SUCCESS;
 }
 
 OICommand::ReturnCode
 OICommand::connectToSerialBus (
-	const std::function<size_t(const uint8_t *, const size_t)> fnSerialWrite_,
+	const std::function<size_t(const uint_opt8_t *, const size_t)> fnSerialWrite_,
 	const BaudCode baud_code_
 ) {
 	if ( BAUD_115200 != baud_code_ && BAUD_19200 != baud_code_ ) { return INVALID_PARAMETER; }
 	
 	_fnSerialWrite = fnSerialWrite_;
-	_baud_code = baud_code_;
+#ifdef SENSORS_ENABLED
+	sensors::setBaudCode(baud_code_);
+#endif
 	
 	return SUCCESS;
 }
@@ -47,7 +51,7 @@ OICommand::ReturnCode
 OICommand::start (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::START };
+	const uint_opt8_t serial_data[1] = { command::START };
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
 	_oi_mode = PASSIVE;
@@ -59,12 +63,14 @@ OICommand::ReturnCode
 OICommand::baud (
 	const BaudCode baud_code_
 ) {
-	const uint8_t serial_data[2] = { command::BAUD, baud_code_ };
+	const uint_opt8_t serial_data[2] = { command::BAUD, baud_code_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( baud_code_ > 11 ) { return INVALID_PARAMETER; }
 
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
-	_baud_code = baud_code_;
+#ifdef SENSORS_ENABLED
+	sensors::setBaudCode(baud_code_);
+#endif
 	
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	return SUCCESS;
@@ -74,7 +80,7 @@ OICommand::ReturnCode
 OICommand::safe (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::SAFE };
+	const uint_opt8_t serial_data[1] = { command::SAFE };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -94,7 +100,7 @@ OICommand::ReturnCode
 OICommand::full (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::FULL };
+	const uint_opt8_t serial_data[1] = { command::FULL };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -107,7 +113,7 @@ OICommand::ReturnCode
 OICommand::clean (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::CLEAN };
+	const uint_opt8_t serial_data[1] = { command::CLEAN };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -120,7 +126,7 @@ OICommand::ReturnCode
 OICommand::max (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::MAX };
+	const uint_opt8_t serial_data[1] = { command::MAX };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -133,7 +139,7 @@ OICommand::ReturnCode
 OICommand::spot (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::SPOT };
+	const uint_opt8_t serial_data[1] = { command::SPOT };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -146,7 +152,7 @@ OICommand::ReturnCode
 OICommand::seekDock (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::SEEK_DOCK };
+	const uint_opt8_t serial_data[1] = { command::SEEK_DOCK };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -160,12 +166,12 @@ OICommand::schedule (
 	const bitmask::Days day_mask_,
 	const clock_time_t * const clock_times_
 ) const {
-	uint8_t serial_data[16] = { command::SCHEDULE };
+	uint_opt8_t serial_data[16] = { command::SCHEDULE };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( day_mask_ && clock_times_ ) {
 		serial_data[1] = static_cast<bitmask::Days>(day_mask_ & 0x7F);
-		for (uint8_t day = 0, parameter_index = 0, serial_index = 2 ; day < 7 ; ++day, parameter_index += ((day_mask_ >> day) & 1), serial_index = ((2 * day) + 2)) {
+		for (uint_opt8_t day = 0, parameter_index = 0, serial_index = 2 ; day < 7 ; ++day, parameter_index += ((day_mask_ >> day) & 1), serial_index = ((2 * day) + 2)) {
 			// Test conditions without branching logic to allow for code pipelining and parallel execution with loop unroll
 			const bool valid = (((day_mask_ >> day) & 1) && (clock_times_[parameter_index].hour >= 0 && clock_times_[parameter_index].hour < 23) && (clock_times_[parameter_index].minute >= 0 && clock_times_[parameter_index].minute <= 59));
 			*reinterpret_cast<uint16_t *>(&serial_data[serial_index]) = (valid * (*reinterpret_cast<const uint16_t *>(&clock_times_[parameter_index])));
@@ -183,7 +189,7 @@ OICommand::setDayTime (
 	const Day day_,
 	const clock_time_t clock_time_
 ) const {
-	const uint8_t serial_data[4] = { command::SET_DAY_TIME, day_, clock_time_.hour, clock_time_.minute };
+	const uint_opt8_t serial_data[4] = { command::SET_DAY_TIME, day_, clock_time_.hour, clock_time_.minute };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( clock_time_.hour < 0 || clock_time_.hour > 23 || clock_time_.minute < 0 || clock_time_.minute > 59 ) { return INVALID_PARAMETER; }
 	
@@ -196,7 +202,7 @@ OICommand::ReturnCode
 OICommand::power (
 	void
 ) {
-	const uint8_t serial_data[1] = { command::POWER };
+	const uint_opt8_t serial_data[1] = { command::POWER };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -210,7 +216,7 @@ OICommand::drive (
 	const int16_t velocity_,
 	const int16_t radius_
 ) const {
-	const uint8_t serial_data[5] = { command::DRIVE, reinterpret_cast<const uint8_t *>(&velocity_)[1], reinterpret_cast<const uint8_t *>(&velocity_)[0], reinterpret_cast<const uint8_t *>(&radius_)[1], reinterpret_cast<const uint8_t *>(&radius_)[0] };
+	const uint_opt8_t serial_data[5] = { command::DRIVE, reinterpret_cast<const uint_opt8_t *>(&velocity_)[1], reinterpret_cast<const uint_opt8_t *>(&velocity_)[0], reinterpret_cast<const uint_opt8_t *>(&radius_)[1], reinterpret_cast<const uint_opt8_t *>(&radius_)[0] };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	if ( velocity_ < -500 || velocity_ > 500 || (radius_ != 32767 && (radius_ < -2000 || radius_ > 2000)) ) { return INVALID_PARAMETER; }
@@ -225,7 +231,7 @@ OICommand::driveDirect (
 	const int16_t left_wheel_velocity_,
 	const int16_t right_wheel_velocity_
 ) const {
-	const uint8_t serial_data[5] = { command::DRIVE_DIRECT, reinterpret_cast<const uint8_t *>(&right_wheel_velocity_)[1], reinterpret_cast<const uint8_t *>(&right_wheel_velocity_)[0], reinterpret_cast<const uint8_t *>(&left_wheel_velocity_)[1], reinterpret_cast<const uint8_t *>(&left_wheel_velocity_)[0] };
+	const uint_opt8_t serial_data[5] = { command::DRIVE_DIRECT, reinterpret_cast<const uint_opt8_t *>(&right_wheel_velocity_)[1], reinterpret_cast<const uint_opt8_t *>(&right_wheel_velocity_)[0], reinterpret_cast<const uint_opt8_t *>(&left_wheel_velocity_)[1], reinterpret_cast<const uint_opt8_t *>(&left_wheel_velocity_)[0] };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	if ( left_wheel_velocity_ < -500 || left_wheel_velocity_ > 500 || right_wheel_velocity_ < -500 || right_wheel_velocity_ > 500 ) { return INVALID_PARAMETER; }
@@ -240,7 +246,7 @@ OICommand::drivePWM (
 	const int16_t left_wheel_pwm_,
 	const int16_t right_wheel_pwm_
 ) const {
-	const uint8_t serial_data[5] = { command::DRIVE_PWM, reinterpret_cast<const uint8_t *>(&right_wheel_pwm_)[1], reinterpret_cast<const uint8_t *>(&right_wheel_pwm_)[0], reinterpret_cast<const uint8_t *>(&left_wheel_pwm_)[1], reinterpret_cast<const uint8_t *>(&left_wheel_pwm_)[0] };
+	const uint_opt8_t serial_data[5] = { command::DRIVE_PWM, reinterpret_cast<const uint_opt8_t *>(&right_wheel_pwm_)[1], reinterpret_cast<const uint_opt8_t *>(&right_wheel_pwm_)[0], reinterpret_cast<const uint_opt8_t *>(&left_wheel_pwm_)[1], reinterpret_cast<const uint_opt8_t *>(&left_wheel_pwm_)[0] };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	if ( left_wheel_pwm_ < -255 || left_wheel_pwm_ > 255 || right_wheel_pwm_ < -255 || right_wheel_pwm_ > 255 ) { return INVALID_PARAMETER; }
@@ -254,7 +260,7 @@ OICommand::ReturnCode
 OICommand::motors (
 	const bitmask::MotorStates motor_state_mask_
 ) const {
-	const uint8_t serial_data[2] = { command::MOTORS, static_cast<const uint8_t>(motor_state_mask_ & 0x1F) };
+	const uint_opt8_t serial_data[2] = { command::MOTORS, static_cast<const uint_opt8_t>(motor_state_mask_ & 0x1F) };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	
@@ -269,7 +275,7 @@ OICommand::pwmMotors (
 	const int8_t side_brush_,
 	const int8_t vacuum_
 ) const {
-	const uint8_t serial_data[4] = { command::PWM_MOTORS, static_cast<const uint8_t>(main_brush_), static_cast<const uint8_t>(side_brush_), static_cast<const uint8_t>(vacuum_) };
+	const uint_opt8_t serial_data[4] = { command::PWM_MOTORS, static_cast<const uint_opt8_t>(main_brush_), static_cast<const uint_opt8_t>(side_brush_), static_cast<const uint_opt8_t>(vacuum_) };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	if ( -128 == main_brush_ || -128 == side_brush_ || vacuum_ < 0 ) { return INVALID_PARAMETER; }
@@ -282,10 +288,10 @@ OICommand::pwmMotors (
 OICommand::ReturnCode
 OICommand::leds (
 	const bitmask::display::LEDs led_mask_,
-	const uint8_t color_,
-	const uint8_t intensity_
+	const uint_opt8_t color_,
+	const uint_opt8_t intensity_
 ) const {
-	const uint8_t serial_data[4] = { command::LEDS, static_cast<const bitmask::display::LEDs>(led_mask_ & 0x0F), color_, intensity_ };
+	const uint_opt8_t serial_data[4] = { command::LEDS, static_cast<const bitmask::display::LEDs>(led_mask_ & 0x0F), color_, intensity_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	
@@ -299,7 +305,7 @@ OICommand::schedulingLEDs (
 	const bitmask::Days day_mask_,
 	const bitmask::display::SchedulingLEDs display_mask_
 ) const {
-	const uint8_t serial_data[3] = { command::SCHEDULING_LEDS, static_cast<const bitmask::Days>(day_mask_ & 0x7F), static_cast<const bitmask::display::SchedulingLEDs>(display_mask_ & 0x1F) };
+	const uint_opt8_t serial_data[3] = { command::SCHEDULING_LEDS, static_cast<const bitmask::Days>(day_mask_ & 0x7F), static_cast<const bitmask::display::SchedulingLEDs>(display_mask_ & 0x1F) };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	
@@ -312,7 +318,7 @@ OICommand::ReturnCode
 OICommand::digitLEDsRaw (
 	const bitmask::display::DigitN raw_leds_[4]
 ) const {
-	const uint8_t serial_data[5] = { command::DIGIT_LEDS_RAW, static_cast<const bitmask::display::DigitN>(raw_leds_[0] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[1] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[2] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[3] & 0x7F) };
+	const uint_opt8_t serial_data[5] = { command::DIGIT_LEDS_RAW, static_cast<const bitmask::display::DigitN>(raw_leds_[0] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[1] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[2] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[3] & 0x7F) };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	
@@ -325,7 +331,7 @@ OICommand::ReturnCode
 OICommand::digitLEDsASCII (
 	const char ascii_leds_[4]
 ) const {
-	const uint8_t serial_data[5] = { command::DIGIT_LEDS_ASCII, static_cast<const uint8_t>(ascii_leds_[0]), static_cast<const uint8_t>(ascii_leds_[1]), static_cast<const uint8_t>(ascii_leds_[2]), static_cast<const uint8_t>(ascii_leds_[3]) };
+	const uint_opt8_t serial_data[5] = { command::DIGIT_LEDS_ASCII, static_cast<const uint_opt8_t>(ascii_leds_[0]), static_cast<const uint_opt8_t>(ascii_leds_[1]), static_cast<const uint_opt8_t>(ascii_leds_[2]), static_cast<const uint_opt8_t>(ascii_leds_[3]) };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	if ( ascii_leds_[0] < 32 || ascii_leds_[0] > 126 || ascii_leds_[1] < 32 || ascii_leds_[1] > 126 || ascii_leds_[2] < 32 || ascii_leds_[2] > 126 || ascii_leds_[3] < 32 || ascii_leds_[3] > 126 ) { return INVALID_PARAMETER; }
@@ -339,7 +345,7 @@ OICommand::ReturnCode
 OICommand::buttons (
 	const bitmask::Buttons button_mask_
 ) const {
-	const uint8_t serial_data[2] = { command::BUTTONS, button_mask_ };
+	const uint_opt8_t serial_data[2] = { command::BUTTONS, button_mask_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -349,12 +355,12 @@ OICommand::buttons (
 
 OICommand::ReturnCode
 OICommand::song (
-	const uint8_t song_number_,
+	const uint_opt8_t song_number_,
 	const std::vector<note_t> & song_
 ) const {
-	const uint8_t note_count = song_.size();
-	uint8_t serial_data[(3 + (note_count * 2))];
-	uint8_t data_index = 2;
+	const uint_opt8_t note_count = song_.size();
+	uint_opt8_t serial_data[(3 + (note_count * 2))];
+	uint_opt8_t data_index = 2;
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( song_number_ > 4 || !note_count || note_count > 16 ) { return INVALID_PARAMETER; }
 	
@@ -374,9 +380,9 @@ OICommand::song (
 
 OICommand::ReturnCode
 OICommand::play (
-	const uint8_t song_number_
+	const uint_opt8_t song_number_
 ) const {
-	const uint8_t serial_data[2] = { command::PLAY, song_number_ };
+	const uint_opt8_t serial_data[2] = { command::PLAY, song_number_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( PASSIVE == _oi_mode ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	if ( song_number_ > 4 ) { return INVALID_PARAMETER; }
@@ -390,9 +396,9 @@ OICommand::ReturnCode
 OICommand::sensors (
 	const sensors::PacketId packet_id_
 ) const {
-	const uint8_t serial_data[2] = { command::SENSORS, packet_id_ };
+	const uint_opt8_t serial_data[2] = { command::SENSORS, packet_id_ };
 	// Ensure this is called after _fnSerialWrite() and SUCCESS is returned
-	//const uint8_t parse_key[2] = { sizeof(parse_key), packet_id_ };
+	//const uint_opt8_t parse_key[2] = { sizeof(parse_key), packet_id_ };
 	//sensors::setParseKey(parse_key);
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( (packet_id_ > 58 && packet_id_ < 100) || packet_id_ > 107 ) { return INVALID_PARAMETER; }
@@ -420,7 +426,7 @@ OICommand::ReturnCode
 OICommand::pauseResumeStream (
 	const bool resume_
 ) const {
-	const uint8_t serial_data[2] = { command::PAUSE_RESUME_STREAM, resume_ };
+	const uint_opt8_t serial_data[2] = { command::PAUSE_RESUME_STREAM, resume_ };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -433,9 +439,9 @@ OICommand::pollSensors (
 	const command::OpCode opcode_,
 	const std::vector<sensors::PacketId> & sensor_list_
 ) const {
-	const uint8_t byte_length = sensor_list_.size();
-	uint8_t serial_data[(2 + byte_length)];
-	uint8_t data_index = 1;
+	const uint_opt8_t byte_length = sensor_list_.size();
+	uint_opt8_t serial_data[(2 + byte_length)];
+	uint_opt8_t data_index = 1;
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( command::QUERY_LIST != opcode_ && command::STREAM != opcode_ ) { return INVALID_PARAMETER; }
 	
