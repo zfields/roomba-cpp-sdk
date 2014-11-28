@@ -14,7 +14,7 @@ namespace sensors {
 namespace testing {
 	BaudCode getBaudCode (void);
 	PacketId * getParseKey (void);
-	std::chrono::system_clock::time_point getTransferCompleteTime (void);
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> getTransferCompletionTimeMs (void);
 	size_t fnSerialRead (uint_opt8_t * const, const size_t);
 } // testing
 } // namespace sensor

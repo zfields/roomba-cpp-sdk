@@ -7,6 +7,8 @@
 //TODO: Consider method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>)
 //TODO: When data is out of sync, then it should pause data stream, then resume to sync.
 //TODO: Consider merging begin with OICommand::connectToSerialBus()
+//TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
+//TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
 
 using namespace roomba::series500::oi;
 
@@ -185,6 +187,55 @@ TEST_F(QueriedData, setParseKey$WHENCalledTHENParseKeyIsSet) {
 
 TEST_F(QueriedData, setParseKey$WHENCalledWithNULLTHENErrorIsReturned) {
 	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::setParseKey(NULL));
+}
+
+TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENTransferCompletionTimeMsIsCalculatedAsHardwareDelayAndTransferTimeThenStored) {
+	const uint_opt8_t parse_key[2] = { sizeof(parse_key), sensors::BUTTONS };
+	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS = 4;
+	const uint_opt8_t TRANSFER_TIME_MS = 0;
+	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+}
+
+TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENTransferTimeIsCalculatedAccordingToBaudRateThenStored) {
+	const uint_opt8_t parse_key[2] = { sizeof(parse_key), sensors::BUTTONS };
+	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS = 4;
+	const uint_opt8_t TRANSFER_TIME_MS = 33;
+	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
+	sensors::setBaudCode(BAUD_300);
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+}
+
+TEST_F(QueriedData, setParseKey$WHENCalledForMultiByteDataTHENTransferTimeIsCalculatedUsingTheResultingByteSizeThenStored) {
+	const uint_opt8_t parse_key[2] = { sizeof(parse_key), sensors::DISTANCE };
+	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS = 4;
+	const uint_opt8_t TRANSFER_TIME_MS = 66;
+	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
+	sensors::setBaudCode(BAUD_300);
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+}
+
+TEST_F(QueriedData, setParseKey$WHENCalledForGroupDataTHENTransferTimeIsCalculatedUsingTheResultingByteSizeThenStored) {
+	const uint_opt8_t parse_key[2] = { sizeof(parse_key), sensors::PACKETS_17_THRU_20 };
+	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS = 4;
+	const uint_opt8_t TRANSFER_TIME_MS = 200;
+	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
+	sensors::setBaudCode(BAUD_300);
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+}
+
+TEST_F(QueriedData, setParseKey$WHENCalledForMultiplePacketsTHENTransferTimeIsCalculatedUsingTheResultingByteSizeThenStored) {
+	const uint_opt8_t parse_key[4] = { sizeof(parse_key), sensors::BUTTONS, sensors::DISTANCE, sensors::PACKETS_17_THRU_20 };
+	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS = 4;
+	const uint_opt16_t TRANSFER_TIME_MS = 300;
+	const uint_opt16_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
+	sensors::setBaudCode(BAUD_300);
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
 TEST_F(BeginNotCalled, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {

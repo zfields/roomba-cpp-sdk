@@ -25,14 +25,14 @@ namespace {
 	/// \brief Time point when all sensor data should be returned
 	/// \details Time required for the Roomba to process the query,
 	/// then return the requested data at the current baud rate.
-	std::chrono::system_clock::time_point _transfer_complete_time;
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> _transfer_completion_time_ms;
 	
 	/// \brief Indicates the validity of the sensor packet ids
 	/// \details The index of each bit is tied to the corresponding
 	/// packet id. If a sensor value returned from the Roomba has
 	/// stale or invalid data (as indicated by the checksum) then
 	/// the dirty bit will be flagged.
-	uint64_t _flag_mask_dirty;
+	uint_opt64_t _flag_mask_dirty;
 	
 	/// \brief Multi-byte read access to the serial bus
 	/// \detials a user supplied function that provides read access
@@ -74,11 +74,35 @@ namespace {
 /// to reduce wasted space for sparse data sets. The data functions do
 /// not contain error checking, and should only be used internally.
 namespace {
+	/// \brief Baud rate
+	/// \details The baud rate represented as an integer value
+	const uint_opt32_t _BAUD_RATE[] = {
+		300,     // BAUD_300
+		600,     // BAUD_600
+		1200,    // BAUD_1200
+		2400,    // BAUD_2400
+		4800,    // BAUD_4800
+		9600,    // BAUD_9600
+		14400,   // BAUD_14400
+		19200,   // BAUD_19200
+		28800,   // BAUD_28800
+		38400,   // BAUD_38400
+		57600,   // BAUD_57600
+		115200,  // BAUD_115200
+	};
+	
 	/// \brief Packet ids associated with signed data
-	/// \details A bit mask indicating which packet ids are
-	/// associated with signed data
-	const uint64_t _FLAG_MASK_SIGNED = 0x03C0078001980000;
+	/// \details A bit mask indicating which packet ids are associated with
+	/// signed data.
+	const uint_opt64_t _FLAG_MASK_SIGNED = 0x03C0078001980000;
 
+	/// \brief Hardware serial delay
+	/// \details The time (in milliseconds) required for the Roomba to receive
+	/// a sensor query, collect the requested values, then write them onto the
+	/// serial bus.
+	/// \note This value is half-adjusted up to enforce rounding.
+	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS(4);
+	
 	/// \brief Packet offset and size information
 	/// \details A table providing information regarding the pointer offset
 	/// where the associated data can be found (high bits 7-1), and a flag
@@ -162,7 +186,8 @@ namespace {
 	/// \warning This function does NOT contain error checking, does
 	/// NOT return error codes and should only be used internally.
 	/// \return A bitmask representing all associated packet ids
-	uint64_t
+	inline
+	uint_opt64_t
 	_flagMaskForPacket (
 		const PacketId packet_id_
 	) {
@@ -190,7 +215,7 @@ namespace {
 		  case PACKETS_54_THRU_58:
 			return 0x47C0000000000000;
 		  default:
-		    return (static_cast<uint64_t>(1) << packet_id_);
+		    return (static_cast<uint_opt64_t>(1) << packet_id_);
 		}
 	}
 	
@@ -274,6 +299,35 @@ namespace {
 	}
 } // namespace
 
+/// \brief Internal helper functions
+/// \details Functions used for common calculations. These functions do not
+/// supply return codes and are considered to be unsafe.
+namespace {
+	/// \brief Calculate bytes required by packet id list
+	/// \param [in] query_list_ List used to count bytes
+	/// \n Index 0 contains the length of the array.
+	/// \n The remaining values are the packet ids of the
+	/// data requested from the iRobot® Roomba.
+	inline
+	uint_opt16_t
+	_bytesInQueryList (
+		PacketId const * const query_list_
+	) {
+		uint_opt16_t byte_count(0);
+		
+		for ( uint_opt8_t i = 1 ; i < *query_list_ ; ++i ) {
+			const uint_opt8_t pi = _packetIndex(query_list_[i]);
+			if ( _PACKET_INFO[pi] & 0x01 ) {
+				byte_count += _packetSize(query_list_[i]);
+			} else {
+				++byte_count;
+			}
+		}
+		
+		return byte_count;
+	}
+} // namespace
+
 ReturnCode
 begin (
 	std::function<size_t(uint_opt8_t * const, const size_t)> fnSerialRead_
@@ -302,20 +356,14 @@ ReturnCode
 setParseKey (
 	PacketId const * const parse_key_
 ) {
-	uint_opt8_t byte_count(0), serial_bit_count(0);
-	
 	if ( !parse_key_ ) { return INVALID_PARAMETER; }
-	for ( uint_opt8_t i = 1 ; i < *parse_key_ ; ++i ) {
-//		uint_opt8_t pi = _packetIndex(parse_key_[i]);
-//		if ( _PACKET_INFO[pi] & 0x01 ) {
-//			size += _packetSize(pi);
-//		} else {
-			++byte_count;
-//		}
-	}
-	serial_bit_count = 10 * byte_count;
 	
 	memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint_opt8_t *>(parse_key_));
+	
+	// Update completion time (including Roomba signal processing time)
+	std::chrono::milliseconds transfer_time_ms(HARDWARE_SERIAL_DELAY_MS + ((_bytesInQueryList(parse_key_) * 10000) / _BAUD_RATE[_baud_code]));
+	_transfer_completion_time_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()) + transfer_time_ms;
+	
 	return SUCCESS;
 }
 
@@ -350,6 +398,13 @@ namespace testing {
 		void
 	) {
 		return _parse_key;
+	}
+
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>
+	getTransferCompletionTimeMs (
+		void
+	) {
+		return _transfer_completion_time_ms;
 	}
 } // namespace testing
 #endif
