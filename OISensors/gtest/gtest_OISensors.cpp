@@ -238,6 +238,12 @@ TEST_F(QueriedData, setParseKey$WHENCalledForMultiplePacketsTHENTransferTimeIsCa
 	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
+TEST_F(QueriedData, setParseKey$WHENCalledTHENAllValuesAreConsideredDirty) {
+	const uint_opt8_t parse_key[4] = { sizeof(parse_key), sensors::BUTTONS, sensors::DISTANCE, sensors::PACKETS_17_THRU_20 };
+	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	ASSERT_EQ(static_cast<uint_opt64_t>(-1), sensors::testing::getFlagMaskDirty());
+}
+
 TEST_F(BeginNotCalled, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
 	uint_opt16_t value;
 	bool is_signed;

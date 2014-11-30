@@ -360,6 +360,8 @@ setParseKey (
 	
 	memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint_opt8_t *>(parse_key_));
 	
+	_flag_mask_dirty = static_cast<uint_opt64_t>(-1);
+	
 	// Update completion time (including Roomba signal processing time)
 	std::chrono::milliseconds transfer_time_ms(HARDWARE_SERIAL_DELAY_MS + ((_bytesInQueryList(parse_key_) * 10000) / _BAUD_RATE[_baud_code]));
 	_transfer_completion_time_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()) + transfer_time_ms;
@@ -392,14 +394,21 @@ namespace testing {
 	) {
 		return _baud_code;
 	}
-
+	
+	uint_opt64_t
+	getFlagMaskDirty (
+		void
+	) {
+		return _flag_mask_dirty;
+	}
+	
 	PacketId *
 	getParseKey (
 		void
 	) {
 		return _parse_key;
 	}
-
+	
 	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>
 	getTransferCompletionTimeMs (
 		void
