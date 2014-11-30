@@ -7,11 +7,15 @@
 #define SENSORS_ENABLED
 #endif
 
-// Setting optimization for speed
+// Setting integer optimization for speed
 #define uint_opt8_t uint_fast8_t
 #define uint_opt16_t uint_fast16_t
 #define uint_opt32_t uint_fast32_t
 #define uint_opt64_t uint_fast64_t
+#define int_opt8_t int_fast8_t
+#define int_opt16_t int_fast16_t
+#define int_opt32_t int_fast32_t
+#define int_opt64_t int_fast64_t
 
 #include <cstdint>
 

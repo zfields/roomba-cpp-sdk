@@ -28,7 +28,7 @@ namespace oi {
 class OICommand {
   public:
 	/// \brief Return codes
-	enum ReturnCode : int8_t {
+	enum ReturnCode : int_opt8_t {
 		SERIAL_TRANSFER_FAILURE = -100,
 		INVALID_PARAMETER = -10,
 		INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
@@ -318,8 +318,8 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	drive (
-		const int16_t velocity_,
-		const int16_t radius_
+		const int_opt16_t velocity_,
+		const int_opt16_t radius_
 	) const;
 	
 	/// \brief Controls the forward and backward motion of Roomba’s drive
@@ -340,8 +340,8 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	driveDirect (
-		const int16_t left_wheel_velocity_,
-		const int16_t right_wheel_velocity_
+		const int_opt16_t left_wheel_velocity_,
+		const int_opt16_t right_wheel_velocity_
 	) const;
 	
 	/// \brief Controls the raw forward and backward motion of Roomba’s drive
@@ -359,8 +359,8 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	drivePWM (
-		const int16_t left_wheel_pwm_,
-		const int16_t right_wheel_pwm_
+		const int_opt16_t left_wheel_pwm_,
+		const int_opt16_t right_wheel_pwm_
 	) const;
 	
 	/// \brief Controls the forward and backward motion of Roomba’s main brush,
@@ -404,9 +404,9 @@ class OICommand {
 	/// \retval SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	pwmMotors (
-		const int8_t main_brush_,
-		const int8_t side_brush_,
-		const int8_t vacuum_
+		const int_opt8_t main_brush_,
+		const int_opt8_t side_brush_,
+		const int_opt8_t vacuum_
 	) const;
 	
 	/// \brief Controls the LEDs

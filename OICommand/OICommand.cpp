@@ -174,7 +174,7 @@ OICommand::schedule (
 		for (uint_opt8_t day = 0, parameter_index = 0, serial_index = 2 ; day < 7 ; ++day, parameter_index += ((day_mask_ >> day) & 1), serial_index = ((2 * day) + 2)) {
 			// Test conditions without branching logic to allow for code pipelining and parallel execution with loop unroll
 			const bool valid = (((day_mask_ >> day) & 1) && (clock_times_[parameter_index].hour >= 0 && clock_times_[parameter_index].hour < 23) && (clock_times_[parameter_index].minute >= 0 && clock_times_[parameter_index].minute <= 59));
-			*reinterpret_cast<uint16_t *>(&serial_data[serial_index]) = (valid * (*reinterpret_cast<const uint16_t *>(&clock_times_[parameter_index])));
+			*reinterpret_cast<uint_opt16_t *>(&serial_data[serial_index]) = (valid * (*reinterpret_cast<const uint_opt16_t *>(&clock_times_[parameter_index])));
 			serial_data[1] &= ~(!valid << day);
 		}
 	}
@@ -213,8 +213,8 @@ OICommand::power (
 
 OICommand::ReturnCode
 OICommand::drive (
-	const int16_t velocity_,
-	const int16_t radius_
+	const int_opt16_t velocity_,
+	const int_opt16_t radius_
 ) const {
 	const uint_opt8_t serial_data[5] = { command::DRIVE, reinterpret_cast<const uint_opt8_t *>(&velocity_)[1], reinterpret_cast<const uint_opt8_t *>(&velocity_)[0], reinterpret_cast<const uint_opt8_t *>(&radius_)[1], reinterpret_cast<const uint_opt8_t *>(&radius_)[0] };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
@@ -228,8 +228,8 @@ OICommand::drive (
 
 OICommand::ReturnCode
 OICommand::driveDirect (
-	const int16_t left_wheel_velocity_,
-	const int16_t right_wheel_velocity_
+	const int_opt16_t left_wheel_velocity_,
+	const int_opt16_t right_wheel_velocity_
 ) const {
 	const uint_opt8_t serial_data[5] = { command::DRIVE_DIRECT, reinterpret_cast<const uint_opt8_t *>(&right_wheel_velocity_)[1], reinterpret_cast<const uint_opt8_t *>(&right_wheel_velocity_)[0], reinterpret_cast<const uint_opt8_t *>(&left_wheel_velocity_)[1], reinterpret_cast<const uint_opt8_t *>(&left_wheel_velocity_)[0] };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
@@ -243,8 +243,8 @@ OICommand::driveDirect (
 
 OICommand::ReturnCode
 OICommand::drivePWM (
-	const int16_t left_wheel_pwm_,
-	const int16_t right_wheel_pwm_
+	const int_opt16_t left_wheel_pwm_,
+	const int_opt16_t right_wheel_pwm_
 ) const {
 	const uint_opt8_t serial_data[5] = { command::DRIVE_PWM, reinterpret_cast<const uint_opt8_t *>(&right_wheel_pwm_)[1], reinterpret_cast<const uint_opt8_t *>(&right_wheel_pwm_)[0], reinterpret_cast<const uint_opt8_t *>(&left_wheel_pwm_)[1], reinterpret_cast<const uint_opt8_t *>(&left_wheel_pwm_)[0] };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
@@ -271,9 +271,9 @@ OICommand::motors (
 
 OICommand::ReturnCode
 OICommand::pwmMotors (
-	const int8_t main_brush_,
-	const int8_t side_brush_,
-	const int8_t vacuum_
+	const int_opt8_t main_brush_,
+	const int_opt8_t side_brush_,
+	const int_opt8_t vacuum_
 ) const {
 	const uint_opt8_t serial_data[4] = { command::PWM_MOTORS, static_cast<const uint_opt8_t>(main_brush_), static_cast<const uint_opt8_t>(side_brush_), static_cast<const uint_opt8_t>(vacuum_) };
 	if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }

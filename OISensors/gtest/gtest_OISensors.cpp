@@ -239,7 +239,7 @@ TEST_F(QueriedData, setParseKey$WHENCalledForMultiplePacketsTHENTransferTimeIsCa
 }
 
 TEST_F(BeginNotCalled, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
-	uint16_t value;
+	uint_opt16_t value;
 	bool is_signed;
 	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::valueOfSensor(sensors::OI_MODE, &value, &is_signed));
 }

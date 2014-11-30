@@ -370,7 +370,7 @@ setParseKey (
 ReturnCode
 valueOfSensor (
 	const PacketId packet_id_,
-	uint16_t * const value_,
+	uint_opt16_t * const value_,
 	bool * const is_signed_
 ) {
 	return SERIAL_TRANSFER_FAILURE;

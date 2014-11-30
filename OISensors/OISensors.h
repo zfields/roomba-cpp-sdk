@@ -26,7 +26,7 @@ namespace oi {
 /// see OICommand::pauseResumeStream
 namespace sensors {
 	/// \brief Return codes
-	enum ReturnCode : int8_t {
+	enum ReturnCode : int_opt8_t {
 		INVALID_CHECKSUM = -101,
 		SERIAL_TRANSFER_FAILURE = -100,
 		INVALID_PARAMETER = -10,
@@ -171,7 +171,7 @@ namespace sensors {
 	ReturnCode
 	valueOfSensor (
 		const PacketId packet_id_,
-		uint16_t * const value_,
+		uint_opt16_t * const value_,
 		bool * const is_signed_
 	);
 } // namespace sensor
