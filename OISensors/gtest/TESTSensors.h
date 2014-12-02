@@ -3,6 +3,7 @@
 #ifndef TEST_SENSORS_H
 #define TEST_SENSORS_H
 
+#include <chrono>
 #include <cstdint>
 
 #include "../OISensors.h"
@@ -15,7 +16,7 @@ namespace testing {
 	BaudCode getBaudCode (void);
 	uint_opt64_t getFlagMaskDirty (void);
 	PacketId * getParseKey (void);
-	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> getTransferCompletionTimeMs (void);
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> getSerialReadNextAvailableMs (void);
 	size_t fnSerialRead (uint_opt8_t * const, const size_t);
 } // testing
 } // namespace sensor

@@ -20,7 +20,7 @@
 //TODO: Move from pseudo-static class to namespace, assuming testing framework allows
 //TODO: Maintain a handle to the thread (to be created at the inital invocation of stream(), queryList() or sensors()), ensuring it can be killed and restarted if necessary.
 //TODO: Ensure _parse_key is not updated on fail cases
-//TODO: Ensure _transfer_completion_time_ms is not updated on fail cases
+//TODO: Ensure _serial_read_next_available_ms is not updated on fail cases
 
 using namespace roomba::series500::oi;
 

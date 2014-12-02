@@ -9,6 +9,7 @@
 //TODO: Consider merging begin with OICommand::connectToSerialBus()
 //TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
 //TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
+//TODO: Move baud code testing inside set baud code function and return result through OICommand interface
 
 using namespace roomba::series500::oi;
 
@@ -189,13 +190,13 @@ TEST_F(QueriedData, setParseKey$WHENCalledWithNULLTHENErrorIsReturned) {
 	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::setParseKey(NULL));
 }
 
-TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENTransferCompletionTimeMsIsCalculatedAsHardwareDelayAndTransferTimeThenStored) {
+TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENSerialReadNextAvailableMsIsCalculatedAsHardwareDelayAndTransferTimeThenStored) {
 	const uint_opt8_t parse_key[2] = { sizeof(parse_key), sensors::BUTTONS };
 	const uint_opt8_t HARDWARE_SERIAL_DELAY_MS = 4;
 	const uint_opt8_t TRANSFER_TIME_MS = 0;
 	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
 	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getSerialReadNextAvailableMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENTransferTimeIsCalculatedAccordingToBaudRateThenStored) {
@@ -205,7 +206,7 @@ TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENTransferTimeIsCal
 	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
 	sensors::setBaudCode(BAUD_300);
 	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getSerialReadNextAvailableMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledForMultiByteDataTHENTransferTimeIsCalculatedUsingTheResultingByteSizeThenStored) {
@@ -215,7 +216,7 @@ TEST_F(QueriedData, setParseKey$WHENCalledForMultiByteDataTHENTransferTimeIsCalc
 	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
 	sensors::setBaudCode(BAUD_300);
 	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getSerialReadNextAvailableMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledForGroupDataTHENTransferTimeIsCalculatedUsingTheResultingByteSizeThenStored) {
@@ -225,7 +226,7 @@ TEST_F(QueriedData, setParseKey$WHENCalledForGroupDataTHENTransferTimeIsCalculat
 	const uint_opt8_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
 	sensors::setBaudCode(BAUD_300);
 	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getSerialReadNextAvailableMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledForMultiplePacketsTHENTransferTimeIsCalculatedUsingTheResultingByteSizeThenStored) {
@@ -235,7 +236,7 @@ TEST_F(QueriedData, setParseKey$WHENCalledForMultiplePacketsTHENTransferTimeIsCa
 	const uint_opt16_t EXPECTED_COMPLETION_TIME_MS = (HARDWARE_SERIAL_DELAY_MS + TRANSFER_TIME_MS);
 	sensors::setBaudCode(BAUD_300);
 	sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getTransferCompletionTimeMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
+	ASSERT_EQ(EXPECTED_COMPLETION_TIME_MS, std::chrono::duration_cast<std::chrono::milliseconds>(sensors::testing::getSerialReadNextAvailableMs() - std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now())).count());
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledTHENAllValuesAreConsideredDirty) {

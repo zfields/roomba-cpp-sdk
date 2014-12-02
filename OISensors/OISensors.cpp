@@ -25,7 +25,7 @@ namespace {
 	/// \brief Time point when all sensor data should be returned
 	/// \details Time required for the Roomba to process the query,
 	/// then return the requested data at the current baud rate.
-	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> _transfer_completion_time_ms;
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> _serial_read_next_available_ms;
 	
 	/// \brief Indicates the validity of the sensor packet ids
 	/// \details The index of each bit is tied to the corresponding
@@ -364,7 +364,7 @@ setParseKey (
 	
 	// Update completion time (including Roomba signal processing time)
 	std::chrono::milliseconds transfer_time_ms(HARDWARE_SERIAL_DELAY_MS + ((_bytesInQueryList(parse_key_) * 10000) / _BAUD_RATE[_baud_code]));
-	_transfer_completion_time_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()) + transfer_time_ms;
+	_serial_read_next_available_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()) + transfer_time_ms;
 	
 	return SUCCESS;
 }
@@ -410,10 +410,10 @@ namespace testing {
 	}
 	
 	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>
-	getTransferCompletionTimeMs (
+	getSerialReadNextAvailableMs (
 		void
 	) {
-		return _transfer_completion_time_ms;
+		return _serial_read_next_available_ms;
 	}
 } // namespace testing
 #endif
