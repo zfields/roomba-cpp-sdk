@@ -44,6 +44,7 @@ class BeginCalled : public ::testing::Test {
 				return (sizeof(serial_stream));
 			}
 		);
+		sensors::setBaudCode(BAUD_115200);
 	}
 	//virtual void TearDown() {}
 };
@@ -63,6 +64,7 @@ class EndCalled : public ::testing::Test {
 				return (sizeof(serial_stream));
 			}
 		);
+		sensors::setBaudCode(BAUD_115200);
 	}
 	//virtual void TearDown() {}
 };
@@ -82,6 +84,7 @@ class QueriedData : public ::testing::Test {
 				return (sizeof(serial_stream));
 			}
 		);
+		sensors::setBaudCode(BAUD_115200);
 	}
 	//virtual void TearDown() {}
 };
@@ -101,6 +104,7 @@ class StreamingData : public ::testing::Test {
 				return (sizeof(serial_stream));
 			}
 		);
+		sensors::setBaudCode(BAUD_115200);
 	}
 	//virtual void TearDown() {}
 };
@@ -120,6 +124,7 @@ class StreamingData$BadCheckSum : public ::testing::Test {
 				return (sizeof(serial_stream));
 			}
 		);
+		sensors::setBaudCode(BAUD_115200);
 	}
 	//virtual void TearDown() {}
 };
@@ -139,6 +144,7 @@ class StreamingData$OutOfSync : public ::testing::Test {
 				return (sizeof(serial_stream));
 			}
 		);
+		sensors::setBaudCode(BAUD_115200);
 	}
 	//virtual void TearDown() {}
 };
@@ -175,6 +181,20 @@ TEST_F(QueriedData, setBaudCode$WHENCalledTHENBaudCodeIsSet) {
 	ASSERT_EQ(BAUD_57600, sensors::testing::getBaudCode());
 }
 
+TEST_F(QueriedData, setBaudCode$WHENBaudCodeIsGreaterThan11THENParameterIsInvalid) {
+	for ( int i = 12 ; i <= 255 ; ++i ) {
+		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::setBaudCode(static_cast<BaudCode>(i))) << "Accepted value <" << i << ">!";
+	}
+}
+
+TEST_F(QueriedData, setBaudCode$WHENParameterIsInvalidTHENBaudCodeIsNotSet) {
+	ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
+	for ( int i = 12 ; i <= 255 ; ++i ) {
+		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::setBaudCode(static_cast<BaudCode>(i)));
+		ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
+	}
+}
+
 TEST_F(QueriedData, setParseKey$WHENBeforeCallTHENParseKeyIsNotSet) {
 	ASSERT_EQ(0, *reinterpret_cast<uint_opt8_t *>(sensors::testing::getParseKey()));
 }
@@ -188,6 +208,11 @@ TEST_F(QueriedData, setParseKey$WHENCalledTHENParseKeyIsSet) {
 
 TEST_F(QueriedData, setParseKey$WHENCalledWithNULLTHENErrorIsReturned) {
 	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::setParseKey(NULL));
+}
+
+TEST_F(QueriedData, setParseKey$WHENCalledWithZeroSizeTHENErrorIsReturned) {
+	const uint_opt8_t parse_key[2] = { 0, sensors::BUTTONS };
+	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key)));
 }
 
 TEST_F(QueriedData, setParseKey$WHENCalledForSingleByteDataTHENSerialReadNextAvailableMsIsCalculatedAsHardwareDelayAndTransferTimeThenStored) {

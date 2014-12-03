@@ -65,7 +65,7 @@ namespace {
 	bool _sensors_ready(false);	
 	
 	/// \brief Mutex for the shared sensor data
-	std::mutex _variable_data;
+	std::mutex _shared_data;
 } // namespace
 
 /// \brief Constant data used to manage data returned from the iRobot® Roomba
@@ -348,6 +348,7 @@ ReturnCode
 setBaudCode (
 	const BaudCode baud_code_
 ) {
+	if ( baud_code_ > 11 ) { return INVALID_PARAMETER; }
 	_baud_code = baud_code_;
 	return SUCCESS;
 }
@@ -357,14 +358,21 @@ setParseKey (
 	PacketId const * const parse_key_
 ) {
 	if ( !parse_key_ ) { return INVALID_PARAMETER; }
+	if ( !(*parse_key_) ) { return INVALID_PARAMETER; }
 	
-	memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint_opt8_t *>(parse_key_));
-	
-	_flag_mask_dirty = static_cast<uint_opt64_t>(-1);
-	
-	// Update completion time (including Roomba signal processing time)
+	// Calculate completion time (including Roomba signal processing time)
 	std::chrono::milliseconds transfer_time_ms(HARDWARE_SERIAL_DELAY_MS + ((_bytesInQueryList(parse_key_) * 10000) / _BAUD_RATE[_baud_code]));
-	_serial_read_next_available_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()) + transfer_time_ms;
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> serial_read_next_available_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()) + transfer_time_ms;
+	
+	{  // Critical section: Update shared memory
+		_shared_data.lock();
+		
+		memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint_opt8_t *>(parse_key_));
+		_flag_mask_dirty = static_cast<uint_opt64_t>(-1);
+		_serial_read_next_available_ms = serial_read_next_available_ms;
+
+		_shared_data.unlock();
+	}
 	
 	return SUCCESS;
 }

@@ -134,6 +134,7 @@ namespace sensors {
 	/// \details The baud code is used when calculating the
 	/// time required to execute a sensor query transaction.
 	/// \return SUCCESS
+	/// \return INVALID_PARAMETER
 	/// \see OICommand::sensors
 	/// \see OICommand::queryList
 	ReturnCode

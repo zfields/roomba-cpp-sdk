@@ -68,10 +68,11 @@ OICommand::baud (
 	if ( baud_code_ > 11 ) { return INVALID_PARAMETER; }
 
 	if ( !_fnSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
+	
 #ifdef SENSORS_ENABLED
 	sensors::setBaudCode(baud_code_);
 #endif
-	
+
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	return SUCCESS;
 }
