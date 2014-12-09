@@ -168,6 +168,7 @@ namespace sensors {
 	/// \param [out] is_signed_ A boolean indicating if the
 	/// value of the requested sensor is signed or unsigned
 	/// \return SUCCESS
+	/// \return INVALID_PARAMETER
 	/// \return SERIAL_TRANSFER_FAILURE
 	ReturnCode
 	valueOfSensor (

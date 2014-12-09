@@ -13,11 +13,36 @@ namespace series500 {
 namespace oi {
 namespace sensors {
 namespace testing {
-	BaudCode getBaudCode (void);
-	uint_opt64_t getFlagMaskDirty (void);
-	PacketId * getParseKey (void);
-	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> getSerialReadNextAvailableMs (void);
-	size_t fnSerialRead (uint_opt8_t * const, const size_t);
+	BaudCode
+	getBaudCode (
+		void
+	);
+	
+	uint_opt64_t
+	getFlagMaskDirty (
+		void
+	);
+	
+	uint_opt64_t
+	getFlagMaskSigned (
+		void
+	);
+	
+	PacketId *
+	getParseKey (
+		void
+	);
+	
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>
+	getSerialReadNextAvailableMs (
+		void
+	);
+	
+	size_t
+	fnSerialRead (
+		uint_opt8_t * const,
+		const size_t
+	);
 } // testing
 } // namespace sensor
 } // namespace oi

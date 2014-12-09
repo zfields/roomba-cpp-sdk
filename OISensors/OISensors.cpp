@@ -22,11 +22,6 @@ namespace {
 	/// protection.
 	BaudCode _baud_code(BAUD_115200);
 	
-	/// \brief Time point when all sensor data should be returned
-	/// \details Time required for the Roomba to process the query,
-	/// then return the requested data at the current baud rate.
-	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> _serial_read_next_available_ms;
-	
 	/// \brief Indicates the validity of the sensor packet ids
 	/// \details The index of each bit is tied to the corresponding
 	/// packet id. If a sensor value returned from the Roomba has
@@ -63,6 +58,11 @@ namespace {
 	
 	/// \brief Ready state of oi:sensors methods
 	bool _sensors_ready(false);	
+	
+	/// \brief Time point when all sensor data should be returned
+	/// \details Time required for the Roomba to process the query,
+	/// then return the requested data at the current baud rate.
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds> _serial_read_next_available_ms;
 	
 	/// \brief Mutex for the shared sensor data
 	std::mutex _shared_data;
@@ -383,6 +383,11 @@ valueOfSensor (
 	uint_opt16_t * const value_,
 	bool * const is_signed_
 ) {
+	if ( !value_ ) { return INVALID_PARAMETER; }
+	if ( !is_signed_ ) { return INVALID_PARAMETER; }
+	if ( ( packet_id_ < 7 ) || ( packet_id_ > 58 ) ) { return INVALID_PARAMETER; }
+	
+	*is_signed_ = ((_FLAG_MASK_SIGNED >> packet_id_) & 0x01);
 	return SERIAL_TRANSFER_FAILURE;
 }
 
@@ -408,6 +413,13 @@ namespace testing {
 		void
 	) {
 		return _flag_mask_dirty;
+	}
+	
+	uint_opt64_t
+	getFlagMaskSigned (
+		void
+	) {
+		return _FLAG_MASK_SIGNED;
 	}
 	
 	PacketId *

@@ -9,7 +9,6 @@
 //TODO: Consider merging begin with OICommand::connectToSerialBus()
 //TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
 //TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
-//TODO: Move baud code testing inside set baud code function and return result through OICommand interface
 
 using namespace roomba::series500::oi;
 
@@ -183,7 +182,7 @@ TEST_F(QueriedData, setBaudCode$WHENCalledTHENBaudCodeIsSet) {
 
 TEST_F(QueriedData, setBaudCode$WHENBaudCodeIsGreaterThan11THENParameterIsInvalid) {
 	for ( int i = 12 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::setBaudCode(static_cast<BaudCode>(i))) << "Accepted value <" << i << ">!";
+		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::setBaudCode(static_cast<BaudCode>(i))) << "Accepted value <" << static_cast<unsigned int>(i) << ">!";
 	}
 }
 
@@ -276,6 +275,51 @@ TEST_F(BeginNotCalled, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) 
 	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::valueOfSensor(sensors::OI_MODE, &value, &is_signed));
 }
 
+TEST_F(QueriedData, valueOfSensor$WHENCalledWithNullValueParameterTHENReturnsError) {
+	uint_opt16_t *value(NULL);
+	bool is_signed;
+	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(sensors::OI_MODE, value, &is_signed));
+}
+
+TEST_F(QueriedData, valueOfSensor$WHENCalledWithNullIsSignedParameterTHENReturnsError) {
+	uint_opt16_t value;
+	bool *is_signed(NULL);
+	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(sensors::OI_MODE, &value, is_signed));
+}
+
+TEST_F(QueriedData, valueOfSensor$WHENCalledWithInvalidSensorNameTHENReturnsError) {
+	uint_opt16_t value;
+	bool is_signed;
+	
+	for ( uint_opt8_t i = 0 ; i < 7 ; ++i ) {
+		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed)) << "Accepted value <" << static_cast<unsigned int>(i) << ">!";
+	}
+	for ( int i = 59 ; i <= 255 ; ++i ) {
+		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed)) << "Accepted value <" << static_cast<unsigned int>(i) << ">!";
+	}
+}
+
+TEST_F(QueriedData, valueOfSensor$WHENCalledTHENSignedParameterReturnsCorrectValue) {
+	uint_opt64_t FLAG_MASK_SIGNED = sensors::testing::getFlagMaskSigned();
+	uint_opt16_t value;
+	bool is_signed;
+	
+	for ( int i = 7 ; i < 59 ; ++i ) {
+		sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed);
+		EXPECT_EQ(((FLAG_MASK_SIGNED >> i) & 0x01), is_signed) << "Tested value <" << static_cast<unsigned int>(i) << ">!";
+	}
+}
+/* FINISH PARSING TEST FIRST
+TEST_F(QueriedData, valueOfSensor$WHENCalledForEightBitDataTHENReturnsCorrectValue) {
+	uint_opt16_t value;
+	bool is_signed;
+	
+	for ( uint_opt8_t i = 7 ; i < 59 ; ++i ) {
+		sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed);
+		EXPECT_EQ(, value);
+	}
+}
+*/
 } // namespace
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
