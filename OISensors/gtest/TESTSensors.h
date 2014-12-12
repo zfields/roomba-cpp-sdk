@@ -33,6 +33,11 @@ namespace testing {
 		void
 	);
 	
+	uint_opt8_t *
+	getRawData (
+		void
+	);
+	
 	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>
 	getSerialReadNextAvailableMs (
 		void

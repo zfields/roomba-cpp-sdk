@@ -280,6 +280,22 @@ TEST_F(InitialState, setParseKey$WHENCalledTHENAllValuesAreConsideredDirty) {
 	ASSERT_EQ(static_cast<uint_opt64_t>(-1), sensors::testing::getFlagMaskDirty());
 }
 
+TEST_F(QueriedData, parseSerialData$WHENCalledWithParseKeySetTHENValuesAreStoredInTheirRespectiveLocations) {
+	sensors::parseSerialData();
+	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
+	const uint_opt8_t expected_virtual_wall = 0x00;
+	uint_opt16_t actual_cliff_front_left_signal = *reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30);
+	const uint_opt8_t actual_virtual_wall = sensors::testing::getRawData()[6];
+
+	//Convert from big endian to little endian
+	reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[0] ^= reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[1];
+	reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[1] ^= reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[0];
+	reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[0] ^= reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[1];
+	
+	EXPECT_EQ(expected_cliff_front_left_signal, actual_cliff_front_left_signal);
+	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
+}
+
 TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
 	uint_opt16_t value;
 	bool is_signed;

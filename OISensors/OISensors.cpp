@@ -53,7 +53,7 @@ namespace {
 	
 	/// \brief Raw sensor data
 	/// \details The data blob used to store sensor data returned from
-	/// the Roomba.
+	/// the iRobot Roomba in big endian format.
 	uint_opt8_t _raw_data[80];
 	
 	/// \brief Ready state of oi:sensors methods
@@ -347,6 +347,20 @@ end (
 	return SUCCESS;
 }
 
+void
+parseSerialData (
+	void
+) {
+	for ( uint_opt8_t i = 1 ; i < *_parse_key ; ++i ) {
+		const uint_opt8_t info = _PACKET_INFO[_packetIndex(_parse_key[i])];
+		uint_opt8_t size = 1, read_size = 0;
+		if ( info & 0x01 ) {
+			size = _packetSize(_parse_key[i]);
+		}
+		_fnSerialRead((_raw_data + (info >> 1)), size);
+	}
+}
+
 ReturnCode
 setBaudCode (
 	const BaudCode baud_code_
@@ -430,6 +444,13 @@ namespace testing {
 		void
 	) {
 		return _parse_key;
+	}
+	
+	uint_opt8_t *
+	getRawData (
+		void
+	) {
+		return _raw_data;
 	}
 	
 	std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>
