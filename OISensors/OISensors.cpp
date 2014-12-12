@@ -435,6 +435,17 @@ namespace testing {
 	) {
 		return _serial_read_next_available_ms;
 	}
+	
+	void
+	setInternalsToInitialState (
+		void
+	) {
+		_baud_code = BAUD_115200;
+		_fnSerialRead = [](uint_opt8_t * const, const size_t){ return 0; };
+		*_parse_key = static_cast<PacketId>(0);
+		_parse_status = sensors::SUCCESS;
+		_sensors_ready = false;
+	}
 } // namespace testing
 #endif
 

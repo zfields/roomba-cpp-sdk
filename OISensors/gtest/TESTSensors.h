@@ -43,6 +43,11 @@ namespace testing {
 		uint_opt8_t * const,
 		const size_t
 	);
+
+	void
+	setInternalsToInitialState (
+		void
+	);
 } // testing
 } // namespace sensor
 } // namespace oi
