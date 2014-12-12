@@ -165,11 +165,25 @@ TEST_F(InitialState, begin$WHENBeginIsCalledTHENfnSerialReadIsStored) {
 	ASSERT_EQ(7, sensors::testing::fnSerialRead(NULL, 0));
 }
 
+TEST_F(InitialState, begin$WHENBeginIsCalledAgainWithoutCallingEndTHENErrorIsReturned) {
+	ASSERT_EQ(0, sensors::testing::fnSerialRead(NULL, 0));
+	sensors::begin([](uint_opt8_t * const, const size_t){ return 7; });
+	ASSERT_EQ(7, sensors::testing::fnSerialRead(NULL, 0));
+	ASSERT_EQ(sensors::INVALID_MODE_FOR_REQUESTED_OPERATION, sensors::begin([](uint_opt8_t * const, const size_t){ return 8; }));
+}
+
 TEST_F(InitialState, end$WHENEndIsCalledTHENfnSerialReadReturnsZero) {
 	sensors::begin([](uint_opt8_t * const, const size_t){ return 8; });
 	ASSERT_EQ(8, sensors::testing::fnSerialRead(NULL, 0));
 	sensors::end();
 	ASSERT_EQ(0, sensors::testing::fnSerialRead(NULL, 0));
+}
+
+TEST_F(InitialState, end$WHENEndIsCalledTHENBeginCanBeCalledAgain) {
+	sensors::begin([](uint_opt8_t * const, const size_t){ return 7; });
+	ASSERT_EQ(7, sensors::testing::fnSerialRead(NULL, 0));
+	sensors::end();
+	ASSERT_EQ(sensors::SUCCESS, sensors::begin([](uint_opt8_t * const, const size_t){ return 8; }));
 }
 
 TEST_F(InitialState, setBaudCode$WHENCalledTHENBaudCodeIsSet) {

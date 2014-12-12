@@ -332,7 +332,9 @@ ReturnCode
 begin (
 	std::function<size_t(uint_opt8_t * const, const size_t)> fnSerialRead_
 ) {
+	if ( _sensors_ready ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
 	_fnSerialRead = fnSerialRead_;
+	_sensors_ready = true;
 	return SUCCESS;
 }
 
@@ -340,6 +342,7 @@ ReturnCode
 end (
 	void
 ) {
+	_sensors_ready = false;
 	_fnSerialRead = ([](uint_opt8_t * const, const size_t){ return 0; });
 	return SUCCESS;
 }
