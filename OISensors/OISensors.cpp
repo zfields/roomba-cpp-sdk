@@ -308,6 +308,8 @@ namespace {
 	/// \n Index 0 contains the length of the array.
 	/// \n The remaining values are the packet ids of the
 	/// data requested from the iRobot® Roomba.
+	/// \return The byte count of the packets represented by the parse key
+	/// \see sensors::setParseKey
 	inline
 	uint_opt16_t
 	_bytesInQueryList (
@@ -325,6 +327,32 @@ namespace {
 		}
 		
 		return byte_count;
+	}
+
+	/// \brief Store a packet in shared memory
+	/// \details The data value of the packet id will be read from the
+	/// serial bus and stored into shared memory.
+	/// \param [in] packet_id_ Packet Id associated with the data
+	/// \param [out] packet_size_ Returns the size of the packet stored
+	/// \return SUCCESS
+	/// \return SERIAL_TRANSFER_FAILURE
+	/// \see sensors::parseQueryData
+	/// \see sensors::parseStreamData
+	inline
+	ReturnCode
+	_readPacketValueIntoRawDataBlob (
+		const PacketId packet_id_,
+		uint_opt8_t * const packet_size_
+	) {
+		const uint_opt8_t pi = _packetIndex(packet_id_);
+		uint_opt8_t bytes_read = 0;
+		bool size_greater_than_one = ( _PACKET_INFO[pi] & 0x01 );
+		*packet_size_ = (size_greater_than_one * _packetSize(packet_id_)) + !size_greater_than_one;
+		bytes_read = _fnSerialRead((_raw_data + (_PACKET_INFO[pi] >> 1)), *packet_size_);
+		if ( bytes_read != *packet_size_ ) {
+			return SERIAL_TRANSFER_FAILURE;
+		}
+		return SUCCESS;
 	}
 } // namespace
 
@@ -359,19 +387,13 @@ parseQueryData (
 	void
 ) {
 	const uint_opt8_t packet_count = *_parse_key;
+	uint_opt8_t unused;
 	uint_opt64_t flag_mask_received(0);
 	*_parse_key = static_cast<PacketId>(0);
 	for ( uint_opt8_t i = 1 ; i < packet_count ; ++i ) {
-		const uint_opt8_t pi = _packetIndex(_parse_key[i]);
-		uint_opt8_t packet_size = 1, bytes_read = 0;
-		if ( _PACKET_INFO[pi] & 0x01 ) {
-			packet_size = _packetSize(_parse_key[i]);
-		}
-		bytes_read = _fnSerialRead((_raw_data + (_PACKET_INFO[pi] >> 1)), packet_size);
-		if ( bytes_read != packet_size ) {
-			return SERIAL_TRANSFER_FAILURE;
-		}
-		flag_mask_received |= (static_cast<uint_opt64_t>(1) << pi);
+		const ReturnCode rc = _readPacketValueIntoRawDataBlob(_parse_key[i], &unused);
+		if ( SUCCESS != rc ) { return rc; }
+		flag_mask_received |= (static_cast<uint_opt64_t>(1) << _packetIndex(_parse_key[i]));
 	}
 	_flag_mask_dirty &= ~flag_mask_received;
 	return SUCCESS;
@@ -381,6 +403,9 @@ ReturnCode
 parseStreamData (
 	void
 ) {
+	uint_opt8_t control(0);
+	_fnSerialRead(&control, sizeof(control));
+	if ( 19 != static_cast<size_t>(control) ) { return FAILURE_TO_SYNC; }
 	return SUCCESS;
 }
 

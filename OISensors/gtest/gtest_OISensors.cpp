@@ -78,7 +78,7 @@ class QueryData : public ::testing::Test {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				static uint_opt8_t serial_stream[] = { 0x02, 0x25, 0x00 };
-				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
@@ -104,7 +104,7 @@ class QueryData$ByteCountError : public ::testing::Test {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				static uint_opt8_t serial_stream[] = { 0x00, 0x02, 0x25 };
-				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
@@ -129,7 +129,7 @@ class StreamData : public ::testing::Test {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6 };
-				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
@@ -153,7 +153,7 @@ class StreamData$BadCheckSum : public ::testing::Test {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xBE };
-				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
@@ -177,7 +177,7 @@ class StreamData$Paused : public ::testing::Test {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D };
-				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
@@ -201,7 +201,7 @@ class StreamData$OutOfSync : public ::testing::Test {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				static uint_opt8_t serial_stream[] = { 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D };
-				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
@@ -384,6 +384,20 @@ TEST_F(QueryData$ByteCountError, parseQueryData$WHENBytesReadDoNotMatchBytesRequ
 	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
 }
 
+TEST_F(StreamData$OutOfSync, parseStreamData$WHENFirstValueIsNot19THENFailureToSyncErrorIsReturned) {
+	ASSERT_EQ(sensors::FAILURE_TO_SYNC, sensors::parseStreamData());
+}
+/*
+TEST_F(StreamData, parseStreamData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseStreamData());
+	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
+	const uint_opt8_t expected_virtual_wall = 0x00;
+	const uint_opt16_t actual_cliff_front_left_signal = convertTwoByteIntegerFromBigToLittleEndian(*reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30));
+	const uint_opt8_t actual_virtual_wall = sensors::testing::getRawData()[6];
+	EXPECT_EQ(expected_cliff_front_left_signal, actual_cliff_front_left_signal);
+	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
+}
+*/
 TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
 	uint_opt16_t value;
 	bool is_signed;
@@ -424,7 +438,7 @@ TEST_F(QueryData, valueOfSensor$WHENCalledTHENSignedParameterReturnsCorrectValue
 		EXPECT_EQ(((FLAG_MASK_SIGNED >> i) & 0x01), is_signed) << "Tested value <" << static_cast<unsigned int>(i) << ">!";
 	}
 }
-/* FINISH PARSING TEST FIRST
+/* FINISH PARSING TESTS FIRST
 TEST_F(QueryData, valueOfSensor$WHENCalledForEightBitDataTHENReturnsCorrectValue) {
 	uint_opt16_t value;
 	bool is_signed;
