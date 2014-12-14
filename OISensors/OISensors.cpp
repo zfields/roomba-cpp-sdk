@@ -354,18 +354,27 @@ getParseError (
 	return _parse_status;
 }
 
-void
-parseSerialData (
+ReturnCode
+parseQueriedData (
 	void
 ) {
-	for ( uint_opt8_t i = 1 ; i < *_parse_key ; ++i ) {
-		const uint_opt8_t info = _PACKET_INFO[_packetIndex(_parse_key[i])];
-		uint_opt8_t size = 1, read_size = 0;
-		if ( info & 0x01 ) {
-			size = _packetSize(_parse_key[i]);
+	const uint_opt8_t packet_count = *_parse_key;
+	uint_opt64_t flag_mask_received(0);
+	*_parse_key = static_cast<PacketId>(0);
+	for ( uint_opt8_t i = 1 ; i < packet_count ; ++i ) {
+		const uint_opt8_t pi = _packetIndex(_parse_key[i]);
+		uint_opt8_t packet_size = 1, bytes_read = 0;
+		if ( _PACKET_INFO[pi] & 0x01 ) {
+			packet_size = _packetSize(_parse_key[i]);
 		}
-		_fnSerialRead((_raw_data + (info >> 1)), size);
+		bytes_read = _fnSerialRead((_raw_data + (_PACKET_INFO[pi] >> 1)), packet_size);
+		if ( bytes_read != packet_size ) {
+			return SERIAL_TRANSFER_FAILURE;
+		}
+		flag_mask_received |= (static_cast<uint_opt64_t>(1) << pi);
 	}
+	_flag_mask_dirty &= ~flag_mask_received;
+	return SUCCESS;
 }
 
 ReturnCode
@@ -394,7 +403,7 @@ setParseKey (
 		memcpy(_parse_key, parse_key_, *reinterpret_cast<const uint_opt8_t *>(parse_key_));
 		_flag_mask_dirty = static_cast<uint_opt64_t>(-1);
 		_serial_read_next_available_ms = serial_read_next_available_ms;
-
+		
 		_shared_data.unlock();
 	}
 	

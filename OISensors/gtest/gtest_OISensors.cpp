@@ -8,12 +8,27 @@
 //TODO: When data is out of sync, then it should pause data stream, then resume to sync.
 //TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
 //TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
+//TODO: Serial read next available time, needs to be incorporated into the framework
 
 //NOTE: Considered merging begin with OICommand::connectToSerialBus() -> Decided it is better to have a distinct seperation, which will allow completely seperate modules to be written.
 
 using namespace roomba::series500::oi;
 
 namespace {
+
+  /********************/
+ /* HELPER FUNCTIONS */
+/********************/
+uint_opt16_t
+convertTwoByteIntegerFromBigToLittleEndian (
+	uint_opt16_t value_
+) {
+	reinterpret_cast<uint_opt8_t *>(&value_)[0] ^= reinterpret_cast<uint_opt8_t *>(&value_)[1];
+	reinterpret_cast<uint_opt8_t *>(&value_)[1] ^= reinterpret_cast<uint_opt8_t *>(&value_)[0];
+	reinterpret_cast<uint_opt8_t *>(&value_)[0] ^= reinterpret_cast<uint_opt8_t *>(&value_)[1];
+
+	return value_;
+}
 
   /******************/
  /* MOCK SCENARIOS */
@@ -26,7 +41,7 @@ class InitialState : public ::testing::Test {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~DataParsed() {}
+	//virtual ~InitialState() {}
 	//virtual void SetUp() {}
 	//virtual void TearDown() {}
 };
@@ -66,7 +81,33 @@ class QueriedData : public ::testing::Test {
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
-				return (sizeof(buffer_length_));
+				return buffer_length_;
+			}
+		);
+		sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
+	}
+	//virtual void TearDown() {}
+};
+
+class QueriedData$ByteCountError : public ::testing::Test {
+  protected:
+	QueriedData$ByteCountError (
+		void
+	) {
+		sensors::testing::setInternalsToInitialState();
+	}
+	
+	//virtual ~QueriedData$ByteCountError() {}
+	virtual void SetUp() {
+		const uint_opt8_t parse_key[3] = { sizeof(parse_key), sensors::VIRTUAL_WALL, sensors::CLIFF_FRONT_LEFT_SIGNAL };
+		sensors::begin(
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				static uint_opt8_t serial_stream[] = { 0x00, 0x02, 0x25 };
+				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
+					serial_stream[(i - buffer_length_)] = serial_stream[i];
+				}
+				return 1;
 			}
 		);
 		sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
@@ -91,7 +132,7 @@ class StreamingData : public ::testing::Test {
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
-				return (sizeof(buffer_length_));
+				return buffer_length_;
 			}
 		);
 	}
@@ -115,7 +156,31 @@ class StreamingData$BadCheckSum : public ::testing::Test {
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
-				return (sizeof(buffer_length_));
+				return buffer_length_;
+			}
+		);
+	}
+	//virtual void TearDown() {}
+};
+
+class StreamingData$Paused : public ::testing::Test {
+  protected:
+	StreamingData$Paused (
+		void
+	) {
+		sensors::testing::setInternalsToInitialState();
+	}
+	
+	//virtual ~StreamingData$Paused() {}
+	virtual void SetUp() {
+		sensors::begin(
+			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D };
+				memcpy(buffer_, serial_stream, sizeof(buffer_length_));
+				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
+					serial_stream[(i - buffer_length_)] = serial_stream[i];
+				}
+				return buffer_length_;
 			}
 		);
 	}
@@ -139,7 +204,7 @@ class StreamingData$OutOfSync : public ::testing::Test {
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
-				return (sizeof(buffer_length_));
+				return buffer_length_;
 			}
 		);
 	}
@@ -280,20 +345,42 @@ TEST_F(InitialState, setParseKey$WHENCalledTHENAllValuesAreConsideredDirty) {
 	ASSERT_EQ(static_cast<uint_opt64_t>(-1), sensors::testing::getFlagMaskDirty());
 }
 
-TEST_F(QueriedData, parseSerialData$WHENCalledWithParseKeySetTHENValuesAreStoredInTheirRespectiveLocations) {
-	sensors::parseSerialData();
+TEST_F(QueriedData, parseQueriedData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueriedData());
 	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
 	const uint_opt8_t expected_virtual_wall = 0x00;
-	uint_opt16_t actual_cliff_front_left_signal = *reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30);
+	const uint_opt16_t actual_cliff_front_left_signal = convertTwoByteIntegerFromBigToLittleEndian(*reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30));
 	const uint_opt8_t actual_virtual_wall = sensors::testing::getRawData()[6];
-
-	//Convert from big endian to little endian
-	reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[0] ^= reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[1];
-	reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[1] ^= reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[0];
-	reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[0] ^= reinterpret_cast<uint_opt8_t *>(&actual_cliff_front_left_signal)[1];
-	
 	EXPECT_EQ(expected_cliff_front_left_signal, actual_cliff_front_left_signal);
 	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
+}
+
+TEST_F(QueriedData, parseQueriedData$WHENCalledTHENTheParseKeyIsEmptied) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueriedData());
+	ASSERT_EQ(0, *sensors::testing::getParseKey());
+}
+
+TEST_F(QueriedData, parseQueriedData$WHENCalledTHENTheDirtyFlagIsUnset) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueriedData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_FALSE((flag_mask_dirty >> 29 ) & 0x01 );
+	EXPECT_FALSE((flag_mask_dirty >> 13 ) & 0x01 );
+}
+
+TEST_F(QueriedData$ByteCountError, parseQueriedData$WHENBytesReadDoNotMatchBytesRequestedTHENErrorIsReturned) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueriedData());
+}
+
+TEST_F(QueriedData$ByteCountError, parseQueriedData$WHENBytesReadDoNotMatchBytesRequestedTHENTheParseKeyIsEmptied) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueriedData());
+	ASSERT_EQ(0, *sensors::testing::getParseKey());
+}
+
+TEST_F(QueriedData$ByteCountError, parseQueriedData$WHENBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSet) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueriedData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
+	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
 }
 
 TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
