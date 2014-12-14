@@ -123,6 +123,19 @@ namespace sensors {
 		void
 	);
 	
+	/// \brief Accessor method to check for parsing errors
+	/// \details The parsing methods typically execute in a separate thread
+	/// and is therefore unable to provide return codes directly. This method
+	/// provides access to the shared memory where the return code is stored.
+	/// \return SUCCESS
+	/// \return SERIAL_TRANSFER_FAILURE
+	/// \see sensors::parseQueriedData
+	/// \see sensors::parseStreamingData
+	ReturnCode
+	getParseError (
+		void
+	);
+	
 	/// \brief Function to receive serial data
 	/// \details Parses data received from Roomba and stores
 	/// it in memory accessible by the OICommand object.

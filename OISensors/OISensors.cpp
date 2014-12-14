@@ -347,6 +347,13 @@ end (
 	return SUCCESS;
 }
 
+ReturnCode
+getParseError (
+	void
+) {
+	return _parse_status;
+}
+
 void
 parseSerialData (
 	void
