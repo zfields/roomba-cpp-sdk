@@ -392,7 +392,7 @@ OICommand::play (
 	
 	return SUCCESS;
 }
-#ifdef SENSORS_ENABLED
+
 OICommand::ReturnCode
 OICommand::sensors (
 	const sensors::PacketId packet_id_
@@ -459,7 +459,6 @@ OICommand::pollSensors (
 	
 	return SUCCESS;
 }
-#endif
 } // namespace oi
 } // namespace series500
 } // namespace roomba

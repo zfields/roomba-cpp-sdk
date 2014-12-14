@@ -541,7 +541,7 @@ class OICommand {
 	play (
 		const uint_opt8_t song_number_
 	) const;
-#ifdef SENSORS_ENABLED
+	
 	/// \brief Request sensor data.
 	/// \details This command requests the OI to send a
 	/// packet of sensor data bytes. There are 58 different
@@ -620,7 +620,7 @@ class OICommand {
 	pauseResumeStream (
 		const bool resume_
 	) const;
-#endif
+	
   protected:
 	/// \brief A function supplying multi-byte write access to the serial bus
 	/// \details This function is provided from the call to
@@ -633,7 +633,6 @@ class OICommand {
 	/// mode of the open interface (i.e. Off, Passive, Safe, Full)
 	OIMode _oi_mode;
 	
-#ifdef SENSORS_ENABLED
 	/// \brief Core functionality of both queryList() and stream()
 	/// \details Both queryList() and stream() have identical
 	/// implementations. The only difference is the original Open
@@ -652,7 +651,6 @@ class OICommand {
 		const command::OpCode opcode_,
 		const std::vector<sensors::PacketId> & sensor_list_
 	) const;
-#endif
 };
 
 } // namespace oi

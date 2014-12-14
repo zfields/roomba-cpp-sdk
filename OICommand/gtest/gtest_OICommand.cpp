@@ -908,7 +908,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 	EXPECT_EQ(OICommand::INVALID_MODE_FOR_REQUESTED_OPERATION, Command_tc.play(1));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-#ifdef SENSORS_ENABLED
+
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENCalledTHEN142AndParametersAreWrittenToTheSerialBus) {
 	Command_tc.sensors(sensors::DIRT_DETECT);
 	
@@ -966,7 +966,7 @@ TEST_F(AllSystemsGoOIModeOFF, sensors$WHENOIModeIsOffTHENNoDataIsWrittenToSerial
 	EXPECT_EQ(OICommand::OI_NOT_STARTED, Command_tc.sensors(sensors::DIRT_DETECT));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-#endif
+
 TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerialBus) {
 	Command_tc.seekDock();
 	ASSERT_EQ(143, static_cast<uint_opt8_t>(serial_bus[0]));
@@ -1225,7 +1225,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWritte
 	EXPECT_EQ(OICommand::INVALID_MODE_FOR_REQUESTED_OPERATION, Command_tc.drivePWM(-32, 32));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-#ifdef SENSORS_ENABLED
+
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENCalledTHEN148AndParametersAreWrittenToTheSerialBus) {
 	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
 	Command_tc.stream(sensor_list);
@@ -1456,7 +1456,7 @@ TEST_F(AllSystemsGoOIModeOFF, pauseResumeStream$WHENOIModeIsOffTHENNoDataIsWritt
 	EXPECT_EQ(OICommand::OI_NOT_STARTED, Command_tc.pauseResumeStream(true));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
-#endif
+
 TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENCalledTHEN162AndParametersAreWrittenToTheSerialBus) {
 	Command_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM));
 	
