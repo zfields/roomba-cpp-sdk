@@ -355,7 +355,7 @@ getParseError (
 }
 
 ReturnCode
-parseQueriedData (
+parseQueryData (
 	void
 ) {
 	const uint_opt8_t packet_count = *_parse_key;
@@ -374,6 +374,13 @@ parseQueriedData (
 		flag_mask_received |= (static_cast<uint_opt64_t>(1) << pi);
 	}
 	_flag_mask_dirty &= ~flag_mask_received;
+	return SUCCESS;
+}
+
+ReturnCode
+parseStreamData (
+	void
+) {
 	return SUCCESS;
 }
 

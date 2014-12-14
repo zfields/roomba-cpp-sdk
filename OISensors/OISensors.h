@@ -62,8 +62,8 @@ namespace sensors {
 	/// provides access to the shared memory where the return code is stored.
 	/// \return SUCCESS
 	/// \return SERIAL_TRANSFER_FAILURE
-	/// \see sensors::parseQueriedData
-	/// \see sensors::parseStreamingData
+	/// \see sensors::parseQueryData
+	/// \see sensors::parseStreamData
 	ReturnCode
 	getParseError (
 		void
@@ -77,7 +77,7 @@ namespace sensors {
 	/// \see OICommand::sensors
 	/// \see OICommand::queryList
 	ReturnCode
-	parseQueriedData (
+	parseQueryData (
 		void
 	);
 	
@@ -87,7 +87,7 @@ namespace sensors {
 	/// \return SUCCESS
 	/// \see OICommand::stream
 	ReturnCode
-	parseStreamingData (
+	parseStreamData (
 		void
 	);
 	

@@ -9,8 +9,9 @@
 //TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
 //TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
 //TODO: Serial read next available time, needs to be incorporated into the framework
+//TODO: Consider the dirty mask - should it only be corrupt data or should it include stale data - if only corrupt, then refactor name
 
-//NOTE: Considered merging begin with OICommand::connectToSerialBus() -> Decided it is better to have a distinct seperation, which will allow completely seperate modules to be written.
+//NOTE: Considered merging begin with OICommand::connectToSerialBus() -> Decided it is better to have a distinct seperation, which will allow completely seperate asynchronous serial read (RX) modules to be written.
 
 using namespace roomba::series500::oi;
 
@@ -63,15 +64,15 @@ class DataParsed : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class QueriedData : public ::testing::Test {
+class QueryData : public ::testing::Test {
   protected:
-	QueriedData (
+	QueryData (
 		void
 	) {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~QueriedData() {}
+	//virtual ~QueryData() {}
 	virtual void SetUp() {
 		const uint_opt8_t parse_key[3] = { sizeof(parse_key), sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
 		sensors::begin(
@@ -89,15 +90,15 @@ class QueriedData : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class QueriedData$ByteCountError : public ::testing::Test {
+class QueryData$ByteCountError : public ::testing::Test {
   protected:
-	QueriedData$ByteCountError (
+	QueryData$ByteCountError (
 		void
 	) {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~QueriedData$ByteCountError() {}
+	//virtual ~QueryData$ByteCountError() {}
 	virtual void SetUp() {
 		const uint_opt8_t parse_key[3] = { sizeof(parse_key), sensors::VIRTUAL_WALL, sensors::CLIFF_FRONT_LEFT_SIGNAL };
 		sensors::begin(
@@ -115,15 +116,15 @@ class QueriedData$ByteCountError : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class StreamingData : public ::testing::Test {
+class StreamData : public ::testing::Test {
   protected:
-	StreamingData (
+	StreamData (
 		void
 	) {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~StreamingData() {}
+	//virtual ~StreamData() {}
 	virtual void SetUp() {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
@@ -139,15 +140,15 @@ class StreamingData : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class StreamingData$BadCheckSum : public ::testing::Test {
+class StreamData$BadCheckSum : public ::testing::Test {
   protected:
-	StreamingData$BadCheckSum (
+	StreamData$BadCheckSum (
 		void
 	) {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~StreamingData$BadCheckSum() {}
+	//virtual ~StreamData$BadCheckSum() {}
 	virtual void SetUp() {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
@@ -163,15 +164,15 @@ class StreamingData$BadCheckSum : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class StreamingData$Paused : public ::testing::Test {
+class StreamData$Paused : public ::testing::Test {
   protected:
-	StreamingData$Paused (
+	StreamData$Paused (
 		void
 	) {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~StreamingData$Paused() {}
+	//virtual ~StreamData$Paused() {}
 	virtual void SetUp() {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
@@ -187,15 +188,15 @@ class StreamingData$Paused : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class StreamingData$OutOfSync : public ::testing::Test {
+class StreamData$OutOfSync : public ::testing::Test {
   protected:
-	StreamingData$OutOfSync (
+	StreamData$OutOfSync (
 		void
 	) {
 		sensors::testing::setInternalsToInitialState();
 	}
 	
-	//virtual ~StreamingData$OutOfSync() {}
+	//virtual ~StreamData$OutOfSync() {}
 	virtual void SetUp() {
 		sensors::begin(
 			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
@@ -345,8 +346,8 @@ TEST_F(InitialState, setParseKey$WHENCalledTHENAllValuesAreConsideredDirty) {
 	ASSERT_EQ(static_cast<uint_opt64_t>(-1), sensors::testing::getFlagMaskDirty());
 }
 
-TEST_F(QueriedData, parseQueriedData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
-	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueriedData());
+TEST_F(QueryData, parseQueryData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueryData());
 	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
 	const uint_opt8_t expected_virtual_wall = 0x00;
 	const uint_opt16_t actual_cliff_front_left_signal = convertTwoByteIntegerFromBigToLittleEndian(*reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30));
@@ -355,29 +356,29 @@ TEST_F(QueriedData, parseQueriedData$WHENCalledTHENValuesAreStoredInTheirRespect
 	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
 }
 
-TEST_F(QueriedData, parseQueriedData$WHENCalledTHENTheParseKeyIsEmptied) {
-	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueriedData());
+TEST_F(QueryData, parseQueryData$WHENCalledTHENTheParseKeyIsEmptied) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueryData());
 	ASSERT_EQ(0, *sensors::testing::getParseKey());
 }
 
-TEST_F(QueriedData, parseQueriedData$WHENCalledTHENTheDirtyFlagIsUnset) {
-	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueriedData());
+TEST_F(QueryData, parseQueryData$WHENCalledTHENTheDirtyFlagIsUnset) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueryData());
 	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
 	EXPECT_FALSE((flag_mask_dirty >> 29 ) & 0x01 );
 	EXPECT_FALSE((flag_mask_dirty >> 13 ) & 0x01 );
 }
 
-TEST_F(QueriedData$ByteCountError, parseQueriedData$WHENBytesReadDoNotMatchBytesRequestedTHENErrorIsReturned) {
-	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueriedData());
+TEST_F(QueryData$ByteCountError, parseQueryData$WHENBytesReadDoNotMatchBytesRequestedTHENErrorIsReturned) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueryData());
 }
 
-TEST_F(QueriedData$ByteCountError, parseQueriedData$WHENBytesReadDoNotMatchBytesRequestedTHENTheParseKeyIsEmptied) {
-	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueriedData());
+TEST_F(QueryData$ByteCountError, parseQueryData$WHENBytesReadDoNotMatchBytesRequestedTHENTheParseKeyIsEmptied) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueryData());
 	ASSERT_EQ(0, *sensors::testing::getParseKey());
 }
 
-TEST_F(QueriedData$ByteCountError, parseQueriedData$WHENBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSet) {
-	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueriedData());
+TEST_F(QueryData$ByteCountError, parseQueryData$WHENBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSet) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseQueryData());
 	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
 	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
 	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
@@ -389,19 +390,19 @@ TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
 	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::valueOfSensor(sensors::OI_MODE, &value, &is_signed));
 }
 
-TEST_F(QueriedData, valueOfSensor$WHENCalledWithNullValueParameterTHENReturnsError) {
+TEST_F(QueryData, valueOfSensor$WHENCalledWithNullValueParameterTHENReturnsError) {
 	uint_opt16_t *value(NULL);
 	bool is_signed;
 	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(sensors::OI_MODE, value, &is_signed));
 }
 
-TEST_F(QueriedData, valueOfSensor$WHENCalledWithNullIsSignedParameterTHENReturnsError) {
+TEST_F(QueryData, valueOfSensor$WHENCalledWithNullIsSignedParameterTHENReturnsError) {
 	uint_opt16_t value;
 	bool *is_signed(NULL);
 	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(sensors::OI_MODE, &value, is_signed));
 }
 
-TEST_F(QueriedData, valueOfSensor$WHENCalledWithInvalidSensorNameTHENReturnsError) {
+TEST_F(QueryData, valueOfSensor$WHENCalledWithInvalidSensorNameTHENReturnsError) {
 	uint_opt16_t value;
 	bool is_signed;
 	
@@ -413,7 +414,7 @@ TEST_F(QueriedData, valueOfSensor$WHENCalledWithInvalidSensorNameTHENReturnsErro
 	}
 }
 
-TEST_F(QueriedData, valueOfSensor$WHENCalledTHENSignedParameterReturnsCorrectValue) {
+TEST_F(QueryData, valueOfSensor$WHENCalledTHENSignedParameterReturnsCorrectValue) {
 	uint_opt64_t FLAG_MASK_SIGNED = sensors::testing::getFlagMaskSigned();
 	uint_opt16_t value;
 	bool is_signed;
@@ -424,7 +425,7 @@ TEST_F(QueriedData, valueOfSensor$WHENCalledTHENSignedParameterReturnsCorrectVal
 	}
 }
 /* FINISH PARSING TEST FIRST
-TEST_F(QueriedData, valueOfSensor$WHENCalledForEightBitDataTHENReturnsCorrectValue) {
+TEST_F(QueryData, valueOfSensor$WHENCalledForEightBitDataTHENReturnsCorrectValue) {
 	uint_opt16_t value;
 	bool is_signed;
 	
