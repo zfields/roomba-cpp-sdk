@@ -403,9 +403,15 @@ ReturnCode
 parseStreamData (
 	void
 ) {
-	uint_opt8_t control(0);
-	_fnSerialRead(&control, sizeof(control));
-	if ( 19 != static_cast<size_t>(control) ) { return FAILURE_TO_SYNC; }
+	uint_opt8_t header[2];
+	_fnSerialRead(header, sizeof(header));
+	if ( 19 != header[0] ) { return FAILURE_TO_SYNC; }
+	for ( uint_opt8_t i = 1 ; i < header[1] ; ++i ) {
+		uint_opt8_t packet_id, packet_size;
+		_fnSerialRead(&packet_id, sizeof(packet_id));
+		_readPacketValueIntoRawDataBlob(static_cast<PacketId>(packet_id), &packet_size);
+		i += packet_size;
+	}
 	return SUCCESS;
 }
 

@@ -387,7 +387,7 @@ TEST_F(QueryData$ByteCountError, parseQueryData$WHENBytesReadDoNotMatchBytesRequ
 TEST_F(StreamData$OutOfSync, parseStreamData$WHENFirstValueIsNot19THENFailureToSyncErrorIsReturned) {
 	ASSERT_EQ(sensors::FAILURE_TO_SYNC, sensors::parseStreamData());
 }
-/*
+
 TEST_F(StreamData, parseStreamData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
 	ASSERT_EQ(sensors::SUCCESS, sensors::parseStreamData());
 	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
@@ -397,7 +397,7 @@ TEST_F(StreamData, parseStreamData$WHENCalledTHENValuesAreStoredInTheirRespectiv
 	EXPECT_EQ(expected_cliff_front_left_signal, actual_cliff_front_left_signal);
 	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
 }
-*/
+
 TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
 	uint_opt16_t value;
 	bool is_signed;
