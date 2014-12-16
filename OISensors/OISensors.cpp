@@ -403,8 +403,9 @@ ReturnCode
 parseStreamData (
 	void
 ) {
-	uint_opt8_t header[2];
-	_fnSerialRead(header, sizeof(header));
+	uint_opt8_t bytes_read, header[2];
+	bytes_read = _fnSerialRead(header, sizeof(header));
+	if ( bytes_read != sizeof(header) ) { return SERIAL_TRANSFER_FAILURE; }
 	if ( 19 != header[0] ) { return FAILURE_TO_SYNC; }
 	for ( uint_opt8_t i = 1 ; i < header[1] ; ++i ) {
 		uint_opt8_t packet_id, packet_size;

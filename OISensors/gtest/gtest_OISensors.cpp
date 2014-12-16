@@ -5,7 +5,7 @@
 #include "TESTSensors.h"
 
 //TODO: Consider method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>)
-//TODO: When data is out of sync, then it should pause data stream, then resume to sync.
+//TODO: When data is out of sync, then it should pause data stream, then resume to sync. When unpaused does it resume where it left off, or send a new stream?
 //TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
 //TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
 //TODO: Serial read next available time, needs to be incorporated into the framework
@@ -47,37 +47,21 @@ class InitialState : public ::testing::Test {
 	//virtual void TearDown() {}
 };
 
-class DataParsed : public ::testing::Test {
-  protected:
-	DataParsed (
-		void
-	) {
-		sensors::testing::setInternalsToInitialState();
-	}
-	
-	//virtual ~DataParsed() {}
-	virtual void SetUp() {
-		const uint_opt8_t parse_key[1] = { 0 };
-		sensors::begin([](uint_opt8_t * const, const size_t){ return 0; });
-		sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
-	}
-	//virtual void TearDown() {}
-};
-
 class QueryData : public ::testing::Test {
   protected:
 	QueryData (
 		void
-	) {
+	) :
+		parse_key{ sizeof(parse_key), sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL },
+		serial_stream{ 0x02, 0x25, 0x00 }
+	{
 		sensors::testing::setInternalsToInitialState();
 	}
 	
 	//virtual ~QueryData() {}
 	virtual void SetUp() {
-		const uint_opt8_t parse_key[3] = { sizeof(parse_key), sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
 		sensors::begin(
-			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
-				static uint_opt8_t serial_stream[] = { 0x02, 0x25, 0x00 };
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
@@ -88,47 +72,59 @@ class QueryData : public ::testing::Test {
 		sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
 	}
 	//virtual void TearDown() {}
+	
+	const uint_opt8_t parse_key[3];
+	uint_opt8_t serial_stream[3];
 };
 
 class QueryData$ByteCountError : public ::testing::Test {
   protected:
 	QueryData$ByteCountError (
 		void
-	) {
-		sensors::testing::setInternalsToInitialState();
-	}
-	
+	) :
+		parse_key{ sizeof(parse_key), sensors::VIRTUAL_WALL, sensors::CLIFF_FRONT_LEFT_SIGNAL },
+		serial_stream{ 0x00, 0x02, 0x25 },
+		call_count(0),
+		fail_on_call(1)
+	{}
+
 	//virtual ~QueryData$ByteCountError() {}
 	virtual void SetUp() {
-		const uint_opt8_t parse_key[3] = { sizeof(parse_key), sensors::VIRTUAL_WALL, sensors::CLIFF_FRONT_LEFT_SIGNAL };
+		sensors::testing::setInternalsToInitialState();
 		sensors::begin(
-			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
-				static uint_opt8_t serial_stream[] = { 0x00, 0x02, 0x25 };
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				++call_count;
 				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
 				}
-				return 1;
+				if ( call_count == fail_on_call ) { return (buffer_length_ - 1); }
+				return buffer_length_;
 			}
 		);
 		sensors::setParseKey(reinterpret_cast<const sensors::PacketId *>(parse_key));
 	}
 	//virtual void TearDown() {}
+	
+	const uint_opt8_t parse_key[3];
+	uint_opt8_t serial_stream[3];
+	size_t call_count, fail_on_call;
 };
 
 class StreamData : public ::testing::Test {
   protected:
 	StreamData (
 		void
-	) {
+	) :
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6 }
+	{
 		sensors::testing::setInternalsToInitialState();
 	}
 	
 	//virtual ~StreamData() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
-				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6 };
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
@@ -138,21 +134,24 @@ class StreamData : public ::testing::Test {
 		);
 	}
 	//virtual void TearDown() {}
+	
+	uint_opt8_t serial_stream[8];
 };
 
 class StreamData$BadCheckSum : public ::testing::Test {
   protected:
 	StreamData$BadCheckSum (
 		void
-	) {
+	) :
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xBE }
+	{
 		sensors::testing::setInternalsToInitialState();
 	}
 	
 	//virtual ~StreamData$BadCheckSum() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
-				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xBE };
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
@@ -162,21 +161,56 @@ class StreamData$BadCheckSum : public ::testing::Test {
 		);
 	}
 	//virtual void TearDown() {}
+
+	uint_opt8_t serial_stream[8];
+};
+
+class StreamData$ByteCountError : public ::testing::Test {
+  protected:
+	StreamData$ByteCountError (
+		void
+	) :
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6 },
+		call_count(0),
+		fail_on_call(1)
+	{
+		sensors::testing::setInternalsToInitialState();
+	}
+	
+	//virtual ~StreamData$ByteCountError() {}
+	virtual void SetUp() {
+		sensors::begin(
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
+				++call_count;
+				memcpy(buffer_, serial_stream, buffer_length_);
+				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
+					serial_stream[(i - buffer_length_)] = serial_stream[i];
+				}
+				if ( call_count == fail_on_call ) { return (buffer_length_ - 1); }
+				return buffer_length_;
+			}
+		);
+	}
+	//virtual void TearDown() {}
+	
+	uint_opt8_t serial_stream[8];
+	size_t call_count, fail_on_call;
 };
 
 class StreamData$Paused : public ::testing::Test {
   protected:
 	StreamData$Paused (
 		void
-	) {
+	) :
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D }
+	{
 		sensors::testing::setInternalsToInitialState();
 	}
 	
 	//virtual ~StreamData$Paused() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
-				static uint_opt8_t serial_stream[] = { 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D };
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
@@ -186,21 +220,24 @@ class StreamData$Paused : public ::testing::Test {
 		);
 	}
 	//virtual void TearDown() {}
+
+	uint_opt8_t serial_stream[6];
 };
 
 class StreamData$OutOfSync : public ::testing::Test {
   protected:
 	StreamData$OutOfSync (
 		void
-	) {
+	) :
+		serial_stream{ 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D }
+	{
 		sensors::testing::setInternalsToInitialState();
 	}
 	
 	//virtual ~StreamData$OutOfSync() {}
 	virtual void SetUp() {
 		sensors::begin(
-			[] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
-				static uint_opt8_t serial_stream[] = { 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D };
+			[&] (uint_opt8_t * const buffer_, const size_t buffer_length_) {
 				memcpy(buffer_, serial_stream, buffer_length_);
 				for ( uint_opt8_t i = buffer_length_ ; i < sizeof(serial_stream) ; ++i ) {
 					serial_stream[(i - buffer_length_)] = serial_stream[i];
@@ -210,6 +247,8 @@ class StreamData$OutOfSync : public ::testing::Test {
 		);
 	}
 	//virtual void TearDown() {}
+
+	uint_opt8_t serial_stream[15];
 };
 
 /*
@@ -396,6 +435,10 @@ TEST_F(StreamData, parseStreamData$WHENCalledTHENValuesAreStoredInTheirRespectiv
 	const uint_opt8_t actual_virtual_wall = sensors::testing::getRawData()[6];
 	EXPECT_EQ(expected_cliff_front_left_signal, actual_cliff_front_left_signal);
 	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
+}
+
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENHeaderBytesReadDoNotMatchBytesRequestedTHENSerialTransferFailureErrorIsReturned) {
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
 }
 
 TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
