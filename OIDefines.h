@@ -7,6 +7,9 @@
 #define SENSORS_ENABLED
 #endif
 
+#define ROOMBA_CPP_SDK
+#define ROOMBA_CPP_SDK_VERSION 1.0.0-alpha
+
 // Setting integer optimization for speed
 #define uint_opt8_t uint_fast8_t
 #define uint_opt16_t uint_fast16_t
