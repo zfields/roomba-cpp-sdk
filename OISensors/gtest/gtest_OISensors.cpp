@@ -116,7 +116,7 @@ class StreamData : public ::testing::Test {
 	StreamData (
 		void
 	) :
-		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6 }
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6 }
 	{
 		sensors::testing::setInternalsToInitialState();
 	}
@@ -143,7 +143,7 @@ class StreamData$BadCheckSum : public ::testing::Test {
 	StreamData$BadCheckSum (
 		void
 	) :
-		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xBE }
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xBE }
 	{
 		sensors::testing::setInternalsToInitialState();
 	}
@@ -170,7 +170,7 @@ class StreamData$ByteCountError : public ::testing::Test {
 	StreamData$ByteCountError (
 		void
 	) :
-		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6 },
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6 },
 		call_count(0),
 		fail_on_call(1)
 	{
@@ -202,7 +202,7 @@ class StreamData$Paused : public ::testing::Test {
 	StreamData$Paused (
 		void
 	) :
-		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D }
+		serial_stream{ 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D }
 	{
 		sensors::testing::setInternalsToInitialState();
 	}
@@ -229,7 +229,7 @@ class StreamData$OutOfSync : public ::testing::Test {
 	StreamData$OutOfSync (
 		void
 	) :
-		serial_stream{ 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x25, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D }
+		serial_stream{ 0x19, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D, 0x02, 0x19, 0x0D, 0x00, 0xB6, 0x13, 0x05, 0x1D }
 	{
 		sensors::testing::setInternalsToInitialState();
 	}
@@ -429,7 +429,7 @@ TEST_F(StreamData$OutOfSync, parseStreamData$WHENFirstValueIsNot19THENFailureToS
 
 TEST_F(StreamData, parseStreamData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
 	ASSERT_EQ(sensors::SUCCESS, sensors::parseStreamData());
-	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
+	const uint_opt16_t expected_cliff_front_left_signal = 0x0219;
 	const uint_opt8_t expected_virtual_wall = 0x00;
 	const uint_opt16_t actual_cliff_front_left_signal = convertTwoByteIntegerFromBigToLittleEndian(*reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30));
 	const uint_opt8_t actual_virtual_wall = sensors::testing::getRawData()[6];
@@ -437,8 +437,52 @@ TEST_F(StreamData, parseStreamData$WHENCalledTHENValuesAreStoredInTheirRespectiv
 	EXPECT_EQ(expected_virtual_wall, actual_virtual_wall);
 }
 
+TEST_F(StreamData, parseStreamData$WHENCalledTHENTheDirtyFlagIsUnset) {
+	ASSERT_EQ(sensors::SUCCESS, sensors::parseStreamData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_FALSE((flag_mask_dirty >> 29 ) & 0x01 );
+	EXPECT_FALSE((flag_mask_dirty >> 13 ) & 0x01 );
+}
+
 TEST_F(StreamData$ByteCountError, parseStreamData$WHENHeaderBytesReadDoNotMatchBytesRequestedTHENSerialTransferFailureErrorIsReturned) {
 	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+}
+
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENPacketIdBytesReadDoNotMatchBytesRequestedTHENSerialTransferFailureErrorIsReturned) {
+	fail_on_call = 2;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+}
+
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENDataBytesReadDoNotMatchBytesRequestedTHENSerialTransferFailureErrorIsReturned) {
+	fail_on_call = 3;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+}
+
+TEST_F(StreamData$BadCheckSum, parseStreamData$WHENCheckSumDoesNotMatchTHENInvalidChecksumErrorIsReturned) {
+	ASSERT_EQ(sensors::INVALID_CHECKSUM, sensors::parseStreamData());
+}
+
+TEST_F(StreamData$BadCheckSum, parseStreamData$WHENCheckSumDoesNotMatchTHENTheDirtyFlagIsSetForAllBytesRead) {
+	ASSERT_EQ(sensors::INVALID_CHECKSUM, sensors::parseStreamData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
+	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
+}
+
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENPacketIdBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSetForAllBytesRead) {
+	fail_on_call = 4;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
+	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
+}
+
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENDataBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSetForAllBytesRead) {
+	fail_on_call = 5;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
+	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
 }
 
 TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
