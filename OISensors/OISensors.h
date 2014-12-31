@@ -120,23 +120,6 @@ namespace sensors {
 	setParseKey (
 		PacketId const * const parse_key_
 	);
-	
-	/// \brief Provides access to sensor data
-	/// \param [in] packet_id_ The packet id of the sensor
-	/// who's value you want
-	/// \param [out] value_ A pointer to the sixteen-bit
-	/// field to store the value of the requested sensor
-	/// \param [out] is_signed_ A boolean indicating if the
-	/// value of the requested sensor is signed or unsigned
-	/// \return SUCCESS
-	/// \return INVALID_PARAMETER
-	/// \return SERIAL_TRANSFER_FAILURE
-	ReturnCode
-	valueOfSensor (
-		const PacketId packet_id_,
-		uint_opt16_t * const value_,
-		bool * const is_signed_
-	);
 } // namespace sensor
 } // namespace oi
 } // namespace series500

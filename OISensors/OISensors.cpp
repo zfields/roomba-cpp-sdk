@@ -477,20 +477,6 @@ setParseKey (
 	return SUCCESS;
 }
 
-ReturnCode
-valueOfSensor (
-	const PacketId packet_id_,
-	uint_opt16_t * const value_,
-	bool * const is_signed_
-) {
-	if ( !value_ ) { return INVALID_PARAMETER; }
-	if ( !is_signed_ ) { return INVALID_PARAMETER; }
-	if ( ( packet_id_ < 7 ) || ( packet_id_ > 58 ) ) { return INVALID_PARAMETER; }
-	
-	*is_signed_ = ((_FLAG_MASK_SIGNED >> packet_id_) & 0x01);
-	return SERIAL_TRANSFER_FAILURE;
-}
-
 #ifdef TESTING
 namespace testing {
 	size_t

@@ -484,58 +484,6 @@ TEST_F(StreamData$ByteCountError, parseStreamData$WHENDataBytesReadDoNotMatchByt
 	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
 	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
 }
-
-TEST_F(InitialState, valueOfSensor$WHENBeginHasNotBeenCalledTHENReturnsError) {
-	uint_opt16_t value;
-	bool is_signed;
-	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::valueOfSensor(sensors::OI_MODE, &value, &is_signed));
-}
-
-TEST_F(QueryData, valueOfSensor$WHENCalledWithNullValueParameterTHENReturnsError) {
-	uint_opt16_t *value(NULL);
-	bool is_signed;
-	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(sensors::OI_MODE, value, &is_signed));
-}
-
-TEST_F(QueryData, valueOfSensor$WHENCalledWithNullIsSignedParameterTHENReturnsError) {
-	uint_opt16_t value;
-	bool *is_signed(NULL);
-	ASSERT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(sensors::OI_MODE, &value, is_signed));
-}
-
-TEST_F(QueryData, valueOfSensor$WHENCalledWithInvalidSensorNameTHENReturnsError) {
-	uint_opt16_t value;
-	bool is_signed;
-	
-	for ( uint_opt8_t i = 0 ; i < 7 ; ++i ) {
-		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed)) << "Accepted value <" << static_cast<unsigned int>(i) << ">!";
-	}
-	for ( int i = 59 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(sensors::INVALID_PARAMETER, sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed)) << "Accepted value <" << static_cast<unsigned int>(i) << ">!";
-	}
-}
-
-TEST_F(QueryData, valueOfSensor$WHENCalledTHENSignedParameterReturnsCorrectValue) {
-	uint_opt64_t FLAG_MASK_SIGNED = sensors::testing::getFlagMaskSigned();
-	uint_opt16_t value;
-	bool is_signed;
-	
-	for ( int i = 7 ; i < 59 ; ++i ) {
-		sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed);
-		EXPECT_EQ(((FLAG_MASK_SIGNED >> i) & 0x01), is_signed) << "Tested value <" << static_cast<unsigned int>(i) << ">!";
-	}
-}
-/* FINISH PARSING TESTS FIRST
-TEST_F(QueryData, valueOfSensor$WHENCalledForEightBitDataTHENReturnsCorrectValue) {
-	uint_opt16_t value;
-	bool is_signed;
-	
-	for ( uint_opt8_t i = 7 ; i < 59 ; ++i ) {
-		sensors::valueOfSensor(static_cast<sensors::PacketId>(i), &value, &is_signed);
-		EXPECT_EQ(, value);
-	}
-}
-*/
 } // namespace
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
