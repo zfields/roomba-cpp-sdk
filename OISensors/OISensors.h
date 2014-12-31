@@ -34,6 +34,70 @@ namespace sensors {
 		SUCCESS = 0,
 	};
 	
+	/// \brief Data structure to overlay sensor blob
+	/// \details The data structure provides field name
+	/// access to the sensor data returned by the Roomba.
+	/// \note This data structure must be given the packed
+	/// attribute, due the fact the data is not divisible 
+	/// into even blocks of 8, 16, 32 or 64.
+	/// \see OpenInterface::sensors
+	/// \see OpenInterface::queryList
+	/// \see OpenInterface::stream
+	struct sensor_data_t {
+		uint8_t bumps_and_wheel_drops;
+		uint8_t wall;
+		uint8_t cliff_left;
+		uint8_t cliff_front_left;
+		uint8_t cliff_front_right;
+		uint8_t cliff_right;
+		uint8_t virtual_wall;
+		uint8_t motor_overcurrents;
+		uint8_t dirt_detect;
+		uint8_t reserved_1;
+		uint8_t infrared_character_omni;
+		uint8_t buttons;
+		uint16_t distance;
+		uint16_t angle;
+		uint8_t charging_state;
+		uint16_t voltage;
+		uint16_t current;
+		uint8_t temperature;
+		uint16_t battery_charge;
+		uint16_t battery_capacity;
+		uint16_t wall_signal;
+		uint16_t cliff_left_signal;
+		uint16_t cliff_front_left_signal;
+		uint16_t cliff_front_right_signal;
+		uint16_t cliff_right_signal;
+		uint8_t reserved_2;
+		uint16_t reserved_3;
+		uint8_t charging_sources_available;
+		uint8_t oi_mode;
+		uint8_t song_number;
+		uint8_t song_playing;
+		uint8_t number_of_stream_packets;
+		uint16_t requested_velocity;
+		uint16_t requested_radius;
+		uint16_t requested_right_velocity;
+		uint16_t requested_left_velocity;
+		uint16_t right_encoder_counts;
+		uint16_t left_encoder_counts;
+		uint8_t light_bumper;
+		uint16_t light_bump_left_signal;
+		uint16_t light_bump_front_left_signal;
+		uint16_t light_bump_center_left_signal;
+		uint16_t light_bump_center_right_signal;
+		uint16_t light_bump_front_right_signal;
+		uint16_t light_bump_right_signal;
+		uint8_t infrared_character_left;
+		uint8_t infrared_character_right;
+		uint16_t left_motor_current;
+		uint16_t right_motor_current;
+		uint16_t main_brush_motor_current;
+		uint16_t side_brush_motor_current;
+		uint8_t stasis;
+	} __attribute__((__packed__));
+
 	/// \brief Function to initialize sensor
 	/// \details Enables the sensor functionality by setting
 	/// the pointer to the serial read function; enabling
