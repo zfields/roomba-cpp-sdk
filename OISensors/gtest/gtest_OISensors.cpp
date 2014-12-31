@@ -53,7 +53,7 @@ class QueryData : public ::testing::Test {
 		void
 	) :
 		parse_key{ sizeof(parse_key), sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL },
-		serial_stream{ 0x02, 0x25, 0x00 }
+		serial_stream{ 0x02, 0x19, 0x00 }
 	{
 		sensors::testing::setInternalsToInitialState();
 	}
@@ -82,8 +82,8 @@ class QueryData$ByteCountError : public ::testing::Test {
 	QueryData$ByteCountError (
 		void
 	) :
-		parse_key{ sizeof(parse_key), sensors::VIRTUAL_WALL, sensors::CLIFF_FRONT_LEFT_SIGNAL },
-		serial_stream{ 0x00, 0x02, 0x25 },
+		parse_key{ sizeof(parse_key), sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL },
+		serial_stream{ 0x02, 0x19, 0x00 },
 		call_count(0),
 		fail_on_call(1)
 	{}
@@ -387,7 +387,7 @@ TEST_F(InitialState, setParseKey$WHENCalledTHENAllValuesAreConsideredDirty) {
 
 TEST_F(QueryData, parseQueryData$WHENCalledTHENValuesAreStoredInTheirRespectiveLocations) {
 	ASSERT_EQ(sensors::SUCCESS, sensors::parseQueryData());
-	const uint_opt16_t expected_cliff_front_left_signal = 0x0225;
+	const uint_opt16_t expected_cliff_front_left_signal = 0x0219;
 	const uint_opt8_t expected_virtual_wall = 0x00;
 	const uint_opt16_t actual_cliff_front_left_signal = convertTwoByteIntegerFromBigToLittleEndian(*reinterpret_cast<uint_opt16_t *>(sensors::testing::getRawData() + 30));
 	const uint_opt8_t actual_virtual_wall = sensors::testing::getRawData()[6];
