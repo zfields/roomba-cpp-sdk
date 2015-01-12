@@ -436,7 +436,8 @@ parseStreamData (
 	}
 	
 	// Test the check sum
-	_fnSerialRead(&check_sum, sizeof(check_sum));
+	bytes_read = _fnSerialRead(&check_sum, sizeof(check_sum));
+	if ( bytes_read != sizeof(check_sum) ) { return SERIAL_TRANSFER_FAILURE; }
 	if ( static_cast<uint_opt8_t>(check_sum + byte_sum) ) { return INVALID_CHECKSUM; }
 	
 	// Clear the dirty flag for received packets

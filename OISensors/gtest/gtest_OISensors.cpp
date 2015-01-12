@@ -458,6 +458,11 @@ TEST_F(StreamData$ByteCountError, parseStreamData$WHENDataBytesReadDoNotMatchByt
 	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
 }
 
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENCheckSumBytesReadDoNotMatchBytesRequestedTHENSerialTransferFailureErrorIsReturned) {
+	fail_on_call = 6;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+}
+
 TEST_F(StreamData$BadCheckSum, parseStreamData$WHENCheckSumDoesNotMatchTHENInvalidChecksumErrorIsReturned) {
 	ASSERT_EQ(sensors::INVALID_CHECKSUM, sensors::parseStreamData());
 }
@@ -479,6 +484,14 @@ TEST_F(StreamData$ByteCountError, parseStreamData$WHENPacketIdBytesReadDoNotMatc
 
 TEST_F(StreamData$ByteCountError, parseStreamData$WHENDataBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSetForAllBytesRead) {
 	fail_on_call = 5;
+	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
+	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
+	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
+	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
+}
+
+TEST_F(StreamData$ByteCountError, parseStreamData$WHENCheckSumBytesReadDoNotMatchBytesRequestedTHENTheDirtyFlagIsSetForAllBytesRead) {
+	fail_on_call = 6;
 	ASSERT_EQ(sensors::SERIAL_TRANSFER_FAILURE, sensors::parseStreamData());
 	const uint_opt64_t flag_mask_dirty = sensors::testing::getFlagMaskDirty();
 	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
