@@ -414,6 +414,7 @@ parseStreamData (
 	// Get header information
 	bytes_read = _fnSerialRead(header, sizeof(header));
 	if ( bytes_read != sizeof(header) ) { return SERIAL_TRANSFER_FAILURE; }
+	//TODO: Attempt to recover from unsynchronized stream
 	if ( 19 != header[0] ) { return FAILURE_TO_SYNC; }
 	byte_sum = header[1];
 	

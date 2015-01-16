@@ -8,8 +8,6 @@
 
 #include "../OIDefines.h"
 
-//TODO: Consider method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>)
-
 namespace roomba {
 namespace series500 {
 namespace oi {

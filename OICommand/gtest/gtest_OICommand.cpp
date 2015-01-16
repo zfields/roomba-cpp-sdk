@@ -11,16 +11,14 @@
 
 #include <cstring>
 
-//TODO: Hardware test Roomba for reaction to bad bytes and reduce data scrubbing if possible
-//TODO: See what happens when a request goes out while streaming data is being returned
 //TODO: Guarantee sensor packets are not requested more than every 15ms
 //TODO: Guarantee requested data bytes will fit in 15ms time quantum at selected baud rate (see: stream())
-//TODO: Guarantee queryList() calculates the time required to retrieve the amount of data it is requesting (via setParseKey())
-//TODO: Guarantee the stream is paused when queryList() is called
-//TODO: Move from pseudo-static class to namespace, assuming testing framework allows
+
 //TODO: Maintain a handle to the thread (to be created at the inital invocation of stream(), queryList() or sensors()), ensuring it can be killed and restarted if necessary.
 //TODO: Ensure _parse_key is not updated on fail cases
-//TODO: Ensure _serial_read_next_available_ms is not updated on fail cases
+
+//TODO: Move from pseudo-static class to namespace, assuming testing framework allows
+//TODO: Hardware test Roomba for reaction to bad bytes and reduce API data scrubbing if possible
 
 using namespace roomba::series500::oi;
 

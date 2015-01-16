@@ -4,14 +4,24 @@
 #include "gmock/gmock.h"
 #include "TESTSensors.h"
 
-//TODO: Consider method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>)
+//TODO: Guarantee queryList() calculates the time required to retrieve the amount of data it is requesting (via setParseKey())
+//TODO: Guarantee the stream is paused when queryList() is called
+//TODO: See what happens when a request goes out while streaming data is being returned - expecting nothing, as serial is asynchronous
+//TODO: Ensure _serial_read_next_available_ms is not updated on fail cases
+//TODO: Ensure _parse_key is not updated on fail cases
+//TODO: Serial read next available time, needs to be incorporated into the framework
+
+//TODO: Design new thread function used to wait for available data
+//TODO: Determine appropriate mutexing of shared data
+
+//TODO: Consider the dirty mask - should it only be corrupt data or should it include stale data - if only corrupt, then refactor name
 //TODO: When data is out of sync, then it should pause data stream, then resume to sync. When unpaused does it resume where it left off, or send a new stream?
+
 //TODO: Check HARDWARE_SERIAL_DELAY_MS on scope
 //TODO: Make HARDWARE_SERIAL_DELAY_MS a tunable variable
-//TODO: Serial read next available time, needs to be incorporated into the framework
-//TODO: Consider the dirty mask - should it only be corrupt data or should it include stale data - if only corrupt, then refactor name
 
 //NOTE: Considered merging begin with OICommand::connectToSerialBus() -> Decided it is better to have a distinct seperation, which will allow completely seperate asynchronous serial read (RX) modules to be written.
+//NOTE: Considered method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>), decided that is too far up the stack to be in the scope of this SDK. 
 
 using namespace roomba::series500::oi;
 
