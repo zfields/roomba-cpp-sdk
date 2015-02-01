@@ -121,8 +121,7 @@ $(UNDER_TEST).o : $(CODE_DIR)/$(UNDER_TEST).cpp \
 $(TEST_SUITE).o : $(TEST_DIR)/$(TEST_SUITE).cpp \
                   $(CODE_DIR)/$(UNDER_TEST).h \
                   $(CODE_DIR)/../OIDefines.h \
-                  $(TEST_DIR)/TESTSensors.h \
-                  $(UNDER_TEST).o
+                  $(TEST_DIR)/TESTSensors.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(TEST_DIR)/$(TEST_SUITE).cpp
 

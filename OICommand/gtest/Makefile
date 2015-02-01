@@ -121,14 +121,12 @@ $(DEPENDENCY_1).o : $(CODE_DIR)/../$(DEPENDENCY_1)/$(DEPENDENCY_1).cpp \
 $(UNDER_TEST).o : $(CODE_DIR)/$(UNDER_TEST).cpp \
                   $(CODE_DIR)/$(UNDER_TEST).h \
                   $(CODE_DIR)/../OIDefines.h \
-                  $(CODE_DIR)/../$(DEPENDENCY_1)/$(DEPENDENCY_1).h \
-                  $(DEPENDENCY_1).o
+                  $(CODE_DIR)/../$(DEPENDENCY_1)/$(DEPENDENCY_1).h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(CODE_DIR)/$(UNDER_TEST).cpp
 
 $(TEST_SUITE).o : $(TEST_DIR)/$(TEST_SUITE).cpp \
-                  $(CODE_DIR)/$(UNDER_TEST).h \
-                  $(UNDER_TEST).o
+                  $(CODE_DIR)/$(UNDER_TEST).h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(TEST_DIR)/$(TEST_SUITE).cpp
 
