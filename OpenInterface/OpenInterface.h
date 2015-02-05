@@ -1,7 +1,7 @@
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
 
-#ifndef OI_COMMAND_H
-#define OI_COMMAND_H
+#ifndef OPEN_INTERFACE_H
+#define OPEN_INTERFACE_H
 
 #include <cstdint>
 #include <functional>
@@ -18,14 +18,14 @@ namespace roomba {
 namespace series500 {
 namespace oi {
 
-/// \brief The Roomba Open Interface (OI) OICommand static class
-/// \details The Roomba Open Interface (OI) OICommand is a C++
+/// \brief The Roomba Open Interface (OI) OpenInterface static class
+/// \details The Roomba Open Interface (OI) OpenInterface is a C++
 /// wrapper for data to be written the serial bus. It provides
 /// functionality such as request throttling with respect to
 /// baud rate, ensuring full parameter sets are delivered to
 /// the underlying serial interface, as well as offering error
 /// codes without crashing the system.
-class OICommand {
+class OpenInterface {
   public:
 	/// \brief Return codes
 	enum ReturnCode : int_opt8_t {
@@ -55,7 +55,7 @@ class OICommand {
 	/// half a second).
 	typedef std::pair<Pitch, uint_opt8_t> note_t;
 	
-	OICommand (
+	OpenInterface (
 		void
 	);
 	
@@ -72,10 +72,10 @@ class OICommand {
 	/// \note If resulting_mode_ is not provided, then this function will incur
 	/// the overhead associated with polling the state of the device to restore
 	/// the current state.
-	/// \warning If resulting_baud_ is given an erroneous value, the OICommand
+	/// \warning If resulting_baud_ is given an erroneous value, the OpenInterface
 	/// will no longer be able to calculate buffer overrun protection, even if
 	/// you have synchronized the caller and the Roomba correctly.
-	/// \warning If resulting_mode_ is given an erroneous value, the OICommand
+	/// \warning If resulting_mode_ is given an erroneous value, the OpenInterface
 	/// will be left in an invalid state. At this time the stability and
 	/// behavior of this class become undefined. If you are unsure, then you 
 	/// \retval SUCCESS
@@ -112,7 +112,7 @@ class OICommand {
 	/// to communicate with the Roomba's Open Interface.
 	/// \retval SUCCESS
 	/// \retval INVALID_PARAMETER
-	OICommand::ReturnCode
+	ReturnCode
 	connectToSerialBus (
 		const std::function<size_t(const uint_opt8_t *, const size_t)> fnSerialWrite_,
 		const BaudCode baud_code_ = BAUD_115200
@@ -158,7 +158,7 @@ class OICommand {
 	
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
-	/// \see OICommand::safe
+	/// \see OpenInterface::safe
 	ReturnCode
 	control (
 		void
@@ -511,7 +511,7 @@ class OICommand {
 	/// \note If you send a second Song command, using the
 	/// same song number, the old song is overwritten.
 	/// \note Available in modes: Passive, Safe, or Full.
-	/// \see OICommand::play
+	/// \see OpenInterface::play
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -531,7 +531,7 @@ class OICommand {
 	/// \param [in] song_number_ (0-4) The number of the
 	/// song Roomba is to play.
 	/// \note Available in modes: Safe or Full
-	/// \see OICommand::song
+	/// \see OpenInterface::song
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
@@ -594,7 +594,7 @@ class OICommand {
 	/// ms time slot. If more data is requested, the data
 	/// stream will eventually become corrupted. This can be
 	/// confirmed by checking the checksum.
-	/// \see OICommand::pauseResumeStream
+	/// \see OpenInterface::pauseResumeStream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -612,7 +612,7 @@ class OICommand {
 	/// argument of true starts the stream using the list of
 	/// packets last requested.
 	/// \note Available in modes: Passive, Safe, or Full.
-	/// \see OICommand::stream
+	/// \see OpenInterface::stream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
@@ -625,7 +625,7 @@ class OICommand {
 	/// \brief A function supplying multi-byte write access to the serial bus
 	/// \details This function is provided from the call to
 	/// connectToSerialBus() after class has been instantiated.
-	/// \see OICommand::connectToSerialBus
+	/// \see OpenInterface::connectToSerialBus
 	std::function<size_t(const uint_opt8_t *, const size_t)> _fnSerialWrite;
 	
 	/// \brief The operating mode of the Open Interface
@@ -640,8 +640,8 @@ class OICommand {
 	/// data once or until asked not to.
 	/// \param [in] opcode_ Send either QUERY_LIST or STREAM
 	/// \param [in] sensor_list_ A vector of packet ids
-	/// \see OICommand::queryList
-	/// \see OICommand::stream
+	/// \see OpenInterface::queryList
+	/// \see OpenInterface::stream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -657,7 +657,7 @@ class OICommand {
 } // namespace series500
 } // namespace roomba
 
-extern roomba::series500::oi::OICommand Command;
+extern roomba::series500::oi::OpenInterface OI;
 
 #endif
 
