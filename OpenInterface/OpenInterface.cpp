@@ -6,8 +6,6 @@
 #include <thread>
 
 namespace roomba {
-namespace series500 {
-namespace oi {
 
 OpenInterface::OpenInterface (
 	void
@@ -459,10 +457,9 @@ OpenInterface::pollSensors (
 	
 	return SUCCESS;
 }
-} // namespace oi
-} // namespace series500
+
 } // namespace roomba
 
-roomba::series500::oi::OpenInterface OI;
+roomba::OpenInterface OI;
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */

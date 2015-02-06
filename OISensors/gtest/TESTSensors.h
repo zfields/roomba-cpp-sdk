@@ -9,10 +9,9 @@
 #include "../OISensors.h"
 
 namespace roomba {
-namespace series500 {
-namespace oi {
 namespace sensors {
 namespace testing {
+	
 	BaudCode
 	getBaudCode (
 		void
@@ -53,10 +52,9 @@ namespace testing {
 	setInternalsToInitialState (
 		void
 	);
+	
 } // testing
 } // namespace sensor
-} // namespace oi
-} // namespace series500
 } // namespace roomba
 
 #endif

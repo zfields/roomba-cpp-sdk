@@ -6,8 +6,6 @@
 #include <mutex>
 
 namespace roomba {
-namespace series500 {
-namespace oi {
 namespace sensors {
 
 /// \brief Format of the data stored in shared memory
@@ -546,8 +544,6 @@ namespace testing {
 #endif
 
 } // namespace sensors
-} // namespace oi
-} // namespace series500
 } // namespace roomba
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */

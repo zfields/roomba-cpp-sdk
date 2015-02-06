@@ -9,8 +9,6 @@
 #include "../OIDefines.h"
 
 namespace roomba {
-namespace series500 {
-namespace oi {
 
 /// \brief Data area utilized by sensor methods
 /// \details Sensor data is returned as a byte array with checksum.
@@ -182,9 +180,8 @@ namespace sensors {
 	setParseKey (
 		PacketId const * const parse_key_
 	);
+	
 } // namespace sensor
-} // namespace oi
-} // namespace series500
 } // namespace roomba
 
 #endif

@@ -15,16 +15,16 @@
 #endif
 
 namespace roomba {
-namespace series500 {
-namespace oi {
 
-/// \brief The Roomba Open Interface (OI) OpenInterface static class
-/// \details The Roomba Open Interface (OI) OpenInterface is a C++
-/// wrapper for data to be written the serial bus. It provides
-/// functionality such as request throttling with respect to
-/// baud rate, ensuring full parameter sets are delivered to
-/// the underlying serial interface, as well as offering error
-/// codes without crashing the system.
+/// \brief The Roomba Open Interface (OI) OpenInterface class
+/// \details The Roomba Open Interface (OI) is a software
+/// interface for controlling and manipulating Roomba’s
+/// behavior. The software interface lets you manipulate
+/// Roomba’s behavior and read its sensors through a series
+/// of commands, including mode commands, actuator commands,
+/// song commands, and sensor commands that you send to the
+/// Roomba’s serial port by way of a PC or microcontroller
+/// that is connected to the Mini-DIN connector.
 class OpenInterface {
   public:
 	/// \brief Return codes
@@ -653,11 +653,9 @@ class OpenInterface {
 	) const;
 };
 
-} // namespace oi
-} // namespace series500
 } // namespace roomba
 
-extern roomba::series500::oi::OpenInterface OI;
+extern roomba::OpenInterface OI;
 
 #endif
 

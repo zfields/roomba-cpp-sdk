@@ -20,7 +20,7 @@
 //TODO: Move from pseudo-static class to namespace, assuming testing framework allows
 //TODO: Hardware test Roomba for reaction to bad bytes and reduce API data scrubbing if possible
 
-using namespace roomba::series500::oi;
+using namespace roomba;
 
   /******************/
  /* TESTABLE CLASS */

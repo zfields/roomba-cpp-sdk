@@ -34,28 +34,6 @@
 /// in conjunction with the Roomba Open Interface.
 namespace roomba {
 
-/// \brief The Roomba 500 Series Model (5xx)
-/// \details The third-generation, 500-series, Roomba was
-/// first introduced in August 2007, and features a
-/// forward-looking infrared sensor to detect obstacles
-/// and reduce speed, a "Dock" button, improved mechanical
-/// components, smoothness of operation & a modular design
-/// making part replacement trivial. It also introduced
-/// customizable decorative face plates. The Roomba 530
-/// came with two Virtual Walls and a recharging dock.
-namespace series500 {
-	
-/// \brief The Roomba Open Interface (OI)
-/// \details The Roomba Open Interface (OI) is a software
-/// interface for controlling and manipulating Roomba’s
-/// behavior. The software interface lets you manipulate
-/// Roomba’s behavior and read its sensors through a series
-/// of commands, including mode commands, actuator commands,
-/// song commands, and sensor commands that you send to the
-/// Roomba’s serial port by way of a PC or microcontroller
-/// that is connected to the Mini-DIN connector.
-namespace oi {
-
 /// \brief Baud (OpCode 129)
 enum BaudCode : uint_opt8_t {
 	BAUD_300 = 0,
@@ -387,8 +365,6 @@ enum PacketId : uint_opt8_t {
 	PACKETS_54_THRU_58 = 107,
 };
 } // sensors
-} // namespace oi
-} // namespace series500
 } // namespace roomba
 
 #endif

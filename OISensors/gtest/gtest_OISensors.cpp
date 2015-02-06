@@ -23,7 +23,7 @@
 //NOTE: Considered merging begin with OICommand::connectToSerialBus() -> Decided it is better to have a distinct seperation, which will allow completely seperate asynchronous serial read (RX) modules to be written.
 //NOTE: Considered method to return multiple sensor values (std::tuple<uint_opt8_t packet_id_, uint16_t value_, bool signed_>), decided that is too far up the stack to be in the scope of this SDK. 
 
-using namespace roomba::series500::oi;
+using namespace roomba;
 
 namespace {
 
@@ -507,6 +507,7 @@ TEST_F(StreamData$ByteCountError, parseStreamData$WHENCheckSumBytesReadDoNotMatc
 	EXPECT_TRUE((flag_mask_dirty >> 13 ) & 0x01 );
 	EXPECT_TRUE((flag_mask_dirty >> 29 ) & 0x01 );
 }
+
 } // namespace
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
