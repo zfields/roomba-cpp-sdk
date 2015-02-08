@@ -1,19 +1,24 @@
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
 
-#ifndef HARDWARE_H
-#define HARDWARE_H
+#ifndef SERIAL_H
+#define SERIAL_H
 
 #include "../OIDefines.h"
-#include "wiring.h"
+
+#if defined(TESTING)
+	#include "mock.h"
+#elif defined(ARDUINO) || defined(SPARK)
+	#include "wiring.h"
+#endif
 
 namespace roomba {
 
-/// \brief Hardware Abstraction Layer
-/// \details This class serves as a hardware abstraction layer, which
-/// lists the basic services to be provided by a hardware platform. An
-/// explicit hardware layer will be enabled and compiled.
+/// \brief Serial Platform Abstraction Layer
+/// \details This class serves as a serial platform abstraction layer, which
+/// lists the basic services to be provided by a serial platform. An
+/// explicit serial protocol will be instantiated at compilation.
 /// (i.e. Wiring, Linux, Windows_NT, Windows_UAP, etc...).
-namespace hardware {
+namespace serial {
 
 /// \brief Begin the serial connection
 /// \details A serial connection will be started at the rate
@@ -21,11 +26,13 @@ namespace hardware {
 /// \param [in] baud_code_ The code indicating a specific rate
 inline
 void
-beginSerialWithBaudCode (
+beginAtBaudCode (
 	roomba::BaudCode baud_code_
 ) {
-#if defined(ARDUINO) || defined(SPARK)
-	return wiring::begin(baud_code_);
+#if defined(TESTING)
+	return mock::beginAtBaudCode(baud_code_);
+#elif defined(ARDUINO) || defined(SPARK)
+	return wiring::beginAtBaudCode(baud_code_);
 #else
 	return;
 #endif
@@ -39,7 +46,9 @@ size_t
 delayMs (
 	const size_t desired_ms_
 ) {
-#if defined(ARDUINO) || defined(SPARK)
+#if defined(TESTING)
+	return mock::delayMs(desired_ms_);
+#elif defined(ARDUINO) || defined(SPARK)
 	return wiring::delayMs(desired_ms_);
 #else
 	return 0;
@@ -54,7 +63,9 @@ size_t
 delayUs (
 	const size_t desired_us_
 ) {
-#if defined(ARDUINO) || defined(SPARK)
+#if defined(TESTING)
+	return mock::delayUs(desired_us_);
+#elif defined(ARDUINO) || defined(SPARK)
 	return wiring::delayUs(desired_us_);
 #else
 	return 0;
@@ -75,7 +86,9 @@ multiByteSerialRead (
 	const size_t buffer_length_,
 	const uint_opt32_t timeout_ms_ = 1000
 ) {
-#if defined(ARDUINO) || defined(SPARK)
+#if defined(TESTING)
+	return mock::multiByteSerialRead(data_buffer_, buffer_length_, timeout_ms_);
+#elif defined(ARDUINO) || defined(SPARK)
 	return wiring::multiByteSerialRead(data_buffer_, buffer_length_, timeout_ms_);
 #else
 	return 0;
@@ -94,14 +107,16 @@ multiByteSerialWrite (
 	const uint_opt8_t * const serial_data_,
 	const size_t data_length_
 ) {
-#if defined(ARDUINO) || defined(SPARK)
+#if defined(TESTING)
+	return mock::multiByteSerialWrite(serial_data_, data_length_);
+#elif defined(ARDUINO) || defined(SPARK)
 	return wiring::multiByteSerialWrite(serial_data_, data_length_);
 #else
 	return 0;
 #endif
 }
 
-} // namespace hardware
+} // namespace serial
 } // namespace roomba
 
 #endif

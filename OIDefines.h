@@ -34,6 +34,17 @@
 /// in conjunction with the Roomba Open Interface.
 namespace roomba {
 
+/// \brief Return codes
+enum ReturnCode : int_opt8_t {
+	INVALID_CHECKSUM = -101,
+	SERIAL_TRANSFER_FAILURE = -100,
+	INVALID_PARAMETER = -10,
+	NO_DATA_AVAILABLE = -4,
+	FAILURE_TO_SYNC = -3,
+	INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
+	SUCCESS = 0,
+};
+
 /// \brief Baud (OpCode 129)
 enum BaudCode : uint_opt8_t {
 	BAUD_300 = 0,
@@ -299,7 +310,7 @@ enum OpCode : uint_opt8_t {
 };
 } // namespace command
 
-namespace sensors {
+namespace sensor {
 /// \brief iRobot® Roomba Open Interface (OI) Sensor Packets
 enum PacketId : uint_opt8_t {
 	PACKETS_7_THRU_26 = 0,
@@ -364,7 +375,7 @@ enum PacketId : uint_opt8_t {
 	PACKETS_46_THRU_51 = 106,
 	PACKETS_54_THRU_58 = 107,
 };
-} // sensors
+} // sensor
 } // namespace roomba
 
 #endif

@@ -18,13 +18,13 @@
 #include "../OIDefines.h"
 
 namespace roomba {
-namespace hardware {
+namespace serial {
 namespace wiring {
-	
+
 inline
 void
-beginSerialWithBaudCode (
-	const roomba::BaudCode baud_code_
+beginAtBaudCode (
+	const BaudCode baud_code_
 ) {
 	uint_opt32_t baud_rate(0);
 
@@ -59,22 +59,22 @@ beginSerialWithBaudCode (
 
 inline
 size_t
-delayMicroseconds (
-	const size_t desired_microseconds_
-) {
-	size_t start_time = ::millis();
-	::delay(desired_milliseconds_);
-	return (::millis() - start_time);
-}
-
-inline
-size_t
-delayMilliseconds (
+delayMs (
 	const size_t desired_milliseconds_
 ) {
 	size_t start_time = ::micros();
 	::delayMicroseconds(desired_microseconds_);
 	return (::micros() - start_time);
+}
+
+inline
+size_t
+delayUs (
+	const size_t desired_microseconds_
+) {
+	size_t start_time = ::millis();
+	::delay(desired_milliseconds_);
+	return (::millis() - start_time);
 }
 
 inline
@@ -98,7 +98,7 @@ multiByteSerialWrite (
 }
 
 } // namespace wiring
-} // namespace hardware
+} // namespace serial
 } // namespace roomba
 
 #endif

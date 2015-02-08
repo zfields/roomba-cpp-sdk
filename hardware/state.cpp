@@ -1,12 +1,13 @@
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */
 
-#include "OISensors.h"
+#include "state.h"
+#include "../platform/serial.h"
 
 #include <chrono>
 #include <mutex>
 
 namespace roomba {
-namespace sensors {
+namespace state {
 
 /// \brief Format of the data stored in shared memory
 /// \details The variable data utilized by both the OICommand and
@@ -27,12 +28,6 @@ namespace {
 	/// the dirty bit will be flagged.
 	uint_opt64_t _flag_mask_dirty;
 	
-	/// \brief Multi-byte read access to the serial bus
-	/// \detials a user supplied function that provides read access
-	/// to the serial bus. This is intended to provide an abstraction
-	/// from the particular hardware involved.
-	std::function<size_t(uint_opt8_t * const, const size_t)> _fnSerialRead([](uint_opt8_t * const, const size_t){ return 0; });
-	
 	/// \brief Key to decode the Roomba's serial stream
 	/// \details The Roomba returns a blob of data representing the
 	/// preceding sensor request. The key is a 1-base indexed array
@@ -42,7 +37,7 @@ namespace {
 	/// the count and one of each sensor.
 	/// \see OICommand::sensors
 	/// \see OICommand::queryList
-	PacketId _parse_key[64] = { static_cast<PacketId>(0) };
+	sensor::PacketId _parse_key[64] = { static_cast<sensor::PacketId>(0) };
 	
 	/// \brief Status messages resulting from parsing
 	/// \details The parsing function is asynchronous, and therefore
@@ -53,9 +48,6 @@ namespace {
 	/// \details The data blob used to store sensor data returned from
 	/// the iRobot Roomba in big endian format.
 	uint_opt8_t _raw_data[80];
-	
-	/// \brief Ready state of oi:sensors methods
-	bool _sensors_ready(false);
 	
 	/// \brief Time point when all sensor data should be returned
 	/// \details Time required for the Roomba to process the query,
@@ -111,70 +103,70 @@ namespace {
 	/// \n Access:
 	/// * Offset value: _PACKET_INFO[x] >> 1
 	/// * Size boolean: _PACKET_INFO[x] & 0x01
-	const PacketId _PACKET_INFO[] = {
-		static_cast<PacketId>(0x01),  // PACKETS_7_THRU_26
-		static_cast<PacketId>(0x01),  // PACKETS_7_THRU_16
-		static_cast<PacketId>(0x15),  // PACKETS_17_THRU_20
-		static_cast<PacketId>(0x21),  // PACKETS_21_THRU_26
-		static_cast<PacketId>(0x35),  // PACKETS_27_THRU_34
-		static_cast<PacketId>(0x51),  // PACKETS_35_THRU_42
-		static_cast<PacketId>(0x01),  // PACKETS_7_THRU_42
-		static_cast<PacketId>(0x00),  // BUMPS_AND_WHEEL_DROPS
-		static_cast<PacketId>(0x02),  // WALL
-		static_cast<PacketId>(0x04),  // CLIFF_LEFT
-		static_cast<PacketId>(0x06),  // CLIFF_FRONT_LEFT
-		static_cast<PacketId>(0x08),  // CLIFF_FRONT_RIGHT
-		static_cast<PacketId>(0x0A),  // CLIFF_RIGHT
-		static_cast<PacketId>(0x0C),  // VIRTUAL_WALL
-		static_cast<PacketId>(0x0E),  // MOTOR_OVERCURRENTS
-		static_cast<PacketId>(0x10),  // DIRT_DETECT
-		static_cast<PacketId>(0x12),  // RESERVED_1
-		static_cast<PacketId>(0x14),  // INFRARED_CHARACTER_OMNI
-		static_cast<PacketId>(0x16),  // BUTTONS
-		static_cast<PacketId>(0x19),  // DISTANCE
-		static_cast<PacketId>(0x1D),  // ANGLE
-		static_cast<PacketId>(0x20),  // CHARGING_STATE
-		static_cast<PacketId>(0x23),  // VOLTAGE
-		static_cast<PacketId>(0x27),  // CURRENT
-		static_cast<PacketId>(0x2A),  // TEMPERATURE
-		static_cast<PacketId>(0x2D),  // BATTERY_CHARGE
-		static_cast<PacketId>(0x31),  // BATTERY_CAPACITY
-		static_cast<PacketId>(0x35),  // WALL_SIGNAL
-		static_cast<PacketId>(0x39),  // CLIFF_LEFT_SIGNAL
-		static_cast<PacketId>(0x3D),  // CLIFF_FRONT_LEFT_SIGNAL
-		static_cast<PacketId>(0x41),  // CLIFF_FRONT_RIGHT_SIGNAL
-		static_cast<PacketId>(0x45),  // CLIFF_RIGHT_SIGNAL
-		static_cast<PacketId>(0x48),  // RESERVED_2
-		static_cast<PacketId>(0x4B),  // RESERVED_3
-		static_cast<PacketId>(0x4E),  // CHARGING_SOURCES_AVAILABLE
-		static_cast<PacketId>(0x50),  // OI_MODE
-		static_cast<PacketId>(0x52),  // SONG_NUMBER
-		static_cast<PacketId>(0x54),  // SONG_PLAYING
-		static_cast<PacketId>(0x56),  // NUMBER_OF_STREAM_PACKETS
-		static_cast<PacketId>(0x59),  // REQUESTED_VELOCITY
-		static_cast<PacketId>(0x5D),  // REQUESTED_RADIUS
-		static_cast<PacketId>(0x61),  // REQUESTED_RIGHT_VELOCITY
-		static_cast<PacketId>(0x65),  // REQUESTED_LEFT_VELOCITY
-		static_cast<PacketId>(0x69),  // RIGHT_ENCODER_COUNTS
-		static_cast<PacketId>(0x6D),  // LEFT_ENCODER_COUNTS
-		static_cast<PacketId>(0x70),  // LIGHT_BUMPER
-		static_cast<PacketId>(0x73),  // LIGHT_BUMP_LEFT_SIGNAL
-		static_cast<PacketId>(0x77),  // LIGHT_BUMP_FRONT_LEFT_SIGNAL
-		static_cast<PacketId>(0x7B),  // LIGHT_BUMP_CENTER_LEFT_SIGNAL
-		static_cast<PacketId>(0x7F),  // LIGHT_BUMP_CENTER_RIGHT_SIGNAL
-		static_cast<PacketId>(0x83),  // LIGHT_BUMP_FRONT_RIGHT_SIGNAL
-		static_cast<PacketId>(0x87),  // LIGHT_BUMP_RIGHT_SIGNAL
-		static_cast<PacketId>(0x8A),  // INFRARED_CHARACTER_LEFT
-		static_cast<PacketId>(0x8C),  // INFRARED_CHARACTER_RIGHT
-		static_cast<PacketId>(0x8F),  // LEFT_MOTOR_CURRENT
-		static_cast<PacketId>(0x93),  // RIGHT_MOTOR_CURRENT
-		static_cast<PacketId>(0x97),  // MAIN_BRUSH_MOTOR_CURRENT
-		static_cast<PacketId>(0x9B),  // SIDE_BRUSH_MOTOR_CURRENT
-		static_cast<PacketId>(0x9E),  // STASIS
-		static_cast<PacketId>(0x01),  // PACKETS_7_THRU_58
-		static_cast<PacketId>(0x69),  // PACKETS_43_THRU_58
-		static_cast<PacketId>(0x73),  // PACKETS_46_THRU_51
-		static_cast<PacketId>(0x8F)   // PACKETS_54_THRU_58
+	const sensor::PacketId _PACKET_INFO[] = {
+		static_cast<sensor::PacketId>(0x01),  // PACKETS_7_THRU_26
+		static_cast<sensor::PacketId>(0x01),  // PACKETS_7_THRU_16
+		static_cast<sensor::PacketId>(0x15),  // PACKETS_17_THRU_20
+		static_cast<sensor::PacketId>(0x21),  // PACKETS_21_THRU_26
+		static_cast<sensor::PacketId>(0x35),  // PACKETS_27_THRU_34
+		static_cast<sensor::PacketId>(0x51),  // PACKETS_35_THRU_42
+		static_cast<sensor::PacketId>(0x01),  // PACKETS_7_THRU_42
+		static_cast<sensor::PacketId>(0x00),  // BUMPS_AND_WHEEL_DROPS
+		static_cast<sensor::PacketId>(0x02),  // WALL
+		static_cast<sensor::PacketId>(0x04),  // CLIFF_LEFT
+		static_cast<sensor::PacketId>(0x06),  // CLIFF_FRONT_LEFT
+		static_cast<sensor::PacketId>(0x08),  // CLIFF_FRONT_RIGHT
+		static_cast<sensor::PacketId>(0x0A),  // CLIFF_RIGHT
+		static_cast<sensor::PacketId>(0x0C),  // VIRTUAL_WALL
+		static_cast<sensor::PacketId>(0x0E),  // MOTOR_OVERCURRENTS
+		static_cast<sensor::PacketId>(0x10),  // DIRT_DETECT
+		static_cast<sensor::PacketId>(0x12),  // RESERVED_1
+		static_cast<sensor::PacketId>(0x14),  // INFRARED_CHARACTER_OMNI
+		static_cast<sensor::PacketId>(0x16),  // BUTTONS
+		static_cast<sensor::PacketId>(0x19),  // DISTANCE
+		static_cast<sensor::PacketId>(0x1D),  // ANGLE
+		static_cast<sensor::PacketId>(0x20),  // CHARGING_STATE
+		static_cast<sensor::PacketId>(0x23),  // VOLTAGE
+		static_cast<sensor::PacketId>(0x27),  // CURRENT
+		static_cast<sensor::PacketId>(0x2A),  // TEMPERATURE
+		static_cast<sensor::PacketId>(0x2D),  // BATTERY_CHARGE
+		static_cast<sensor::PacketId>(0x31),  // BATTERY_CAPACITY
+		static_cast<sensor::PacketId>(0x35),  // WALL_SIGNAL
+		static_cast<sensor::PacketId>(0x39),  // CLIFF_LEFT_SIGNAL
+		static_cast<sensor::PacketId>(0x3D),  // CLIFF_FRONT_LEFT_SIGNAL
+		static_cast<sensor::PacketId>(0x41),  // CLIFF_FRONT_RIGHT_SIGNAL
+		static_cast<sensor::PacketId>(0x45),  // CLIFF_RIGHT_SIGNAL
+		static_cast<sensor::PacketId>(0x48),  // RESERVED_2
+		static_cast<sensor::PacketId>(0x4B),  // RESERVED_3
+		static_cast<sensor::PacketId>(0x4E),  // CHARGING_SOURCES_AVAILABLE
+		static_cast<sensor::PacketId>(0x50),  // OI_MODE
+		static_cast<sensor::PacketId>(0x52),  // SONG_NUMBER
+		static_cast<sensor::PacketId>(0x54),  // SONG_PLAYING
+		static_cast<sensor::PacketId>(0x56),  // NUMBER_OF_STREAM_PACKETS
+		static_cast<sensor::PacketId>(0x59),  // REQUESTED_VELOCITY
+		static_cast<sensor::PacketId>(0x5D),  // REQUESTED_RADIUS
+		static_cast<sensor::PacketId>(0x61),  // REQUESTED_RIGHT_VELOCITY
+		static_cast<sensor::PacketId>(0x65),  // REQUESTED_LEFT_VELOCITY
+		static_cast<sensor::PacketId>(0x69),  // RIGHT_ENCODER_COUNTS
+		static_cast<sensor::PacketId>(0x6D),  // LEFT_ENCODER_COUNTS
+		static_cast<sensor::PacketId>(0x70),  // LIGHT_BUMPER
+		static_cast<sensor::PacketId>(0x73),  // LIGHT_BUMP_LEFT_SIGNAL
+		static_cast<sensor::PacketId>(0x77),  // LIGHT_BUMP_FRONT_LEFT_SIGNAL
+		static_cast<sensor::PacketId>(0x7B),  // LIGHT_BUMP_CENTER_LEFT_SIGNAL
+		static_cast<sensor::PacketId>(0x7F),  // LIGHT_BUMP_CENTER_RIGHT_SIGNAL
+		static_cast<sensor::PacketId>(0x83),  // LIGHT_BUMP_FRONT_RIGHT_SIGNAL
+		static_cast<sensor::PacketId>(0x87),  // LIGHT_BUMP_RIGHT_SIGNAL
+		static_cast<sensor::PacketId>(0x8A),  // INFRARED_CHARACTER_LEFT
+		static_cast<sensor::PacketId>(0x8C),  // INFRARED_CHARACTER_RIGHT
+		static_cast<sensor::PacketId>(0x8F),  // LEFT_MOTOR_CURRENT
+		static_cast<sensor::PacketId>(0x93),  // RIGHT_MOTOR_CURRENT
+		static_cast<sensor::PacketId>(0x97),  // MAIN_BRUSH_MOTOR_CURRENT
+		static_cast<sensor::PacketId>(0x9B),  // SIDE_BRUSH_MOTOR_CURRENT
+		static_cast<sensor::PacketId>(0x9E),  // STASIS
+		static_cast<sensor::PacketId>(0x01),  // PACKETS_7_THRU_58
+		static_cast<sensor::PacketId>(0x69),  // PACKETS_43_THRU_58
+		static_cast<sensor::PacketId>(0x73),  // PACKETS_46_THRU_51
+		static_cast<sensor::PacketId>(0x8F)   // PACKETS_54_THRU_58
 	};
 	
 	/// \brief Creates bit-mask of individual packet ids associated with
@@ -187,30 +179,30 @@ namespace {
 	inline
 	uint_opt64_t
 	_flagMaskForPacket (
-		const PacketId packet_id_
+		const sensor::PacketId packet_id_
 	) {
 		switch (packet_id_) {
-		  case PACKETS_7_THRU_26:
+		  case sensor::PACKETS_7_THRU_26:
 			return 0x0000000007FFFF81;
-		  case PACKETS_7_THRU_16:
+		  case sensor::PACKETS_7_THRU_16:
 			return 0x000000000001FF82;
-		  case PACKETS_17_THRU_20:
+		  case sensor::PACKETS_17_THRU_20:
 			return 0x00000000001E0004;
-		  case PACKETS_21_THRU_26:
+		  case sensor::PACKETS_21_THRU_26:
 			return 0x0000000007E00008;
-		  case PACKETS_27_THRU_34:
+		  case sensor::PACKETS_27_THRU_34:
 			return 0x00000007F8000010;
-		  case PACKETS_35_THRU_42:
+		  case sensor::PACKETS_35_THRU_42:
 			return 0x000007F800000020;
-		  case PACKETS_7_THRU_42:
+		  case sensor::PACKETS_7_THRU_42:
 			return 0x000007FFFFFFFFC0;
-		  case PACKETS_7_THRU_58:
+		  case sensor::PACKETS_7_THRU_58:
 			return 0x0FFFFFFFFFFFFF80;
-		  case PACKETS_43_THRU_58:
+		  case sensor::PACKETS_43_THRU_58:
 			return 0x17FFF80000000000;
-		  case PACKETS_46_THRU_51:
+		  case sensor::PACKETS_46_THRU_51:
 			return 0x200FC00000000000;
-		  case PACKETS_54_THRU_58:
+		  case sensor::PACKETS_54_THRU_58:
 			return 0x47C0000000000000;
 		  default:
 		    return (static_cast<uint_opt64_t>(1) << packet_id_);
@@ -230,16 +222,16 @@ namespace {
 	inline
 	uint_opt8_t
 	_packetIndex (
-		const PacketId packet_id_
+		const sensor::PacketId packet_id_
 	) {
 		switch (packet_id_) {
-		  case PACKETS_7_THRU_58:
+		  case sensor::PACKETS_7_THRU_58:
 			return 59;
-		  case PACKETS_43_THRU_58:
+		  case sensor::PACKETS_43_THRU_58:
 			return 60;
-		  case PACKETS_46_THRU_51:
+		  case sensor::PACKETS_46_THRU_51:
 			return 61;
-		  case PACKETS_54_THRU_58:
+		  case sensor::PACKETS_54_THRU_58:
 			return 62;
 		  default:
 		    return packet_id_;
@@ -266,30 +258,30 @@ namespace {
 	inline
 	uint_opt8_t
 	_packetSize (
-		const PacketId packet_id_
+		const sensor::PacketId packet_id_
 	) {
 		switch (packet_id_) {
-		  case PACKETS_7_THRU_26:
+		  case sensor::PACKETS_7_THRU_26:
 			return 26;
-		  case PACKETS_7_THRU_16:
+		  case sensor::PACKETS_7_THRU_16:
 			return 10;
-		  case PACKETS_17_THRU_20:
+		  case sensor::PACKETS_17_THRU_20:
 			return 6;
-		  case PACKETS_21_THRU_26:
+		  case sensor::PACKETS_21_THRU_26:
 			return 10;
-		  case PACKETS_27_THRU_34:
+		  case sensor::PACKETS_27_THRU_34:
 			return 14;
-		  case PACKETS_35_THRU_42:
+		  case sensor::PACKETS_35_THRU_42:
 			return 12;
-		  case PACKETS_7_THRU_42:
+		  case sensor::PACKETS_7_THRU_42:
 			return 52;
-		  case PACKETS_7_THRU_58:
+		  case sensor::PACKETS_7_THRU_58:
 			return 80;
-		  case PACKETS_43_THRU_58:
+		  case sensor::PACKETS_43_THRU_58:
 			return 28;
-		  case PACKETS_46_THRU_51:
+		  case sensor::PACKETS_46_THRU_51:
 			return 12;
-		  case PACKETS_54_THRU_58:
+		  case sensor::PACKETS_54_THRU_58:
 			return 9;
 		  default:
 		    return 2;
@@ -307,11 +299,11 @@ namespace {
 	/// \n The remaining values are the packet ids of the
 	/// data requested from the iRobot® Roomba.
 	/// \return The byte count of the packets represented by the parse key
-	/// \see sensors::setParseKey
+	/// \see state::setParseKey
 	inline
 	uint_opt16_t
 	_bytesInQueryList (
-		PacketId const * const query_list_
+		sensor::PacketId const * const query_list_
 	) {
 		uint_opt16_t byte_count(0);
 		
@@ -335,12 +327,12 @@ namespace {
 	/// \param [out] check_sum_ Tracks the check sum of the data being transferred
 	/// \return SUCCESS
 	/// \return SERIAL_TRANSFER_FAILURE
-	/// \see sensors::parseQueryData
-	/// \see sensors::parseStreamData
+	/// \see state::parseQueryData
+	/// \see state::parseStreamData
 	inline
 	ReturnCode
 	_readPacketValueIntoRawDataBlob (
-		const PacketId packet_id_,
+		const sensor::PacketId packet_id_,
 		uint_opt8_t * const packet_size_,
 		uint_opt8_t * const check_sum_
 	) {
@@ -348,7 +340,7 @@ namespace {
 		uint_opt8_t bytes_read = 0;
 		bool size_greater_than_one = ( _PACKET_INFO[pi] & 0x01 );
 		*packet_size_ = (size_greater_than_one * _packetSize(packet_id_)) + !size_greater_than_one;
-		bytes_read = _fnSerialRead((_raw_data + (_PACKET_INFO[pi] >> 1)), *packet_size_);
+		bytes_read = serial::multiByteSerialRead((_raw_data + (_PACKET_INFO[pi] >> 1)), *packet_size_);
 		if ( bytes_read != *packet_size_ ) {
 			return SERIAL_TRANSFER_FAILURE;
 		}
@@ -358,25 +350,6 @@ namespace {
 		return SUCCESS;
 	}
 } // namespace
-
-ReturnCode
-begin (
-	std::function<size_t(uint_opt8_t * const, const size_t)> fnSerialRead_
-) {
-	if ( _sensors_ready ) { return INVALID_MODE_FOR_REQUESTED_OPERATION; }
-	_fnSerialRead = fnSerialRead_;
-	_sensors_ready = true;
-	return SUCCESS;
-}
-
-ReturnCode
-end (
-	void
-) {
-	_sensors_ready = false;
-	_fnSerialRead = ([](uint_opt8_t * const, const size_t){ return 0; });
-	return SUCCESS;
-}
 
 ReturnCode
 getParseError (
@@ -392,7 +365,7 @@ parseQueryData (
 	uint_opt64_t flag_mask_received(0);
 	const uint_opt8_t packet_count = *_parse_key;
 	uint_opt8_t unused;
-	*_parse_key = static_cast<PacketId>(0);
+	*_parse_key = static_cast<sensor::PacketId>(0);
 	for ( uint_opt8_t i = 1 ; i < packet_count ; ++i ) {
 		const ReturnCode rc = _readPacketValueIntoRawDataBlob(_parse_key[i], &unused, &unused);
 		if ( SUCCESS != rc ) { return rc; }
@@ -410,7 +383,7 @@ parseStreamData (
 	uint_opt8_t bytes_read, byte_sum, check_sum, header[2];
 	
 	// Get header information
-	bytes_read = _fnSerialRead(header, sizeof(header));
+	bytes_read = serial::multiByteSerialRead(header, sizeof(header));
 	if ( bytes_read != sizeof(header) ) { return SERIAL_TRANSFER_FAILURE; }
 	//TODO: Attempt to recover from unsynchronized stream
 	if ( 19 != header[0] ) { return FAILURE_TO_SYNC; }
@@ -421,21 +394,21 @@ parseStreamData (
 		uint_opt8_t packet_id, packet_size;
 		
 		// Get packet id
-		bytes_read = _fnSerialRead(&packet_id, sizeof(packet_id));
+		bytes_read = serial::multiByteSerialRead(&packet_id, sizeof(packet_id));
 		if ( bytes_read != sizeof(packet_id) ) { return SERIAL_TRANSFER_FAILURE; }
 		byte_sum += packet_id;
 		
 		// Insert packet data into blob
-		const ReturnCode rc = _readPacketValueIntoRawDataBlob(static_cast<PacketId>(packet_id), &packet_size, &byte_sum);
+		const ReturnCode rc = _readPacketValueIntoRawDataBlob(static_cast<sensor::PacketId>(packet_id), &packet_size, &byte_sum);
 		if ( SUCCESS != rc ) { return rc; }
 		
 		// Flag packet as received
-		flag_mask_received |= (static_cast<uint_opt64_t>(1) << _packetIndex(static_cast<PacketId>(packet_id)));
+		flag_mask_received |= (static_cast<uint_opt64_t>(1) << _packetIndex(static_cast<sensor::PacketId>(packet_id)));
 		i += packet_size;
 	}
 	
 	// Test the check sum
-	bytes_read = _fnSerialRead(&check_sum, sizeof(check_sum));
+	bytes_read = serial::multiByteSerialRead(&check_sum, sizeof(check_sum));
 	if ( bytes_read != sizeof(check_sum) ) { return SERIAL_TRANSFER_FAILURE; }
 	if ( static_cast<uint_opt8_t>(check_sum + byte_sum) ) { return INVALID_CHECKSUM; }
 	
@@ -449,13 +422,14 @@ setBaudCode (
 	const BaudCode baud_code_
 ) {
 	if ( baud_code_ > 11 ) { return INVALID_PARAMETER; }
+	serial::beginAtBaudCode(baud_code_);
 	_baud_code = baud_code_;
 	return SUCCESS;
 }
 
 ReturnCode
 setParseKey (
-	PacketId const * const parse_key_
+	sensor::PacketId const * const parse_key_
 ) {
 	if ( !parse_key_ ) { return INVALID_PARAMETER; }
 	if ( !(*parse_key_) ) { return INVALID_PARAMETER; }
@@ -479,14 +453,6 @@ setParseKey (
 
 #ifdef TESTING
 namespace testing {
-	size_t
-	fnSerialRead (
-		uint_opt8_t * const buffer_,
-		const size_t buffer_length_
-	) {
-		return _fnSerialRead(buffer_, buffer_length_);
-	}
-	
 	BaudCode
 	getBaudCode (
 		void
@@ -508,7 +474,7 @@ namespace testing {
 		return _FLAG_MASK_SIGNED;
 	}
 	
-	PacketId *
+	sensor::PacketId *
 	getParseKey (
 		void
 	) {
@@ -534,16 +500,15 @@ namespace testing {
 		void
 	) {
 		_baud_code = BAUD_115200;
+		serial::beginAtBaudCode(_baud_code);
 		_flag_mask_dirty = static_cast<uint_opt64_t>(-1);
-		_fnSerialRead = [](uint_opt8_t * const, const size_t){ return 0; };
-		*_parse_key = static_cast<PacketId>(0);
-		_parse_status = sensors::SUCCESS;
-		_sensors_ready = false;
+		*_parse_key = static_cast<sensor::PacketId>(0);
+		_parse_status = SUCCESS;
 	}
 } // namespace testing
 #endif
 
-} // namespace sensors
+} // namespace state
 } // namespace roomba
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */

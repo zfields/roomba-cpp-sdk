@@ -2,4 +2,4 @@
 documentation/debug.txt
 documentation/doxygen_log.txt
 OpenInterface/gtest/gtest_OpenInterface
-OISensors/gtest/gtest_OISensors
+hardware/gtest/gtest_state

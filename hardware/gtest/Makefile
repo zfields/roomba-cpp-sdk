@@ -27,6 +27,8 @@ GTEST_DIR = $(GMOCK_DIR)/gtest
 # Remember to tweak this if you move this file.
 CODE_DIR = ..
 TEST_DIR = .
+HARDWARE_DIR = ../../hardware
+PLATFORM_DIR = ../../platform
 
 # Flags passed to the preprocessor.
 # Set Google Mock/Test's header directory as a system directory, such that
@@ -47,7 +49,8 @@ CXXFLAGS += -g \
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-UNDER_TEST = OISensors
+UNDER_TEST = state
+DEPENDENCY_1 = mock
 
 # All Google Test headers. Usually you shouldn't change this
 # definition.
@@ -111,21 +114,29 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 # function.  It's fine if your test only uses features from Google
 # Test (and not Google Mock).
 
+$(DEPENDENCY_1).o : $(PLATFORM_DIR)/$(DEPENDENCY_1).cpp \
+                    $(PLATFORM_DIR)/$(DEPENDENCY_1).h \
+                    $(CODE_DIR)/../OIDefines.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
+    -c $(PLATFORM_DIR)/$(DEPENDENCY_1).cpp
+
 $(UNDER_TEST).o : $(CODE_DIR)/$(UNDER_TEST).cpp \
                   $(CODE_DIR)/$(UNDER_TEST).h \
-                  $(CODE_DIR)/../OIDefines.h \
-                  $(TEST_DIR)/TESTSensors.h
+                  $(PLATFORM_DIR)/serial.h \
+                  $(CODE_DIR)/../OIDefines.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(CODE_DIR)/$(UNDER_TEST).cpp
 
 $(TEST_SUITE).o : $(TEST_DIR)/$(TEST_SUITE).cpp \
                   $(CODE_DIR)/$(UNDER_TEST).h \
                   $(CODE_DIR)/../OIDefines.h \
-                  $(TEST_DIR)/TESTSensors.h
+                  $(TEST_DIR)/TEST_state.h \
+                  $(PLATFORM_DIR)/$(DEPENDENCY_1).h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(TEST_DIR)/$(TEST_SUITE).cpp
 
 $(TEST_SUITE) : $(TEST_SUITE).o \
                 $(UNDER_TEST).o \
+                $(DEPENDENCY_1).o \
                 gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) -lpthread $^ -o $@
