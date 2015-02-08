@@ -2,11 +2,11 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-//#define DISABLE_SENSORS
-#include "../OpenInterface.h"
+#include "../open_interface.h"
+#include "../../platform/mock.h"
 
 #ifndef DISABLE_SENSORS
-  #include "../../OISensors/gtest/TESTSensors.h"
+  #include "../../hardware/gtest/TEST_state.h"
 #endif
 
 #include <cstring>
@@ -25,11 +25,7 @@ using namespace roomba;
   /******************/
  /* TESTABLE CLASS */
 /******************/
-class OpenInterface_TC : public OpenInterface {
-  public:
-	using OpenInterface::_fnSerialWrite;
-	using OpenInterface::_oi_mode;
-};
+class OpenInterface_TC : public OpenInterface<OI500> {};
 
 namespace {
 
@@ -54,7 +50,15 @@ class SerialTransactionFailureOIModeOFF : public ::testing::Test {
 	SerialTransactionFailureOIModeOFF (
 		void
 	) {
-		OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 0; }, BAUD_115200);
+		serial::mock::setSerialWriteFunc(
+			[] (
+				const uint_opt8_t * const,
+				const size_t
+			) {
+				return 0;
+			}
+		);
+		//OI_tc.connectToSerialBus(, BAUD_115200);
 	}
 	
 	//virtual ~Initialization() {}
@@ -69,8 +73,16 @@ class SerialTransactionFailureOIModePASSIVE : public ::testing::Test {
 	SerialTransactionFailureOIModePASSIVE (
 		void
 	) {
-		OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 0; }, BAUD_115200);
-		OI_tc._oi_mode = PASSIVE;
+		serial::mock::setSerialWriteFunc(
+			[] (
+				const uint_opt8_t * const,
+				const size_t
+			) {
+				return 0;
+			}
+		);
+		//OI_tc.connectToSerialBus(, BAUD_115200);
+		state::setOIMode(PASSIVE);
 	}
 	
 	//virtual ~Initialization() {}
@@ -85,8 +97,16 @@ class SerialTransactionFailureOIModeFULL : public ::testing::Test {
 	SerialTransactionFailureOIModeFULL (
 		void
 	) {
-		OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 0; }, BAUD_115200);
-		OI_tc._oi_mode = FULL;
+		serial::mock::setSerialWriteFunc(
+			[] (
+				const uint_opt8_t * const,
+				const size_t
+			) {
+				return 0;
+			}
+		);
+		//OI_tc.connectToSerialBus(, BAUD_115200);
+		state::setOIMode(FULL);
 	}
 	
 	//virtual ~Initialization() {}
@@ -101,7 +121,7 @@ class AllSystemsGoOIModeOFF : public ::testing::Test {
 	AllSystemsGoOIModeOFF (
 		void
 	) {
-		OI_tc.connectToSerialBus(
+		serial::mock::setSerialWriteFunc(
 			[this] (
 				const uint_opt8_t * byte_array_,
 				size_t length_
@@ -109,9 +129,10 @@ class AllSystemsGoOIModeOFF : public ::testing::Test {
 				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
 				memcpy(serial_bus, byte_array_, length_);
 				return strnlen(serial_bus, 64);
-			},
-			BAUD_115200
+			}
 		);
+		//OI_tc.connectToSerialBus(, BAUD_115200);
+		state::setOIMode(OFF);
 	}
 	
 	//virtual ~Initialization() {}
@@ -131,7 +152,7 @@ class AllSystemsGoOIModePASSIVE : public ::testing::Test {
 	AllSystemsGoOIModePASSIVE (
 		void
 	) {
-		OI_tc.connectToSerialBus(
+		serial::mock::setSerialWriteFunc(
 			[this] (
 				const uint_opt8_t * byte_array_,
 				size_t length_
@@ -139,10 +160,10 @@ class AllSystemsGoOIModePASSIVE : public ::testing::Test {
 				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
 				memcpy(serial_bus, byte_array_, length_);
 				return strnlen(serial_bus, 64);
-			}, 
-			BAUD_115200
+			}
 		);
-		OI_tc._oi_mode = PASSIVE;
+		//OI_tc.connectToSerialBus(, BAUD_115200);
+		state::setOIMode(PASSIVE);
 	}
 	
 	//virtual ~Initialization() {}
@@ -162,7 +183,7 @@ class AllSystemsGoOIModeFULL : public ::testing::Test {
 	AllSystemsGoOIModeFULL (
 		void
 	) {
-		OI_tc.connectToSerialBus(
+		serial::mock::setSerialWriteFunc(
 			[this] (
 				const uint_opt8_t * byte_array_,
 				size_t length_
@@ -170,10 +191,10 @@ class AllSystemsGoOIModeFULL : public ::testing::Test {
 				length_ = ((length_ <= 64) * length_) + ((length_ > 64) * 64);
 				memcpy(serial_bus, byte_array_, length_);
 				return strnlen(serial_bus, 64);
-			},
-			BAUD_115200
+			}
 		);
-		OI_tc._oi_mode = FULL;
+		//OI_tc.connectToSerialBus(, BAUD_115200);
+		state::setOIMode(FULL);
 	}
 	
 	//virtual ~Initialization() {}
@@ -197,43 +218,8 @@ name. Tests from different test cases can have the same individual name.
 (e.g. ASSERT_EQ(_EXPECTED_, _ACTUAL_))
 */
 
-TEST_F(ObjectInitialization, constructor$WHENInitializedTHENCallingFnSerialWriteWillNotThrowError) {
-	OI_tc._fnSerialWrite(NULL, 0);
-}
-
 TEST_F(ObjectInitialization, constructor$WHENInitializedTHENOIModeWillBeSetToOFF) {
-	ASSERT_EQ(OI_tc._oi_mode, OFF);
-}
-
-TEST_F(ObjectInitialization, connectToSerialBus$WHENCalledTHENFnSerialWriteIsStored) {
-	ASSERT_EQ(0, OI_tc._fnSerialWrite(NULL, 0));
-	OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; }, BAUD_19200);
-	ASSERT_EQ(69, OI_tc._fnSerialWrite(NULL, 0));
-}
-#ifdef SENSORS_ENABLED
-TEST_F(ObjectInitialization, connectToSerialBus$WHENOptionalParameterBaudCodeIsProvidedTHENBaudCodeIsSet) {
-	OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; }, BAUD_19200);
-	ASSERT_EQ(BAUD_19200, sensors::testing::getBaudCode());
-}
-
-TEST_F(ObjectInitialization, connectToSerialBus$WHENOptionalParameterBaudCodeIsNOTProvidedTHENBaudCodeIsSetToBAUD115200) {
-	OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; }, BAUD_19200);
-	OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; });
-	ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
-}
-#endif
-TEST_F(ObjectInitialization, connectToSerialBus$WHENBaudCodeIsNotEqualToBAUD19200OrBAUD115200THENParameterIsInvalid) {
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; }, BAUD_57600));
-}
-#ifdef SENSORS_ENABLED
-TEST_F(ObjectInitialization, connectToSerialBus$WHENBaudCodeIsNotEqualToBAUD19200OrBAUD115200THENBaudCodeIsNotSet) {
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; }, BAUD_57600));
-	ASSERT_NE(BAUD_57600, sensors::testing::getBaudCode());
-}
-#endif
-TEST_F(ObjectInitialization, connectToSerialBus$WHENBaudCodeIsNotEqualToBAUD19200OrBAUD115200THENFnSerialWriteIsNotStored) {
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.connectToSerialBus([](const uint_opt8_t *, size_t){ return 69; }, BAUD_57600));
-	ASSERT_EQ(0, OI_tc._fnSerialWrite(NULL, 0));
+	ASSERT_EQ(state::testing::getOIMode(), OFF);
 }
 
 TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
@@ -243,16 +229,16 @@ TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHEN128IsWrittenToTheSerialBus) {
 
 TEST_F(AllSystemsGoOIModeOFF, start$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.start();
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModeOFF, start$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.start());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.start());
 }
 
 TEST_F(SerialTransactionFailureOIModeOFF, start$WHENReturnsErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.start());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.start());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHEN129AndParametersAreWrittenToTheSerialBus) {
@@ -263,7 +249,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHEN129AndParametersAreWrittenT
 #ifdef SENSORS_ENABLED
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHENBaudCodeIsSet) {
 	OI_tc.baud(BAUD_57600);
-	ASSERT_EQ(BAUD_57600, sensors::testing::getBaudCode());
+	ASSERT_EQ(BAUD_57600, state::testing::getBaudCode());
 }
 #endif
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHENBlockFor100ms) {
@@ -278,44 +264,44 @@ TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENCalledTHENBlockFor100ms) {
 
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENBaudCodeIsGreaterThan11THENParameterIsInvalid) {
 	for ( int i = 12 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.baud(static_cast<BaudCode>(i))) << "Accepted value <" << i << ">!";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.baud(static_cast<BaudCode>(i))) << "Accepted value <" << i << ">!";
 	}
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
 	for ( int i = 12 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.baud(static_cast<BaudCode>(i)));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.baud(static_cast<BaudCode>(i)));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 #ifdef SENSORS_ENABLED
 TEST_F(AllSystemsGoOIModePASSIVE, baud$WHENParameterIsInvalidTHENBaudCodeIsNotSet) {
 	for ( int i = 12 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.baud(static_cast<BaudCode>(i)));
-		ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.baud(static_cast<BaudCode>(i)));
+		ASSERT_EQ(BAUD_115200, state::testing::getBaudCode());
 	}
 }
 #endif
 TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
 }
 #ifdef SENSORS_ENABLED
 TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENBaudCodeIsNotSet) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
-	ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
+	ASSERT_EQ(BAUD_115200, state::testing::getBaudCode());
 }
 #endif
 TEST_F(SerialTransactionFailureOIModePASSIVE, baud$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.baud(BAUD_57600));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.baud(BAUD_57600));
 }
 #ifdef SENSORS_ENABLED
 TEST_F(SerialTransactionFailureOIModePASSIVE, baud$WHENfnSerialWriteFailsTHENBaudCodeIsNotSet) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.baud(BAUD_57600));
-	ASSERT_EQ(BAUD_115200, sensors::testing::getBaudCode());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.baud(BAUD_57600));
+	ASSERT_EQ(BAUD_115200, state::testing::getBaudCode());
 }
 #endif
 TEST_F(AllSystemsGoOIModeOFF, baud$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.baud(BAUD_57600));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -326,29 +312,29 @@ TEST_F(AllSystemsGoOIModePASSIVE, safe$WHENCalledTHEN131IsWrittenToTheSerialBus)
 
 TEST_F(AllSystemsGoOIModePASSIVE, safe$WHENCalledTHENModeIsSetToSafe) {
 	OI_tc.safe();
-	ASSERT_EQ(SAFE, OI_tc._oi_mode);
+	ASSERT_EQ(SAFE, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, safe$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.safe());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.safe());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, safe$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.safe());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.safe());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, safe$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.safe());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.safe());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, safe$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.safe());
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.safe());
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, safe$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.safe());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.safe());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -359,29 +345,29 @@ TEST_F(AllSystemsGoOIModePASSIVE, full$WHENCalledTHEN132IsWrittenToTheSerialBus)
 
 TEST_F(AllSystemsGoOIModePASSIVE, full$WHENCalledTHENModeIsSetToFull) {
 	OI_tc.full();
-	ASSERT_EQ(FULL, OI_tc._oi_mode);
+	ASSERT_EQ(FULL, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, full$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.full());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.full());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, full$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.full());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.full());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, full$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.full());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.full());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, full$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.full());
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.full());
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, full$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.full());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.full());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -392,29 +378,29 @@ TEST_F(AllSystemsGoOIModePASSIVE, power$WHENCalledTHEN133IsWrittenToTheSerialBus
 
 TEST_F(AllSystemsGoOIModeFULL, power$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.power();
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, power$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.power());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.power());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, power$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.power());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.power());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, power$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.power());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.power());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, power$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.power());
-	ASSERT_EQ(FULL, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.power());
+	ASSERT_EQ(FULL, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, power$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.power());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.power());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -424,30 +410,30 @@ TEST_F(AllSystemsGoOIModePASSIVE, spot$WHENCalledTHEN134IsWrittenToTheSerialBus)
 }
 
 TEST_F(AllSystemsGoOIModeOFF, spot$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.spot());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.spot());
 }
 
 TEST_F(AllSystemsGoOIModeFULL, spot$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.spot();
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, spot$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.spot());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.spot());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, spot$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.spot());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.spot());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, spot$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.spot());
-	ASSERT_EQ(FULL, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.spot());
+	ASSERT_EQ(FULL, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, spot$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.spot());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.spot());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -457,30 +443,30 @@ TEST_F(AllSystemsGoOIModePASSIVE, clean$WHENCalledTHEN135IsWrittenToTheSerialBus
 }
 
 TEST_F(AllSystemsGoOIModeOFF, clean$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.clean());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.clean());
 }
 
 TEST_F(AllSystemsGoOIModeFULL, clean$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.clean();
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, clean$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.clean());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.clean());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, clean$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.clean());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.clean());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, clean$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.clean());
-	ASSERT_EQ(FULL, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.clean());
+	ASSERT_EQ(FULL, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, clean$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.clean());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.clean());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -490,30 +476,30 @@ TEST_F(AllSystemsGoOIModePASSIVE, max$WHENCalledTHEN136IsWrittenToTheSerialBus) 
 }
 
 TEST_F(AllSystemsGoOIModeOFF, max$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.max());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.max());
 }
 
 TEST_F(AllSystemsGoOIModeFULL, max$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.max();
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, max$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.max());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.max());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, max$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.max());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.max());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, max$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.max());
-	ASSERT_EQ(FULL, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.max());
+	ASSERT_EQ(FULL, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, max$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.max());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.max());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -529,75 +515,75 @@ TEST_F(AllSystemsGoOIModeFULL, drive$WHENCalledTHEN137AndParametersAreWrittenToT
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENVelocityIsGreaterThan500THENParameterIsInvalid) {
 	for ( int i = 501 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(i, 1998)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(i, 1998)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENVelocityIsLessThanNegative500THENParameterIsInvalid) {
 	for ( int i = -501 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(i, 1998)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(i, 1998)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsGreaterThan2000THENParameterIsInvalid) {
 	for ( int i = 2001 ; i < 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(487, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsLessThanNegative2000THENParameterIsInvalid) {
 	for ( int i = -2001 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(487, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENVelocityIsGreaterThan500THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 501 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(i, 1998));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(i, 1998));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENVelocityIsLessThanNegative500THENNoDataIsWrittenToSerialBus) {
 	for ( int i = -501 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(i, 1998));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(i, 1998));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsGreaterThan2000THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 2001 ; i < 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(487, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drive$WHENRadiusIsLessThanNegative2000THENNoDataIsWrittenToSerialBus) {
 	for ( int i = -2001 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drive(487, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drive(487, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeOFF, drive$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drive(-487, 1998));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.drive(-487, 1998));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, drive$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.drive(-487, 1998));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.drive(-487, 1998));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, drive$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drive(-487, 1998));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.drive(-487, 1998));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, drive$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, drive$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drive(-487, 1998));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -626,28 +612,28 @@ TEST_F(AllSystemsGoOIModeFULL, motors$WHENMotorStateMaskHasInvalidBitsSetTHENBit
 
 TEST_F(AllSystemsGoOIModeOFF, motors$WHENOIModeIsOffTHENReturnsError) {
 	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.motors(motor_states));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.motors(motor_states));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, motors$WHENfnSerialWriteFailsTHENReturnsError) {
 	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.motors(motor_states));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.motors(motor_states));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, motors$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.motors(motor_states));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.motors(motor_states));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, motors$WHENOIModeIsPassiveTHENReturnsError) {
 	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.motors(motor_states));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.motors(motor_states));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, motors$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
 	bitmask::MotorStates motor_states = static_cast<bitmask::MotorStates>(bitmask::VACUUM_ENGAGED | bitmask::SIDE_BRUSH_ENGAGED | bitmask::SIDE_BRUSH_CLOCKWISE);
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.motors(motor_states));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.motors(motor_states));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -666,29 +652,29 @@ TEST_F(AllSystemsGoOIModeFULL, leds$WHENLedMaskHasInvalidBitsSetTHENBitsAreDisca
 }
 
 TEST_F(AllSystemsGoOIModeOFF, leds$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, leds$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, leds$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.leds(static_cast<bitmask::display::LEDs>(bitmask::display::SPOT | bitmask::display::DEBRIS), 64, 192));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenToTheSerialBus) {
-	std::vector<OpenInterface::note_t> fur_elise;
+	std::vector<note_t> fur_elise;
 	fur_elise.push_back(std::make_pair(E4, 11));
 	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise.push_back(std::make_pair(E4, 11));
@@ -725,7 +711,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenT
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENParameterIsInvalid) {
-	std::vector<OpenInterface::note_t> fur_elise;
+	std::vector<note_t> fur_elise;
 	fur_elise.push_back(std::make_pair(E4, 11));
 	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise.push_back(std::make_pair(E4, 11));
@@ -737,12 +723,12 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENParameter
 	fur_elise.push_back(std::make_pair(A3, 32));
 	
 	for ( int i = 5 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(i, fur_elise)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENNoDataIsWrittenToSerialBus) {
-	std::vector<OpenInterface::note_t> fur_elise;
+	std::vector<note_t> fur_elise;
 	fur_elise.push_back(std::make_pair(E4, 11));
 	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise.push_back(std::make_pair(E4, 11));
@@ -754,26 +740,26 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENNoDataIsW
 	fur_elise.push_back(std::make_pair(A3, 32));
 	
 	for ( int i = 5 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(i, fur_elise));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsZeroNotesTHENParameterIsInvalid) {
-	std::vector<OpenInterface::note_t> no_song;
+	std::vector<note_t> no_song;
 	
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(1, no_song));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsZeroNotesTHENNoDataIsWrittenToSerialBus) {
-	std::vector<OpenInterface::note_t> no_song;
+	std::vector<note_t> no_song;
 	
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(1, no_song));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENParameterIsInvalid) {
-	std::vector<OpenInterface::note_t> fur_elise_ep;
+	std::vector<note_t> fur_elise_ep;
 	fur_elise_ep.push_back(std::make_pair(E4, 11));
 	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise_ep.push_back(std::make_pair(E4, 11));
@@ -792,11 +778,11 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENParameterIsI
 	fur_elise_ep.push_back(std::make_pair(E4, 11));
 	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
 	
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENNoDataIsWrittenToSerialBus) {
-	std::vector<OpenInterface::note_t> fur_elise_ep;
+	std::vector<note_t> fur_elise_ep;
 	fur_elise_ep.push_back(std::make_pair(E4, 11));
 	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise_ep.push_back(std::make_pair(E4, 11));
@@ -815,12 +801,12 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENNoDataIsWrit
 	fur_elise_ep.push_back(std::make_pair(E4, 11));
 	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
 	
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENReturnsError) {
-	std::vector<OpenInterface::note_t> fur_elise;
+	std::vector<note_t> fur_elise;
 	fur_elise.push_back(std::make_pair(E4, 11));
 	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise.push_back(std::make_pair(E4, 11));
@@ -831,11 +817,11 @@ TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENReturnsError) {
 	fur_elise.push_back(std::make_pair(C4, 11));
 	fur_elise.push_back(std::make_pair(A3, 32));
 	
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.song(1, fur_elise));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise));
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, song$WHENfnSerialWriteFailsTHENReturnsError) {
-	std::vector<OpenInterface::note_t> fur_elise;
+	std::vector<note_t> fur_elise;
 	fur_elise.push_back(std::make_pair(E4, 11));
 	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise.push_back(std::make_pair(E4, 11));
@@ -846,11 +832,11 @@ TEST_F(SerialTransactionFailureOIModePASSIVE, song$WHENfnSerialWriteFailsTHENRet
 	fur_elise.push_back(std::make_pair(C4, 11));
 	fur_elise.push_back(std::make_pair(A3, 32));
 	
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.song(1, fur_elise));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.song(1, fur_elise));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	std::vector<OpenInterface::note_t> fur_elise;
+	std::vector<note_t> fur_elise;
 	fur_elise.push_back(std::make_pair(E4, 11));
 	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
 	fur_elise.push_back(std::make_pair(E4, 11));
@@ -861,7 +847,7 @@ TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus
 	fur_elise.push_back(std::make_pair(C4, 11));
 	fur_elise.push_back(std::make_pair(A3, 32));
 	
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.song(1, fur_elise));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -874,41 +860,41 @@ TEST_F(AllSystemsGoOIModeFULL, play$WHENCalledTHEN141AndParametersAreWrittenToTh
 
 TEST_F(AllSystemsGoOIModeFULL, play$WHENSongNumberIsGreaterThan4THENParameterIsInvalid) {
 	for ( int i = 5 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.play(i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.play(i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, play$WHENSongNumberIsGreaterThan4THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 5 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.play(i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.play(i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeOFF, play$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.play(1));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.play(1));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, play$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.play(1));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.play(1));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, play$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.play(1));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.play(1));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.play(1));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.play(1));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, play$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.play(1));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.play(1));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENCalledTHEN142AndParametersAreWrittenToTheSerialBus) {
-	OI_tc.sensors(sensors::DIRT_DETECT);
+	OI_tc.sensors(sensor::DIRT_DETECT);
 	
 	ASSERT_EQ(142, static_cast<uint_opt8_t>(serial_bus[0]));
 	EXPECT_EQ(15, static_cast<uint_opt8_t>(serial_bus[1]));
@@ -916,52 +902,52 @@ TEST_F(AllSystemsGoOIModeFULL, sensors$WHENCalledTHEN142AndParametersAreWrittenT
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween0And58InclusiveTHENParameterIsValid) {
 	for ( int i = 0 ; i <= 58 ; ++i ) {
-		EXPECT_EQ(OpenInterface::SUCCESS, OI_tc.sensors(static_cast<sensors::PacketId>(i))) << "Rejected value <" << i << ">";
+		EXPECT_EQ(SUCCESS, OI_tc.sensors(static_cast<sensor::PacketId>(i))) << "Rejected value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween59And99InclusiveTHENParameterIsInvalid) {
 	for ( int i = 59 ; i <= 99 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensors::PacketId>(i))) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i))) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween100And107InclusiveTHENParameterIsValid) {
 	for ( int i = 100 ; i <= 107 ; ++i ) {
-		EXPECT_EQ(OpenInterface::SUCCESS, OI_tc.sensors(static_cast<sensors::PacketId>(i))) << "Rejected value <" << i << ">";
+		EXPECT_EQ(SUCCESS, OI_tc.sensors(static_cast<sensor::PacketId>(i))) << "Rejected value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsGreaterThan107THENParameterIsInvalid) {
 	for ( int i = 108 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensors::PacketId>(i))) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i))) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsBetween59And99InclusiveTHENNoDataIsWrittenToSerialBus) {
 	for ( int i = 59 ; i <= 99 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensors::PacketId>(i)));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, sensors$WHENSensorNumberIsGreaterThan107InclusiveTHENNoDataIsWrittenToSerialBus) {
 	for ( int i = 108 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.sensors(static_cast<sensors::PacketId>(i)));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.sensors(static_cast<sensor::PacketId>(i)));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeOFF, sensors$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.sensors(sensors::DIRT_DETECT));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.sensors(sensor::DIRT_DETECT));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, sensors$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.sensors(sensors::DIRT_DETECT));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.sensors(sensor::DIRT_DETECT));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, sensors$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.sensors(sensors::DIRT_DETECT));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.sensors(sensor::DIRT_DETECT));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -971,30 +957,30 @@ TEST_F(AllSystemsGoOIModePASSIVE, seekDock$WHENCalledTHEN143IsWrittenToTheSerial
 }
 
 TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.seekDock());
 }
 
 TEST_F(AllSystemsGoOIModeFULL, seekDock$WHENCalledTHENModeIsSetToPassive) {
 	OI_tc.seekDock();
-	ASSERT_EQ(PASSIVE, OI_tc._oi_mode);
+	ASSERT_EQ(PASSIVE, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, seekDock$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENReturnsOINotStartedErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
-	ASSERT_EQ(OFF, OI_tc._oi_mode);
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.seekDock());
+	ASSERT_EQ(OFF, state::testing::getOIMode());
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, seekDock$WHENReturnsSerialTransferFailureErrorTHENModeIsUnchanged) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
-	ASSERT_EQ(FULL, OI_tc._oi_mode);
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.seekDock());
+	ASSERT_EQ(FULL, state::testing::getOIMode());
 }
 
 TEST_F(AllSystemsGoOIModeOFF, seekDock$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.seekDock());
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.seekDock());
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1008,51 +994,51 @@ TEST_F(AllSystemsGoOIModeFULL, pwmMotors$WHENCalledTHEN144AndParametersAreWritte
 }
 
 TEST_F(AllSystemsGoOIModeFULL, pwmMotors$WHENMainBrushIsNegative128THENParameterIsInvalid) {
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.pwmMotors(-128, -127, 0));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.pwmMotors(-128, -127, 0));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, pwmMotors$WHENSideBrushIsNegative128THENParameterIsInvalid) {
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.pwmMotors(-127, -128, 0));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.pwmMotors(-127, -128, 0));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, pwmMotors$WHENVacuumIsLessThanZeroTHENParameterIsInvalid) {
 	for ( int i = -1 ; i >= -128 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.pwmMotors(-127, -127, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.pwmMotors(-127, -127, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, pwmMotors$WHENParametersAreInvalidTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.pwmMotors(-127, -128, 0));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.pwmMotors(-127, -128, 0));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.pwmMotors(-128, -127, 0));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.pwmMotors(-128, -127, 0));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	
 	for ( int i = -1 ; i >= -128 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.pwmMotors(-127, -127, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.pwmMotors(-127, -127, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeOFF, pwmMotors$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.pwmMotors(96, -64, 127));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.pwmMotors(96, -64, 127));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, pwmMotors$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.pwmMotors(96, -64, 127));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.pwmMotors(96, -64, 127));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, pwmMotors$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.pwmMotors(96, -64, 127));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.pwmMotors(96, -64, 127));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, pwmMotors$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.pwmMotors(96, -64, 127));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.pwmMotors(96, -64, 127));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, pwmMotors$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.pwmMotors(96, -64, 127));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.pwmMotors(96, -64, 127));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1068,75 +1054,75 @@ TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENCalledTHEN145AndParametersAreWrit
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENLeftWheelVelocityIsGreaterThan500THENParameterIsInvalid) {
 	for ( int i = 501 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(i, 500)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(i, 500)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENLeftWheelVelocityIsLessThanNegative500THENParameterIsInvalid) {
 	for ( int i = -501 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(i, -500)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(i, -500)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENRightWheelVelocityIsGreaterThan500THENParameterIsInvalid) {
 	for ( int i = 501 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(500, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(500, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENRightWheelVelocityIsLessThanNegative500THENParameterIsInvalid) {
 	for ( int i = -501 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(-500, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(-500, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENLeftWheelVelocityIsGreaterThan500THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 501 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(i, 500));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(i, 500));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENLeftWheelVelocityIsLessThanNegative500THENNoDataIsWrittenToSerialBus) {
 	for ( int i = -501 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(i, -500));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(i, -500));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENRightWheelVelocityIsGreaterThan500THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 501 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(500, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(500, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, driveDirect$WHENRightWheelVelocityIsLessThanNegative500THENNoDataIsWrittenToSerialBus) {
 	for ( int i = -501 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.driveDirect(-500, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.driveDirect(-500, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeOFF, driveDirect$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.driveDirect(-150, 150));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.driveDirect(-150, 150));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, driveDirect$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.driveDirect(-150, 150));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.driveDirect(-150, 150));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, driveDirect$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.driveDirect(-150, 150));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.driveDirect(-150, 150));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, driveDirect$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.driveDirect(-150, 150));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.driveDirect(-150, 150));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, driveDirect$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.driveDirect(-150, 150));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.driveDirect(-150, 150));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1152,80 +1138,80 @@ TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENCalledTHEN146AndParametersAreWritten
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENLeftWheelVelocityIsGreaterThan255THENParameterIsInvalid) {
 	for ( int i = 256 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(i, 255)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(i, 255)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENLeftWheelVelocityIsLessThanNegative255THENParameterIsInvalid) {
 	for ( int i = -256 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(i, -255)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(i, -255)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENRightWheelVelocityIsGreaterThan255THENParameterIsInvalid) {
 	for ( int i = 256 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(255, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(255, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENRightWheelVelocityIsLessThanNegative255THENParameterIsInvalid) {
 	for ( int i = -256 ; i >= -32768 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(-255, i)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(-255, i)) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENLeftWheelVelocityIsGreaterThan255THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 256 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(i, 255));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(i, 255));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENLeftWheelVelocityIsLessThanNegative255THENNoDataIsWrittenToSerialBus) {
 	for ( int i = -256 ; i >= -32767 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(i, -255));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(i, -255));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENRightWheelVelocityIsGreaterThan255THENNoDataIsWrittenToSerialBus) {
 	for ( int i = 256 ; i <= 32767 ; ++i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(255, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(255, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeFULL, drivePWM$WHENRightWheelVelocityIsLessThanNegative255THENNoDataIsWrittenToSerialBus) {
 	for ( int i = -256 ; i >= -32767 ; --i ) {
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.drivePWM(-255, i));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.drivePWM(-255, i));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
 
 TEST_F(AllSystemsGoOIModeOFF, drivePWM$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drivePWM(-32, 32));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.drivePWM(-32, 32));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, drivePWM$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.drivePWM(-32, 32));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.drivePWM(-32, 32));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, drivePWM$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.drivePWM(-32, 32));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.drivePWM(-32, 32));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.drivePWM(-32, 32));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENCalledTHEN148AndParametersAreWrittenToTheSerialBus) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
 	OI_tc.stream(sensor_list);
 	
 	ASSERT_EQ(148, static_cast<uint_opt8_t>(serial_bus[0]));
@@ -1235,21 +1221,21 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENCalledTHEN148AndParametersAreWrittenTo
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorListIsEmptyTHENParameterIsInvalid) {
-	std::vector<sensors::PacketId> sensor_list;
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list;
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorListIsEmptyTHENNoDataIsWrittenToSerialBus) {
-	std::vector<sensors::PacketId> sensor_list;
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list;
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween0And58InclusiveTHENValueIsAccepted) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 0 ; i <= 58 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.stream(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
@@ -1260,10 +1246,10 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween0And58InclusiveTH
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween59And99InclusiveTHENValueIsIgnored) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 59 ; i <= 99 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.stream(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
@@ -1273,10 +1259,10 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween59And99InclusiveT
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween100And107InclusiveTHENValueIsAccepted) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 100 ; i <= 107 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.stream(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
@@ -1287,10 +1273,10 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween100And107Inclusiv
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween108And255InclusiveTHENValueIsIgnored) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 108 ; i <= 255 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.stream(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
@@ -1300,34 +1286,34 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween108And255Inclusiv
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENAllSensorsAreIgnoredTHENParameterIsInvalid) {
-	std::vector<sensors::PacketId> sensor_list = { static_cast<sensors::PacketId>(69), static_cast<sensors::PacketId>(70) };
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENAllSensorsAreIgnoredTHENNoDataIsWrittenToSerialBus) {
-	std::vector<sensors::PacketId> sensor_list = { static_cast<sensors::PacketId>(69), static_cast<sensors::PacketId>(70) };
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, stream$WHENOIModeIsOffTHENReturnsError) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.stream(sensor_list));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, stream$WHENfnSerialWriteFailsTHENReturnsError) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.stream(sensor_list));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, stream$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.stream(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.stream(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENCalledTHEN149AndParametersAreWrittenToTheSerialBus) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
 	OI_tc.queryList(sensor_list);
 	
 	ASSERT_EQ(149, static_cast<uint_opt8_t>(serial_bus[0]));
@@ -1337,21 +1323,21 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENCalledTHEN149AndParametersAreWritte
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsEmptyTHENParameterIsInvalid) {
-	std::vector<sensors::PacketId> sensor_list;
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list;
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsEmptyTHENNoDataIsWrittenToSerialBus) {
-	std::vector<sensors::PacketId> sensor_list;
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list;
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween0And58InclusiveTHENValueIsAccepted) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 0 ; i <= 58 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.queryList(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
@@ -1362,10 +1348,10 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween0And58Inclusiv
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween59And99InclusiveTHENValueIsIgnored) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 59 ; i <= 99 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.queryList(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
@@ -1375,10 +1361,10 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween59And99Inclusi
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween100And107InclusiveTHENValueIsAccepted) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 100 ; i <= 107 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.queryList(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
@@ -1389,10 +1375,10 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween100And107Inclu
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween108And255InclusiveTHENValueIsIgnored) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL };
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL };
 	for ( int i = 108 ; i <= 255 ; ++i ) {
-		sensor_list.push_back(static_cast<sensors::PacketId>(i));
-		sensor_list.push_back(sensors::VIRTUAL_WALL);
+		sensor_list.push_back(static_cast<sensor::PacketId>(i));
+		sensor_list.push_back(sensor::VIRTUAL_WALL);
 		OI_tc.queryList(sensor_list);
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
@@ -1402,29 +1388,29 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween108And255Inclu
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENAllSensorsAreIgnoredTHENParameterIsInvalid) {
-	std::vector<sensors::PacketId> sensor_list = { static_cast<sensors::PacketId>(69), static_cast<sensors::PacketId>(70) };
-	ASSERT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENAllSensorsAreIgnoredTHENNoDataIsWrittenToSerialBus) {
-	std::vector<sensors::PacketId> sensor_list = { static_cast<sensors::PacketId>(69), static_cast<sensors::PacketId>(70) };
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENReturnsError) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.queryList(sensor_list));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, queryList$WHENfnSerialWriteFailsTHENReturnsError) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.queryList(sensor_list));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	std::vector<sensors::PacketId> sensor_list = { sensors::CLIFF_FRONT_LEFT_SIGNAL, sensors::VIRTUAL_WALL };
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.queryList(sensor_list));
+	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.queryList(sensor_list));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1443,15 +1429,15 @@ TEST_F(AllSystemsGoOIModeFULL, pauseResumeStream$WHENParameterIsNonZeroTHEN1Writ
 }
 
 TEST_F(AllSystemsGoOIModeOFF, pauseResumeStream$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.pauseResumeStream(true));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.pauseResumeStream(true));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, pauseResumeStream$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.pauseResumeStream(true));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.pauseResumeStream(true));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, pauseResumeStream$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.pauseResumeStream(true));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.pauseResumeStream(true));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1474,24 +1460,24 @@ TEST_F(AllSystemsGoOIModeFULL, schedulingLEDs$WHENDisplayMaskHasInvalidBitsSetTH
 }
 
 TEST_F(AllSystemsGoOIModeOFF, schedulingLEDs$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, schedulingLEDs$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, schedulingLEDs$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedulingLEDs$WHENOIModeIsPassiveTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedulingLEDs$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.schedulingLEDs(static_cast<bitmask::Days>(bitmask::TUESDAY | bitmask::SATURDAY), static_cast<bitmask::display::SchedulingLEDs>(bitmask::display::CLOCK | bitmask::display::COLON | bitmask::display::PM)));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1568,7 +1554,7 @@ TEST_F(AllSystemsGoOIModeOFF, digitLEDsRaw$WHENOIModeIsOffTHENReturnsError) {
 		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
 	};
 	
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsRaw(seven_segments));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.digitLEDsRaw(seven_segments));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, digitLEDsRaw$WHENfnSerialWriteFailsTHENReturnsError) {
@@ -1579,7 +1565,7 @@ TEST_F(SerialTransactionFailureOIModeFULL, digitLEDsRaw$WHENfnSerialWriteFailsTH
 		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
 	};
 	
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.digitLEDsRaw(seven_segments));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.digitLEDsRaw(seven_segments));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, digitLEDsRaw$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
@@ -1590,7 +1576,7 @@ TEST_F(AllSystemsGoOIModeOFF, digitLEDsRaw$WHENOIModeIsOffTHENNoDataIsWrittenToS
 		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
 	};
 	
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsRaw(seven_segments));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.digitLEDsRaw(seven_segments));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1602,7 +1588,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsRaw$WHENOIModeIsPassiveTHENReturnsErr
 		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
 	};
 	
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsRaw(seven_segments));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsRaw(seven_segments));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsRaw$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
@@ -1613,7 +1599,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsRaw$WHENOIModeIsPassiveTHENNoDataIsWr
 		static_cast<bitmask::display::DigitN>(bitmask::display::G | bitmask::display::A)
 	};
 	
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsRaw(seven_segments));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsRaw(seven_segments));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1634,11 +1620,11 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit3IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[0] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[0] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 }
 
@@ -1647,11 +1633,11 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit2IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[1] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[1] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 }
 
@@ -1660,11 +1646,11 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit1IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[2] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[2] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 }
 
@@ -1673,11 +1659,11 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit0IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[3] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[3] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments)) << "Accepted value <" << i << ">";
 	}
 }
 
@@ -1686,12 +1672,12 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit3IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[0] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[0] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
 }
@@ -1701,12 +1687,12 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit2IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[1] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[1])) << "Bus: [" << serial_bus << "]";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[1] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[1])) << "Bus: [" << serial_bus << "]";
 	}
 }
@@ -1716,12 +1702,12 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit1IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[2] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[2])) << "Bus: [" << serial_bus << "]";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[2] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[2])) << "Bus: [" << serial_bus << "]";
 	}
 }
@@ -1731,12 +1717,12 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit0IsOutsideTheRange32To126
 	
 	for ( int i = 0 ; i <= 31 ; ++i) {
 		seven_segments[3] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[3])) << "Bus: [" << serial_bus << "]";
 	}
 	for ( int i = 127 ; i <= 255 ; ++i) {
 		seven_segments[3] = static_cast<char>(i);
-		EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.digitLEDsASCII(seven_segments));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[3])) << "Bus: [" << serial_bus << "]";
 	}
 }
@@ -1744,32 +1730,32 @@ TEST_F(AllSystemsGoOIModeFULL, digitLEDsASCII$WHENDigit0IsOutsideTheRange32To126
 TEST_F(AllSystemsGoOIModeOFF, digitLEDsASCII$WHENOIModeIsOffTHENReturnsError) {
 	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
 	
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsASCII(seven_segments));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.digitLEDsASCII(seven_segments));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, digitLEDsASCII$WHENfnSerialWriteFailsTHENReturnsError) {
 	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
 	
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.digitLEDsASCII(seven_segments));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.digitLEDsASCII(seven_segments));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, digitLEDsASCII$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
 	
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.digitLEDsASCII(seven_segments));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.digitLEDsASCII(seven_segments));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsASCII$WHENOIModeIsPassiveTHENReturnsError) {
 	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
 	
-	ASSERT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsASCII(seven_segments));
+	ASSERT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsASCII(seven_segments));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, digitLEDsASCII$WHENOIModeIsPassiveTHENNoDataIsWrittenToSerialBus) {
 	char seven_segments[4] = { 'Z', 'A', 'K', '!' };
 	
-	EXPECT_EQ(OpenInterface::INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsASCII(seven_segments));
+	EXPECT_EQ(INVALID_MODE_FOR_REQUESTED_OPERATION, OI_tc.digitLEDsASCII(seven_segments));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1781,21 +1767,21 @@ TEST_F(AllSystemsGoOIModePASSIVE, buttons$WHENCalledTHEN165AndParametersAreWritt
 }
 
 TEST_F(AllSystemsGoOIModeOFF, buttons$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.buttons(static_cast<bitmask::Buttons>(bitmask::SPOT | bitmask::CLEAN)));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.buttons(static_cast<bitmask::Buttons>(bitmask::SPOT | bitmask::CLEAN)));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, buttons$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.buttons(static_cast<bitmask::Buttons>(bitmask::SPOT | bitmask::CLEAN)));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.buttons(static_cast<bitmask::Buttons>(bitmask::SPOT | bitmask::CLEAN)));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, buttons$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.buttons(static_cast<bitmask::Buttons>(bitmask::SPOT | bitmask::CLEAN)));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.buttons(static_cast<bitmask::Buttons>(bitmask::SPOT | bitmask::CLEAN)));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledTHEN167AndParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::SUNDAY | bitmask::MONDAY | bitmask::TUESDAY | bitmask::WEDNESDAY | bitmask::THURSDAY | bitmask::FRIDAY | bitmask::SATURDAY);
-	OpenInterface::clock_time_t clk_time[7] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10, 15), OpenInterface::clock_time_t(16, 40), OpenInterface::clock_time_t(8, 45), OpenInterface::clock_time_t(9, 30), OpenInterface::clock_time_t(14, 10), OpenInterface::clock_time_t(11, 55) };
+	clock_time_t clk_time[7] = { clock_time_t(15, 35), clock_time_t(10, 15), clock_time_t(16, 40), clock_time_t(8, 45), clock_time_t(9, 30), clock_time_t(14, 10), clock_time_t(11, 55) };
 	
 	OI_tc.schedule(days, clk_time);
 	
@@ -1818,7 +1804,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledTHEN167AndParametersAreWrit
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithDisableInBitMaskTHEN167AndAllZerosAreWrittenToTheSerialBus) {
-	OpenInterface::clock_time_t clk_time[7] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10, 15), OpenInterface::clock_time_t(16, 40), OpenInterface::clock_time_t(8, 45), OpenInterface::clock_time_t(9, 30), OpenInterface::clock_time_t(14, 10), OpenInterface::clock_time_t(11, 55) };
+	clock_time_t clk_time[7] = { clock_time_t(15, 35), clock_time_t(10, 15), clock_time_t(16, 40), clock_time_t(8, 45), clock_time_t(9, 30), clock_time_t(14, 10), clock_time_t(11, 55) };
 
 	OI_tc.schedule(bitmask::DISABLE, clk_time);
 	
@@ -1842,7 +1828,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithDisableInBitMaskTHEN167
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithSparseCParametersTHENFullZeroFilledSerialParametersAreWrittenToTheSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
-	OpenInterface::clock_time_t clk_time[2] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10) };
+	clock_time_t clk_time[2] = { clock_time_t(15, 35), clock_time_t(10) };
 	
 	OI_tc.schedule(days, clk_time);
 	
@@ -1889,11 +1875,11 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithNULLArrayTHEN167AndAllZ
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithInvalidTimeParametersTHENCorrespondingDayIsIgnored) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
-	OpenInterface::clock_time_t clk_time[2] = { OpenInterface::clock_time_t(15, 35) };
+	clock_time_t clk_time[2] = { clock_time_t(15, 35) };
 	
 	for ( int i = 24 ; i <= 255 ; ++i ) {
 		for ( int j = 60 ; j <= 255 ; ++j ) {
-			clk_time[1] = OpenInterface::clock_time_t(i, j);
+			clk_time[1] = clock_time_t(i, j);
 			
 			OI_tc.schedule(days, clk_time);
 			
@@ -1918,7 +1904,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENCalledWithInvalidTimeParametersTH
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENDaysMaskHasInvalidBitsSetTHENBitsAreDiscarded) {
-	OpenInterface::clock_time_t clk_time[7] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10) };
+	clock_time_t clk_time[7] = { clock_time_t(15, 35), clock_time_t(10) };
 	
 	OI_tc.schedule(static_cast<bitmask::Days>(0xFF), clk_time);
 
@@ -1942,28 +1928,28 @@ TEST_F(AllSystemsGoOIModePASSIVE, schedule$WHENDaysMaskHasInvalidBitsSetTHENBits
 
 TEST_F(AllSystemsGoOIModeOFF, schedule$WHENOIModeIsOffTHENReturnsError) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
-	OpenInterface::clock_time_t clk_time[2] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10) };
+	clock_time_t clk_time[2] = { clock_time_t(15, 35), clock_time_t(10) };
 	
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedule(days, clk_time));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.schedule(days, clk_time));
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, schedule$WHENfnSerialWriteFailsTHENReturnsError) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
-	OpenInterface::clock_time_t clk_time[2] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10) };
+	clock_time_t clk_time[2] = { clock_time_t(15, 35), clock_time_t(10) };
 	
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.schedule(days, clk_time));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.schedule(days, clk_time));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, schedule$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	bitmask::Days days = static_cast<bitmask::Days>(bitmask::WEDNESDAY | bitmask::SUNDAY);
-	OpenInterface::clock_time_t clk_time[2] = { OpenInterface::clock_time_t(15, 35), OpenInterface::clock_time_t(10) };
+	clock_time_t clk_time[2] = { clock_time_t(15, 35), clock_time_t(10) };
 	
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.schedule(days, clk_time));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.schedule(days, clk_time));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENCalledTHEN168AndParametersAreWrittenToTheSerialBus) {
-	OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23));
+	OI_tc.setDayTime(TUESDAY, clock_time_t(11,23));
 	
 	ASSERT_EQ(168, static_cast<uint_opt8_t>(serial_bus[0]));
 	EXPECT_EQ(2, static_cast<uint_opt8_t>(serial_bus[1]));
@@ -1974,87 +1960,29 @@ TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENCalledTHEN168AndParametersAreWr
 TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENCalledWithInvalidTimeParametersTHENCorrespondingDayIsIgnored) {
 	for ( int i = 24 ; i <= 255 ; ++i ) {
 		for ( int j = 60 ; j <= 255 ; ++j ) {
-			EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(i, j))) << "Accepted time H:" << i << " M:" << j;
+			EXPECT_EQ(INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, clock_time_t(i, j))) << "Accepted time H:" << i << " M:" << j;
 		}
 	}
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, setDayTime$WHENTimeParameterIsInvalidTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(31,18)));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.setDayTime(TUESDAY, clock_time_t(31,18)));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, setDayTime$WHENOIModeIsOffTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23)));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.setDayTime(TUESDAY, clock_time_t(11,23)));
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, setDayTime$WHENfnSerialWriteFailsTHENReturnsError) {
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23)));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.setDayTime(TUESDAY, clock_time_t(11,23)));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, setDayTime$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	EXPECT_EQ(OpenInterface::OI_NOT_STARTED, OI_tc.setDayTime(TUESDAY, OpenInterface::clock_time_t(11,23)));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.setDayTime(TUESDAY, clock_time_t(11,23)));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
-TEST_F(AllSystemsGoOIModeOFF, rawData$WHENRawDataIsPassedToOpenInterfaceTHENTheDataIsWrittenDirectlyToTheSerialBus) {
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	OI_tc(raw_instructions);
-	
-	EXPECT_EQ(128, static_cast<uint_opt8_t>(serial_bus[0]));
-	EXPECT_EQ(132, static_cast<uint_opt8_t>(serial_bus[1]));
-	EXPECT_EQ(134, static_cast<uint_opt8_t>(serial_bus[2]));
-}
-
-TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingModeIsProvidedTHENOIModeIsSet) {
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	OI_tc(raw_instructions, PASSIVE);
-	
-	ASSERT_EQ(OI_tc._oi_mode, PASSIVE);
-}
-
-TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingModeIsNOTProvidedTHENOIModeIsNOTChanged) {
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	OI_tc(raw_instructions);
-	
-	ASSERT_EQ(OI_tc._oi_mode, OFF);
-}
-#ifdef SENSORS_ENABLED
-TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingBaudIsProvidedTHENBaudCodeIsSet) {
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	OI_tc(raw_instructions, PASSIVE, BAUD_57600);
-	
-	ASSERT_EQ(BAUD_57600, sensors::testing::getBaudCode());
-}
-
-TEST_F(AllSystemsGoOIModeOFF, rawData$WHENOptionalParameterResultingModeIsNOTProvidedTHENBaudCodeIsNOTChanged) {
-	sensors::setBaudCode(BAUD_19200);
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	OI_tc(raw_instructions);
-	
-	ASSERT_EQ(BAUD_19200, sensors::testing::getBaudCode());
-}
-#endif
-TEST_F(SerialTransactionFailureOIModeOFF, rawData$WHENfnSerialWriteFailsTHENReturnsError) {
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc(raw_instructions));
-}
-
-TEST_F(SerialTransactionFailureOIModeOFF, rawData$WHENfnSerialWriteFailsTHENOIModeIsNOTChanged) {
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc(raw_instructions, PASSIVE));
-	
-	ASSERT_EQ(OI_tc._oi_mode, OFF);
-}
-#ifdef SENSORS_ENABLED
-TEST_F(SerialTransactionFailureOIModeOFF, rawData$WHENfnSerialWriteFailsTHENBaudCodeIsNOTChanged) {
-	sensors::setBaudCode(BAUD_19200);
-	std::vector<uint_opt8_t> raw_instructions = { 0x80, 0x84, 0x86 };
-	ASSERT_EQ(OpenInterface::SERIAL_TRANSFER_FAILURE, OI_tc(raw_instructions, PASSIVE, BAUD_57600));
-	
-	ASSERT_EQ(BAUD_19200, sensors::testing::getBaudCode());
-}
-#endif
 } // namespace
 
 /* Created and copyrighted by Zachary J. Fields. All rights reserved. */

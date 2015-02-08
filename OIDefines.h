@@ -42,6 +42,7 @@ enum ReturnCode : int_opt8_t {
 	NO_DATA_AVAILABLE = -4,
 	FAILURE_TO_SYNC = -3,
 	INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
+	OI_NOT_STARTED = -1,
 	SUCCESS = 0,
 };
 

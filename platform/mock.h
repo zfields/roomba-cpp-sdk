@@ -15,6 +15,7 @@ namespace serial {
 namespace mock {
 
 typedef std::function<size_t(uint_opt8_t * const data_buffer_, const size_t buffer_length_)> fn_serial_read;
+typedef std::function<size_t(const uint_opt8_t * const serial_data_, const size_t data_length_)> fn_serial_write;
 
 void
 beginAtBaudCode (
@@ -44,19 +45,23 @@ multiByteSerialWrite (
 	const size_t data_length_
 );
 
+  /*************************/
+ /* MOCK HELPER FUNCTIONS */
+/*************************/
+
 BaudCode
 getBaudCode (
-	void
-);
-
-uint_opt8_t const * const
-getSerialBus (
 	void
 );
 
 void
 setSerialReadFunc (
 	const fn_serial_read SerialRead_
+);
+
+void
+setSerialWriteFunc (
+	const fn_serial_write SerialWrite_
 );
 
 } // namespace mock

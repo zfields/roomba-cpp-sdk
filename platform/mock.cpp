@@ -11,8 +11,8 @@ namespace mock {
 
 namespace {
 	BaudCode _baud_code;
-	uint_opt8_t _serial_bus[256] = { 0 };
 	fn_serial_read _SerialRead;
+	fn_serial_write _SerialWrite;
 } // namespace
 
 void
@@ -51,8 +51,7 @@ multiByteSerialWrite (
 	const uint_opt8_t * const serial_data_,
 	const size_t data_length_
 ) {
-	memcpy(_serial_bus, serial_data_, data_length_);
-	return strlen(reinterpret_cast<char *>(_serial_bus));
+	return _SerialWrite(serial_data_, data_length_);
 }
 
 BaudCode
@@ -62,18 +61,18 @@ getBaudCode (
 	return _baud_code;
 }
 
-uint_opt8_t const * const
-getSerialBus (
-	void
-) {
-	return _serial_bus;
-}
-
 void
 setSerialReadFunc (
 	const fn_serial_read SerialRead_
 ) {
 	_SerialRead = SerialRead_;
+}
+
+void
+setSerialWriteFunc (
+	const fn_serial_write SerialWrite_
+) {
+	_SerialWrite = SerialWrite_;
 }
 
 } // namespace mock

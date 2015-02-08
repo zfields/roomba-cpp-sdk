@@ -9,12 +9,38 @@
 #include <vector>
 
 #include "../OIDefines.h"
+#include "../platform/serial.h"
 
 #ifdef SENSORS_ENABLED
-  #include "../OISensors/OISensors.h"
+  #include "../hardware/state.h"
 #endif
 
 namespace roomba {
+
+enum OISeries {
+	SCI,
+	OI500,
+	OI600,
+};
+
+/// \brief Time representation for the scheduling methods
+/// \details This struct represents time in military time
+/// with the two fields hour and minute. The values in the
+/// structure are initialized to zero upon instantiation.
+struct clock_time_t {
+	clock_time_t (uint_opt8_t hour_ = 0, uint_opt8_t minute_ = 0) : hour(hour_), minute(minute_) {}
+	uint_opt8_t hour; ///< hour (0-23)
+	uint_opt8_t minute; ///< minute (0-59)
+};
+
+/// \brief A musical note is defined by the frequency
+/// related pitch and length or duration
+/// \details The information is stored in std::pair
+/// data structure where the first member represents
+/// the pitch and the second represent a scalar to
+/// apply to 1/64th of a second (i.e. the value 32 is
+/// half a second).
+typedef std::pair<Pitch, uint_opt8_t> note_t;
 
 /// \brief The Roomba Open Interface (OI) OpenInterface class
 /// \details The Roomba Open Interface (OI) is a software
@@ -25,108 +51,9 @@ namespace roomba {
 /// song commands, and sensor commands that you send to the
 /// Roomba’s serial port by way of a PC or microcontroller
 /// that is connected to the Mini-DIN connector.
+template <enum OISeries>
 class OpenInterface {
   public:
-	/// \brief Return codes
-	enum ReturnCode : int_opt8_t {
-		SERIAL_TRANSFER_FAILURE = -100,
-		INVALID_PARAMETER = -10,
-		INVALID_MODE_FOR_REQUESTED_OPERATION = -2,
-		OI_NOT_STARTED = -1,
-		SUCCESS = 0,
-	};
-	
-	/// \brief Time representation for the scheduling methods
-	/// \details This struct represents time in military time
-	/// with the two fields hour and minute. The values in the
-	/// structure are initialized to zero upon instantiation.
-	struct clock_time_t {
-		clock_time_t (uint_opt8_t hour_ = 0, uint_opt8_t minute_ = 0) : hour(hour_), minute(minute_) {}
-		uint_opt8_t hour; ///< hour (0-23)
-		uint_opt8_t minute; ///< minute (0-59)
-	};
-	
-	/// \brief A musical note is defined by the frequency
-	/// related pitch and length or duration
-	/// \details The information is stored in std::pair
-	/// data structure where the first member represents
-	/// the pitch and the second represent a scalar to
-	/// apply to 1/64th of a second (i.e. the value 32 is
-	/// half a second).
-	typedef std::pair<Pitch, uint_opt8_t> note_t;
-	
-	OpenInterface (
-		void
-	);
-	
-	/// \brief Direct access to the Open Interface
-	/// \details Direct access sends bytes directly to the Open Interface.
-	/// Direct access is potentially dangerous, because the parameters are
-	/// not checked and the device can be left in a "waiting" state.
-	/// \param [in] raw_instructions_ A stream of bytes guaranteed to be a
-	/// valid command chain by the caller.
-	/// \param [in] resulting_baud_ The baud rate the Roomba will be using
-	/// after the execution of the byte stream provided in the data_ parameter.
-	/// \param [in] [resulting_mode_] The OI mode the Roomba will be left in
-	/// after the execution of the byte stream provided in the data_ parameter.
-	/// \note If resulting_mode_ is not provided, then this function will incur
-	/// the overhead associated with polling the state of the device to restore
-	/// the current state.
-	/// \warning If resulting_baud_ is given an erroneous value, the OpenInterface
-	/// will no longer be able to calculate buffer overrun protection, even if
-	/// you have synchronized the caller and the Roomba correctly.
-	/// \warning If resulting_mode_ is given an erroneous value, the OpenInterface
-	/// will be left in an invalid state. At this time the stability and
-	/// behavior of this class become undefined. If you are unsure, then you 
-	/// \retval SUCCESS
-	/// \retval SERIAL_TRANSFER_FAILURE
-	ReturnCode
-	operator() (
-		const std::vector<uint_opt8_t> & raw_instructions_,
-		const OIMode resulting_mode_ = static_cast<OIMode>(-1),
-		const BaudCode resulting_baud_ = static_cast<BaudCode>(-1)
-	);
-	
-	/// \brief Establishes a serial channel with the hardware.
-	/// \details This method must be called before any other methods of
-	/// this class. It establishes a serial channel between the Open
-	/// Interface class and the underlying hardware. The default baud
-	/// for communicating with the Roomba outside the Open Interface
-	/// is 115200, if the external microcontroller is unable to
-	/// communicate at that speed, an alternative baud, 19200,
-	/// is available. To enable the slower baud on the Roomba you must
-	/// power-on the Roomba by holding down the clean/power button,
-	/// or the Roomba can be signaled on the baud rate change line.
-	/// \param [in] fnSerialWrite_ A function that writes to the
-	/// serial bus at either 115200 or 19200 baud.
-	/// \param [in] [baud_code_] The baud rate at which the specified
-	/// serial function will write to the serial bus (default value:
-	/// BAUD_115200).
-	/// \n Non-variable Configuration:
-	/// * Data bits: 8
-	/// * Parity: None
-	/// * Stop bits: 1
-	/// * Flow Control: None
-	/// \warning If the baud rate of fnSerialWrite is not synchronized
-	/// to the baud rate of the Roomba, then this class will be unable
-	/// to communicate with the Roomba's Open Interface.
-	/// \retval SUCCESS
-	/// \retval INVALID_PARAMETER
-	ReturnCode
-	connectToSerialBus (
-		const std::function<size_t(const uint_opt8_t *, const size_t)> fnSerialWrite_,
-		const BaudCode baud_code_ = BAUD_115200
-	);
-	
-	/// \brief Releases control of the Roomba.
-	/// \details This method will set the OI Mode to passive and return
-	/// the Roomba to its docking station. It will also reinitialize the
-	/// class member variables to restore it to a clean state.
-	void
-	end (
-		void
-	) const;
-	
 	/// \brief Starts the OI.
 	/// \details You must always send the Start command before sending any
 	/// other commands to the OI.
@@ -135,6 +62,7 @@ class OpenInterface {
 	/// it is starting from “off” mode.
 	/// \retval SUCCESS
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	start (
 		void
@@ -151,6 +79,7 @@ class OpenInterface {
 	/// \retval INVALID_PARAMETER
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	baud (
 		const BaudCode baud_code_
@@ -159,6 +88,7 @@ class OpenInterface {
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
 	/// \see OpenInterface::safe
+	static
 	ReturnCode
 	control (
 		void
@@ -175,6 +105,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	safe (
 		void
@@ -189,6 +120,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	full (
 		void
@@ -200,6 +132,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	clean (
 		void
@@ -211,6 +144,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	max (
 		void
@@ -222,6 +156,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	spot (
 		void
@@ -233,6 +168,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	seekDock (
 		void
@@ -254,11 +190,12 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	schedule (
 		const bitmask::Days day_mask_,
 		const clock_time_t * const clock_times_
-	) const;
+	);
 	
 	/// \brief Sets Roomba’s clock.
 	/// \param [in] day_
@@ -270,11 +207,12 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	setDayTime (
 		const Day day_,
 		const clock_time_t clock_time_
-	) const;
+	);
 	
 	/// \brief Powers down Roomba.
 	/// \details This command powers down Roomba. The OI can be in Passive,
@@ -284,6 +222,7 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	power (
 		void
@@ -316,11 +255,12 @@ class OpenInterface {
 	/// \retval INVALID__MODE__FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	drive (
 		const int_opt16_t velocity_,
 		const int_opt16_t radius_
-	) const;
+	);
 	
 	/// \brief Controls the forward and backward motion of Roomba’s drive
 	/// wheels independently.
@@ -338,11 +278,12 @@ class OpenInterface {
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	driveDirect (
 		const int_opt16_t left_wheel_velocity_,
 		const int_opt16_t right_wheel_velocity_
-	) const;
+	);
 	
 	/// \brief Controls the raw forward and backward motion of Roomba’s drive
 	/// wheels independently.
@@ -357,11 +298,12 @@ class OpenInterface {
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	drivePWM (
 		const int_opt16_t left_wheel_pwm_,
 		const int_opt16_t right_wheel_pwm_
-	) const;
+	);
 	
 	/// \brief Controls the forward and backward motion of Roomba’s main brush,
 	/// side brush, and vacuum independently.
@@ -376,10 +318,11 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	motors (
 		const bitmask::MotorStates motor_state_mask_
-	) const;
+	);
 	
 	/// \brief Controls the speed of Roomba’s main brush, side brush, and
 	/// vacuum independently.
@@ -402,12 +345,13 @@ class OpenInterface {
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	pwmMotors (
 		const int_opt8_t main_brush_,
 		const int_opt8_t side_brush_,
 		const int_opt8_t vacuum_
-	) const;
+	);
 	
 	/// \brief Controls the LEDs
 	/// \details This command controls the LEDs common to all models of
@@ -426,12 +370,13 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	leds (
 		const bitmask::display::LEDs led_mask_,
 		const uint_opt8_t color_,
 		const uint_opt8_t intensity_
-	) const;
+	);
 	
 	/// \brief Controls the state of the scheduling LEDs present on the Roomba 560 and 570.
 	/// \param [in] day_mask_
@@ -442,11 +387,12 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	schedulingLEDs (
 		const bitmask::Days day_mask_,
 		const bitmask::display::SchedulingLEDs led_mask_
-	) const;
+	);
 	
 	/// \brief Controls the 7 segment displays.
 	/// \details This command controls the four 7 segment displays on
@@ -458,10 +404,11 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	digitLEDsRaw (
 		const bitmask::display::DigitN raw_leds_[4]
-	) const;
+	);
 	
 	/// \brief Controls the 7 segment displays using ASCII character codes.
 	/// \details This command controls the four 7 segment displays on
@@ -477,10 +424,11 @@ class OpenInterface {
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	digitLEDsASCII (
 		const char ascii_leds_[4]
-	) const;
+	);
 	
 	/// \brief Push Roomba’s buttons.
 	/// \details This command lets you push Roomba’s buttons.
@@ -490,10 +438,11 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	buttons (
 		const bitmask::Buttons button_mask_
-	) const;
+	);
 	
 	/// \brief Specify songs to be played at a later time.
 	/// \details This command lets you specify up to four
@@ -516,11 +465,12 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	song (
 		const uint_opt8_t song_number_,
 		const std::vector<note_t> & song_
-	) const;
+	);
 	
 	/// \brief Select a song to play.
 	/// \details This command lets you select a song to
@@ -537,10 +487,11 @@ class OpenInterface {
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	play (
 		const uint_opt8_t song_number_
-	) const;
+	);
 	
 	/// \brief Request sensor data.
 	/// \details This command requests the OI to send a
@@ -558,10 +509,11 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	sensors (
-		const sensors::PacketId packet_id_
-	) const;
+		const sensor::PacketId packet_id_
+	);
 	
 	/// \brief Request list of sensor packets
 	/// \details This command lets you ask for a list of
@@ -574,10 +526,11 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	queryList (
-		const std::vector<sensors::PacketId> & sensor_list_
-	) const;
+		const std::vector<sensor::PacketId> & sensor_list_
+	);
 	
 	/// \brief Start a data stream based on a query list.
 	/// \details This command starts a stream of data packets.
@@ -599,10 +552,11 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	stream (
-		const std::vector<sensors::PacketId> & sensor_list_
-	) const;
+		const std::vector<sensor::PacketId> & sensor_list_
+	);
 	
 	/// \brief Stop and restart the stream.
 	/// \details This command lets you stop and restart the
@@ -616,23 +570,13 @@ class OpenInterface {
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	pauseResumeStream (
 		const bool resume_
-	) const;
+	);
 	
   protected:
-	/// \brief A function supplying multi-byte write access to the serial bus
-	/// \details This function is provided from the call to
-	/// connectToSerialBus() after class has been instantiated.
-	/// \see OpenInterface::connectToSerialBus
-	std::function<size_t(const uint_opt8_t *, const size_t)> _fnSerialWrite;
-	
-	/// \brief The operating mode of the Open Interface
-	/// \details This variable is used to track the current operating
-	/// mode of the open interface (i.e. Off, Passive, Safe, Full)
-	OIMode _oi_mode;
-	
 	/// \brief Core functionality of both queryList() and stream()
 	/// \details Both queryList() and stream() have identical
 	/// implementations. The only difference is the original Open
@@ -646,16 +590,15 @@ class OpenInterface {
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
 	/// \retval SERIAL_TRANSFER_FAILURE
+	static
 	ReturnCode
 	pollSensors (
 		const command::OpCode opcode_,
-		const std::vector<sensors::PacketId> & sensor_list_
-	) const;
+		const std::vector<sensor::PacketId> & sensor_list_
+	);
 };
 
 } // namespace roomba
-
-extern roomba::OpenInterface OI;
 
 #endif
 
