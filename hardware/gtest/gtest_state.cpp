@@ -273,15 +273,15 @@ name. Tests from different test cases can have the same individual name.
 */
 TEST_F(InitialState, setBaudCode$WHENCalledTHENBaudCodeIsSet) {
 	ASSERT_EQ(BAUD_115200, state::testing::getBaudCode());
-	state::setBaudCode(BAUD_57600);
-	ASSERT_EQ(BAUD_57600, state::testing::getBaudCode());
+	ASSERT_EQ(SUCCESS, state::setBaudCode(BAUD_57600));
+	EXPECT_EQ(BAUD_57600, state::testing::getBaudCode());
 }
 
 TEST_F(InitialState, setBaudCode$WHENCalledTHENBeginAtBaudCodeIsCalled) {
 	ASSERT_EQ(BAUD_115200, state::testing::getBaudCode());
 	ASSERT_EQ(BAUD_115200, serial::mock::getBaudCode());
-	state::setBaudCode(BAUD_57600);
-	ASSERT_EQ(BAUD_57600, serial::mock::getBaudCode());
+	ASSERT_EQ(SUCCESS, state::setBaudCode(BAUD_57600));
+	EXPECT_EQ(BAUD_57600, serial::mock::getBaudCode());
 }
 
 TEST_F(InitialState, setBaudCode$WHENBaudCodeIsGreaterThan11THENParameterIsInvalid) {
@@ -293,7 +293,26 @@ TEST_F(InitialState, setBaudCode$WHENBaudCodeIsGreaterThan11THENParameterIsInval
 TEST_F(InitialState, setBaudCode$WHENParameterIsInvalidTHENBaudCodeIsNotSet) {
 	for ( int i = 12 ; i <= 255 ; ++i ) {
 		EXPECT_EQ(INVALID_PARAMETER, state::setBaudCode(static_cast<BaudCode>(i)));
-		ASSERT_EQ(BAUD_115200, state::testing::getBaudCode());
+		EXPECT_EQ(BAUD_115200, state::testing::getBaudCode());
+	}
+}
+
+TEST_F(InitialState, setOIMode$WHENCalledTHENOIModeIsSet) {
+	ASSERT_EQ(OFF, state::testing::getOIMode());
+	ASSERT_EQ(SUCCESS, state::setOIMode(PASSIVE));
+	EXPECT_EQ(PASSIVE, state::testing::getOIMode());
+}
+
+TEST_F(InitialState, setOIMode$WHENOIModeIsGreaterThan3THENParameterIsInvalid) {
+	for ( int i = 4 ; i <= 255 ; ++i ) {
+		EXPECT_EQ(INVALID_PARAMETER, state::setOIMode(static_cast<OIMode>(i))) << "Accepted value <" << static_cast<unsigned int>(i) << ">!";
+	}
+}
+
+TEST_F(InitialState, setOIMode$WHENParameterIsInvalidTHENOIModeIsNotSet) {
+	for ( int i = 4 ; i <= 255 ; ++i ) {
+		EXPECT_EQ(INVALID_PARAMETER, state::setOIMode(static_cast<OIMode>(i)));
+		EXPECT_EQ(OFF, state::testing::getOIMode());
 	}
 }
 

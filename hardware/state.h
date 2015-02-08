@@ -96,8 +96,8 @@ struct sensor_data_t {
 /// provides access to the shared memory where the return code is stored.
 /// \return SUCCESS
 /// \return SERIAL_TRANSFER_FAILURE
-/// \see sensors::parseQueryData
-/// \see sensors::parseStreamData
+/// \see state::parseQueryData
+/// \see state::parseStreamData
 ReturnCode
 getParseError (
 	void
@@ -108,8 +108,8 @@ getParseError (
 /// accessible by the OICommand object.
 /// \return SUCCESS
 /// \return SERIAL_TRANSFER_FAILURE
-/// \see OICommand::sensors
-/// \see OICommand::queryList
+/// \see OpenInterface::sensors
+/// \see OpenInterface::queryList
 ReturnCode
 parseQueryData (
 	void
@@ -119,7 +119,7 @@ parseQueryData (
 /// \details Parses data received from Roomba and stores it in memory
 /// accessible by the OICommand object.
 /// \return SUCCESS
-/// \see OICommand::stream
+/// \see OpenInterface::stream
 ReturnCode
 parseStreamData (
 	void
@@ -130,8 +130,8 @@ parseStreamData (
 /// time required to execute a sensor query transaction.
 /// \return SUCCESS
 /// \return INVALID_PARAMETER
-/// \see OICommand::sensors
-/// \see OICommand::queryList
+/// \see OpenInterface::sensors
+/// \see OpenInterface::queryList
 ReturnCode
 setBaudCode (
 	const BaudCode baud_code_
@@ -148,11 +148,28 @@ setBaudCode (
 /// data requested from the iRobot® Roomba.
 /// \return SUCCESS
 /// \return INVALID_PARAMETER
-/// \see OICommand::sensors
-/// \see OICommand::queryList
+/// \see OpenInterface::sensors
+/// \see OpenInterface::queryList
 ReturnCode
 setParseKey (
 	sensor::PacketId const * const parse_key_
+);
+
+/// \brief Stores the operating mode of the Open Interface
+/// \details The variable is used to track the current operating
+/// mode of the Roomba's internal state machine (i.e. Off,
+/// Passive, Safe, Full), and is used as a gate to control
+/// available functionality.
+/// \return SUCCESS
+/// \return INVALID_PARAMETER
+/// see OpenInterface::control
+/// see OpenInterface::full
+/// see OpenInterface::power
+/// see OpenInterface::safe
+/// see OpenInterface::start
+ReturnCode
+setOIMode (
+	const OIMode oi_mode_
 );
 
 } // namespace state

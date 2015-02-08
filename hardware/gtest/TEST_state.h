@@ -27,6 +27,11 @@ getFlagMaskSigned (
 	void
 );
 
+OIMode
+getOIMode (
+	void
+);
+
 sensor::PacketId *
 getParseKey (
 	void

@@ -28,6 +28,10 @@ namespace {
 	/// the dirty bit will be flagged.
 	uint_opt64_t _flag_mask_dirty;
 	
+	/// \brief The mode associated with the state of the open interface
+	/// \details This variable is used to gate function calls.
+	OIMode _oi_mode(OFF);
+	
 	/// \brief Key to decode the Roomba's serial stream
 	/// \details The Roomba returns a blob of data representing the
 	/// preceding sensor request. The key is a 1-base indexed array
@@ -428,6 +432,15 @@ setBaudCode (
 }
 
 ReturnCode
+setOIMode (
+	const OIMode oi_mode_
+) {
+	if ( oi_mode_ > 3 ) { return INVALID_PARAMETER; }
+	_oi_mode = oi_mode_;
+	return SUCCESS;
+}
+
+ReturnCode
 setParseKey (
 	sensor::PacketId const * const parse_key_
 ) {
@@ -474,6 +487,13 @@ namespace testing {
 		return _FLAG_MASK_SIGNED;
 	}
 	
+	OIMode
+	getOIMode (
+		void
+	) {
+		return _oi_mode;
+	}
+	
 	sensor::PacketId *
 	getParseKey (
 		void
@@ -500,6 +520,7 @@ namespace testing {
 		void
 	) {
 		_baud_code = BAUD_115200;
+		_oi_mode = OFF;
 		serial::beginAtBaudCode(_baud_code);
 		_flag_mask_dirty = static_cast<uint_opt64_t>(-1);
 		*_parse_key = static_cast<sensor::PacketId>(0);
