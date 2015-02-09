@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <functional>
 
-#include "../OIDefines.h"
+#include "../defines.h"
 
 namespace roomba {
 namespace serial {

@@ -15,7 +15,7 @@
 
 #include <cstdint>
 
-#include "../OIDefines.h"
+#include "../defines.h"
 
 namespace roomba {
 namespace serial {

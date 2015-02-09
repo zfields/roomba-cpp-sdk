@@ -118,14 +118,14 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 $(MOCK_SERIAL).o : $(TEST_DIR)/$(MOCK_SERIAL).cpp \
                    $(TEST_DIR)/$(MOCK_SERIAL).h \
-                   $(PROJECT_DIR)/OIDefines.h
+                   $(PROJECT_DIR)/defines.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(TEST_DIR)/$(MOCK_SERIAL).cpp
 
 $(STATE).o : $(HARDWARE_DIR)/$(STATE).cpp \
              $(HARDWARE_DIR)/$(STATE).h \
              $(PLATFORM_DIR)/serial.h \
-             $(PROJECT_DIR)/OIDefines.h
+             $(PROJECT_DIR)/defines.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(HARDWARE_DIR)/$(STATE).cpp
 
@@ -133,7 +133,7 @@ $(OI).o : $(OI_DIR)/$(OI).cpp \
           $(OI_DIR)/$(OI).h \
           $(HARDWARE_DIR)/$(STATE).h \
           $(PLATFORM_DIR)/serial.h \
-          $(PROJECT_DIR)/OIDefines.h
+          $(PROJECT_DIR)/defines.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CODERUNNER_FLAGS) \
     -c $(OI_DIR)/$(OI).cpp
 

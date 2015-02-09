@@ -3,7 +3,7 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include "../OIDefines.h"
+#include "../defines.h"
 
 #if defined(TESTING)
 	#include "../test/MOCK_serial.h"

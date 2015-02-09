@@ -1,7 +1,7 @@
 /* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
 
-#ifndef OI_DEFINES_H
-#define OI_DEFINES_H
+#ifndef DEFINES_H
+#define DEFINES_H
 
 #ifndef DISABLE_SENSORS
 #define SENSORS_ENABLED
@@ -33,6 +33,13 @@
 /// to perform other more "creative" tasks using an embedded computer
 /// in conjunction with the Roomba Open Interface.
 namespace roomba {
+
+/// \brief Open Interface Series
+enum OISeries {
+	SCI,
+	OI500,
+	OI600,
+};
 
 /// \brief Return codes
 enum ReturnCode : int_opt8_t {

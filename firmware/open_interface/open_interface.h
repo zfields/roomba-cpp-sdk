@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "../OIDefines.h"
+#include "../defines.h"
 #include "../platform/serial.h"
 
 #ifdef SENSORS_ENABLED
@@ -16,12 +16,6 @@
 #endif
 
 namespace roomba {
-
-enum OISeries {
-	SCI,
-	OI500,
-	OI600,
-};
 
 /// \brief Time representation for the scheduling methods
 /// \details This struct represents time in military time
