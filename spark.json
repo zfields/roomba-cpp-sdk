@@ -1,7 +1,7 @@
 {
-    "name": "irobot-roomba-sdk",
-    "version": "1.0.0-beta001",
+    "name": "roomba-cpp-sdk",
+    "version": "0.1.0",
     "author": "Zachary J. Fields <zachary_fields@yahoo.com>",
     "license": "The MIT License (MIT)",
-    "description": "A C++ wrapper for the iRobot® Roomba Open Interface (OI) Specification."
+    "description": "A C++ wrapper for the iRobot Roomba Open Interface (OI) Specification."
 }
