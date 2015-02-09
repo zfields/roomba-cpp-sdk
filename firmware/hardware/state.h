@@ -4,7 +4,6 @@
 #define STATE_H
 
 #include <cstdint>
-#include <functional>
 
 #include "../defines.h"
 

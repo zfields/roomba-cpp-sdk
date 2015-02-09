@@ -4,7 +4,6 @@
 #define OPEN_INTERFACE_H
 
 #include <cstdint>
-#include <functional>
 #include <utility>
 #include <vector>
 
