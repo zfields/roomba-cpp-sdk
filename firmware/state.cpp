@@ -1,7 +1,7 @@
 /* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
 
 #include "state.h"
-#include "../platform/serial.h"
+#include "serial.h"
 
 #include <chrono>
 #include <mutex>

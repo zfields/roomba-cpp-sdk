@@ -5,11 +5,11 @@
 
 #include <cstdint>
 
-#include "../defines.h"
-#include "../platform/serial.h"
+#include "defines.h"
+#include "serial.h"
 
 #ifdef SENSORS_ENABLED
-  #include "../hardware/state.h"
+  #include "state.h"
 #endif
 
 namespace roomba {

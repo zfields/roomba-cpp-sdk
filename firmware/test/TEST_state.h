@@ -8,7 +8,7 @@
 #include <chrono>
 #include <cstdint>
 
-#include "../hardware/state.h"
+#include "../state.h"
 
 namespace roomba {
 namespace state {

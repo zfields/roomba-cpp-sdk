@@ -27,9 +27,9 @@ GTEST_DIR = $(GMOCK_DIR)/gtest
 # Remember to tweak this if you move this file.
 TEST_DIR = .
 PROJECT_DIR = ..
-OI_DIR = $(PROJECT_DIR)/open_interface
-HARDWARE_DIR = $(PROJECT_DIR)/hardware
-PLATFORM_DIR = $(PROJECT_DIR)/platform
+OI_DIR = ..
+HARDWARE_DIR = ..
+PLATFORM_DIR = ..
 
 # Flags passed to the preprocessor.
 # Set Google Mock/Test's header directory as a system directory, such that

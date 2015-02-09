@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../open_interface/open_interface.h"
+#include "../open_interface.h"
 #include "MOCK_serial.h"
 
 #ifndef DISABLE_SENSORS

@@ -4,9 +4,9 @@
 #define ROOMBA_CPP_SDK_H
 
 #include "defines.h"
-#include "hardware/state.h"
-#include "open_interface/open_interface.h"
-#include "platform/serial.h"
+#include "state.h"
+#include "open_interface.h"
+#include "serial.h"
 
 #endif
 

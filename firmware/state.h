@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-#include "../defines.h"
+#include "defines.h"
 
 namespace roomba {
 

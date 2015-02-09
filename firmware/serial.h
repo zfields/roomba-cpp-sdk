@@ -5,10 +5,10 @@
 
 #include <cstdlib>
 
-#include "../defines.h"
+#include "defines.h"
 
 #if defined(TESTING)
-	#include "../test/MOCK_serial.h"
+	#include "test/MOCK_serial.h"
 #elif defined(ARDUINO) || defined(SPARK)
 	#include "wiring.h"
 #endif
