@@ -1,5 +1,5 @@
 .gtest_build_log.txt
-documentation/debug.txt
-documentation/doxygen_log.txt
-hardware/gtest/gtest_state
-open_interface/gtest/gtest_open_interface
+doc/debug.txt
+doc/doxygen_log.txt
+firmware/test/gtest_open_interface
+firmware/test/gtest_state
