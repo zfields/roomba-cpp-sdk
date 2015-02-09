@@ -1,4 +1,4 @@
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
@@ -1985,4 +1985,4 @@ TEST_F(AllSystemsGoOIModeOFF, setDayTime$WHENOIModeIsOffTHENNoDataIsWrittenToSer
 
 } // namespace
 
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */

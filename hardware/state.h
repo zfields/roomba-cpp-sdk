@@ -1,4 +1,4 @@
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
 
 #ifndef STATE_H
 #define STATE_H
@@ -177,4 +177,4 @@ setOIMode (
 
 #endif
 
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */

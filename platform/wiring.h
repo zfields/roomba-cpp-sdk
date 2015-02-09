@@ -1,4 +1,4 @@
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
 
 #if defined(ARDUINO) || defined(SPARK)
 
@@ -105,4 +105,4 @@ multiByteSerialWrite (
 
 #endif
 
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */

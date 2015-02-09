@@ -1,4 +1,4 @@
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
 
 #ifndef OI_DEFINES_H
 #define OI_DEFINES_H
@@ -381,4 +381,4 @@ enum PacketId : uint_opt8_t {
 
 #endif
 
-/* Created and copyrighted by Zachary J. Fields. All rights reserved. */
+/* Created and copyrighted by Zachary J. Fields. Offered as open source under the MIT License (MIT). */
