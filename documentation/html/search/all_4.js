@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['end',['end',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#aab3b21e362c733864e436d6d55549784',1,'roomba::series500::oi::OICommand']]]
+  ['getparseerror',['getParseError',['../namespaceroomba_1_1state.html#a85d19eb1f7d2871cf53d0413159b7a2b',1,'roomba::state']]]
 ];

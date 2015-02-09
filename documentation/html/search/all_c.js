@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['querylist',['queryList',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a5bbd5bd27cbb3683f6bb2178bcf11da0',1,'roomba::series500::oi::OICommand']]]
+  ['returncode',['ReturnCode',['../namespaceroomba.html#aff53babe0af88b1ea8b066fd18b8f23f',1,'roomba']]],
+  ['roomba',['roomba',['../namespaceroomba.html',1,'']]],
+  ['serial',['serial',['../namespaceroomba_1_1serial.html',1,'roomba']]],
+  ['state',['state',['../namespaceroomba_1_1state.html',1,'roomba']]]
 ];

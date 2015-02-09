@@ -1,4 +1,4 @@
-.TH "roomba" 3 "Thu Nov 13 2014" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.TH "roomba" 3 "Sun Feb 8 2015" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,15 +13,85 @@ The iRobot Roomba autonomous robotic vacuum cleaner\&.
 
 .in +1c
 .ti -1c
-.RI " \fBseries500\fP"
+.RI " \fBserial\fP"
 .br
-.RI "\fIThe Roomba 500 Series Model (5xx) \fP"
+.RI "\fISerial Platform Abstraction Layer\&. \fP"
+.ti -1c
+.RI " \fBstate\fP"
+.br
+.RI "\fIConstant data used to manage data returned from the iRobot® Roomba\&. \fP"
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBclock_time_t\fP"
+.br
+.RI "\fITime representation for the scheduling methods\&. \fP"
+.ti -1c
+.RI "class \fBOpenInterface\fP"
+.br
+.RI "\fIThe Roomba Open Interface (OI) \fBOpenInterface\fP class\&. \fP"
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::pair< \fBPitch\fP, 
+.br
+uint_opt8_t > \fBnote_t\fP"
+.br
+.RI "\fIA musical note is defined by the frequency related pitch and length or duration\&. \fP"
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBReturnCode\fP : int_opt8_t { \fBINVALID_CHECKSUM\fP = -101, \fBSERIAL_TRANSFER_FAILURE\fP = -100, \fBINVALID_PARAMETER\fP = -10, \fBNO_DATA_AVAILABLE\fP = -4, \fBFAILURE_TO_SYNC\fP = -3, \fBINVALID_MODE_FOR_REQUESTED_OPERATION\fP = -2, \fBOI_NOT_STARTED\fP = -1, \fBSUCCESS\fP = 0 }"
+.br
+.RI "\fIReturn codes\&. \fP"
+.ti -1c
+.RI "enum \fBBaudCode\fP : uint_opt8_t { \fBBAUD_300\fP = 0, \fBBAUD_600\fP, \fBBAUD_1200\fP, \fBBAUD_2400\fP, \fBBAUD_4800\fP, \fBBAUD_9600\fP, \fBBAUD_14400\fP, \fBBAUD_19200\fP, \fBBAUD_28800\fP, \fBBAUD_38400\fP, \fBBAUD_57600\fP, \fBBAUD_115200\fP }"
+.br
+.RI "\fIBaud (OpCode 129) \fP"
+.ti -1c
+.RI "enum \fBPitch\fP : uint_opt8_t { \fBREST\fP = 30, \fBG1\fP = 31, \fBG1_SHARP\fP = 32, \fBA1\fP = 33, \fBA1_SHARP\fP = 34, \fBB1\fP = 35, \fBC2\fP = 36, \fBC2_SHARP\fP = 37, \fBD2\fP = 38, \fBD2_SHARP\fP = 39, \fBE2\fP = 40, \fBF2\fP = 41, \fBF2_SHARP\fP = 42, \fBG2\fP = 43, \fBG2_SHARP\fP = 44, \fBA2\fP = 45, \fBA2_SHARP\fP = 46, \fBB2\fP = 47, \fBC3\fP = 48, \fBC3_SHARP\fP = 49, \fBD3\fP = 50, \fBD3_SHARP\fP = 51, \fBE3\fP = 52, \fBF3\fP = 53, \fBF3_SHARP\fP = 54, \fBG3\fP = 55, \fBG3_SHARP\fP = 56, \fBA3\fP = 57, \fBA3_SHARP\fP = 58, \fBB3\fP = 59, \fBC4\fP = 60, \fBMIDDLE_C\fP = 60, \fBC4_SHARP\fP = 61, \fBD4\fP = 62, \fBD4_SHARP\fP = 63, \fBE4\fP = 64, \fBF4\fP = 65, \fBF4_SHARP\fP = 66, \fBG4\fP = 67, \fBG4_SHARP\fP = 68, \fBA4\fP = 69, \fBA4_SHARP\fP = 70, \fBB4\fP = 71, \fBC5\fP = 72, \fBC5_SHARP\fP = 73, \fBD5\fP = 74, \fBD5_SHARP\fP = 75, \fBE5\fP = 76, \fBF5\fP = 77, \fBF5_SHARP\fP = 78, \fBG5\fP = 79, \fBG5_SHARP\fP = 80, \fBA5\fP = 81, \fBA5_SHARP\fP = 82, \fBB5\fP = 83, \fBC6\fP = 84, \fBC6_SHARP\fP = 85, \fBD6\fP = 86, \fBD6_SHARP\fP = 87, \fBE6\fP = 88, \fBF6\fP = 89, \fBF6_SHARP\fP = 90, \fBG6\fP = 91, \fBG6_SHARP\fP = 92, \fBA6\fP = 93, \fBA6_SHARP\fP = 94, \fBB6\fP = 95, \fBC7\fP = 96, \fBC7_SHARP\fP = 97, \fBD7\fP = 98, \fBD7_SHARP\fP = 99, \fBE7\fP = 100, \fBF7\fP = 101, \fBF7_SHARP\fP = 102, \fBG7\fP = 103, \fBG7_SHARP\fP = 104, \fBA7\fP = 105, \fBA7_SHARP\fP = 106, \fBB7\fP = 107 }"
+.br
+.RI "\fISong (OpCode 140) \fP"
+.ti -1c
+.RI "enum \fBDay\fP : uint_opt8_t { \fBSUNDAY\fP = 0, \fBMONDAY\fP, \fBTUESDAY\fP, \fBWEDNESDAY\fP, \fBTHURSDAY\fP, \fBFRIDAY\fP, \fBSATURDAY\fP }"
+.br
+.RI "\fISet Day/Time (OpCode 168) \fP"
+.ti -1c
+.RI "enum \fBChargingState\fP : uint_opt8_t { \fBNOT_CHARGING\fP = 0, \fBRECONDITIONING_CHARGING\fP, \fBFULL_CHARGING\fP, \fBTRICKLE_CHARGING\fP, \fBWAITING\fP, \fBCHARGING_FAULT\fP }"
+.br
+.RI "\fICharging State (PacketId 21) \fP"
+.ti -1c
+.RI "enum \fBOIMode\fP : uint_opt8_t { \fBOFF\fP = 0, \fBPASSIVE\fP, \fBSAFE\fP, \fBFULL\fP }"
+.br
+.RI "\fIOI Mode (PacketId 35) \fP"
+.ti -1c
+.RI "enum \fBOISeries\fP { \fBSCI\fP, \fBOI500\fP, \fBOI600\fP }"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "enum \fBroomba::ReturnCode\fP \fB__attribute__\fP"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
 The iRobot Roomba autonomous robotic vacuum cleaner\&. 
 
 Roomba was introduced in 2002\&. As of Feb 2014, over 10 million units have been sold worldwide\&. Roomba features a set of basic sensors that help it perform tasks\&. For instance, the Roomba is able to change direction on encountering obstacles, detect dirty spots on the floor, and detect steep drops to keep it from falling down stairs\&. It uses two independently operating wheels that allow 360 degree turns\&. Additionally, it can adapt to perform other more 'creative' tasks using an embedded computer in conjunction with the Roomba Open Interface\&. 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef std::pair<\fBPitch\fP, uint_opt8_t> \fBroomba::note_t\fP"
+
+.PP
+A musical note is defined by the frequency related pitch and length or duration\&. The information is stored in std::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i\&.e\&. the value 32 is half a second)\&. 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for iRobot Roomba 500 Series SDK from the source code\&.

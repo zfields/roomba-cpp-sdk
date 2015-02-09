@@ -1,0 +1,130 @@
+\hypertarget{namespaceroomba_1_1serial}{\section{roomba\+:\+:serial Namespace Reference}
+\label{namespaceroomba_1_1serial}\index{roomba\+::serial@{roomba\+::serial}}
+}
+
+
+Serial Platform Abstraction Layer.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespaceroomba_1_1serial_a13ea2776b1b20987eac4980cdc194eb5}{begin\+At\+Baud\+Code} (\hyperlink{namespaceroomba_a303ba447b12fc77bc24977a1a7ec6d6c}{roomba\+::\+Baud\+Code} baud\+\_\+code\+\_\+)
+\begin{DoxyCompactList}\small\item\em Begin the serial connection. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{namespaceroomba_1_1serial_af8bd9971043c83114088d1c43cfd97d4}{delay\+Ms} (const size\+\_\+t desired\+\_\+ms\+\_\+)
+\begin{DoxyCompactList}\small\item\em Delay in milliseconds. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{namespaceroomba_1_1serial_af7b2e2fc2ec29829a0d72f091d36dcd3}{delay\+Us} (const size\+\_\+t desired\+\_\+us\+\_\+)
+\begin{DoxyCompactList}\small\item\em Delay in microseconds. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{namespaceroomba_1_1serial_a5f09086cb2b546c2aa5dbd354d981d85}{multi\+Byte\+Serial\+Read} (uint\+\_\+opt8\+\_\+t $\ast$const data\+\_\+buffer\+\_\+, const size\+\_\+t buffer\+\_\+length\+\_\+, const uint\+\_\+opt32\+\_\+t timeout\+\_\+ms\+\_\+=1000)
+\begin{DoxyCompactList}\small\item\em A function supplying multi-\/byte read access to the serial bus. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{namespaceroomba_1_1serial_a5700ad1549232f61cdcecfdf8f480cf3}{multi\+Byte\+Serial\+Write} (const uint\+\_\+opt8\+\_\+t $\ast$const serial\+\_\+data\+\_\+, const size\+\_\+t data\+\_\+length\+\_\+)
+\begin{DoxyCompactList}\small\item\em A function supplying multi-\/byte write access to the serial bus. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Serial Platform Abstraction Layer. 
+
+This class serves as a serial platform abstraction layer, which lists the basic services to be provided by a serial platform. An explicit serial protocol will be instantiated at compilation. (i.\+e. Wiring, Linux, Windows\+\_\+\+N\+T, Windows\+\_\+\+U\+A\+P, etc...). 
+
+\subsection{Function Documentation}
+\hypertarget{namespaceroomba_1_1serial_a13ea2776b1b20987eac4980cdc194eb5}{\index{roomba\+::serial@{roomba\+::serial}!begin\+At\+Baud\+Code@{begin\+At\+Baud\+Code}}
+\index{begin\+At\+Baud\+Code@{begin\+At\+Baud\+Code}!roomba\+::serial@{roomba\+::serial}}
+\subsubsection[{begin\+At\+Baud\+Code}]{\setlength{\rightskip}{0pt plus 5cm}void roomba\+::serial\+::begin\+At\+Baud\+Code (
+\begin{DoxyParamCaption}
+\item[{{\bf roomba\+::\+Baud\+Code}}]{baud\+\_\+code\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1serial_a13ea2776b1b20987eac4980cdc194eb5}
+
+
+Begin the serial connection. 
+
+A serial connection will be started at the rate represented by the baud code. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em baud\+\_\+code\+\_\+} & The code indicating a specific rate \\
+\hline
+\end{DoxyParams}
+\hypertarget{namespaceroomba_1_1serial_af8bd9971043c83114088d1c43cfd97d4}{\index{roomba\+::serial@{roomba\+::serial}!delay\+Ms@{delay\+Ms}}
+\index{delay\+Ms@{delay\+Ms}!roomba\+::serial@{roomba\+::serial}}
+\subsubsection[{delay\+Ms}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t roomba\+::serial\+::delay\+Ms (
+\begin{DoxyParamCaption}
+\item[{const size\+\_\+t}]{desired\+\_\+ms\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1serial_af8bd9971043c83114088d1c43cfd97d4}
+
+
+Delay in milliseconds. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em desired\+\_\+ms\+\_\+} & The number of milliseconds you wish to wait \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The actual duration of the delay in milliseconds 
+\end{DoxyReturn}
+\hypertarget{namespaceroomba_1_1serial_af7b2e2fc2ec29829a0d72f091d36dcd3}{\index{roomba\+::serial@{roomba\+::serial}!delay\+Us@{delay\+Us}}
+\index{delay\+Us@{delay\+Us}!roomba\+::serial@{roomba\+::serial}}
+\subsubsection[{delay\+Us}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t roomba\+::serial\+::delay\+Us (
+\begin{DoxyParamCaption}
+\item[{const size\+\_\+t}]{desired\+\_\+us\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1serial_af7b2e2fc2ec29829a0d72f091d36dcd3}
+
+
+Delay in microseconds. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em desired\+\_\+us\+\_\+} & The number of microseconds you wish to wait \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The actual duration of the delay in microseconds 
+\end{DoxyReturn}
+\hypertarget{namespaceroomba_1_1serial_a5f09086cb2b546c2aa5dbd354d981d85}{\index{roomba\+::serial@{roomba\+::serial}!multi\+Byte\+Serial\+Read@{multi\+Byte\+Serial\+Read}}
+\index{multi\+Byte\+Serial\+Read@{multi\+Byte\+Serial\+Read}!roomba\+::serial@{roomba\+::serial}}
+\subsubsection[{multi\+Byte\+Serial\+Read}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t roomba\+::serial\+::multi\+Byte\+Serial\+Read (
+\begin{DoxyParamCaption}
+\item[{uint\+\_\+opt8\+\_\+t $\ast$const}]{data\+\_\+buffer\+\_\+, }
+\item[{const size\+\_\+t}]{buffer\+\_\+length\+\_\+, }
+\item[{const uint\+\_\+opt32\+\_\+t}]{timeout\+\_\+ms\+\_\+ = {\ttfamily 1000}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1serial_a5f09086cb2b546c2aa5dbd354d981d85}
+
+
+A function supplying multi-\/byte read access to the serial bus. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em data\+\_\+buffer\+\_\+} & A buffer used for transfering the contents of the serial bus \\
+\hline
+\mbox{\tt in}  & {\em buffer\+\_\+length\+\_\+} & The length of the buffer \\
+\hline
+\mbox{\tt in}  & {\em timeout\+\_\+ms\+\_\+} & The number of milliseconds to wait before returning with a timeout error. \mbox{[}default value\+: 1000\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The actual number of bytes placed in the buffer provided 
+\end{DoxyReturn}
+\hypertarget{namespaceroomba_1_1serial_a5700ad1549232f61cdcecfdf8f480cf3}{\index{roomba\+::serial@{roomba\+::serial}!multi\+Byte\+Serial\+Write@{multi\+Byte\+Serial\+Write}}
+\index{multi\+Byte\+Serial\+Write@{multi\+Byte\+Serial\+Write}!roomba\+::serial@{roomba\+::serial}}
+\subsubsection[{multi\+Byte\+Serial\+Write}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t roomba\+::serial\+::multi\+Byte\+Serial\+Write (
+\begin{DoxyParamCaption}
+\item[{const uint\+\_\+opt8\+\_\+t $\ast$const}]{serial\+\_\+data\+\_\+, }
+\item[{const size\+\_\+t}]{data\+\_\+length\+\_\+}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{namespaceroomba_1_1serial_a5700ad1549232f61cdcecfdf8f480cf3}
+
+
+A function supplying multi-\/byte write access to the serial bus. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em serial\+\_\+data\+\_\+} & A serialized data string to be sent on the serial bus \\
+\hline
+\mbox{\tt in}  & {\em data\+\_\+length\+\_\+} & The length of the data at the pointer passed in the first parameter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The actual number of bytes written to the serial bus 
+\end{DoxyReturn}

@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['digitledsascii',['digitLEDsASCII',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a68c574a076e30cf0461cc462363a2fad',1,'roomba::series500::oi::OICommand']]],
-  ['digitledsraw',['digitLEDsRaw',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#ab2a6e0e164906256c4750b7f133b7dd7',1,'roomba::series500::oi::OICommand']]],
-  ['drive',['drive',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a06b9693109213622c5f1bffcd14032b9',1,'roomba::series500::oi::OICommand']]],
-  ['drivedirect',['driveDirect',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a993eead221967c3282ac4017ee466018',1,'roomba::series500::oi::OICommand']]],
-  ['drivepwm',['drivePWM',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a888c622559bc6a3ca0ab3e4dc98a73f8',1,'roomba::series500::oi::OICommand']]]
+  ['delayms',['delayMs',['../namespaceroomba_1_1serial.html#af8bd9971043c83114088d1c43cfd97d4',1,'roomba::serial']]],
+  ['delayus',['delayUs',['../namespaceroomba_1_1serial.html#af7b2e2fc2ec29829a0d72f091d36dcd3',1,'roomba::serial']]],
+  ['digitledsascii',['digitLEDsASCII',['../classroomba_1_1_open_interface.html#ac6a6cba0c5ed78c9d40bb204837103d2',1,'roomba::OpenInterface']]],
+  ['digitledsraw',['digitLEDsRaw',['../classroomba_1_1_open_interface.html#a80fd30bc2c3e989058290e4c949bbb20',1,'roomba::OpenInterface']]],
+  ['drive',['drive',['../classroomba_1_1_open_interface.html#ab8e47a5ccfb15ee74f5af6264c782fc7',1,'roomba::OpenInterface']]],
+  ['drivedirect',['driveDirect',['../classroomba_1_1_open_interface.html#a0e98db60c8347772d042c72ad97fab56',1,'roomba::OpenInterface']]],
+  ['drivepwm',['drivePWM',['../classroomba_1_1_open_interface.html#a7295b2001bef68d63be2b0ab59200d1b',1,'roomba::OpenInterface']]]
 ];

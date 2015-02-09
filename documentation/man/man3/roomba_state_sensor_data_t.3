@@ -1,0 +1,198 @@
+.TH "roomba::state::sensor_data_t" 3 "Sun Feb 8 2015" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+roomba::state::sensor_data_t \- 
+.PP
+Data structure to overlay sensor blob\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <state\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBbumps_and_wheel_drops\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBwall\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBcliff_left\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBcliff_front_left\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBcliff_front_right\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBcliff_right\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBvirtual_wall\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBmotor_overcurrents\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBdirt_detect\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBreserved_1\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBinfrared_character_omni\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBbuttons\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBdistance\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBangle\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBcharging_state\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBvoltage\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBcurrent\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBtemperature\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBbattery_charge\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBbattery_capacity\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBwall_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBcliff_left_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBcliff_front_left_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBcliff_front_right_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBcliff_right_signal\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBreserved_2\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBreserved_3\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBcharging_sources_available\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBoi_mode\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBsong_number\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBsong_playing\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBnumber_of_stream_packets\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBrequested_velocity\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBrequested_radius\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBrequested_right_velocity\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBrequested_left_velocity\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBright_encoder_counts\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBleft_encoder_counts\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBlight_bumper\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBlight_bump_left_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBlight_bump_front_left_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBlight_bump_center_left_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBlight_bump_center_right_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBlight_bump_front_right_signal\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBlight_bump_right_signal\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBinfrared_character_left\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBinfrared_character_right\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBleft_motor_current\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBright_motor_current\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBmain_brush_motor_current\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBside_brush_motor_current\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBstasis\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Data structure to overlay sensor blob\&. 
+
+The data structure provides field name access to the sensor data returned by the Roomba\&. 
+.PP
+\fBNote:\fP
+.RS 4
+This data structure must be given the packed attribute, due the fact the data is not divisible into even blocks of 8, 16, 32 or 64\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::sensors\fP 
+.PP
+\fBOpenInterface::queryList\fP 
+.PP
+\fBOpenInterface::stream\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for iRobot Roomba 500 Series SDK from the source code\&.

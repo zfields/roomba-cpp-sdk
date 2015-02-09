@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['max',['max',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#ae8eb0ac3e8e1901bb503433e496c1a6e',1,'roomba::series500::oi::OICommand']]],
-  ['motors',['motors',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a29bf9b858713545b33a1a6916d15b10f',1,'roomba::series500::oi::OICommand']]]
+  ['max',['max',['../classroomba_1_1_open_interface.html#a15feaa543a8dbe11b977cc6ec306cdc6',1,'roomba::OpenInterface']]],
+  ['motors',['motors',['../classroomba_1_1_open_interface.html#ae112df7415692769172f54be0c206391',1,'roomba::OpenInterface']]],
+  ['multibyteserialread',['multiByteSerialRead',['../namespaceroomba_1_1serial.html#a5f09086cb2b546c2aa5dbd354d981d85',1,'roomba::serial']]],
+  ['multibyteserialwrite',['multiByteSerialWrite',['../namespaceroomba_1_1serial.html#a5700ad1549232f61cdcecfdf8f480cf3',1,'roomba::serial']]]
 ];

@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['chargingstate',['ChargingState',['../namespaceroomba_1_1series500_1_1oi.html#a2d3327fa62385afc4aeb87395832033e',1,'roomba::series500::oi']]],
-  ['clean',['clean',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#a1568d65b2de996365fb951226322e403',1,'roomba::series500::oi::OICommand']]],
-  ['clock_5ftime_5ft',['clock_time_t',['../structroomba_1_1series500_1_1oi_1_1_o_i_command_1_1clock__time__t.html',1,'roomba::series500::oi::OICommand']]],
-  ['connecttoserialbus',['connectToSerialBus',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#ae2fe639f2810b3313d458569a06e0202',1,'roomba::series500::oi::OICommand']]],
-  ['control',['control',['../classroomba_1_1series500_1_1oi_1_1_o_i_command.html#ad19717e95684fb6d603741315b333551',1,'roomba::series500::oi::OICommand']]]
+  ['day',['Day',['../namespaceroomba.html#a30df4953fe65b5b801c82a16865e50e1',1,'roomba']]],
+  ['delayms',['delayMs',['../namespaceroomba_1_1serial.html#af8bd9971043c83114088d1c43cfd97d4',1,'roomba::serial']]],
+  ['delayus',['delayUs',['../namespaceroomba_1_1serial.html#af7b2e2fc2ec29829a0d72f091d36dcd3',1,'roomba::serial']]],
+  ['digitledsascii',['digitLEDsASCII',['../classroomba_1_1_open_interface.html#ac6a6cba0c5ed78c9d40bb204837103d2',1,'roomba::OpenInterface']]],
+  ['digitledsraw',['digitLEDsRaw',['../classroomba_1_1_open_interface.html#a80fd30bc2c3e989058290e4c949bbb20',1,'roomba::OpenInterface']]],
+  ['drive',['drive',['../classroomba_1_1_open_interface.html#ab8e47a5ccfb15ee74f5af6264c782fc7',1,'roomba::OpenInterface']]],
+  ['drivedirect',['driveDirect',['../classroomba_1_1_open_interface.html#a0e98db60c8347772d042c72ad97fab56',1,'roomba::OpenInterface']]],
+  ['drivepwm',['drivePWM',['../classroomba_1_1_open_interface.html#a7295b2001bef68d63be2b0ab59200d1b',1,'roomba::OpenInterface']]]
 ];

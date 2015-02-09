@@ -1,0 +1,1095 @@
+.TH "roomba::OpenInterface< OISeries >" 3 "Sun Feb 8 2015" "Version 1.0.0-alpha" "iRobot Roomba 500 Series SDK" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+roomba::OpenInterface< OISeries > \- 
+.PP
+The Roomba Open Interface (OI) \fBOpenInterface\fP class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <open_interface\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBstart\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBbaud\fP (const \fBBaudCode\fP baud_code_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBsafe\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBcontrol\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBfull\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBclean\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBmax\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBspot\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBseekDock\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBschedule\fP (const bitmask::Days day_mask_, const \fBclock_time_t\fP *const clock_times_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBsetDayTime\fP (const \fBDay\fP day_, const \fBclock_time_t\fP clock_time_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBpower\fP (void)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBdrive\fP (const int_opt16_t velocity_, const int_opt16_t radius_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBdriveDirect\fP (const int_opt16_t left_wheel_velocity_, const int_opt16_t right_wheel_velocity_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBdrivePWM\fP (const int_opt16_t left_wheel_pwm_, const int_opt16_t right_wheel_pwm_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBmotors\fP (const bitmask::MotorStates motor_state_mask_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBpwmMotors\fP (const int_opt8_t main_brush_, const int_opt8_t side_brush_, const int_opt8_t vacuum_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBleds\fP (const bitmask::display::LEDs led_mask_, const uint_opt8_t color_, const uint_opt8_t intensity_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBschedulingLEDs\fP (const bitmask::Days day_mask_, const bitmask::display::SchedulingLEDs display_mask_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBdigitLEDsRaw\fP (const bitmask::display::DigitN raw_leds_[4])"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBdigitLEDsASCII\fP (const char ascii_leds_[4])"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBbuttons\fP (const bitmask::Buttons button_mask_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBsong\fP (const uint_opt8_t song_number_, const std::vector< \fBnote_t\fP > &song_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBplay\fP (const uint_opt8_t song_number_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBsensors\fP (const sensor::PacketId packet_id_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBqueryList\fP (const std::vector< sensor::PacketId > &sensor_list_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBstream\fP (const std::vector< sensor::PacketId > &sensor_list_)"
+.br
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBpauseResumeStream\fP (const bool resume_)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBReturnCode\fP \fBstart\fP (void)"
+.br
+.RI "\fIStarts the OI\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBbaud\fP (const \fBBaudCode\fP baud_code_)"
+.br
+.RI "\fISets the baud rate in bits per second (bps)\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBcontrol\fP (void)"
+.br
+.RI "\fIThe effect and usage of the Control command are identical to the Safe command\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBsafe\fP (void)"
+.br
+.RI "\fIPuts the OI into Safe mode\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBfull\fP (void)"
+.br
+.RI "\fIPuts the OI into Full mode\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBclean\fP (void)"
+.br
+.RI "\fIStarts the default cleaning mode\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBmax\fP (void)"
+.br
+.RI "\fIStarts the Max cleaning mode\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBspot\fP (void)"
+.br
+.RI "\fIStarts the Spot cleaning mode\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBseekDock\fP (void)"
+.br
+.RI "\fISends Roomba to the dock\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBschedule\fP (const bitmask::Days day_mask_, const \fBclock_time_t\fP *const clock_times_)"
+.br
+.RI "\fISends Roomba a new schedule\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBsetDayTime\fP (const \fBDay\fP day_, const \fBclock_time_t\fP clock_time_)"
+.br
+.RI "\fISets Roomba’s clock\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBpower\fP (void)"
+.br
+.RI "\fIPowers down Roomba\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBdrive\fP (const int_opt16_t velocity_, const int_opt16_t radius_)"
+.br
+.RI "\fIControls Roomba’s drive wheels\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBdriveDirect\fP (const int_opt16_t left_wheel_velocity_, const int_opt16_t right_wheel_velocity_)"
+.br
+.RI "\fIControls the forward and backward motion of Roomba’s drive wheels independently\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBdrivePWM\fP (const int_opt16_t left_wheel_pwm_, const int_opt16_t right_wheel_pwm_)"
+.br
+.RI "\fIControls the raw forward and backward motion of Roomba’s drive wheels independently\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBmotors\fP (const bitmask::MotorStates motor_state_mask_)"
+.br
+.RI "\fIControls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBpwmMotors\fP (const int_opt8_t main_brush_, const int_opt8_t side_brush_, const int_opt8_t vacuum_)"
+.br
+.RI "\fIControls the speed of Roomba’s main brush, side brush, and vacuum independently\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBleds\fP (const bitmask::display::LEDs led_mask_, const uint_opt8_t color_, const uint_opt8_t intensity_)"
+.br
+.RI "\fIControls the LEDs\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBschedulingLEDs\fP (const bitmask::Days day_mask_, const bitmask::display::SchedulingLEDs led_mask_)"
+.br
+.RI "\fIControls the state of the scheduling LEDs present on the Roomba 560 and 570\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBdigitLEDsRaw\fP (const bitmask::display::DigitN raw_leds_[4])"
+.br
+.RI "\fIControls the 7 segment displays\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBdigitLEDsASCII\fP (const char ascii_leds_[4])"
+.br
+.RI "\fIControls the 7 segment displays using ASCII character codes\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBbuttons\fP (const bitmask::Buttons button_mask_)"
+.br
+.RI "\fIPush Roomba’s buttons\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBsong\fP (const uint_opt8_t song_number_, const std::vector< \fBnote_t\fP > &song_)"
+.br
+.RI "\fISpecify songs to be played at a later time\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBplay\fP (const uint_opt8_t song_number_)"
+.br
+.RI "\fISelect a song to play\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBsensors\fP (const sensor::PacketId packet_id_)"
+.br
+.RI "\fIRequest sensor data\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBqueryList\fP (const std::vector< sensor::PacketId > &sensor_list_)"
+.br
+.RI "\fIRequest list of sensor packets\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBstream\fP (const std::vector< sensor::PacketId > &sensor_list_)"
+.br
+.RI "\fIStart a data stream based on a query list\&. \fP"
+.ti -1c
+.RI "static \fBReturnCode\fP \fBpauseResumeStream\fP (const bool resume_)"
+.br
+.RI "\fIStop and restart the stream\&. \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<> \fBReturnCode\fP \fBpollSensors\fP (const command::OpCode opcode_, const std::vector< sensor::PacketId > &sensor_list_)"
+.br
+.in -1c
+.SS "Static Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBReturnCode\fP \fBpollSensors\fP (const command::OpCode opcode_, const std::vector< sensor::PacketId > &sensor_list_)"
+.br
+.RI "\fICore functionality of both \fBqueryList()\fP and \fBstream()\fP \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<enum OISeries>class roomba::OpenInterface< OISeries >"
+The Roomba Open Interface (OI) \fBOpenInterface\fP class\&. 
+
+The Roomba Open Interface (OI) is a software interface for controlling and manipulating Roomba’s behavior\&. The software interface lets you manipulate Roomba’s behavior and read its sensors through a series of commands, including mode commands, actuator commands, song commands, and sensor commands that you send to the Roomba’s serial port by way of a PC or microcontroller that is connected to the Mini-DIN connector\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::baud (const \fBBaudCode\fPbaud_code_)\fC [static]\fP"
+
+.PP
+Sets the baud rate in bits per second (bps)\&. This command sets the baud rate in bits per second (bps) at which OI commands and data are sent according to the baud code sent in the data byte\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbaud_code_\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+The default baud rate at power up is 115200 bps\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::buttons (const bitmask::Buttonsbutton_mask_)\fC [static]\fP"
+
+.PP
+Push Roomba’s buttons\&. This command lets you push Roomba’s buttons\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbutton_mask_\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+The buttons will automatically release after 1/6th of a second\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::clean (void)\fC [static]\fP"
+
+.PP
+Starts the default cleaning mode\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::control (void)\fC [static]\fP"
+
+.PP
+The effect and usage of the Control command are identical to the Safe command\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::safe\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::digitLEDsASCII (const charascii_leds_[4])\fC [static]\fP"
+
+.PP
+Controls the 7 segment displays using ASCII character codes\&. This command controls the four 7 segment displays on the Roomba 560 and 570 using ASCII character codes\&. Because a 7 segment display is not sufficient to display alphabetic characters properly, all characters are an approximation 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIascii_leds_\fP An ASCII char array (valid values range from (32-126)\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+Not all ASCII codes are implemented\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::digitLEDsRaw (const bitmask::display::DigitNraw_leds_[4])\fC [static]\fP"
+
+.PP
+Controls the 7 segment displays\&. This command controls the four 7 segment displays on the Roomba 560 and 570\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIraw_leds_\fP An array representing the four 7 segment display values\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+All use red LEDs 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::drive (const int_opt16_tvelocity_, const int_opt16_tradius_)\fC [static]\fP"
+
+.PP
+Controls Roomba’s drive wheels\&. This command controls Roomba’s drive wheels\&. A Drive command with a positive velocity and a positive radius makes Roomba drive forward while turning toward the left\&. A negative radius makes Roomba turn toward the right\&. Special cases for the radius make Roomba turn in place or drive straight, as specified below\&. A negative velocity makes Roomba drive backward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvelocity_\fP (-500 – 500) The average velocity of the drive wheels in millimeters per second (mm/s)\&. 
+.br
+\fIradius_\fP (-2000 – 2000) The radius in millimeters at which Roomba will turn\&. The radius is measured from the center of the turning circle to the center of Roomba\&. 
+.RE
+.PP
+\fBSpecial cases\fP
+.RS 4
+
+.RE
+.PP
+\fB\fP
+.RS 4
+Straight = 32768 (0x8000) or 32767 (0x7FFF) 
+.RE
+.PP
+\fB\fP
+.RS 4
+Turn in place clockwise = -1 
+.RE
+.PP
+\fB\fP
+.RS 4
+Turn in place counter-clockwise = 1 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+Internal and environmental restrictions may prevent Roomba from accurately carrying out some drive commands\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID__MODE__FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::driveDirect (const int_opt16_tleft_wheel_velocity_, const int_opt16_tright_wheel_velocity_)\fC [static]\fP"
+
+.PP
+Controls the forward and backward motion of Roomba’s drive wheels independently\&. This command lets you control the forward and backward motion of Roomba’s drive wheels independently\&. A positive velocity makes that wheel drive forward, while a negative velocity makes it drive backward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIleft_wheel_velocity_\fP (-500 – 500) The velocity of the left wheel in millimeters per second (mm/s)\&. 
+.br
+\fIright_wheel_velocity_\fP (-500 – 500) The velocity of the right wheel in millimeters per second (mm/s)\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::drivePWM (const int_opt16_tleft_wheel_pwm_, const int_opt16_tright_wheel_pwm_)\fC [static]\fP"
+
+.PP
+Controls the raw forward and backward motion of Roomba’s drive wheels independently\&. This command lets you control the raw forward and backward motion of Roomba’s drive wheels independently\&. A positive PWM makes that wheel drive forward, while a negative PWM makes it drive backward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIleft_wheel_pwm_\fP (-255 – 255) The PWM of the left wheel\&. 
+.br
+\fIright_wheel_pwm_\fP (-255 – 255) The PWM of the right wheel\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::full (void)\fC [static]\fP"
+
+.PP
+Puts the OI into Full mode\&. This command gives you complete control over Roomba by putting the OI into Full mode, and turning off the cliff, wheel-drop and internal charger safety features\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::leds (const bitmask::display::LEDsled_mask_, const uint_opt8_tcolor_, const uint_opt8_tintensity_)\fC [static]\fP"
+
+.PP
+Controls the LEDs\&. This command controls the LEDs common to all models of Roomba 500\&. Clean/Power uses a bicolor (red/green) LED\&. The intensity and color of this LED can be controlled with 8-bit resolution\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIled_mask_\fP 
+.br
+\fIcolor_\fP 0 = green, 255 = red\&. Intermediate values are intermediate colors (orange, yellow, etc)\&. 
+.br
+\fIintensity_\fP 0 = off, 255 = full intensity\&. Intermediate values are intermediate intensities\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Home and Spot use green LEDs: 0 = off, 1 = on\&. 
+.PP
+Check Robot uses an orange LED\&. 
+.PP
+Debris uses a blue LED\&. 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::max (void)\fC [static]\fP"
+
+.PP
+Starts the Max cleaning mode\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::motors (const bitmask::MotorStatesmotor_state_mask_)\fC [static]\fP"
+
+.PP
+Controls the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. This command lets you control the forward and backward motion of Roomba’s main brush, side brush, and vacuum independently\&. Motor velocity cannot be controlled with this command, all motors will run at maximum speed when enabled\&. The main brush and side brush can be run in either direction\&. The vacuum only runs forward\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImotor_state_mask_\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::pauseResumeStream (const boolresume_)\fC [static]\fP"
+
+.PP
+Stop and restart the stream\&. This command lets you stop and restart the steam without clearing the list of requested packets\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIresume_\fP An argument of false stops the stream without clearing the list of requested packets\&. An argument of true starts the stream using the list of packets last requested\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::stream\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::play (const uint_opt8_tsong_number_)\fC [static]\fP"
+
+.PP
+Select a song to play\&. This command lets you select a song to play from the songs added to Roomba using the Song command\&. You must add one or more songs to Roomba using the Song command in order for the Play command to work\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsong_number_\fP (0-4) The number of the song Roomba is to play\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Safe or Full 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::song\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::pollSensors (const command::OpCodeopcode_, const std::vector< sensor::PacketId > &sensor_list_)\fC [static]\fP, \fC [protected]\fP"
+
+.PP
+Core functionality of both \fBqueryList()\fP and \fBstream()\fP Both \fBqueryList()\fP and \fBstream()\fP have identical implementations\&. The only difference is the original Open Interface opcode, which tells the the Roomba to send the data once or until asked not to\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIopcode_\fP Send either QUERY_LIST or STREAM 
+.br
+\fIsensor_list_\fP A vector of packet ids 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::queryList\fP 
+.PP
+\fBOpenInterface::stream\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::power (void)\fC [static]\fP"
+
+.PP
+Powers down Roomba\&. This command powers down Roomba\&. The OI can be in Passive, Safe, or Full mode to accept this command\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::pwmMotors (const int_opt8_tmain_brush_, const int_opt8_tside_brush_, const int_opt8_tvacuum_)\fC [static]\fP"
+
+.PP
+Controls the speed of Roomba’s main brush, side brush, and vacuum independently\&. This command lets you control the speed of Roomba’s main brush, side brush, and vacuum independently\&. With each parameter, you specify the duty cycle for the low side driver (max 127)\&. Positive speeds turn the motor in its default (cleaning) direction\&. For example, if you want to control a motor with 25% of battery voltage, choose a duty cycle of 127 * 25% ~ 32\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImain_brush_\fP (-127 – 127) 
+.br
+\fIside_brush_\fP (-127 – 127) 
+.br
+\fIvacuum_\fP (0 – 127) 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+The vacuum only runs forward\&. 
+.PP
+The main brush and side brush can be run in either direction\&. 
+.PP
+Default direction for the side brush is counter-clockwise\&. 
+.PP
+Default direction for the main brush/flapper is inward\&. 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::queryList (const std::vector< sensor::PacketId > &sensor_list_)\fC [static]\fP"
+
+.PP
+Request list of sensor packets\&. This command lets you ask for a list of sensor packets\&. The result is returned once, as in the Sensors command\&. The robot returns the packets in the order you specify\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsensor_list_\fP A vector of packet ids 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::safe (void)\fC [static]\fP"
+
+.PP
+Puts the OI into Safe mode\&. This command puts the OI into Safe mode, enabling user control of Roomba\&. It turns off all LEDs\&. The OI can be in Passive, Safe, or Full mode to accept this command\&. 
+.PP
+\fBNote:\fP
+.RS 4
+If a safety condition occurs (see above) Roomba reverts automatically to Passive mode\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Safe\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::schedule (const bitmask::Daysday_mask_, const \fBclock_time_t\fP *constclock_times_)\fC [static]\fP"
+
+.PP
+Sends Roomba a new schedule\&. This command sends Roomba a new schedule\&. To disable scheduled cleaning, send all 0s\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIday_mask_\fP A bitmask representing the days of the week 
+.br
+\fIclock_times_\fP A sparse array of \fBclock_time_t\fP variables following { Sun time, Mon time, \&.\&.\&., Sat time }\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+The day_mask variable will determine which days the array elements will be applied to, disabled days will be zero filled\&. 
+.PP
+If a \fBclock_time_t\fP variable contains any values out of range, then the corresponding day will be ignored\&. 
+.PP
+If Roomba’s schedule or clock button is pressed, this command will be ignored\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::schedulingLEDs (const bitmask::Daysday_mask_, const bitmask::display::SchedulingLEDsled_mask_)\fC [static]\fP"
+
+.PP
+Controls the state of the scheduling LEDs present on the Roomba 560 and 570\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIday_mask_\fP 
+.br
+\fIled_mask_\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+All use red LEDs 
+.PP
+Available in modes: Safe or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_MODE_FOR_REQUESTED_OPERATION\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::seekDock (void)\fC [static]\fP"
+
+.PP
+Sends Roomba to the dock\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::sensors (const sensor::PacketIdpacket_id_)\fC [static]\fP"
+
+.PP
+Request sensor data\&. This command requests the OI to send a packet of sensor data bytes\&. There are 58 different sensor data packets\&. Each provides a value of a specific sensor or group of sensors\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpacket_id_\fP Identifies which of the 58 sensor data packets should be sent back by the OI\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+A value of 100 indicates a packet with all of the sensor data\&. Values of 0 through 6 and 101 through 107 indicate specific subgroups of the sensor data\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::setDayTime (const \fBDay\fPday_, const \fBclock_time_t\fPclock_time_)\fC [static]\fP"
+
+.PP
+Sets Roomba’s clock\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIday_\fP 
+.br
+\fIclock_time_\fP (hour [0-23] and minute [0-59]) 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+If Roomba’s schedule or clock button is pressed, this command will be ignored\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::song (const uint_opt8_tsong_number_, const std::vector< \fBnote_t\fP > &song_)\fC [static]\fP"
+
+.PP
+Specify songs to be played at a later time\&. This command lets you specify up to four songs to the OI that you can play at a later time\&. Each song is associated with a song number\&. The Play command uses the song number to identify your song selection\&. Each song can contain up to sixteen notes\&. Each note is associated with a note number that uses MIDI note definitions and a duration that is specified in increments of 1/64th of a second\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsong_number_\fP (0-4) The song number associated with the specific song\&. 
+.br
+\fIsong_\fP A vector of std::pairs composed of Note and duration\&. 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+If you send a second Song command, using the same song number, the old song is overwritten\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::play\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::spot (void)\fC [static]\fP"
+
+.PP
+Starts the Spot cleaning mode\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::start (void)\fC [static]\fP"
+
+.PP
+Starts the OI\&. You must always send the Start command before sending any other commands to the OI\&. 
+.PP
+\fBNote:\fP
+.RS 4
+Available in modes: Passive, Safe, or Full\&. 
+.PP
+Changes mode to: Passive\&. Roomba beeps once to acknowledge it is starting from “off” mode\&. 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+.SS "template<enum OISeries> static \fBReturnCode\fP \fBroomba::OpenInterface\fP< OISeries >::stream (const std::vector< sensor::PacketId > &sensor_list_)\fC [static]\fP"
+
+.PP
+Start a data stream based on a query list\&. This command starts a stream of data packets\&. The list of packets requested is sent every 15 ms, which is the rate Roomba uses to update data\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsensor_list_\fP A vector of packet ids 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+This method of requesting sensor data is best if you are controlling Roomba over a wireless network (which has poor real-time characteristics) with software running on a desktop computer\&. 
+.PP
+Available in modes: Passive, Safe, or Full\&. 
+.RE
+.PP
+\fBWarning:\fP
+.RS 4
+It is up to you not to request more data than can be sent at the current baud rate in the 15 ms time slot\&. If more data is requested, the data stream will eventually become corrupted\&. This can be confirmed by checking the checksum\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBOpenInterface::pauseResumeStream\fP 
+.RE
+.PP
+\fBReturn values:\fP
+.RS 4
+\fISUCCESS\fP 
+.br
+\fIOI_NOT_STARTED\fP 
+.br
+\fIINVALID_PARAMETER\fP 
+.br
+\fISERIAL_TRANSFER_FAILURE\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for iRobot Roomba 500 Series SDK from the source code\&.

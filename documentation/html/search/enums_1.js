@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['chargingstate',['ChargingState',['../namespaceroomba_1_1series500_1_1oi.html#a2d3327fa62385afc4aeb87395832033e',1,'roomba::series500::oi']]]
+  ['chargingstate',['ChargingState',['../namespaceroomba.html#a2a217d39d1ed8903ea88cd2ab35ba2ba',1,'roomba']]]
 ];

@@ -9,11 +9,214 @@ The i\+Robot Roomba autonomous robotic vacuum cleaner.
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
- \hyperlink{namespaceroomba_1_1series500}{series500}
-\begin{DoxyCompactList}\small\item\em The Roomba 500 Series Model (5xx) \end{DoxyCompactList}\end{DoxyCompactItemize}
+ \hyperlink{namespaceroomba_1_1serial}{serial}
+\begin{DoxyCompactList}\small\item\em Serial Platform Abstraction Layer. \end{DoxyCompactList}\item 
+ \hyperlink{namespaceroomba_1_1state}{state}
+\begin{DoxyCompactList}\small\item\em Constant data used to manage data returned from the i\+Robot® Roomba. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structroomba_1_1clock__time__t}{clock\+\_\+time\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Time representation for the scheduling methods. \end{DoxyCompactList}\item 
+class \hyperlink{classroomba_1_1_open_interface}{Open\+Interface}
+\begin{DoxyCompactList}\small\item\em The Roomba Open Interface (O\+I) \hyperlink{classroomba_1_1_open_interface}{Open\+Interface} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::pair$<$ \hyperlink{namespaceroomba_aa553ae759298da7895bffd70162d9479}{Pitch}, \\*
+uint\+\_\+opt8\+\_\+t $>$ \hyperlink{namespaceroomba_a19e8ac8a2208a1a44fa9273930cf7451}{note\+\_\+t}
+\begin{DoxyCompactList}\small\item\em A musical note is defined by the frequency related pitch and length or duration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespaceroomba_aff53babe0af88b1ea8b066fd18b8f23f}{enum \hyperlink{namespaceroomba_aff53babe0af88b1ea8b066fd18b8f23f}{Return\+Code} \+: int\+\_\+opt8\+\_\+t \{ \\*
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+C\+H\+E\+C\+K\+S\+U\+M} = -\/101, 
+{\bfseries S\+E\+R\+I\+A\+L\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} = -\/100, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+P\+A\+R\+A\+M\+E\+T\+E\+R} = -\/10, 
+{\bfseries N\+O\+\_\+\+D\+A\+T\+A\+\_\+\+A\+V\+A\+I\+L\+A\+B\+L\+E} = -\/4, 
+\\*
+{\bfseries F\+A\+I\+L\+U\+R\+E\+\_\+\+T\+O\+\_\+\+S\+Y\+N\+C} = -\/3, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+M\+O\+D\+E\+\_\+\+F\+O\+R\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+E\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N} = -\/2, 
+{\bfseries O\+I\+\_\+\+N\+O\+T\+\_\+\+S\+T\+A\+R\+T\+E\+D} = -\/1, 
+{\bfseries S\+U\+C\+C\+E\+S\+S} = 0
+ \}}\label{namespaceroomba_aff53babe0af88b1ea8b066fd18b8f23f}
+
+\begin{DoxyCompactList}\small\item\em Return codes. \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_a303ba447b12fc77bc24977a1a7ec6d6c}{enum \hyperlink{namespaceroomba_a303ba447b12fc77bc24977a1a7ec6d6c}{Baud\+Code} \+: uint\+\_\+opt8\+\_\+t \{ \\*
+{\bfseries B\+A\+U\+D\+\_\+300} = 0, 
+{\bfseries B\+A\+U\+D\+\_\+600}, 
+{\bfseries B\+A\+U\+D\+\_\+1200}, 
+{\bfseries B\+A\+U\+D\+\_\+2400}, 
+\\*
+{\bfseries B\+A\+U\+D\+\_\+4800}, 
+{\bfseries B\+A\+U\+D\+\_\+9600}, 
+{\bfseries B\+A\+U\+D\+\_\+14400}, 
+{\bfseries B\+A\+U\+D\+\_\+19200}, 
+\\*
+{\bfseries B\+A\+U\+D\+\_\+28800}, 
+{\bfseries B\+A\+U\+D\+\_\+38400}, 
+{\bfseries B\+A\+U\+D\+\_\+57600}, 
+{\bfseries B\+A\+U\+D\+\_\+115200}
+ \}}\label{namespaceroomba_a303ba447b12fc77bc24977a1a7ec6d6c}
+
+\begin{DoxyCompactList}\small\item\em Baud (Op\+Code 129) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_aa553ae759298da7895bffd70162d9479}{enum \hyperlink{namespaceroomba_aa553ae759298da7895bffd70162d9479}{Pitch} \+: uint\+\_\+opt8\+\_\+t \{ \\*
+{\bfseries R\+E\+S\+T} = 30, 
+{\bfseries G1} = 31, 
+{\bfseries G1\+\_\+\+S\+H\+A\+R\+P} = 32, 
+{\bfseries A1} = 33, 
+\\*
+{\bfseries A1\+\_\+\+S\+H\+A\+R\+P} = 34, 
+{\bfseries B1} = 35, 
+{\bfseries C2} = 36, 
+{\bfseries C2\+\_\+\+S\+H\+A\+R\+P} = 37, 
+\\*
+{\bfseries D2} = 38, 
+{\bfseries D2\+\_\+\+S\+H\+A\+R\+P} = 39, 
+{\bfseries E2} = 40, 
+{\bfseries F2} = 41, 
+\\*
+{\bfseries F2\+\_\+\+S\+H\+A\+R\+P} = 42, 
+{\bfseries G2} = 43, 
+{\bfseries G2\+\_\+\+S\+H\+A\+R\+P} = 44, 
+{\bfseries A2} = 45, 
+\\*
+{\bfseries A2\+\_\+\+S\+H\+A\+R\+P} = 46, 
+{\bfseries B2} = 47, 
+{\bfseries C3} = 48, 
+{\bfseries C3\+\_\+\+S\+H\+A\+R\+P} = 49, 
+\\*
+{\bfseries D3} = 50, 
+{\bfseries D3\+\_\+\+S\+H\+A\+R\+P} = 51, 
+{\bfseries E3} = 52, 
+{\bfseries F3} = 53, 
+\\*
+{\bfseries F3\+\_\+\+S\+H\+A\+R\+P} = 54, 
+{\bfseries G3} = 55, 
+{\bfseries G3\+\_\+\+S\+H\+A\+R\+P} = 56, 
+{\bfseries A3} = 57, 
+\\*
+{\bfseries A3\+\_\+\+S\+H\+A\+R\+P} = 58, 
+{\bfseries B3} = 59, 
+{\bfseries C4} = 60, 
+{\bfseries M\+I\+D\+D\+L\+E\+\_\+\+C} = 60, 
+\\*
+{\bfseries C4\+\_\+\+S\+H\+A\+R\+P} = 61, 
+{\bfseries D4} = 62, 
+{\bfseries D4\+\_\+\+S\+H\+A\+R\+P} = 63, 
+{\bfseries E4} = 64, 
+\\*
+{\bfseries F4} = 65, 
+{\bfseries F4\+\_\+\+S\+H\+A\+R\+P} = 66, 
+{\bfseries G4} = 67, 
+{\bfseries G4\+\_\+\+S\+H\+A\+R\+P} = 68, 
+\\*
+{\bfseries A4} = 69, 
+{\bfseries A4\+\_\+\+S\+H\+A\+R\+P} = 70, 
+{\bfseries B4} = 71, 
+{\bfseries C5} = 72, 
+\\*
+{\bfseries C5\+\_\+\+S\+H\+A\+R\+P} = 73, 
+{\bfseries D5} = 74, 
+{\bfseries D5\+\_\+\+S\+H\+A\+R\+P} = 75, 
+{\bfseries E5} = 76, 
+\\*
+{\bfseries F5} = 77, 
+{\bfseries F5\+\_\+\+S\+H\+A\+R\+P} = 78, 
+{\bfseries G5} = 79, 
+{\bfseries G5\+\_\+\+S\+H\+A\+R\+P} = 80, 
+\\*
+{\bfseries A5} = 81, 
+{\bfseries A5\+\_\+\+S\+H\+A\+R\+P} = 82, 
+{\bfseries B5} = 83, 
+{\bfseries C6} = 84, 
+\\*
+{\bfseries C6\+\_\+\+S\+H\+A\+R\+P} = 85, 
+{\bfseries D6} = 86, 
+{\bfseries D6\+\_\+\+S\+H\+A\+R\+P} = 87, 
+{\bfseries E6} = 88, 
+\\*
+{\bfseries F6} = 89, 
+{\bfseries F6\+\_\+\+S\+H\+A\+R\+P} = 90, 
+{\bfseries G6} = 91, 
+{\bfseries G6\+\_\+\+S\+H\+A\+R\+P} = 92, 
+\\*
+{\bfseries A6} = 93, 
+{\bfseries A6\+\_\+\+S\+H\+A\+R\+P} = 94, 
+{\bfseries B6} = 95, 
+{\bfseries C7} = 96, 
+\\*
+{\bfseries C7\+\_\+\+S\+H\+A\+R\+P} = 97, 
+{\bfseries D7} = 98, 
+{\bfseries D7\+\_\+\+S\+H\+A\+R\+P} = 99, 
+{\bfseries E7} = 100, 
+\\*
+{\bfseries F7} = 101, 
+{\bfseries F7\+\_\+\+S\+H\+A\+R\+P} = 102, 
+{\bfseries G7} = 103, 
+{\bfseries G7\+\_\+\+S\+H\+A\+R\+P} = 104, 
+\\*
+{\bfseries A7} = 105, 
+{\bfseries A7\+\_\+\+S\+H\+A\+R\+P} = 106, 
+{\bfseries B7} = 107
+ \}}\label{namespaceroomba_aa553ae759298da7895bffd70162d9479}
+
+\begin{DoxyCompactList}\small\item\em Song (Op\+Code 140) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_a30df4953fe65b5b801c82a16865e50e1}{enum \hyperlink{namespaceroomba_a30df4953fe65b5b801c82a16865e50e1}{Day} \+: uint\+\_\+opt8\+\_\+t \{ \\*
+{\bfseries S\+U\+N\+D\+A\+Y} = 0, 
+{\bfseries M\+O\+N\+D\+A\+Y}, 
+{\bfseries T\+U\+E\+S\+D\+A\+Y}, 
+{\bfseries W\+E\+D\+N\+E\+S\+D\+A\+Y}, 
+\\*
+{\bfseries T\+H\+U\+R\+S\+D\+A\+Y}, 
+{\bfseries F\+R\+I\+D\+A\+Y}, 
+{\bfseries S\+A\+T\+U\+R\+D\+A\+Y}
+ \}}\label{namespaceroomba_a30df4953fe65b5b801c82a16865e50e1}
+
+\begin{DoxyCompactList}\small\item\em Set Day/\+Time (Op\+Code 168) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_a2a217d39d1ed8903ea88cd2ab35ba2ba}{enum \hyperlink{namespaceroomba_a2a217d39d1ed8903ea88cd2ab35ba2ba}{Charging\+State} \+: uint\+\_\+opt8\+\_\+t \{ \\*
+{\bfseries N\+O\+T\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G} = 0, 
+{\bfseries R\+E\+C\+O\+N\+D\+I\+T\+I\+O\+N\+I\+N\+G\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G}, 
+{\bfseries F\+U\+L\+L\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G}, 
+{\bfseries T\+R\+I\+C\+K\+L\+E\+\_\+\+C\+H\+A\+R\+G\+I\+N\+G}, 
+\\*
+{\bfseries W\+A\+I\+T\+I\+N\+G}, 
+{\bfseries C\+H\+A\+R\+G\+I\+N\+G\+\_\+\+F\+A\+U\+L\+T}
+ \}}\label{namespaceroomba_a2a217d39d1ed8903ea88cd2ab35ba2ba}
+
+\begin{DoxyCompactList}\small\item\em Charging State (Packet\+Id 21) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_ab6a52ccd26d50ce82376d04a27c6e76a}{enum \hyperlink{namespaceroomba_ab6a52ccd26d50ce82376d04a27c6e76a}{O\+I\+Mode} \+: uint\+\_\+opt8\+\_\+t \{ {\bfseries O\+F\+F} = 0, 
+{\bfseries P\+A\+S\+S\+I\+V\+E}, 
+{\bfseries S\+A\+F\+E}, 
+{\bfseries F\+U\+L\+L}
+ \}}\label{namespaceroomba_ab6a52ccd26d50ce82376d04a27c6e76a}
+
+\begin{DoxyCompactList}\small\item\em O\+I Mode (Packet\+Id 35) \end{DoxyCompactList}\item 
+\hypertarget{namespaceroomba_aadc9d68d587640359965538f456ed81f}{enum {\bfseries O\+I\+Series} \{ {\bfseries S\+C\+I}, 
+{\bfseries O\+I500}, 
+{\bfseries O\+I600}
+ \}}\label{namespaceroomba_aadc9d68d587640359965538f456ed81f}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespaceroomba_ad6cfa6f7c498e232304825995e621c16}{enum \hyperlink{namespaceroomba_aff53babe0af88b1ea8b066fd18b8f23f}{roomba\+::\+Return\+Code} {\bfseries \+\_\+\+\_\+attribute\+\_\+\+\_\+}}\label{namespaceroomba_ad6cfa6f7c498e232304825995e621c16}
+
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 The i\+Robot Roomba autonomous robotic vacuum cleaner. 
 
 Roomba was introduced in 2002. As of Feb 2014, over 10 million units have been sold worldwide. Roomba features a set of basic sensors that help it perform tasks. For instance, the Roomba is able to change direction on encountering obstacles, detect dirty spots on the floor, and detect steep drops to keep it from falling down stairs. It uses two independently operating wheels that allow 360 degree turns. Additionally, it can adapt to perform other more \char`\"{}creative\char`\"{} tasks using an embedded computer in conjunction with the Roomba Open Interface. 
+
+\subsection{Typedef Documentation}
+\hypertarget{namespaceroomba_a19e8ac8a2208a1a44fa9273930cf7451}{\index{roomba@{roomba}!note\+\_\+t@{note\+\_\+t}}
+\index{note\+\_\+t@{note\+\_\+t}!roomba@{roomba}}
+\subsubsection[{note\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::pair$<${\bf Pitch}, uint\+\_\+opt8\+\_\+t$>$ {\bf roomba\+::note\+\_\+t}}}\label{namespaceroomba_a19e8ac8a2208a1a44fa9273930cf7451}
+
+
+A musical note is defined by the frequency related pitch and length or duration. 
+
+The information is stored in std\+::pair data structure where the first member represents the pitch and the second represent a scalar to apply to 1/64th of a second (i.\+e. the value 32 is half a second). 
