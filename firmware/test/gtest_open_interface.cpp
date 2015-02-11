@@ -674,18 +674,9 @@ TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenToTheSerialBus) {
-	std::vector<note_t> fur_elise;
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(B3, 11));
-	fur_elise.push_back(std::make_pair(D4, 11));
-	fur_elise.push_back(std::make_pair(C4, 11));
-	fur_elise.push_back(std::make_pair(A3, 32));
+	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
 	
-	OI_tc.song(1, fur_elise);
+	OI_tc.song(1, fur_elise.data(), fur_elise.size());
 	
 	ASSERT_EQ(140, static_cast<uint_opt8_t>(serial_bus[0]));
 	EXPECT_EQ(1, static_cast<uint_opt8_t>(serial_bus[1]));
@@ -711,143 +702,77 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenT
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENParameterIsInvalid) {
-	std::vector<note_t> fur_elise;
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(B3, 11));
-	fur_elise.push_back(std::make_pair(D4, 11));
-	fur_elise.push_back(std::make_pair(C4, 11));
-	fur_elise.push_back(std::make_pair(A3, 32));
+	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
 	
 	for ( int i = 5 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise)) << "Accepted value <" << i << ">";
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise.data(), fur_elise.size())) << "Accepted value <" << i << ">";
 	}
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> fur_elise;
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(B3, 11));
-	fur_elise.push_back(std::make_pair(D4, 11));
-	fur_elise.push_back(std::make_pair(C4, 11));
-	fur_elise.push_back(std::make_pair(A3, 32));
+	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
 	
 	for ( int i = 5 ; i <= 255 ; ++i ) {
-		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise));
+		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise.data(), fur_elise.size()));
 		ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 	}
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsNullTHENParameterIsInvalid) {
+	note_t * no_song = nullptr;
+	
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song, 1));
+}
+
+TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsNullTHENNoDataIsWrittenToSerialBus) {
+	note_t * no_song = nullptr;
+	
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song, 1));
+	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsZeroNotesTHENParameterIsInvalid) {
 	std::vector<note_t> no_song;
 	
-	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song.data(), no_song.size()));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsZeroNotesTHENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> no_song;
+	note_t * no_song = nullptr;
 	
-	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, no_song, 0));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENParameterIsInvalid) {
-	std::vector<note_t> fur_elise_ep;
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(B3, 11));
-	fur_elise_ep.push_back(std::make_pair(D4, 11));
-	fur_elise_ep.push_back(std::make_pair(C4, 11));
-	fur_elise_ep.push_back(std::make_pair(A3, 32));
-	fur_elise_ep.push_back(std::make_pair(A3, 21));
-	fur_elise_ep.push_back(std::make_pair(A3, 11));
-	fur_elise_ep.push_back(std::make_pair(B3, 32));
-	fur_elise_ep.push_back(std::make_pair(B3, 21));
-	fur_elise_ep.push_back(std::make_pair(B3, 11));
-	fur_elise_ep.push_back(std::make_pair(C4, 43));
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
+	std::vector<note_t> fur_elise_ep = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32}, {A3, 21}, {A3, 11}, {B3, 32}, {B3, 21}, {B3, 11}, {C4, 43}, {E4, 11}, {D4_SHARP, 11} };
 	
-	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep.data(), fur_elise_ep.size()));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> fur_elise_ep;
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(B3, 11));
-	fur_elise_ep.push_back(std::make_pair(D4, 11));
-	fur_elise_ep.push_back(std::make_pair(C4, 11));
-	fur_elise_ep.push_back(std::make_pair(A3, 32));
-	fur_elise_ep.push_back(std::make_pair(A3, 21));
-	fur_elise_ep.push_back(std::make_pair(A3, 11));
-	fur_elise_ep.push_back(std::make_pair(B3, 32));
-	fur_elise_ep.push_back(std::make_pair(B3, 21));
-	fur_elise_ep.push_back(std::make_pair(B3, 11));
-	fur_elise_ep.push_back(std::make_pair(C4, 43));
-	fur_elise_ep.push_back(std::make_pair(E4, 11));
-	fur_elise_ep.push_back(std::make_pair(D4_SHARP, 11));
+	std::vector<note_t> fur_elise_ep = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32}, {A3, 21}, {A3, 11}, {B3, 32}, {B3, 21}, {B3, 11}, {C4, 43}, {E4, 11}, {D4_SHARP, 11} };
 	
-	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep.data(), fur_elise_ep.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENReturnsError) {
-	std::vector<note_t> fur_elise;
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(B3, 11));
-	fur_elise.push_back(std::make_pair(D4, 11));
-	fur_elise.push_back(std::make_pair(C4, 11));
-	fur_elise.push_back(std::make_pair(A3, 32));
+	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
 	
-	ASSERT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise.data(), fur_elise.size()));
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, song$WHENfnSerialWriteFailsTHENReturnsError) {
-	std::vector<note_t> fur_elise;
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(B3, 11));
-	fur_elise.push_back(std::make_pair(D4, 11));
-	fur_elise.push_back(std::make_pair(C4, 11));
-	fur_elise.push_back(std::make_pair(A3, 32));
+	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
 	
-	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.song(1, fur_elise));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.song(1, fur_elise.data(), fur_elise.size()));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> fur_elise;
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(D4_SHARP, 11));
-	fur_elise.push_back(std::make_pair(E4, 11));
-	fur_elise.push_back(std::make_pair(B3, 11));
-	fur_elise.push_back(std::make_pair(D4, 11));
-	fur_elise.push_back(std::make_pair(C4, 11));
-	fur_elise.push_back(std::make_pair(A3, 32));
+	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
 	
-	EXPECT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise.data(), fur_elise.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1212,7 +1137,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, drivePWM$WHENOIModeIsPassiveTHENNoDataIsWritte
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENCalledTHEN148AndParametersAreWrittenToTheSerialBus) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	OI_tc.stream(sensor_list);
+	OI_tc.stream(sensor_list.data(), sensor_list.size());
 	
 	ASSERT_EQ(148, static_cast<uint_opt8_t>(serial_bus[0]));
 	EXPECT_EQ(2, static_cast<uint_opt8_t>(serial_bus[1]));
@@ -1220,14 +1145,25 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENCalledTHEN148AndParametersAreWrittenTo
 	EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorListIsNullTHENParameterIsInvalid) {
+	sensor::PacketId * sensor_list = nullptr;
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list, 0));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorListIsNullTHENNoDataIsWrittenToSerialBus) {
+	sensor::PacketId * sensor_list = nullptr;
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list, 0));
+	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
+}
+
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorListIsEmptyTHENParameterIsInvalid) {
 	std::vector<sensor::PacketId> sensor_list;
-	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorListIsEmptyTHENNoDataIsWrittenToSerialBus) {
 	std::vector<sensor::PacketId> sensor_list;
-	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1236,7 +1172,7 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween0And58InclusiveTH
 	for ( int i = 0 ; i <= 58 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.stream(sensor_list);
+		OI_tc.stream(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[4]));
@@ -1250,7 +1186,7 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween59And99InclusiveT
 	for ( int i = 59 ; i <= 99 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.stream(sensor_list);
+		OI_tc.stream(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
 		sensor_list.pop_back();
@@ -1263,7 +1199,7 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween100And107Inclusiv
 	for ( int i = 100 ; i <= 107 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.stream(sensor_list);
+		OI_tc.stream(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[4]));
@@ -1277,7 +1213,7 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween108And255Inclusiv
 	for ( int i = 108 ; i <= 255 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.stream(sensor_list);
+		OI_tc.stream(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
 		sensor_list.pop_back();
@@ -1287,34 +1223,34 @@ TEST_F(AllSystemsGoOIModeFULL, stream$WHENSensorNumberIsBetween108And255Inclusiv
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENAllSensorsAreIgnoredTHENParameterIsInvalid) {
 	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
-	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, stream$WHENAllSensorsAreIgnoredTHENNoDataIsWrittenToSerialBus) {
 	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
-	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, stream$WHENOIModeIsOffTHENReturnsError) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	ASSERT_EQ(OI_NOT_STARTED, OI_tc.stream(sensor_list));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, stream$WHENfnSerialWriteFailsTHENReturnsError) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.stream(sensor_list));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, stream$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	EXPECT_EQ(OI_NOT_STARTED, OI_tc.stream(sensor_list));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.stream(sensor_list.data(), sensor_list.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENCalledTHEN149AndParametersAreWrittenToTheSerialBus) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	OI_tc.queryList(sensor_list);
+	OI_tc.queryList(sensor_list.data(), sensor_list.size());
 	
 	ASSERT_EQ(149, static_cast<uint_opt8_t>(serial_bus[0]));
 	EXPECT_EQ(2, static_cast<uint_opt8_t>(serial_bus[1]));
@@ -1322,14 +1258,25 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENCalledTHEN149AndParametersAreWritte
 	EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
 }
 
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsNullTHENParameterIsInvalid) {
+	sensor::PacketId * sensor_list = nullptr;
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list, 0));
+}
+
+TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsNullTHENNoDataIsWrittenToSerialBus) {
+	sensor::PacketId * sensor_list = nullptr;
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list, 0));
+	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
+}
+
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsEmptyTHENParameterIsInvalid) {
 	std::vector<sensor::PacketId> sensor_list;
-	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorListIsEmptyTHENNoDataIsWrittenToSerialBus) {
 	std::vector<sensor::PacketId> sensor_list;
-	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
@@ -1338,7 +1285,7 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween0And58Inclusiv
 	for ( int i = 0 ; i <= 58 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.queryList(sensor_list);
+		OI_tc.queryList(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[4]));
@@ -1352,7 +1299,7 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween59And99Inclusi
 	for ( int i = 59 ; i <= 99 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.queryList(sensor_list);
+		OI_tc.queryList(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
 		sensor_list.pop_back();
@@ -1365,7 +1312,7 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween100And107Inclu
 	for ( int i = 100 ; i <= 107 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.queryList(sensor_list);
+		OI_tc.queryList(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(i, static_cast<uint_opt8_t>(serial_bus[3])) << "Rejected value <" << i << ">";
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[4]));
@@ -1379,7 +1326,7 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween108And255Inclu
 	for ( int i = 108 ; i <= 255 ; ++i ) {
 		sensor_list.push_back(static_cast<sensor::PacketId>(i));
 		sensor_list.push_back(sensor::VIRTUAL_WALL);
-		OI_tc.queryList(sensor_list);
+		OI_tc.queryList(sensor_list.data(), sensor_list.size());
 		EXPECT_EQ(29, static_cast<uint_opt8_t>(serial_bus[2]));
 		EXPECT_EQ(13, static_cast<uint_opt8_t>(serial_bus[3]));
 		sensor_list.pop_back();
@@ -1389,28 +1336,28 @@ TEST_F(AllSystemsGoOIModeFULL, queryList$WHENSensorNumberIsBetween108And255Inclu
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENAllSensorsAreIgnoredTHENParameterIsInvalid) {
 	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
-	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	ASSERT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(AllSystemsGoOIModeFULL, queryList$WHENAllSensorsAreIgnoredTHENNoDataIsWrittenToSerialBus) {
 	std::vector<sensor::PacketId> sensor_list = { static_cast<sensor::PacketId>(69), static_cast<sensor::PacketId>(70) };
-	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list));
+	EXPECT_EQ(INVALID_PARAMETER, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENReturnsError) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	ASSERT_EQ(OI_NOT_STARTED, OI_tc.queryList(sensor_list));
+	ASSERT_EQ(OI_NOT_STARTED, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(SerialTransactionFailureOIModeFULL, queryList$WHENfnSerialWriteFailsTHENReturnsError) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.queryList(sensor_list));
+	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, queryList$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
 	std::vector<sensor::PacketId> sensor_list = { sensor::CLIFF_FRONT_LEFT_SIGNAL, sensor::VIRTUAL_WALL };
-	EXPECT_EQ(OI_NOT_STARTED, OI_tc.queryList(sensor_list));
+	EXPECT_EQ(OI_NOT_STARTED, OI_tc.queryList(sensor_list.data(), sensor_list.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 

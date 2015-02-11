@@ -4,8 +4,6 @@
 #define OPEN_INTERFACE_H
 
 #include <cstdint>
-#include <utility>
-#include <vector>
 
 #include "../defines.h"
 #include "../platform/serial.h"
@@ -26,14 +24,18 @@ struct clock_time_t {
 	uint_opt8_t minute; ///< minute (0-59)
 };
 
-/// \brief A musical note is defined by the frequency
-/// related pitch and length or duration
-/// \details The information is stored in std::pair
-/// data structure where the first member represents
-/// the pitch and the second represent a scalar to
-/// apply to 1/64th of a second (i.e. the value 32 is
-/// half a second).
-typedef std::pair<Pitch, uint_opt8_t> note_t;
+/// \brief A musical note
+/// \details Defined by the frequency of the related pitch
+/// (MIDI note number) and a duration that is specified in
+/// increments of 1/64th of a second. The information is
+/// stored in a data structure where the first member
+/// represents the pitch and the second represent a scalar
+/// to apply to 1/64th of a second (i.e. the value 32 is half
+/// a second).
+struct note_t {
+	Pitch pitch;
+	uint_opt8_t duration;
+};
 
 /// \brief The Roomba Open Interface (OI) OpenInterface class
 /// \details The Roomba Open Interface (OI) is a software
@@ -443,13 +445,14 @@ class OpenInterface {
 	/// Each song is associated with a song number. The Play
 	/// command uses the song number to identify your song
 	/// selection. Each song can contain up to sixteen notes.
-	/// Each note is associated with a note number that uses
-	/// MIDI note definitions and a duration that is specified
-	/// in increments of 1/64th of a second.
+	/// Each note is associated with a MIDI note number and
+	/// a duration that is specified in increments of 1/64th
+	/// of a second.
 	/// \param [in] song_number_ (0-4) The song number
 	/// associated with the specific song.
-	/// \param [in] song_ A vector of std::pairs composed
-	/// of Note and duration.
+	/// \param [in] song_ An array of structs composed of Pitch
+	/// and duration.
+	/// \param [in] note_count_ The number of notes in the song
 	/// \note If you send a second Song command, using the
 	/// same song number, the old song is overwritten.
 	/// \note Available in modes: Passive, Safe, or Full.
@@ -462,7 +465,8 @@ class OpenInterface {
 	ReturnCode
 	song (
 		const uint_opt8_t song_number_,
-		const std::vector<note_t> & song_
+		const note_t * const song_,
+		const uint_opt8_t note_count_
 	);
 	
 	/// \brief Select a song to play.
@@ -513,7 +517,8 @@ class OpenInterface {
 	/// sensor packets. The result is returned once, as
 	/// in the Sensors command. The robot returns the
 	/// packets in the order you specify.
-	/// \param [in] sensor_list_ A vector of packet ids
+	/// \param [in] sensor_list_ An array of packet ids
+	/// \param [in] byte_length_ The length of the array
 	/// \note Available in modes: Passive, Safe, or Full.
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
@@ -522,14 +527,16 @@ class OpenInterface {
 	static
 	ReturnCode
 	queryList (
-		const std::vector<sensor::PacketId> & sensor_list_
+		const sensor::PacketId * const sensor_list_,
+		const uint_opt8_t byte_length_
 	);
 	
 	/// \brief Start a data stream based on a query list.
 	/// \details This command starts a stream of data packets.
 	/// The list of packets requested is sent every 15 ms,
 	/// which is the rate Roomba uses to update data.
-	/// \param [in] sensor_list_ A vector of packet ids
+	/// \param [in] sensor_list_ An array of packet ids
+	/// \param [in] byte_length_ The length of the array
 	/// \note This method of requesting sensor data is best
 	/// if you are controlling Roomba over a wireless network
 	/// (which has poor real-time characteristics) with
@@ -548,7 +555,8 @@ class OpenInterface {
 	static
 	ReturnCode
 	stream (
-		const std::vector<sensor::PacketId> & sensor_list_
+		const sensor::PacketId * const sensor_list_,
+		const uint_opt8_t byte_length_
 	);
 	
 	/// \brief Stop and restart the stream.
@@ -576,7 +584,8 @@ class OpenInterface {
 	/// Interface opcode, which tells the the Roomba to send the
 	/// data once or until asked not to.
 	/// \param [in] opcode_ Send either QUERY_LIST or STREAM
-	/// \param [in] sensor_list_ A vector of packet ids
+	/// \param [in] sensor_list_ An array of packet ids
+	/// \param [in] byte_length_ The length of the array
 	/// \see OpenInterface::queryList
 	/// \see OpenInterface::stream
 	/// \retval SUCCESS
@@ -587,7 +596,8 @@ class OpenInterface {
 	ReturnCode
 	pollSensors (
 		const command::OpCode opcode_,
-		const std::vector<sensor::PacketId> & sensor_list_
+		const sensor::PacketId * const sensor_list_,
+		const uint_opt8_t byte_length_
 	);
 };
 

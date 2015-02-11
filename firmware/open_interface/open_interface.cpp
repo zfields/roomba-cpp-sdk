@@ -340,21 +340,21 @@ template<>
 ReturnCode
 OpenInterface<OI500>::song (
 	const uint_opt8_t song_number_,
-	const std::vector<note_t> & song_
+	const note_t * const song_,
+	const uint_opt8_t note_count_
 ) {
-	const uint_opt8_t note_count = song_.size();
-	uint_opt8_t serial_data[(3 + (note_count * 2))];
+	uint_opt8_t serial_data[(3 + (note_count_ * 2))];
 	uint_opt8_t data_index = 2;
 	//TODO: Incorporate state machine - if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
-	if ( song_number_ > 4 || !note_count || note_count > 16 ) { return INVALID_PARAMETER; }
+	if ( song_number_ > 4 || !song_ || !note_count_ || note_count_ > 16 ) { return INVALID_PARAMETER; }
 	
 	serial_data[0] = command::SONG;
 	serial_data[1] = song_number_;
-	serial_data[2] = note_count;
+	serial_data[2] = note_count_;
 	
-	for (auto &note : song_) {
-		serial_data[++data_index] = note.first;
-		serial_data[++data_index] = note.second;
+	for (uint_opt8_t i = 0 ; i < note_count_ ; ++i ) {
+		serial_data[++data_index] = song_[i].pitch;
+		serial_data[++data_index] = song_[i].duration;
 	}
 	
 	if ( !serial::multiByteSerialWrite(serial_data, sizeof(serial_data)) ) { return SERIAL_TRANSFER_FAILURE; }
@@ -398,20 +398,21 @@ template<>
 ReturnCode
 OpenInterface<OI500>::pollSensors (
 	const command::OpCode opcode_,
-	const std::vector<sensor::PacketId> & sensor_list_
+	const sensor::PacketId * const sensor_list_,
+	const uint_opt8_t byte_length_
 ) {
-	const uint_opt8_t byte_length = sensor_list_.size();
-	uint_opt8_t serial_data[(2 + byte_length)];
+	if ( !sensor_list_ ) { return INVALID_PARAMETER; }
+	uint_opt8_t serial_data[(2 + byte_length_)];
 	uint_opt8_t data_index = 1;
 	//TODO: Incorporate state machine - if ( OFF == _oi_mode ) { return OI_NOT_STARTED; }
 	if ( command::QUERY_LIST != opcode_ && command::STREAM != opcode_ ) { return INVALID_PARAMETER; }
 	
 	serial_data[0] = opcode_;
-	serial_data[1] = byte_length;
+	serial_data[1] = byte_length_;
 	
-	for (auto &sensor : sensor_list_) {
-		if ( (sensor > 58 && sensor < 100) || sensor > 107 ) { continue; }
-		serial_data[++data_index] = sensor;
+	for (uint_opt8_t i = 0 ; i < byte_length_ ; ++i ) {
+		if ( (sensor_list_[i] > 58 && sensor_list_[i] < 100) || sensor_list_[i] > 107 ) { continue; }
+		serial_data[++data_index] = sensor_list_[i];
 	}
 	if ( 1 == data_index ) { return INVALID_PARAMETER; }
 	
@@ -423,17 +424,19 @@ OpenInterface<OI500>::pollSensors (
 template<>
 ReturnCode
 OpenInterface<OI500>::queryList (
-	const std::vector<sensor::PacketId> & sensor_list_
+	const sensor::PacketId * const sensor_list_,
+	const uint_opt8_t byte_length_
 ) {
-	return OpenInterface<OI500>::pollSensors(command::QUERY_LIST, sensor_list_);
+	return OpenInterface<OI500>::pollSensors(command::QUERY_LIST, sensor_list_, byte_length_);
 }
 
 template<>
 ReturnCode
 OpenInterface<OI500>::stream (
-	const std::vector<sensor::PacketId> & sensor_list_
+	const sensor::PacketId * const sensor_list_,
+	const uint_opt8_t byte_length_
 ) {
-	return OpenInterface<OI500>::pollSensors(command::STREAM, sensor_list_);
+	return OpenInterface<OI500>::pollSensors(command::STREAM, sensor_list_, byte_length_);
 }
 
 template<>
