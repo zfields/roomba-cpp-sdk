@@ -674,7 +674,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, leds$WHENOIModeIsPassiveTHENNoDataIsWrittenToS
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenToTheSerialBus) {
-	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
+	std::vector<note_t> fur_elise = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32} };
 	
 	OI_tc.song(1, fur_elise.data(), fur_elise.size());
 	
@@ -702,7 +702,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENCalledTHEN140AndParametersAreWrittenT
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENParameterIsInvalid) {
-	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
+	std::vector<note_t> fur_elise = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32} };
 	
 	for ( int i = 5 ; i <= 255 ; ++i ) {
 		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise.data(), fur_elise.size())) << "Accepted value <" << i << ">";
@@ -710,7 +710,7 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENParameter
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongNumberIsGreaterThan4THENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
+	std::vector<note_t> fur_elise = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32} };
 	
 	for ( int i = 5 ; i <= 255 ; ++i ) {
 		EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(i, fur_elise.data(), fur_elise.size()));
@@ -745,32 +745,32 @@ TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsZeroNotesTHENNoDataIsWrittenToS
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENParameterIsInvalid) {
-	std::vector<note_t> fur_elise_ep = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32}, {A3, 21}, {A3, 11}, {B3, 32}, {B3, 21}, {B3, 11}, {C4, 43}, {E4, 11}, {D4_SHARP, 11} };
+	std::vector<note_t> fur_elise_ep = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32}, {A_3, 21}, {A_3, 11}, {B_3, 32}, {B_3, 21}, {B_3, 11}, {C_4, 43}, {E_4, 11}, {D_SHARP_4, 11} };
 	
 	ASSERT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep.data(), fur_elise_ep.size()));
 }
 
 TEST_F(AllSystemsGoOIModePASSIVE, song$WHENSongIsMoreThan16NotesTHENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> fur_elise_ep = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32}, {A3, 21}, {A3, 11}, {B3, 32}, {B3, 21}, {B3, 11}, {C4, 43}, {E4, 11}, {D4_SHARP, 11} };
+	std::vector<note_t> fur_elise_ep = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32}, {A_3, 21}, {A_3, 11}, {B_3, 32}, {B_3, 21}, {B_3, 11}, {C_4, 43}, {E_4, 11}, {D_SHARP_4, 11} };
 	
 	EXPECT_EQ(INVALID_PARAMETER, OI_tc.song(1, fur_elise_ep.data(), fur_elise_ep.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
 }
 
 TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENReturnsError) {
-	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
+	std::vector<note_t> fur_elise = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32} };
 	
 	ASSERT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise.data(), fur_elise.size()));
 }
 
 TEST_F(SerialTransactionFailureOIModePASSIVE, song$WHENfnSerialWriteFailsTHENReturnsError) {
-	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
+	std::vector<note_t> fur_elise = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32} };
 	
 	ASSERT_EQ(SERIAL_TRANSFER_FAILURE, OI_tc.song(1, fur_elise.data(), fur_elise.size()));
 }
 
 TEST_F(AllSystemsGoOIModeOFF, song$WHENOIModeIsOffTHENNoDataIsWrittenToSerialBus) {
-	std::vector<note_t> fur_elise = { {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {D4_SHARP, 11}, {E4, 11}, {B3, 11}, {D4, 11}, {C4, 11}, {A3, 32} };
+	std::vector<note_t> fur_elise = { {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {D_SHARP_4, 11}, {E_4, 11}, {B_3, 11}, {D_4, 11}, {C_4, 11}, {A_3, 32} };
 	
 	EXPECT_EQ(OI_NOT_STARTED, OI_tc.song(1, fur_elise.data(), fur_elise.size()));
 	ASSERT_EQ('\0', static_cast<uint_opt8_t>(serial_bus[0])) << "Bus: [" << serial_bus << "]";
