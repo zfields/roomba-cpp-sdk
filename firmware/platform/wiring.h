@@ -88,7 +88,7 @@ multiByteSerialRead (
 	const uint_opt32_t timeout_ms_
 ) {
 	::Serial.setTimeout(timeout_ms_);
-	return ::Serial.readBytes(data_buffer_, buffer_length_);
+	return ::Serial.readBytes(reinterpret_cast<char * const>(data_buffer_), buffer_length_);
 }
 
 inline
@@ -97,7 +97,7 @@ multiByteSerialWrite (
 	const uint_opt8_t * const serial_data_,
 	const size_t data_length_
 ) {
-	return ::Serial.write(serial_data_, data_length_);
+	return ::Serial.write(reinterpret_cast<const uint8_t * const>(serial_data_), data_length_);
 }
 
 } // namespace wiring
