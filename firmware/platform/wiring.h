@@ -63,21 +63,21 @@ beginAtBaudCode (
 inline
 size_t
 delayMs (
-	const size_t desired_milliseconds_
+	const size_t desired_ms_
 ) {
-	size_t start_time = ::micros();
-	::delayMicroseconds(desired_microseconds_);
-	return (::micros() - start_time);
+	size_t start_time = ::millis();
+	::delay(desired_ms_);
+	return (::millis() - start_time);
 }
 
 inline
 size_t
 delayUs (
-	const size_t desired_microseconds_
+	const size_t desired_us_
 ) {
-	size_t start_time = ::millis();
-	::delay(desired_milliseconds_);
-	return (::millis() - start_time);
+	size_t start_time = ::micros();
+	::delayMicroseconds(desired_us_);
+	return (::micros() - start_time);
 }
 
 inline
