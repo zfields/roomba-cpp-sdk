@@ -9,6 +9,9 @@
   #include "Arduino.h"
 #elif defined(SPARK)
   #include "application.h"
+  #ifdef max
+  #undef max
+  #endif
 #else
   #include "WProgram.h"
 #endif
