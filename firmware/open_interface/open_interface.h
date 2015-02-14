@@ -37,7 +37,7 @@ struct note_t {
 	uint_opt8_t duration;
 };
 
-/// \brief The Roomba Open Interface (OI) OpenInterface class
+/// \brief The Roomba Open Interface (OI) open_interface class
 /// \details The Roomba Open Interface (OI) is a software
 /// interface for controlling and manipulating Roomba’s
 /// behavior. The software interface lets you manipulate
@@ -47,7 +47,7 @@ struct note_t {
 /// Roomba’s serial port by way of a PC or microcontroller
 /// that is connected to the Mini-DIN connector.
 template <enum OISeries>
-class OpenInterface {
+class open_interface {
   public:
 	/// \brief Starts the OI.
 	/// \details You must always send the Start command before sending any
@@ -82,7 +82,7 @@ class OpenInterface {
 	
 	/// \brief The effect and usage of the Control command are identical to
 	/// the Safe command.
-	/// \see OpenInterface::safe
+	/// \see open_interface::safe
 	static
 	ReturnCode
 	control (
@@ -456,7 +456,7 @@ class OpenInterface {
 	/// \note If you send a second Song command, using the
 	/// same song number, the old song is overwritten.
 	/// \note Available in modes: Passive, Safe, or Full.
-	/// \see OpenInterface::play
+	/// \see open_interface::play
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -478,7 +478,7 @@ class OpenInterface {
 	/// \param [in] song_number_ (0-4) The number of the
 	/// song Roomba is to play.
 	/// \note Available in modes: Safe or Full
-	/// \see OpenInterface::song
+	/// \see open_interface::song
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_MODE_FOR_REQUESTED_OPERATION
@@ -547,7 +547,7 @@ class OpenInterface {
 	/// ms time slot. If more data is requested, the data
 	/// stream will eventually become corrupted. This can be
 	/// confirmed by checking the checksum.
-	/// \see OpenInterface::pauseResumeStream
+	/// \see open_interface::pauseResumeStream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER
@@ -567,7 +567,7 @@ class OpenInterface {
 	/// argument of true starts the stream using the list of
 	/// packets last requested.
 	/// \note Available in modes: Passive, Safe, or Full.
-	/// \see OpenInterface::stream
+	/// \see open_interface::stream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval SERIAL_TRANSFER_FAILURE
@@ -586,8 +586,8 @@ class OpenInterface {
 	/// \param [in] opcode_ Send either QUERY_LIST or STREAM
 	/// \param [in] sensor_list_ An array of packet ids
 	/// \param [in] byte_length_ The length of the array
-	/// \see OpenInterface::queryList
-	/// \see OpenInterface::stream
+	/// \see open_interface::queryList
+	/// \see open_interface::stream
 	/// \retval SUCCESS
 	/// \retval OI_NOT_STARTED
 	/// \retval INVALID_PARAMETER

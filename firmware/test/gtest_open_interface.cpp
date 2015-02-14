@@ -25,7 +25,7 @@ using namespace roomba;
   /******************/
  /* TESTABLE CLASS */
 /******************/
-class OpenInterface_TC : public OpenInterface<OI500> {};
+class OpenInterface_TC : public open_interface<OI500> {};
 
 namespace {
 

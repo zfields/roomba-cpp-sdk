@@ -9,7 +9,7 @@ namespace roomba {
 
 template<>
 ReturnCode
-OpenInterface<OI500>::start (
+open_interface<OI500>::start (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::START };
@@ -22,7 +22,7 @@ OpenInterface<OI500>::start (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::baud (
+open_interface<OI500>::baud (
 	const BaudCode baud_code_
 ) {
 	const uint_opt8_t serial_data[2] = { command::BAUD, baud_code_ };
@@ -41,7 +41,7 @@ OpenInterface<OI500>::baud (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::safe (
+open_interface<OI500>::safe (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::SAFE };
@@ -55,7 +55,7 @@ OpenInterface<OI500>::safe (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::control (
+open_interface<OI500>::control (
 	void
 ) {
 	return safe();
@@ -63,7 +63,7 @@ OpenInterface<OI500>::control (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::full (
+open_interface<OI500>::full (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::FULL };
@@ -77,7 +77,7 @@ OpenInterface<OI500>::full (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::clean (
+open_interface<OI500>::clean (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::CLEAN };
@@ -91,7 +91,7 @@ OpenInterface<OI500>::clean (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::max (
+open_interface<OI500>::max (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::MAX };
@@ -105,7 +105,7 @@ OpenInterface<OI500>::max (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::spot (
+open_interface<OI500>::spot (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::SPOT };
@@ -119,7 +119,7 @@ OpenInterface<OI500>::spot (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::seekDock (
+open_interface<OI500>::seekDock (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::SEEK_DOCK };
@@ -133,7 +133,7 @@ OpenInterface<OI500>::seekDock (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::schedule (
+open_interface<OI500>::schedule (
 	const bitmask::Days day_mask_,
 	const clock_time_t * const clock_times_
 ) {
@@ -157,7 +157,7 @@ OpenInterface<OI500>::schedule (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::setDayTime (
+open_interface<OI500>::setDayTime (
 	const Day day_,
 	const clock_time_t clock_time_
 ) {
@@ -172,7 +172,7 @@ OpenInterface<OI500>::setDayTime (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::power (
+open_interface<OI500>::power (
 	void
 ) {
 	const uint_opt8_t serial_data[1] = { command::POWER };
@@ -186,7 +186,7 @@ OpenInterface<OI500>::power (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::drive (
+open_interface<OI500>::drive (
 	const int_opt16_t velocity_,
 	const int_opt16_t radius_
 ) {
@@ -202,7 +202,7 @@ OpenInterface<OI500>::drive (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::driveDirect (
+open_interface<OI500>::driveDirect (
 	const int_opt16_t left_wheel_velocity_,
 	const int_opt16_t right_wheel_velocity_
 ) {
@@ -218,7 +218,7 @@ OpenInterface<OI500>::driveDirect (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::drivePWM (
+open_interface<OI500>::drivePWM (
 	const int_opt16_t left_wheel_pwm_,
 	const int_opt16_t right_wheel_pwm_
 ) {
@@ -234,7 +234,7 @@ OpenInterface<OI500>::drivePWM (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::motors (
+open_interface<OI500>::motors (
 	const bitmask::MotorStates motor_state_mask_
 ) {
 	const uint_opt8_t serial_data[2] = { command::MOTORS, static_cast<const uint_opt8_t>(motor_state_mask_ & 0x1F) };
@@ -248,7 +248,7 @@ OpenInterface<OI500>::motors (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::pwmMotors (
+open_interface<OI500>::pwmMotors (
 	const int_opt8_t main_brush_,
 	const int_opt8_t side_brush_,
 	const int_opt8_t vacuum_
@@ -265,7 +265,7 @@ OpenInterface<OI500>::pwmMotors (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::leds (
+open_interface<OI500>::leds (
 	const bitmask::display::LEDs led_mask_,
 	const uint_opt8_t color_,
 	const uint_opt8_t intensity_
@@ -281,7 +281,7 @@ OpenInterface<OI500>::leds (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::schedulingLEDs (
+open_interface<OI500>::schedulingLEDs (
 	const bitmask::Days day_mask_,
 	const bitmask::display::SchedulingLEDs display_mask_
 ) {
@@ -296,7 +296,7 @@ OpenInterface<OI500>::schedulingLEDs (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::digitLEDsRaw (
+open_interface<OI500>::digitLEDsRaw (
 	const bitmask::display::DigitN raw_leds_[4]
 ) {
 	const uint_opt8_t serial_data[5] = { command::DIGIT_LEDS_RAW, static_cast<const bitmask::display::DigitN>(raw_leds_[0] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[1] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[2] & 0x7F), static_cast<const bitmask::display::DigitN>(raw_leds_[3] & 0x7F) };
@@ -310,7 +310,7 @@ OpenInterface<OI500>::digitLEDsRaw (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::digitLEDsASCII (
+open_interface<OI500>::digitLEDsASCII (
 	const char ascii_leds_[4]
 ) {
 	const uint_opt8_t serial_data[5] = { command::DIGIT_LEDS_ASCII, static_cast<const uint_opt8_t>(ascii_leds_[0]), static_cast<const uint_opt8_t>(ascii_leds_[1]), static_cast<const uint_opt8_t>(ascii_leds_[2]), static_cast<const uint_opt8_t>(ascii_leds_[3]) };
@@ -325,7 +325,7 @@ OpenInterface<OI500>::digitLEDsASCII (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::buttons (
+open_interface<OI500>::buttons (
 	const bitmask::Buttons button_mask_
 ) {
 	const uint_opt8_t serial_data[2] = { command::BUTTONS, button_mask_ };
@@ -338,7 +338,7 @@ OpenInterface<OI500>::buttons (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::song (
+open_interface<OI500>::song (
 	const uint_opt8_t song_number_,
 	const note_t * const song_,
 	const uint_opt8_t note_count_
@@ -364,7 +364,7 @@ OpenInterface<OI500>::song (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::play (
+open_interface<OI500>::play (
 	const uint_opt8_t song_number_
 ) {
 	const uint_opt8_t serial_data[2] = { command::PLAY, song_number_ };
@@ -379,7 +379,7 @@ OpenInterface<OI500>::play (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::sensors (
+open_interface<OI500>::sensors (
 	const sensor::PacketId packet_id_
 ) {
 	const uint_opt8_t serial_data[2] = { command::SENSORS, packet_id_ };
@@ -396,7 +396,7 @@ OpenInterface<OI500>::sensors (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::pollSensors (
+open_interface<OI500>::pollSensors (
 	const command::OpCode opcode_,
 	const sensor::PacketId * const sensor_list_,
 	const uint_opt8_t byte_length_
@@ -423,25 +423,25 @@ OpenInterface<OI500>::pollSensors (
 
 template<>
 ReturnCode
-OpenInterface<OI500>::queryList (
+open_interface<OI500>::queryList (
 	const sensor::PacketId * const sensor_list_,
 	const uint_opt8_t byte_length_
 ) {
-	return OpenInterface<OI500>::pollSensors(command::QUERY_LIST, sensor_list_, byte_length_);
+	return open_interface<OI500>::pollSensors(command::QUERY_LIST, sensor_list_, byte_length_);
 }
 
 template<>
 ReturnCode
-OpenInterface<OI500>::stream (
+open_interface<OI500>::stream (
 	const sensor::PacketId * const sensor_list_,
 	const uint_opt8_t byte_length_
 ) {
-	return OpenInterface<OI500>::pollSensors(command::STREAM, sensor_list_, byte_length_);
+	return open_interface<OI500>::pollSensors(command::STREAM, sensor_list_, byte_length_);
 }
 
 template<>
 ReturnCode
-OpenInterface<OI500>::pauseResumeStream (
+open_interface<OI500>::pauseResumeStream (
 	const bool resume_
 ) {
 	const uint_opt8_t serial_data[2] = { command::PAUSE_RESUME_STREAM, resume_ };
