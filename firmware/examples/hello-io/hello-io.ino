@@ -2,10 +2,8 @@
 
 #include "roomba-cpp-sdk/roomba-cpp-sdk.h"
 
-Roomba<roomba::OI500> roomba;
-
 void setup (void) {
-	roomba::oi::start();
+	roomba::open_interface<roomba::OI500>::start();
 }
 
 void loop (void) {
