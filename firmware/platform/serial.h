@@ -3,6 +3,8 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
+#include <cstdlib>
+
 #include "../defines.h"
 
 #if defined(TESTING)
